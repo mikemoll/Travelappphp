@@ -1,0 +1,82 @@
+img{
+	border: 0;
+	width: 20px;
+	height: 20px;
+}
+.imgMenu{
+	padding: 4px 0 0 3px;
+	border-right: 0px solid #d3d3d6;
+	width: 27px;
+	height: 23px;	
+	float: left;
+}
+.textMenu {
+	padding: 7px 0 0 10px;
+	height: 17px;
+	cursor: pointer;
+	float: left;
+}
+ul.menuV, ul.menuV ul {
+    margin: 0;
+    padding: 0;
+    width: 150px; /* Width of Menu Items */
+    /*border-bottom: 1px solid #ccc;*/
+    /*background: #fff; /* IE6 Bug */
+    font-size: 12px;
+	font-family: Arial;
+	z-index: 100000;
+}
+ul.menuV li:last-child{
+	border-bottom: 1px solid #ccc;
+}
+
+ul.menuV li {
+    position: relative;
+    list-style: none;
+	height: 28px;
+}
+
+ul.menuV li a {
+    display: block;
+    text-decoration: none;
+    color: #777;
+    padding: 0;
+    border: 1px solid #ccc;
+    border-bottom: 0;
+	height: 27px;
+}
+
+/* Fix IE. Hide from IE Mac \*/ 
+* html ul.menuV li {float: left;height: 26px;}
+* html ul.menuV li a {/*height: 125px;*/}
+/* End */
+ul.menuV ul {
+    position: absolute;
+    display: none;
+    left: 149px; /* Set 1px less than menu width */
+    top: 0;
+}
+
+ul.menuV li ul li a {
+	height: 27px;
+}
+ /* Sub Menu Styles */
+ul.menuV li:hover ul ul, ul.menuV li:hover ul ul ul, ul.menuV li.over ul ul, ul.menuV li.over ul ul ul {
+    display: none;
+}
+ /* Hide sub-menus initially */
+ul.menuV li:hover ul, ul.menuV li li:hover ul, ul.menuV li li li:hover ul, ul.menuV li.over ul, ul.menuV li li.over ul, ul.menuV li li li.over ul {
+    display: block;
+}
+ /* The magic */
+ul.menuV li.menuparent {
+    background: transparent url(Images/arrow.gif) right center no-repeat;
+}
+
+ul.menuV li:hover, ul.menuV li.over {
+    background-color: #f9f9f9;
+}
+
+ul.menuV li a:hover {
+    color: #E2144A;
+}

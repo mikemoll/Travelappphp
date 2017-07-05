@@ -1,0 +1,213 @@
+ 
+/* 
+    Created on : 04/03/2015, 09:45:14
+    Author     : Leonardo
+*/
+body{
+    font-size: 13px;
+}
+
+table.dataTable thead > tr > th{
+    padding: 5px !important;
+    font-size: 13px;
+}
+
+.navbar {
+    border: 0px;
+    box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
+}
+.progress{
+    border-radius: 2px !important;
+}
+#page-wrapper {
+    background-color: #f8f8f8;
+    border-left: 0px;
+}
+.tooltip-require{
+    position: absolute;
+    width: 300px;
+}
+.form-control,.input-group-addon,.btn,.panel {
+    border-radius: 1px !important;
+}
+.btn {
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.24);
+}
+.btn-no-shadow {
+    box-shadow: none !important ;
+}
+.btn-no-shadow {
+    box-shadow: none !important ;
+}
+.btn-no-shadow:hover {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.24) !important ;
+}
+.panel{
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.card{
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.2s ease-in-out;
+    border: 0px; 
+}
+.card:hover{
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+.card-5 {
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+.form-control::-moz-placeholder {
+    color: #BBB;
+    opacity: 1;
+}
+.form-control:-ms-input-placeholder {
+    color: #BBB;
+}
+.form-control::-webkit-input-placeholder {
+    color: #BBB;
+}
+.panel-heading {
+    /*border-bottom: 1px solid transparent;*/
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    padding: 10px 15px;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.separador{
+    width: 200px;
+    height: 2px;
+    background-color: #0099FF;
+    margin: auto;
+    margin-bottom: 10px;
+    clear: both;
+}
+.sub-titulo{
+    text-align: center;
+    width: 100%;
+    margin-bottom: 15px;
+}
+/*  Spinner */
+.spinner {
+    -webkit-animation-name: spin;
+    -webkit-animation-duration: 4000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: spin;
+    -moz-animation-duration: 4000ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -ms-animation-name: spin;
+    -ms-animation-duration: 4000ms;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
+
+    animation-name: spin;
+    animation-duration: 4000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+@-ms-keyframes spin {
+    from { -ms-transform: rotate(0deg); }
+    to { -ms-transform: rotate(360deg); }
+}
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}
+/*  /Spinner */
+
+/*  DataTables */
+.dataTables_length, .dataTables_info{
+    float: left;
+}
+.dataTables_info{
+    margin-left: 40px;
+}
+.dataTables_paginate{
+    float: right;
+}
+/*  /end DataTables */
+
+#side-menu  li >  a {
+
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+}
+
+*[data-calculo]:hover {
+    color: red;
+    position: relative;
+    cursor: pointer;
+    font-weight: bold;
+}
+*[data-calculo]:not([data-calculo=""]):hover:after{
+    content:  attr(data-calculo) ;
+    padding: 10px 8px;
+    font-size: 12px;
+    font-family: Arial;
+    font-weight: normal;
+    color: #222;
+    position: fixed;
+    min-width: 400px;
+    min-height: 100px;
+    white-space: pre;
+    left:   calc(50% -  200px);
+    top: calc(50% - 100px);
+    z-index: 20;
+    border: 1px solid #ccc;
+    -moz-box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.16);
+    -webkit-box-shadow:7px 7px 10px rgba(0, 0, 0, 0.16);
+    /*box-shadow: 0px 0px 4px #222;*/
+    box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.16);
+    background-color: #FFF;
+}
+.datepicker-icon {
+    float: right;
+    margin-right: 10px;
+    margin-top: -29px;
+    cursor: pointer;
+}
+
+.select2.select2-container.select2-container--default.select2-container--focus{
+    width: 100% !important;
+}
+.max-char-text {
+    position: absolute;
+    right: 20px;
+    top: 2px;
+    font-size: smaller;
+    color: #ccc;
+}

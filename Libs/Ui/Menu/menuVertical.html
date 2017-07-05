@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+        <title>Insert title here</title>
+        <script type="text/javascript" src="jquery-1.4.2.min.js"></script>
+        <script type="text/javascript">
+            function mainmenu(){
+                $(" #primary-nav li").hover(function(){
+					$('ul#primary-nav li ul ul').css('left', $('ul#primary-nav ul').width() - 1)
+                    $(this).find('ul:first').css({visibility: "visible",display: "none"}).show(200);
+                },function(){
+                    $(this).find('ul:first').css({visibility: "hidden"});
+                });
+            	}
+            $(document).ready(function(){
+                mainmenu();
+            });
+            
+        </script>
+		<link rel="stylesheet" href="menuVertical.css">
+    </head>
+    <body>
+        <div id="menu-id">
+            <ul id="primary-nav">
+                <li id="btn1" class="menuparent">
+                    <a href="#">
+                        <div class="imgMenu">
+                        </div>
+                        <div class="textMenu">
+                            Menu 1
+                        </div>
+                    </a>
+                    <ul>
+                        <li id="sub1" class="menuparent">
+                            <a href="#">
+                                <div class="imgMenu">
+                                </div>
+                                <div class="textMenu">
+                                    Sub Menu 1
+                                </div>
+                            </a>
+                            <ul>
+                                <li id="Subsub1" class="menuparent">
+                                    <a href="#">
+                                        <div class="imgMenu">
+                                        </div>
+                                        <div class="textMenu">
+                                            Sub Sub Menu 1
+                                        </div>
+                                    </a>
+                                    <ul>
+                                        <li>
+                                            <a href="hhhh/llll" target="_blank" event="">
+                                                <div class="imgMenu">
+                                                </div>
+                                                <div class="textMenu">
+                                                    Sub Sub Menu 1
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li id="btn2" class="menuparent">
+                    <a href="#">
+                        <div class="imgMenu">
+                        </div>
+                        <div class="textMenu">
+                            Menu 2
+                        </div>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="jdjdjdj/llll" target="_blank" event="">
+                                <div class="imgMenu">
+                                </div>
+                                <div class="textMenu">
+                                    Menu 2.1
+                                </div>
+                            </a>
+                        </li>
+                        <li id="btnsub2.2" class="menuparent">
+                            <a href="#">
+                                <div class="imgMenu">
+                                </div>
+                                <div class="textMenu">
+                                    Menu 2.2
+                                </div>
+                            </a>
+                            <ul>
+                                <li>
+                                    <a href="jdjdjdj/llll" target="_blank" event="">
+                                        <div class="imgMenu">
+                                        </div>
+                                        <div class="textMenu">
+                                            Menu 2.3.1
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="jdjdjdj/llll" target="_blank" event="">
+                                <div class="imgMenu">
+                                </div>
+                                <div class="textMenu">
+                                    Menu 2.3
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="jdjdjdj/llll" target="_blank" event="">
+                        <div class="imgMenu">
+                        </div>
+                        <div class="textMenu">
+                            Menu 3
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+		
+    </body>
+</html>

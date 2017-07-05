@@ -1,0 +1,148 @@
+.ui-dialog .ui-dialog-content{
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+    font-size: 12px;
+    /*background-color: #ffcccc;*/
+    /*background: url('../../site/Public/Images/stripe.png')*/
+}
+
+.header{
+    margin: 0;
+    padding: 15px;
+    background-color: #4b5356;
+    /*border: dotted #f6a828 1px;*/
+    /*border: dotted #ffffcc 1px;*/
+    height: 40px; 
+    color: #FFF;
+}
+.header #tituloPagina{
+    color: #FFF;
+    padding-top: 5px;
+    font-size: 25px;
+    font-weight: bold;
+}
+form .tituloPagina{
+    color: #485251;
+    padding-top: 5px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.header div{
+    float: left;
+}
+
+#usuarioLogado {
+    padding-top: 15px;
+    font: 12px Arial;
+    margin-right: 40px;
+    height: 30px;
+    float: right;
+}
+#usuarioLogado a{
+    text-decoration: none;
+    color: #B68C40;
+    font-weight: bold;
+}
+
+
+#containerMenu {
+    margin: 0;
+    background-color: #6F777A;
+    font: bold 14px Arial;
+    height: 30px;
+}
+
+#conteudo{
+    margin: 0;
+    padding: 15px;
+    /*background-color: #F7F8F3;*/
+    /*background-color: #FCA7A7;*/
+    /*border: dotted #ffffcc 1px;*/
+    /*height: 90%*/
+}
+
+a {
+    cursor: pointer;
+}
+
+form {
+    margin: 0
+}
+
+img {
+    border: 0px;
+}
+
+iframe {
+    border: 0;
+    width: 100%;
+}
+
+table {
+    border: 0;
+}
+
+input, textarea, select, checkbox {
+    background: #fff;
+    border: 1px solid #7f9db9;
+}
+
+.readonly {
+    background: #ddd;
+    /*border: 1px solid #7f9db9;*/
+}
+
+.warning {
+    font-size: 14px;
+    color: red;
+}
+
+.toolTip{
+    z-index:1000;
+    position:absolute;	
+    margin-top:5px;
+    padding:2px;
+    border:1px solid #CD0A0A;
+    font-size: 11px;
+    background:#FEF1EC;
+}
+
+span{
+    margin: 0;
+    padding: 0;
+}
+hr{
+    border: #ccc solid 1px;
+}
+#ajaxStart {
+    display: none;
+    position: absolute;
+    z-index: 11;
+    height: 32px;
+    width: 32px;
+    background-image: url('../Images/AjaxLoader/loader32x32.gif');
+}
+
+#rodape {
+    text-align: center;
+    color: #FFF;
+    width: 100%;
+    background-color: #6F777A; 
+    bottom: 0px;
+    position: fixed;
+    padding: 5px;
+}
+
+#rodape a {
+    color: #FFF;
+    font-weight: bold;
+    text-decoration: none;
+}
+.tabs{
+    font-size: 12px;
+}

@@ -1,0 +1,217 @@
+/* 
+    Document   : Web 4Coffee.com.br
+    Created on : 24/03/2016, 18:22:22
+    Author     : Leonardo
+    Description:
+        Folha de estilo para a página de Indicadores
+*/
+
+@media print{
+    .huge{
+        font-size: 11px;
+        font-weight: bold;
+        text-align: left;
+    }
+    .grandeza-indicador {
+        margin-top: 0;
+        margin-left: 20px;
+        font-size: 10px !important;
+    }
+    i{
+        display: none !important;
+    }
+    div[class|="col"] {
+        padding-left: 5px !important;
+        padding-right: 0px !important;
+    }
+    .panel {
+        margin-bottom: 5px !important;
+    }
+    .panel-heading{
+        padding: 2px !important;
+        font-size: 11px !important;
+    }
+    .panel-footer{
+        padding: 2px !important;
+        font-size: 11px !important;
+    }
+    .row {
+        margin-left: 0px !important;
+        margin-right: 0px !important; 
+    }
+    strong{
+        font-weight: normal !important;
+    }
+    .card{
+        border: 1px #333 solid !important;
+    }
+    *{
+        font-size: 11px !important;
+    }
+    .col-xs-12{
+        width: 25% !important;
+    }
+    .meta{
+        margin: 0px !important;
+        font-size: 10px !important;
+        line-height: 5px !important;
+    }
+    .meta > span{
+        font-size: 7px !important;
+        line-height: 4px !important;
+    }
+    .historico {
+        font-size: 9px !important;
+        margin-top: 5px;
+        padding: 0px !important;
+        margin: 0px !important;
+        /*border: 1px dotted #ccc;*/
+    }
+    .tabelaHistorico td,strong {
+        font-size: 9px !important;
+        font-weight: normal;
+    }
+    .show-print{
+        display: block !important;
+    }
+
+}
+*[data-toggle=tooltip]:hover:after{
+
+    content:  attr(data-tooltip-content) ;
+    background-color: #FFF;
+    padding: 10px 8px;
+    font-size: 12px;
+    font-weight: normal;
+    text-align: left;
+    color: #222;
+    position: absolute;
+    width: 400px;
+    left: 40px;
+    top: 40px;
+    /*white-space: nowrap;*/
+    z-index: 20;
+    border: 1px solid #ccc;
+    -moz-box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+    -webkit-box-shadow:0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+    box-shadow:0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+    transition: all 0.5s ease-in-out;
+}
+
+.huge>small{
+    font-size: 50%;
+}
+.panel-footer{
+    color: #428bca !important;
+    border-top: 0 !important;
+}
+.panel-heading{
+    border-bottom: 0 !important;
+}
+.legenda{
+    font-size: 11px;
+}
+.btn-historico{
+    position: absolute;
+    left: 17px;
+    top: 30px
+        /*    float: left;
+            margin-top: -10px;*/
+
+}
+.btn-acoes{
+    position: absolute;
+    right: 17px;
+    top: 30px
+        /*    float: right;
+            margin-top: -10px;*/
+
+}
+.historico{
+    color: #333;
+    /*display: none;*/
+    background-color: #f5f5f5;
+    padding: 0 5px;
+    /*border: 1px dotted #ccc;*/
+}
+.meta{
+    line-height: 11px;
+    margin-top: -7px;
+    margin-right: -7px;
+}
+.meta > span{
+    font-size: 10px;
+    line-height: 7px;
+}
+
+#filtros{
+    display: none;
+}
+.link-mais-info{
+    color: #ccc;
+}
+.info-card{
+    position: absolute;
+    top: -1px;
+    left: 18px;
+}
+/*     .card:hover .show-on-hover-card { display: inline-block; }*/
+.show-on-hover-card{
+    display: none;
+}
+.grandeza-indicador{
+    font-size: 14px;
+    margin-top: -14px;
+}
+.tabelaHistorico td{
+    border:1px solid #ccc;
+}
+.tabelaHistorico{
+    width: 100%;
+    text-align: center;
+    font-size: 11px
+}
+.btn-fechar-historico{
+    font-size: 11px;
+}
+@media screen and (min-width: 768px) {
+    .modal-dialog {
+        width: 700px; /* New width for default modal */
+    }
+    .modal-sm {
+        width: 350px; /* New width for small modal */
+    }
+}
+@media screen and (min-width: 992px) {
+    .modal-lg {
+        width: 950px; /* New width for large modal */
+    }
+}
+
+.shop-tracking-status .order-status{margin:30px 30px 55px 30px; position:relative}
+.shop-tracking-status .order-status-timeline{height:12px;border:1px solid #aaa;border-radius:7px;background:#eee;box-shadow:0px 0px 5px 0px #C2C2C2 inset}.shop-tracking-status .order-status-timeline .order-status-timeline-completion{height:8px;margin:1px;border-radius:7px;background:#cf7400;width:0px}
+.shop-tracking-status .order-status-timeline .order-status-timeline-completion.c1{width:22%}
+.shop-tracking-status .order-status-timeline .order-status-timeline-completion.c2{width:46%}
+.shop-tracking-status .order-status-timeline .order-status-timeline-completion.c3{width:70%}
+.shop-tracking-status .order-status-timeline .order-status-timeline-completion.c4{width:100%}
+.shop-tracking-status .image-order-status{border:1px solid #ddd;padding:7px;box-shadow:0px 0px 10px 0px #999;background-color:#fdfdfd;position:absolute;margin-top:-30px}
+.shop-tracking-status .image-order-status.disabled{filter:url("data:image/svg+xml;utf8,<svg%20xmlns='http://www.w3.org/2000/svg'><filter%20id='grayscale'><feColorMatrix%20type='matrix'%20values='0.3333%200.3333%200.3333%200%200%200.3333%200.3333%200.3333%200%200%200.3333%200.3333%200.3333%200%200%200%200%200%201%200'/></filter></svg>#grayscale");filter:grayscale(100%);-webkit-filter:grayscale(100%);-moz-filter:grayscale(100%);-ms-filter:grayscale(100%);-o-filter:grayscale(100%);filter:gray;}
+.shop-tracking-status .image-order-status.active{box-shadow:0px 0px 10px 0px #31708f}
+.shop-tracking-status .image-order-status.active .status{color:#428bca ;position:absolute;width: 100px;}
+.shop-tracking-status .image-order-status .icon{height:30px;width:30px;background-size:contain;background-position:no-repeat;font-size: 20px; font-family: Georgia;  text-align: center;}
+.shop-tracking-status .image-order-status .under-status{text-align: center;left: -25px;    top: 47px;}
+/*.shop-tracking-status .image-order-status .up-status:before{font-family:FontAwesome;content:"\f053";padding-right:5px}*/
+/*.shop-tracking-status .image-order-status .under-status{top:60px;left:-180px;transform:rotate(-20deg);-webkit-transform:rotate(-20deg);text-align:right}
+.shop-tracking-status .image-order-status .under-status:before{display:none}
+.shop-tracking-status .image-order-status .under-status:after{font-family:FontAwesome;content:"\f054";padding-left:5px;vertical-align:middle}*/
+.shop-tracking-status .image-order-status-new{left:calc((100%/5) * 0)}
+/*//.shop-tracking-status .image-order-status-new .icon{}*/
+.shop-tracking-status .image-order-status-active{left:calc((100%/5)*1)}
+/*//.shop-tracking-status .image-order-status-active .icon{}*/
+.shop-tracking-status .image-order-status-intransit{left:calc((100%/5)*2)}
+/*//.shop-tracking-status .image-order-status-intransit .icon{ }*/
+.shop-tracking-status .image-order-status-delivered{left:calc((100%/5)*3)}
+.shop-tracking-status .image-order-status-delivered2{left:calc((100%/5)*4)}
+/*//.shop-tracking-status .image-order-status-delivered .icon{}*/
+.shop-tracking-status .image-order-status-completed {right:0px}
+/*//.shop-tracking-status .image-order-status-completed .icon{}*/

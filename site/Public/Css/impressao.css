@@ -1,0 +1,147 @@
+/* 
+    Document   : Web 4Coffee.com.br
+    Created on : 24/03/2015, 18:22:22
+    Author     : Leonardo <leonardo@4coffee.com.br>
+    Description: Purpose of the stylesheet follows.
+*/
+
+@page {
+    size: auto;   /* auto is the initial value */ 
+
+    /* this affects the margin in the printer settings */ 
+    margin: 20mm 0mm 20mm 0mm;
+    orphans:4; 
+    widows:3;
+}
+* {
+    /*background:transparent !important;*/
+    color:#000 !important;
+    text-shadow:none !important;
+    filter:none !important;
+    -ms-filter:none !important;
+}
+
+body {
+    margin:0;
+    padding:0;
+    line-height: 1.4em;
+    /*font: 12pt Georgia, "Times New Roman", Times, serif;*/
+    color: #000;
+}
+.bodyImpressaoLaudo{
+    /*background: #FFF url('../Images/laudos/lateral.png') repeat-y top right  !important;*/
+    background-image:url('../Images/laudos/lateral.png')  !important;
+    background-repeat:repeat-y  !important;
+    background-position: right top  !important;
+    /*background-attachment:fixed  !important;*/
+    /*background-size:100%  !important;*/
+}
+@media print and (color) {
+   * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+   }
+}
+p {
+    widows: 3;
+    orphans: 4;
+}
+
+#cabecalho{
+    display: none;
+}
+#msgEmail{
+    display: none;
+}
+
+
+.fundoPaper{
+    width: 100% !important; 
+    /*background-color: #fff !important;*/
+    padding: 0px !important;
+}
+
+.paper{ 
+
+    width: 100%  !important;
+    height: auto !important;
+    min-height: 0  !important;
+    background:transparent !important;
+    /*background-color: #FFF  !important;*/
+    margin: 0 !important;
+    padding: 0px !important;
+    -moz-box-shadow: 0px 0px 0px 0px #fff !important;
+    -webkit-box-shadow:   0px 0px 0px 0px #fff !important;
+    box-shadow:        0px 0px 0px 0px #fff !important;
+}
+
+.paperPaisagem {
+    width: 100% !important;
+    height:auto!important;
+    min-height: 0 !important;
+    background-color: #FFF !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -moz-box-shadow: 0px 0px 0px 0px #fff !important;
+    -webkit-box-shadow:   0px 0px 0px 0px #fff !important;
+    box-shadow:        0px 0px 0px 0px #fff !important;
+}
+
+.iframeTabela {
+    border-collapse: collapse;
+    border-spacing: 0px;
+    border-width: 0px;
+}
+
+
+.imgClose{
+    display: none;
+
+}
+.btnImprimir{
+    display: none;
+}
+/*.row{
+    margin-left:  -20px !important;
+    margin-right:  -20px !important;
+}*/
+
+
+h1 {
+    font-size: 16pt;
+}
+
+h2 {
+    font-size: 14pt;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 13pt;
+}
+
+.margensImpressao{
+    margin-left: 25mm !important;
+    margin-right: 30mm !important;
+}
+.margensImpressaoRel{
+    margin-left: 5mm !important;
+    margin-right: 5mm !important;
+}
+
+div .numOS {
+    display: block;
+    position: fixed;
+    top: 50px;
+}
+/* .imgLateral {
+    display: block;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    height: 1800px;
+    width: 40px;
+    background: url('../Images/laudos/lateral.png') repeat-y top right !important;
+    background-size:  100% 100%;
+    border: 1px solid #000;
+}*/

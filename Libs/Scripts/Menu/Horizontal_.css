@@ -1,0 +1,105 @@
+img{
+    border: 0;
+    width: 20px;
+    height: 20px;
+}
+.imgMenu{
+    padding: 4px 0 0 3px;
+    border-right: 0px solid #d3d3d6;
+    width: 18px;
+    height: 23px;
+    float: left;
+}
+.textMenu {
+    padding: 7px 0 0 10px;
+    height: 17px;
+    cursor: pointer;
+    float: left;
+}
+ul.menuH, ul.menuH ul {
+    margin: 0;
+    padding: 0;
+    /*width: 350;  /*Width of Menu Items */
+    /*border-bottom: 1px solid #ccc;*/
+    background: #6F777A; /* IE6 Bug */
+    font-size: 12px;
+    font-family: Arial;
+    float: left;
+}
+
+ul.menuH li {
+    position: relative;
+    list-style: none;
+    /*width: 130px;
+	/*padding: 2px 15px 2px 15px;*/
+    padding: 0 25px 0 0;
+    border-right:  1px solid #ccc;
+    /*border-right: 0;*/
+    float: left;
+}
+ul.menuH li:last-child{
+    border-right: 0px solid #ccc;
+}
+
+ul.menuH li a {
+    display: block;
+    text-decoration: none;
+    color: #FFF;
+    /*border-right: 1px solid #ccc;*/
+}
+
+/* Fix IE. Hide from IE Mac \*/ 
+* html ul.menuH li {float: left; height: 1%;}
+* html ul.menuH li a {height: 1%; }
+/* End */
+/* Container do submenu */ 
+ul.menuH ul {
+    position: absolute;
+    display: none;
+    left: -1px; /* Set 1px less than menu width */
+    top: 27px;
+
+}
+
+ul.menuH li ul li a {
+    height: 27px;
+}
+ul.menuH li ul li{
+    width: 150px;
+    border-bottom:0;
+    padding:0
+}
+ul.menuH li ul li:last-child{
+    border-right: 0;
+}
+
+/*Tamano dos sub menus*/
+
+ul.menuH li ul ul{
+    /*left: 140px;*/
+    top: -1px;
+
+}
+
+/* Sub Menu Styles */
+ul.menuH li:hover ul ul, ul.menuH li:hover ul ul ul, ul.menuH li.over ul ul, ul.menuH li.over ul ul ul {
+    display: none;
+}
+/* Hide sub-menus initially */
+ul.menuH li:hover ul, ul.menuH li li:hover ul, ul.menuH li li li:hover ul, ul.menuH li.over ul, ul.menuH li li.over ul, ul.menuH li li li.over ul {
+    display: block;
+
+}
+/* The magic */
+ul.menuH li.menuparent {
+    background: transparent url(Images/arrow.gif) right center no-repeat;
+}
+
+ul.menuH li:hover, ul.menuH li.over {
+    background-color: #6F777A;
+}
+
+ul.menuH li a:hover {
+    color: #B68C40;
+
+}

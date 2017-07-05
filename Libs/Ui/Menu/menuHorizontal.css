@@ -1,0 +1,107 @@
+img{
+	border: 0;
+	width: 20px;
+	height: 20px;
+}
+.imgMenu{
+	padding: 4px 0 0 3px;
+	border-right: 1px solid #d3d3d6;
+	width: 27px;
+	height: 23px;	
+	float: left;
+}
+.textMenu {
+	padding: 7px 0 0 10px;
+	height: 17px;
+	cursor: pointer;
+	float: left;
+}
+ul#primary-nav ul{
+	display: none;
+}
+ul#primary-nav, ul#primary-nav ul {
+	margin: 0;
+    padding: 0;
+    width: 350;  /*Width of Menu Items */
+    /*border-bottom: 1px solid #ccc;*/
+    background: #fff; /* IE6 Bug */
+    font-size: 12px;
+	font-family: Arial;
+	float: left;
+}
+
+ul#primary-nav li {
+    position: relative;
+    list-style: none;
+	width: 110px;
+	/*padding: 2px 15px 2px 15px;*/
+	border: 1px solid #ccc;
+	border-right: 0;
+	float: left;
+}
+ul#primary-nav li:last-child{
+	border-right: 1px solid #ccc;
+}
+
+ul#primary-nav li a {
+    display: block;
+    text-decoration: none;
+    color: #777;
+	border-right: 1px solid #ccc;
+}
+
+/* Fix IE. Hide from IE Mac \*/ 
+* html ul#primary-nav li {float: left; height: 1%;}
+* html ul#primary-nav li a {height: 1%; }
+/* End */
+/* Container do submenu */ 
+ul#primary-nav ul {
+    position: absolute;
+    display: none;
+    left: -1px; /* Set 1px less than menu width */
+    top: 27px;
+	
+}
+
+ul#primary-nav li ul li a {
+	height: 27px;
+}
+ul#primary-nav li ul li:last-child{
+	border-right: 0;
+	border-bottom: 1px solid #ccc;
+}
+
+/*Tamano dos sub menus*/
+ul#primary-nav li ul li{
+	width: 150px;
+	border-bottom:0;
+	
+}
+ul#primary-nav li ul ul{
+	/*left: 140px;*/
+	top: -1px;
+	
+}
+
+ /* Sub Menu Styles */
+ul#primary-nav li:hover ul ul, ul#primary-nav li:hover ul ul ul, ul#primary-nav li.over ul ul, ul#primary-nav li.over ul ul ul {
+    display: none;
+}
+ /* Hide sub-menus initially */
+ul#primary-nav li:hover ul, ul#primary-nav li li:hover ul, ul#primary-nav li li li:hover ul, ul#primary-nav li.over ul, ul#primary-nav li li.over ul, ul#primary-nav li li li.over ul {
+    display: block;
+	
+}
+ /* The magic */
+ul#primary-nav li.menuparent {
+    background: transparent url(arrow.gif) right center no-repeat;
+}
+
+ul#primary-nav li:hover, ul#primary-nav li.over {
+    background-color: #f9f9f9;
+}
+
+ul#primary-nav li a:hover {
+    color: #E2144A;
+	
+}

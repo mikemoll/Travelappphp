@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>jQuery UI Example Page</title>
+		<link type="text/css" href="css/redmond/jquery-ui-1.8.custom.css" rel="stylesheet" />	
+		<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-1.8.custom.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+
+				// Datepicker
+				$('#datepicker').datepicker({
+					inline: true,
+//					disabled: true,
+//					altField: '#actualDate',
+//					altFormat: 'yy-mm-dd',
+//					appendText: '(yyyy-mm-dd)', // insere um texto ao lado do input
+//					autoSize: true, // se adapta ao tamanho da data
+					buttonImage: '../../../Images/Calendarios/CalendarAdd24x24.png',
+					buttonImageOnly: true,
+//					buttonText: 'Choose',
+//					//calculateWeek: myWeekCalc,
+//				  	changeMonth: true, // Mostra o input para escolher o mes
+//					//changeYear: true, // Mostra o input para escolher o ano
+//					closeText: 'X',
+//					constrainInput: false,
+//					currentText: 'Now',
+					dateFormat: 'dd/mm/yy',
+//					//dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+//					//dayNamesMin: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'], // Coloca o nome abreviado
+//					//dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+//					defaultDate: +7,
+//					duration: 'slow',
+//					firstDay: 1,
+//					gotoCurrent: true,
+//					hideIfNoPrevNext: true,
+//					isRTL: true,
+//					maxDate: '+1m +1w',
+//					minDate: new Date(2007, 1 - 1, 1),
+//					//monthNames: ['Januar','Februar','Marts','April','Maj','Juni','Juli','August','September','Oktober','November','December'],
+//					//monthNamesShort: ['Jan','Feb','Mar','Apr','Maj','Jun','Jul','Aug','Sep','Okt','Nov','Dec'],
+//					navigationAsDateFormat: true,
+//				//	nextText: 'Later',
+//					numberOfMonths: [3, 2], adiciona mais calendarios sendo o primeiro numero o numero de linhas e o outro o numero de colunas
+//					prevText: 'Earlier',
+//					selectOtherMonths: true,
+//					shortYearCutoff: 50,
+//					showAnim: 'fold',
+//					showButtonPanel: true, // mostra dois botões em baixo uma para ir para a data atual e outro para fechar
+//					showCurrentAtPos: 3,
+//					showMonthAfterYear: true,
+					showOn: 'both',
+//					showOptions: {direction: 'up'},
+//					showOtherMonths: true, // mostra os dias do proximo mes
+//					showWeek: true, mostra o numero do mes
+//					stepMonths: 3,
+//					weekHeader: 'W',
+//					yearRange: '2000:2010',
+//					yearSuffix: 'CE'
+				});			
+			});
+		</script>
+		<style type="text/css">
+			/*demo page css*/
+			body{ font: 62.5% "Trebuchet MS", sans-serif; margin: 50px;}
+			.demoHeaders { margin-top: 2em; }
+			#dialog_link {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
+			#dialog_link span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
+			ul#icons {margin: 0; padding: 0;}
+			ul#icons li {margin: 2px; position: relative; padding: 4px 0; cursor: pointer; float: left;  list-style: none;}
+			ul#icons span.ui-icon {float: left; margin: 0 4px;}
+		</style>	
+	</head>
+	<body>
+
+
+
+		<input id="datepicker" />
+			
+	
+	</body>
+</html>
+
+

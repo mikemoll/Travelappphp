@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+        <title>Insert title here</title>
+	<script type="text/javascript" src="jquery-1.4.2.min.js"></script>
+      <script type="text/javascript">
+           function mainmenu(){
+                $(" #nav ul ").css({display: "none"});
+                $(" #nav li").hover(function(){
+					$('#nav li ul ul').css('left', $('#nav li ul ul').width() - 12)
+                    $(this).find('ul:first').css({visibility: "visible",display: "none"}).show(200);
+                }, function(){
+                    $(this).find('ul:first').css({visibility: "hidden"});
+                });
+            }
+            
+            $(document).ready(function(){
+                mainmenu();
+            });
+            
+        </script>
+        <style type="text/css">
+            /* CSS Document */
+            #nav, #nav ul {
+                margin: 0;
+                padding: 0;
+                list-style-type: none;
+                position: relative;
+                line-height: 2.2em;
+				font-family: Arial;
+				font-size: 12px;
+            }
+            
+            #nav a { /*todos os links*/
+                display: block;
+                padding: 0px 25px;
+                color: #000;
+                font-weight: bold;
+                text-decoration: none;
+            }
+            
+            #nav a:hover { /*Ao passar o mouse por cima dos links do menu*/
+                background-color: #000066; /*azul marinho*/
+                color: #fff; /*azul fraco*/
+            }
+            
+            #nav li {
+				width: auto;
+                float: left;
+                position: relative;
+                border:1px solid #0f0;
+            }
+            
+            #nav ul {
+                position: absolute;
+                display: none;
+                top: 2.2em;
+                font-size: 12px;
+            }
+            
+            #nav li ul a{
+                width: 14em;
+                height: auto;
+                float: left;
+                /*background-color: #fff; /*submenu fundo azul marinho igual ao menu*/
+                color: #000;
+            }
+            
+            #nav li ul a:hover {
+                background-color: #000;
+                color: #0099FF;
+            }
+            
+            #nav ul ul {
+                top: auto;
+            }
+            
+            #nav li ul ul {
+                left: 17.7em;
+                margin: 0px 0 0 10px;
+              /*  background-color: #0f0;*/
+            }
+            
+			ul#nav li.menuparent { background: transparent url(arrow.gif) right center no-repeat; }
+			
+            #nav li:hover ul ul, #nav li:hover ul ul ul, #nav li:hover ul ul ul ul {
+                display: none;
+            }
+            
+            #nav li:hover ul, #nav li li:hover ul, #nav li li li:hover ul, #nav li li li li:hover ul {
+                display: block;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="menu-id">
+            <ul id="nav">
+                <li>
+                    <a href="#">Home</a>
+                </li>
+                <li class="menuparent">
+                    <a href="#">About</a>
+                    <ul>
+                        <li>
+                            <a href="#">History</a>
+                        </li>
+                        <li>
+                            <a href="#">Team</a>
+                        </li>
+                        <li>
+                            <a href="#">Offices</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menuparent">
+                    <a href="#">Services</a>
+                    <ul>
+                        <li>
+                            <a href="#">Web Design</a>
+                        </li>
+                        <li>
+                            <a href="#">Internet Marketing</a>
+                        </li>
+                        <li class="menuparent">
+                            <a href="#">Hosting</a>
+                            <ul>
+                                <li class="menuparent">
+                                    <a href="#">Dedicated</a>
+                                    <ul>
+                                        <li>
+                                            <a href="#">sdfgsdfgsdfgsdf</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">Virtual</a>
+                                </li>
+                                <li>
+                                    <a href="#">Shared</a>
+                                </li>
+                                <li>
+                                    <a href="#">Managed</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">Domain Names</a>
+                        </li>
+                        <li>
+                            <a href="#">Broadband</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menuparent">
+                    <a href="#">Contact Us</a>
+                    <ul>
+                        <li>
+                            <a href="#">United Kingdom</a>
+                        </li>
+                        <li>
+                            <a href="#">France</a>
+                        </li>
+                        <li>
+                            <a href="#">USA</a>
+                        </li>
+                        <li>
+                            <a href="#">Australia</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>

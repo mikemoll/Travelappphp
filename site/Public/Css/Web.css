@@ -1,0 +1,261 @@
+/* 
+    Document   : Web 4Coffee.com.br
+    Created on : 24/03/2014, 18:22:22
+    Author     : Leonardo
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+
+html, body{
+    height: 100%;
+    margin: 0;
+}
+body{
+    /*background:#FFF url('../Images/fundo.png') repeat-x  url('../Images/header.png') no-repeat;*/
+    background:#FFF    no-repeat center top;
+    background-image: url('../Images/header.png') , url(../Images/background.png);
+    background-position: center top, center top;
+    background-repeat: no-repeat,repeat-x;
+    background-color: #FFF;
+    color:#222;
+    font-family: Arial;
+    font-size: 12px;
+} 
+
+/* ===  ==== ==== HEADER ==== ==== ===*/
+#header{
+    /*background: url('../Images/header.png') no-repeat center;*/
+    height: 218px;
+    border-bottom: 4px #80252A solid;
+}
+#header2{
+
+    width: 1024px;
+    margin: auto;
+}
+#logo{
+    background: url('../Images/logo.png') no-repeat center;
+    position: relative;
+    height:135px ;
+    width: 284px;
+    left: 50px
+}
+.busca{
+    margin: 140px auto auto 670px;
+    float: left;
+}
+.busca input{
+    padding: 8px;
+    width: 300px;
+}
+.busca img{
+    height: 30px;
+    cursor: pointer;
+}
+#social{
+    padding: 0px;
+    position: relative;
+    left: 800px;
+    width: 200px;
+}
+#social img{
+    height: 30px;
+}
+
+#container{
+
+    width: 1020px;
+    margin: auto;
+    background-color: #FFF;
+    height: 100%;
+} 
+
+/* === ==== ====  MENU  ==== ==== ===*/
+#menu{
+    width: 260px;
+    color: #80252A;
+    float: left;
+
+
+}
+#menu .sub{
+    padding-left: 20px;
+}
+#menu ul{
+    width: 200px;
+    line-height: 25px;
+    list-style: none;
+}
+#menu ul li{
+    border-bottom: 1px #D7C172 solid;
+}
+#menu ul li ul li{
+    border-bottom: 1px #FFF solid;
+}
+#menu ul li a {
+    color:#80252A;
+    text-decoration: none;
+}
+#menu ul li ul li a {
+    color:#80252A;
+    text-decoration: none;
+}
+/* === ==== ====  CENTRO  ==== ==== ===*/
+#centro{
+    width: 750px;
+    float: left;
+}
+.titulo{
+    padding-top: 15px;
+    font-size: 18px;
+    color: #A99354;
+    border-bottom: 1px #D7C172 solid;
+}
+
+/* === ==== ====  Pacotes ==== ==== ===*/
+.image-container{
+    width: 200px;
+    float: left;
+}
+.info-container h3{
+    /*font-size: 18px;*/
+    color: #A99354;
+}
+.info-container{
+    /*width: 400px;*/
+    float: left;
+    margin-left: 20px;
+    border-bottom: 1px #D7C172 solid;
+}
+.info-container-sem-form{
+    width: 600px;
+    float: left;
+    margin-left: 20px;
+    border-bottom: 1px #D7C172 solid;
+}
+.info-container a{
+    color: #80252A;
+    text-decoration: none;
+}
+.info-container a:hover{
+    text-decoration: underline;
+
+}
+
+.image-container{
+    overflow-x: hidden;
+    padding: 10px;
+}
+.item-list  img{
+    width: 150px;
+}
+.item-list .item{
+
+}
+.item-list .item-content{
+    display: block
+}
+/* === ==== ====  Pacote DETALHE ==== ==== ===*/
+.item-detalhe .galery-container{
+    width: 620px;
+    margin: auto;
+}
+.item-detalhe .info-container{
+    /*width: 400px;*/
+    clear: both;
+}
+/* === ==== ====  Pacotes DESTAQUES (homepage) ==== ==== ===*/
+.item-list-destaque .image-container{
+    width: 150px;
+    overflow: hidden;
+    height: 120px;
+    text-align: center;
+    vertical-align: middle;
+}
+.item-list-destaque .info-container{
+    width: 150px;
+    clear: both;
+    height: 45px;
+    overflow-y: hidden;
+    vertical-align: middle;    
+    border: 0 none;
+    margin-left: 0;
+    padding: 10px;
+    text-align: center;
+}
+
+.item-list-destaque h3{
+    margin: 5px
+}
+
+.item-list-destaque .item{
+    margin: 10px;
+    border: 1px dotted #D7C172;
+    padding: 5px;
+    float: left;
+}
+
+/* === ==== ====  FORM CONTATO ==== ==== ===*/
+.form-contato{
+    /*background-color: #eee;*/
+    border: 1px dotted #80252A;
+    padding: 10px
+}
+.contato-container{
+    margin-left: 20px;
+    width: 300px;
+    float: left;
+}
+.contato-chamada{
+    font-size: 14px;
+
+}
+
+/* === ==== ====  FOOTER  ==== ==== ===*/
+.preFooter{
+    height: 100px;
+    clear: both;
+    background-image:   url(../Images/rodape.png) ;
+    background-position:  center bottom ;
+    background-repeat:  repeat-x ;
+}
+#footer{
+    width: 100%;
+    clear: both;
+    border-top: 1px #D7C172 solid;
+    line-height: 30px;
+    height: 100px;
+    background-color: #ffeeee;
+}
+#footer #endereco{
+    width: 100%;
+    text-align: center;
+}
+#footer #copyrights{
+    font-size: 11px;
+    text-align: right;
+    padding-right: 50px;
+    /*border: 1px solid #000;*/
+}
+
+#footer a {
+    cursor: pointer;
+    color:#999;
+    text-decoration: none;
+}
+#footer a:hover {
+    text-decoration: underline;
+    color:blue;
+}
+
+/* ========= OUTROS =========*/
+/*.texto{
+
+    font-family: Arial;
+    font-weight: normal;
+    font-size: 12px;
+    text-align: justify;
+    vertical-align: top
+
+}*/

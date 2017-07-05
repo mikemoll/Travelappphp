@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" lang="pt-br"><head>
+
+<title>Horizontal Drop Down Menus - Parte 3</title>
+<script type="text/javascript" src="jquery-1.4.2.min.js"></script>
+<script type="text/javascript">
+	/*$(document).ready(function(){
+		var navItems = $('#primary-nav li')
+		$.each(navItems, function(i, obj){
+			if(obj.className == 'menuparent'){
+			//	obj.onmouseover = $(this).addClass(' over')
+			}
+		//	alert(obj.className)
+		})
+
+	})*/
+function mainmenu(){
+/*	$(" #primary-nav ul "). css({display: "none"});
+	$(" #primary-nav li").hover(function(){
+		$(this).find('ul:first').css({visibility: "visible",display: "none"}).show(200);
+	},function(){
+	$(this).find('ul:first').css({visibility: "hidden"});
+	});
+	}*/
+	$(" #nav ul "). css({display: "none"});
+	$(" #nav li").hover(function(){
+		$('ul#nav ul').css('left', $('ul#nav ul').width())
+		$(this).find('ul:first').css({visibility: "visible",display: "none"}).show(200);
+	},function(){
+	$(this).find('ul:first').css({visibility: "hidden"});
+	});
+	}
+	
+	$(document).ready(function(){
+		mainmenu();
+});
+
+</script>
+<script type="text/javascript">
+	/*
+function IEHoverPseudo() {
+
+	var navItems = document.getElementById("nav").getElementsByTagName("li");
+	for (var i=0; i<navItems.length; i++) {
+		if(navItems[i].className == "menuparent") {
+			navItems[i].onmouseover=function() { this.className += " over"; }
+			navItems[i].onmouseout=function() { this.className = "menuparent"; }
+		}
+	}
+
+}
+window.onload = IEHoverPseudo;*/
+</script>
+
+<style type="text/css">
+
+ul#nav,
+ul#nav ul {
+	margin: 0;
+	padding: 0;
+	width: 150px; /* Tamanho dos menus */ 
+	border-bottom: 1px solid #ccc;
+	background: #000;/*  IE6 Bug Fundo dos menus e submenus*/
+	font-family: Arial;
+	font-size: 12px;
+	}
+ul#nav{
+	background: #0f0; /*fundo submenu*/
+}
+ul#nav li {
+	position: relative;
+	list-style-type: none;
+	}
+
+ul#nav li a {
+	display: block;
+	text-decoration: none;
+	color: #777;
+	padding: 5px;
+	border: 1px solid #ccc;
+	border-bottom: 0;
+	}
+
+/* Fix IE. Hide from IE Mac \*/
+* html ul#nav li { float: left; height: 1%; }
+* html ul#nav li a { height: 1%; }
+/* End */
+
+ul#nav ul {
+	position: absolute;
+	display: none;
+	/*left: 149px; /* Set 1px less than menu width distancia dos submenus*/
+	top: 0px;
+	background: #000;/*fundo menu principal*/
+	}
+
+ul#nav li ul li a { 
+	padding: 2px 5px;   /*Sub Menu Styles */
+	padding: 5px 5px;
+	height: 15px;
+}
+/* escondes os sub menus*/
+ul#nav li:hover ul ul,
+ul#nav li:hover ul ul ul,
+ul#nav li.over ul ul,
+ul#nav li.over ul ul ul { display: none; } /* Hide sub-menus initially */
+
+/*setas*/
+ul#nav li.menuparent { background: transparent url(arrow.gif) right center no-repeat; }
+/* cor do fundo dos menus quando ha sub menus para ficar marcado onde esta aquele menu*/
+ul#nav li.menuparent:hover,
+ul#nav li.over { background-color: #fff; }
+/*cor da letra quando o mouse esta em cima*/
+ul#nav li a:hover { color: #E2144A; }
+
+</style>
+</head><body>
+	<button>jfjfjfj</button>
+<ul id="nav">
+  <li><a href="#">Home</a></li>
+  <li class="menuparent"><a href="#">About</a> 
+    <ul>
+      <li><a href="#">History</a></li>
+      <li><a href="#">Team</a></li>
+      <li><a href="#">Offices</a></li>
+    </ul>
+  </li>
+  <li class="menuparent"><a href="#">Services</a> 
+    <ul>
+      <li><a href="#">Web Design</a></li>
+      <li><a href="#">Internet Marketing</a></li>
+      <li class="menuparent"><a href="#">Hosting</a> 
+        <ul>
+          <li class="menuparent"><a href="#">Dedicated</a>
+		  	<ul>
+		  		<li><a href="#">sdfgsdfgsdfgsdf</a></li>
+		  	</ul>
+		  </li>
+          <li><a href="#">Virtual</a></li>
+          <li><a href="#">Shared</a></li>
+          <li><a href="#">Managed</a></li>
+        </ul>
+      </li>
+      <li><a href="#">Domain Names</a></li>
+      <li><a href="#">Broadband</a></li>
+    </ul>
+  </li>
+  <li class="menuparent"><a href="#">Contact Us</a> 
+    <ul>
+      <li><a href="#">United Kingdom</a></li>
+      <li><a href="#">France</a></li>
+      <li><a href="#">USA</a></li>
+      <li><a href="#">Australia</a></li>
+    </ul>
+  </li>
+</ul>
+</body></html>

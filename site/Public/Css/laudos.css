@@ -1,0 +1,262 @@
+.fundoPaper{
+    width: 100%;
+    background-color: #BBB;
+    padding: 20px
+}
+.separadorPaper{
+    width: 100%;
+    background-color: #BBB;
+    padding: 20px
+}
+.paper{
+    width: 99%;
+    height:auto!important;
+    min-height: 1100px;
+    margin: 10px auto 10px auto;
+    /*                    padding: 15px 15px 15px 15px;*/
+    padding: 15px 5px 15px 5px;
+    -moz-box-shadow:    3px 3px 5px 6px #555;
+    -webkit-box-shadow: 3px 3px 5px 6px #555;
+    box-shadow:         3px 3px 5px 6px #555;
+    background: #FFF url('{/literal}{$baseUrl}{literal}Public/Images/laudos/lateral.png') repeat-y top right ;
+
+}
+.paperPaisagem{
+    width: 1100px;
+    height:auto!important;
+    min-height: 750px;
+    background-color: #FFF;
+    margin: 10px auto 10px auto;
+    padding: 15px 15px 15px 15px;
+    -moz-box-shadow:    3px 3px 5px 6px #555;
+    -webkit-box-shadow: 3px 3px 5px 6px #555;
+    box-shadow:         3px 3px 5px 6px #555;
+
+}
+body{
+
+    font: 11pt Arial;
+}
+p{
+    padding-left: 68px;
+    /*text-indent: 2em;*/
+    text-align: justify;
+}
+
+.table td,th{
+    padding: 0px 5px !important;
+    font-size: 12px;
+}
+legend{
+    margin-bottom: 0px !important;
+    font-size: 18px !important;
+    width: auto !important;
+}
+
+.topo{
+    border: 1px solid #000;
+}
+.topo td{
+    font-size: 16px;
+    text-align: center;
+    font-weight: bold;
+}
+
+
+.script-conferencia{
+    position: fixed;
+    top: 10px;
+    right: 0px;
+    width: 500px;
+    background: #FFF;
+    padding: 10px 5px 15px 10px;
+    -moz-box-shadow:    3px 3px 5px 6px #555;
+    -webkit-box-shadow: 3px 3px 5px 6px #555;
+    box-shadow:         3px 3px 5px 6px #555;
+    display: none;
+    font-size: 12px;
+}
+.abrir{
+    display: block;
+    width: 70px;
+    font-size: 20px
+}
+
+.realce{
+    font-size: 16px;font-weight: bold;text-decoration: underline;
+}
+.citacao{
+    display: inline-block;
+    border: 1px #000000 solid;
+    padding: 7px;
+    font-size: 7.5pt;
+    width: 100%;
+}
+.assinatura{
+    margin: auto;
+    width: 140px;
+    height: 200px;
+    text-indent: 0em;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.destaca{
+    font-weight: bold;
+}
+.destaca td{
+    font-size: 14px;
+}
+.u{
+    text-decoration: underline;
+}
+
+.margensImpressao{
+    margin-left: 25mm !important;
+    margin-right: 20mm !important;
+}
+.tabelaRelatorioFontePequena td{
+    font-size: 6pt;
+}
+.tabelaRelatorioFontePequena th{
+    font-size: 6pt;
+    text-align: center;
+}
+.tabelaRelatorioFonteMedia td{
+    font-size: 10px;
+}
+.tabelaRelatorioFonteMedia th{
+    font-size: 10px;
+    text-align: center;
+}
+
+.campo-editavel{
+
+}
+.campo-editavel-vazio{
+    background-color: #FF9999;
+    color: #fff;
+    content: "val";
+    width: 80px;
+    /* -------------- */
+    border-radius: 3px;
+    font-size: 12px;
+    height: 30px;
+    line-height: 1.5;
+    padding: 5px 10px;
+}
+.campo-editavel-escrevendo{
+    background-color: #FFF;
+    color: #333;
+    border:#555 solid 1px;
+    width: 100px;
+    /* -------------- */
+    border-radius: 3px;
+    font-size: 12px;
+    height: 30px;
+    line-height: 1.5;
+    padding: 5px 10px;
+}
+.campo-editavel-preenchido{
+    background-color: transparent;
+    color: black;
+}
+
+
+.tabelaQuadroResumo{
+    page-break-inside: auto;
+    width: 100%;
+    margin: auto;
+    background-color: #FFF ;
+    border: 0;
+}
+.tabelaQuadroResumo td{
+    padding: 10px;
+
+}
+h2{
+    font-size: 16px;
+    font-weight: bold;
+    margin: 1.3em 0;
+}
+h3{
+    font-size: 16px;
+    font-weight: bold;
+    margin: 1.3em 0 1em 2em;
+}
+h4{
+    font-size: 14px;
+    font-weight: bold;
+    margin: 1.3em 0 1em 2em;
+}
+/* ---  numeração automatica dos titulos --- */
+
+body {
+    counter-reset: h2counter;
+}
+h1 {
+    counter-reset: h2counter;
+}
+
+.countheads ~ h2:before {
+    content: counter(h2counter) ".\0000a0\0000a0";
+    counter-increment: h2counter;
+}
+h2.nocount:before {
+    content: none;
+    counter-increment: none;
+}
+h2 {
+    counter-reset: h3counter;
+}
+
+.countheads ~ h3:before {
+    content: counter(h2counter) "." counter(h3counter) ".\0000a0\0000a0";
+    counter-increment: h3counter;
+}
+h3.nocount:before {
+    content: none;
+    counter-increment: none;
+}
+h3 {
+    counter-reset: h4counter;
+}
+
+.countheads ~ h4:before {
+    content: counter(h2counter) "." counter(h3counter)"." counter(h4counter) ".\0000a0\0000a0";
+    counter-increment: h4counter;
+}
+h4.nocount:before {
+    content: none;
+    counter-increment: none;
+}
+/* --- /end/ numeração automatica dos titulos --- */
+
+.esconder:hover {
+    cursor: pointer;
+}
+.esconder:hover:after{
+    content: 'X Clique no titulo para retirá-lo do laudo!';
+    padding: 10px 8px;
+    color: red;
+    font-size: 12px;
+
+}
+/*:after{
+    content:  attr(data-calculo) ;
+    padding: 10px 8px;
+    font-size: 12px;
+    color: #222;
+    position: fixed;
+    white-space: pre;
+    left:   calc(50% -  200px);
+    top: calc(50% - 100px);
+    z-index: 20;
+    border: 1px solid #ccc;
+    -moz-box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.16);
+    -webkit-box-shadow:7px 7px 10px rgba(0, 0, 0, 0.16);
+    box-shadow: 0px 0px 4px #222;
+    box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.16);
+    background-color: #FFF;
+}*/

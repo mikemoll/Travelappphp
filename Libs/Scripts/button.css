@@ -1,0 +1,59 @@
+body{
+	margin: 50px;
+	padding: 0;
+}
+img{
+	border:0;
+}
+
+a{
+	width: auto;
+	height: 25px;
+	text-decoration: none;
+	color: #000;
+	cursor: pointer;
+	float: left;
+}
+
+.containerButton{
+	height: 26px;
+	float: left;
+}
+
+.btnE3x23{
+	width: 3px;
+	height: 25px;
+	background-image: url(btnE3x23.png);
+	background-repeat: no-repeat;
+	float: left;
+}
+
+.btnC3x23{
+	height: 15px;
+	background-image: url(btnC3x23.png);
+	padding-top: 1px;
+	background-repeat: repeat-x;
+	background-position: bottom;
+	padding: 5px;
+	min-width: 80px;
+	float: left;
+}
+
+.btnD3x23{
+	width: 3px;
+	height: 25px;
+	background-image: url(btnD3x23.png);
+	background-repeat: no-repeat;
+	float: left;	
+}
+.btnImg{
+	width: 18px;
+	height: 18px;
+	float:left;
+}
+.btnText{
+	font-family: Arial;
+	font-size: 13px;
+	padding: 0px 3px 0px 4px;
+	float: left;
+}

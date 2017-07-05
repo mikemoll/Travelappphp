@@ -1,0 +1,55 @@
+div{
+
+}
+.containerWindow{
+	position: absolute;
+	width: 414px;
+}
+#conteudoWindow{
+	width: 410px;
+	height: 182px;
+	clear: both;
+	background-color: #fff;
+	border: 1px solid #000;
+}
+.BarraWindow{
+	cursor: move;
+	height: 27px;
+}
+#BarraE6x27{
+	width: 6px;
+	height: 27px;
+	background-image: url(../../Images/Window/BarraE6x27px.png);
+	float: left;
+}
+#BarraD6x27{
+	width: 6px;
+	height: 27px;
+	background-image: url(../../Images/Window/BarraD6x27px.png);
+	float: left;
+}
+#BarraC1x27{
+	width: 399.5px;
+	height: 27px;
+	background-image: url(../../Images/Window/BarraC1x27px.png);
+	float: left;
+	
+}
+#tituloWindow{
+	width: auto;
+	height: 21px;
+	padding-top: 6px;
+	color: #fff;
+	font-family: Arial;	
+	font-size: 14px;
+	font-weight: bold;
+	float: left;
+}
+.closeWindow{
+        background-image: url(../../Images/Window/Close24x24.png);
+	width: 24px;
+	height: 24px;
+	cursor: default;
+	padding-top: 2px;
+	float: left;
+}
