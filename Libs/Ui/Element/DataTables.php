@@ -175,10 +175,22 @@ class Ui_Element_DataTables extends Zend_Form_Element {
 
 //        <script src="{$baseUrl}Public/Js/plugins/dataTables/jquery.dataTables.js"></script>
 //        <script src="{$baseUrl}Public/Js/plugins/dataTables/dataTables.bootstrap.js"></script>
-        Browser_Control::setScript('js', 'DataTables3',   '../../site/Public/Js/jquery-ui.min.js');
-        Browser_Control::setScript('js', 'DataTables',   '../../site/Public/Js/plugins/dataTables/jquery.dataTables.js');
-        Browser_Control::setScript('js', 'DataTables2',   '../../site/Public/Js/plugins/dataTables/dataTables.bootstrap.js');
-        Browser_Control::setScript('css', 'DataTables', 'DataTables/datatables.min.css');
+//        Browser_Control::setScript('js', 'DataTables3',   '../../site/Public/Js/jquery-ui.min.js');
+//        Browser_Control::setScript('js', 'DataTables',   '../../site/Public/Js/plugins/dataTables/jquery.dataTables.js');
+//        Browser_Control::setScript('js', 'DataTables2',   '../../site/Public/Js/plugins/dataTables/dataTables.bootstrap.js');
+//        Browser_Control::setScript('css', 'DataTables', 'DataTables/datatables.min.css');
+
+
+        Browser_Control::setScript('js', 'jquery.dataTables', '../../site/Public/assets/plugins/dataTables/jquery.dataTables.min.js');
+        Browser_Control::setScript('js', 'dataTables.bootstrap4', '../../site/Public/assets/plugins/dataTables/dataTables.bootstrap4.min.js');
+        Browser_Control::setScript('js', 'dataTables.buttons', '../../site/Public/assets/plugins/dataTables/dataTables.buttons.min.js');
+        Browser_Control::setScript('js', 'buttons.bootstrap4', '../../site/Public/assets/plugins/dataTables/buttons.bootstrap4.min.js');
+        Browser_Control::setScript('js', 'dataTables.responsive', '../../site/Public/assets/plugins/dataTables/dataTables.responsive.min.js');
+        Browser_Control::setScript('js', 'responsive.bootstrap4', '../../site/Public/assets/plugins/dataTables/responsive.bootstrap4.min.js');
+
+        Browser_Control::setScript('css', 'dataTables.bootstrap4', '../../site/Public/assets/plugins/datatables/dataTables.bootstrap4.min.css');
+        Browser_Control::setScript('css', 'buttons.bootstrap4', '../../site/Public/assets/plugins/datatables/buttons.bootstrap4.min.css');
+        Browser_Control::setScript('css', 'responsive.bootstrap4', '../../site/Public/assets/plugins/datatables/responsive.bootstrap4.min.css');
     }
 
     public function setTemplateID($val) {

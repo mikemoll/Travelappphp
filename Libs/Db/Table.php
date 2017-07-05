@@ -307,10 +307,12 @@ class Db_Table extends Zend_Db_Table {
             foreach ($itens as $litem) {
                 $return[] = array('key' => $litem->$getKey(), 'value' => $litem->$getValue());
             }
-        } else {
+        } else if ($lista !== false) {
             unset($lista['totalItens']);
-            foreach ($lista as $litem) {
-                $return[] = array('key' => $litem[$keyName], 'value' => $litem[$valueName]);
+            if (count($lista) > 0) {
+                foreach ($lista as $litem) {
+                    $return[] = array('key' => $litem[$keyName], 'value' => $litem[$valueName]);
+                }
             }
         }
         if ($return == '') {
@@ -543,7 +545,7 @@ class Db_Table extends Zend_Db_Table {
     public function columns($columns) {
         if (!is_array($columns)) {
             $colunas = explode(';', $columns);
-        }else{
+        } else {
             $colunas = $columns;
         }
         foreach ($colunas as $nome) {

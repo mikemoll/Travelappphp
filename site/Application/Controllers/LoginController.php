@@ -14,13 +14,15 @@ include_once 'AbstractController.php';
 class LoginController extends AbstractController {
 
     public function init() {
-        parent::init();
+//        parent::init();
         Browser_Control::setScript('css', 'Login', 'Login/Login.css');
         $script = Zend_Registry::get('js');
         Zend_Registry::set('js', $script);
         Browser_Control::setScript('js', 'md5', 'md5.js');
         unset($script['BorwserControl']);
+        Browser_Control::setScript('js', 'jquery', '../../site/Public/assets/js/jquery.min.js');
         Browser_Control::setScript('js', 'BorwserControl', '../Browser/Control.js');
+
     }
 
     public function indexAction() {
@@ -88,6 +90,8 @@ class LoginController extends AbstractController {
 //		$w->setNotDraggable();
 
         $view->assign('scripts', Browser_Control::getScripts());
+         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'Login');
 //		$view->assign('body', $w->render());
 //		$view->assign('body', $form->displayTpl($view, 'Login/index.tpl'));
@@ -275,6 +279,8 @@ class LoginController extends AbstractController {
 //		$w->setNotDraggable();
 
         $view->assign('scripts', Browser_Control::getScripts());
+         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('titulo', 'Alterar senha');
         $view->assign('msg', $msg);
 

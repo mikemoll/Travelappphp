@@ -110,7 +110,7 @@ class Zend_View_Helper_FormTextarea extends Zend_View_Helper_FormElement {
         $xhtml .= ' >' . $this->view->escape($value) . '</textarea>';
 
         if ($maxlength != '') {
-            $xhtml .= '<span class="max-char-text" ><span id="chars' . $this->view->escape($name) . '">' . ($maxlength - strlen($this->view->escape($value))) . '</span> letras restantes</span>';
+            $xhtml .= '<span class="max-char-text" ><span id="chars' . $this->view->escape($name) . '">' . ($maxlength - strlen($this->view->escape($value))) . '</span> remaining characters</span>';
         }
         if ($label != '') {
             $xhtml .= '</div>';

@@ -16,12 +16,10 @@
             var HTTP_HOST = '{$HTTP_HOST}';
 
         </script>
-        <script src="{$baseUrl}Public/assets/js/jquery.min.js"></script>
 
         {$scripts}
 
         {literal}
-
             <script type="text/javascript">
             </script>
         {/literal}
@@ -49,7 +47,7 @@
             <!-- Modernizr js -->
             <script src="{$baseUrl}Public/assets/js/modernizr.min.js"></script>
 
-
+            {$scriptsCss}
         </div>
 
         <!-- Begin page -->
@@ -246,7 +244,23 @@
 
                             {$menu}
 
-
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-format-underlined"></i> <span> User Interface </span> <span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">
+                                    <li><a href="ui-buttons.html">Buttons</a></li>
+                                    <li><a href="ui-cards.html">Cards</a></li>
+                                    <li><a href="ui-dropdowns.html">Dropdowns</a></li>
+                                    <li><a href="ui-checkbox-radio.html">Checkboxs-Radios</a></li>
+                                    <li><a href="ui-navs.html">Navs</a></li>
+                                    <li><a href="ui-progress.html">Progress</a></li>
+                                    <li><a href="ui-modals.html">Modals</a></li>
+                                    <li><a href="ui-notification.html">Notification</a></li>
+                                    <li><a href="ui-alerts.html">Alerts</a></li>
+                                    <li><a href="ui-carousel.html">Carousel</a></li>
+                                    <li><a href="ui-bootstrap.html">Bootstrap UI</a></li>
+                                    <li><a href="ui-typography.html">Typography</a></li>
+                                </ul>
+                            </li>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
@@ -433,10 +447,11 @@
 
 
         <script>
-            var resizefunc = [];
+                var resizefunc = [];
         </script>
 
-        <!-- jQuery  -->
+        {* <!-- jQuery  -->
+        <script src="{$baseUrl}Public/assets/js/jquery.min.js"></script><!-- Tether for Bootstrap -->
         <script src="{$baseUrl}Public/assets/js/tether.min.js"></script><!-- Tether for Bootstrap -->
         <script src="{$baseUrl}Public/assets/js/bootstrap.min.js"></script>
         <script src="{$baseUrl}Public/assets/js/detect.js"></script>
@@ -459,9 +474,10 @@
         <!-- App js -->
         <script src="{$baseUrl}Public/assets/js/jquery.core.js"></script>
         <script src="{$baseUrl}Public/assets/js/jquery.app.js"></script>
+        *}
+        {$scriptsJs}
 
-        <!-- Page specific js -->
-        <script src="{$baseUrl}Public/assets/pages/jquery.dashboard.js"></script>
+
 
 
 

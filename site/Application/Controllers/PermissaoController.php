@@ -1,7 +1,12 @@
 <?php
 
 include_once 'AbstractController.php';
+
 class PermissaoController extends AbstractController {
+
+    public function init() {
+        parent::init();
+    }
 
     public function indexAction() {
 
@@ -53,6 +58,8 @@ class PermissaoController extends AbstractController {
         $view = Zend_Registry::get('view');
 
         $view->assign('scripts', Browser_Control::getScripts());
+         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('body', $form->displayTpl($view, 'Permissoes/index.tpl'));
         $view->output('index.tpl');
     }
@@ -250,7 +257,7 @@ class PermissaoController extends AbstractController {
         $w = new Ui_Window('insertPermissao', 'Permissões', $form->displayTpl($view, 'Permissoes/edit.tpl'));
         $w->setDimension('600', '300');
         $w->setCloseOnEscape(true);
-        $br->newWindow($w);
+        $br->newWindow($w, 'insertPermissao');
         $br->send();
     }
 

@@ -3,7 +3,7 @@
 include_once 'AbstractController.php';
 
 /**
- *  Classe de criação e controle da tela inicial do sistema
+ *  Classe de criaï¿½ï¿½o e controle da tela inicial do sistema
  * 
  * @author Leonardo Danieli <leonardo.danieli@gmail.com>
  * @version 1.0
@@ -22,8 +22,12 @@ class IndexController extends AbstractController {
         $usuario = $session->usuario;
 
 
+//        // Page specific js -->
+
+
         $view->assign('titulo', "Index");
-        $view->assign('scripts', Browser_Control::getScripts());
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('body', $view->fetch('Index/index.tpl'));
         $view->output('index.tpl');
     }
@@ -35,7 +39,7 @@ class IndexController extends AbstractController {
 
         // =========== Menu  ==========
         // INDICADORES
-        $menuItem = new Ui_Element_MenuItem('home', 'Dashboard', HTTP_REFERER . 'index', '', 'dashboard');
+        $menuItem = new Ui_Element_MenuItem('home', 'Dashboard', HTTP_REFERER . 'index', '', 'view-dashboard');
         $mainMenu->addMenuItem($menuItem);
 
 
@@ -50,6 +54,10 @@ class IndexController extends AbstractController {
         $menu = new Ui_Element_MenuItem('events', 'Events', HTTP_REFERER . 'events', '', 'calendar');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
+
+        $menu2 = new Ui_Element_MenuItem('events', 'Events', HTTP_REFERER . 'events', '', 'calendar');
+//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
+        $menu->addSubMenu($menu2);
 
 
 

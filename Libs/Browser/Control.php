@@ -294,11 +294,11 @@ class Browser_Control {
      * @param $html [Optional]
      * @param $src [Optional]
      */
-    public function newWindow($obj) {
+    public function newWindow($obj, $id) {
         if (!is_object($obj)) {
             throw new Zend_Exception('O valor passado para a função não e um objeto');
         }
-        $this->addAction(array('action' => 'NEWWINDOW', 'html' => $obj->render()));
+        $this->addAction(array('action' => 'NEWWINDOW', 'html' => $obj->render(), 'id' => $id));
     }
 
     /**
@@ -368,6 +368,30 @@ class Browser_Control {
         foreach ($js as $val) {
             $scripts .= '<script type="text/javascript" src="' . $val . '"></script>';
         }
+        foreach ($css as $val) {
+            $scripts .= '<link rel="stylesheet" href="' . $val . '">';
+        }
+        return $scripts;
+    }
+
+    /**
+     * Retorna os scripts js para ser incluido na tela
+     */
+    public static function getScriptsJs() {
+        $scripts = '';
+        $js = Zend_Registry::get('js');
+        foreach ($js as $val) {
+            $scripts .= '<script type="text/javascript" src="' . $val . '"></script>';
+        }
+        return $scripts;
+    }
+
+    /**
+     * Retorna os scripts css para ser incluido na tela
+     */
+    public static function getScriptsCss() {
+        $scripts = '';
+        $css = Zend_Registry::get('css');
         foreach ($css as $val) {
             $scripts .= '<link rel="stylesheet" href="' . $val . '">';
         }

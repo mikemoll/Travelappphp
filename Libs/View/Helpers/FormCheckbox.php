@@ -78,7 +78,6 @@ class Zend_View_Helper_FormCheckbox extends Zend_View_Helper_FormElement {
         unset($attribs['checkedValue']);
         $xhtml = '<div class="checkbox">';
         if ($label != '') {
-            $xhtml .='<label>';
             $xhtml .= '<input type="checkbox"'
                     . ' name="' . $this->view->escape($name) . '"'
                     . ' id="' . $this->view->escape($id) . '"'
@@ -88,6 +87,7 @@ class Zend_View_Helper_FormCheckbox extends Zend_View_Helper_FormElement {
                     . $this->_htmlAttribs($attribs)
                     . $endTag;
 
+            $xhtml .='<label for="' . $this->view->escape($name) . '">';
             $xhtml .= $label;
             $xhtml .= '</label>';
         } else {

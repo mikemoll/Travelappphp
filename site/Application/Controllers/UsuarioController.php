@@ -8,6 +8,8 @@ class UsuarioController extends AbstractController {
         parent::init();
         Browser_Control::setScript('js', 'Md5', 'md5.js');
         Browser_Control::setScript('js', 'Mask', 'Mask/Mask.js');
+        $this->Action = 'Usuario';
+        $this->Model = 'Usuario';
     }
 
     private function gridsAction($tipo) {
@@ -76,13 +78,12 @@ class UsuarioController extends AbstractController {
         $button->setVisible('CAD_EMPRESA', 'inserir');
         $grid->addButton($button);
 
-        if ($tipo == 'user') {
-            $button = new Ui_Element_DataTables_Button('btnEditDificuldade', 'Dificuldade');
-            $button->setImg('star-o');
-            $button->setVisible('CAD_USUARIO_DIFICULDADE', 'inserir');
-            $grid->addButton($button);
-        }
-
+//        if ($tipo == 'user') {
+//            $button = new Ui_Element_DataTables_Button('btnEditDificuldade', 'Dificuldade');
+//            $button->setImg('star-o');
+//            $button->setVisible('CAD_USUARIO_DIFICULDADE', 'inserir');
+//            $grid->addButton($button);
+//        }
 //        $column = new Ui_Element_DataTables_Column_Check('ID', 'id_usuario', '30', 'center');
 //        $column->setCondicao('N', 'excluivel');
 //        $grid->addColumn($column);
@@ -95,7 +96,7 @@ class UsuarioController extends AbstractController {
 
         // Grupo
         if ($tipo == 'user') {
-            $column = new Ui_Element_DataTables_Column_Text('Login', 'loginUser', '120');
+            $column = new Ui_Element_DataTables_Column_Text('Email', 'email', '120');
             $grid->addColumn($column);
 
             $column = new Ui_Element_DataTables_Column_Text('Grupo', 'nomeGrupo', '120');
@@ -112,7 +113,7 @@ class UsuarioController extends AbstractController {
 
 
         $button = new Ui_Element_Btn('btnNovo');
-        $button->setDisplay('Novo Item', 'plus');
+        $button->setDisplay('New Item', 'plus');
         $button->setType('success');
         $button->setAttrib('params', 'tipo=' . $tipo . '');
         $button->setVisible('CAD_USER', 'inserir');
@@ -125,6 +126,8 @@ class UsuarioController extends AbstractController {
         else
             $view->assign('titulo', "Grupos");
         $view->assign('scripts', Browser_Control::getScripts());
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('body', $form->displayTpl($view, 'Usuario/index.tpl'));
         $view->output('index.tpl');
     }
@@ -151,17 +154,12 @@ class UsuarioController extends AbstractController {
         $tabGeral->setTitle('Geral');
         $tabGeral->setTemplate('Usuario/tabGeral.tpl');
 
-        $element = new Ui_Element_Checkbox('ativo', 'Ativo');
+        $element = new Ui_Element_Checkbox('ativo', 'Active');
         $element->setCheckedValue('S');
         $element->setUncheckedValue('N');
         $tabGeral->addElement($element);
 
-        $element = new Ui_Element_Checkbox('recebecomunicacaointerna', 'Recebe Comunicação Interna por email?');
-        $element->setCheckedValue('S');
-        $element->setUncheckedValue('N');
-        $tabGeral->addElement($element);
-
-        $element = new Ui_Element_Text('nomeCompleto', 'Nome Completo');
+        $element = new Ui_Element_Text('nomeCompleto', 'Full Name');
         $element->setAttrib('maxlength', '25');
         $element->setAttrib('obrig', 'obrig');
         $element->setRequired();
@@ -170,69 +168,47 @@ class UsuarioController extends AbstractController {
 
 
         if ($tipo == 'user') {
-            $element = new Ui_Element_Text('loginUser', 'Usuário');
-            $element->setAttrib('maxlength', '25');
-            $element->setAttrib('obrig', 'obrig');
-            $element->setRequired();
+//            $element = new Ui_Element_Text('loginUser', 'Usuário');
+//            $element->setAttrib('maxlength', '25');
+//            $element->setAttrib('obrig', 'obrig');
+//            $element->setRequired();
 //            if ($post->id) {
 //                $element->setReadOnly('true');
 //            }
-            $tabGeral->addElement($element);
-
-//        $element = new Ui_Element_Text('idexterno');
-//        $element->setAttrib('maxlength', '25');
-//        $element->setAttrib('obrig', 'obrig');
-//        $element->setRequired();
-//        $element->setAttrib('size', 10);
-//        $tabGeral->addElement($element);
-//
-            $element = new Ui_Element_Select('idexterno', 'Código de Técnico no sistema Antigo');
-            $element->addMultiOptions(Fichatecnica::getTecnicoList());
-            $tabGeral->addElement($element);
+//            $tabGeral->addElement($element);
 
 
             $users = new Usuario;
             $users->where('tipo', 'grupo');
-            $element = new Ui_Element_Select('grupo', 'Grupo de Usuário');
+            $element = new Ui_Element_Select('grupo', 'User Group');
             $element->setAttrib('event', 'change');
             $element->addMultiOptions($users->getOptionList('id_usuario', 'nomecompleto', $users));
             $tabGeral->addElement($element);
 
-            $element = new Ui_Element_Select('dificuldade', 'Dificuldade na produção dos Laudos');
-//            $element->addMultiOption('', '');
-            $element->addMultiOption(1, 'Grau 1');
-            $element->addMultiOption(2, 'Grau 2');
-            $element->addMultiOption(3, 'Grau 3');
-            $element->addMultiOption(4, 'Grau 4');
-            $element->setMultiSelect();
-//            $element->setSelect2();
-            $tabGeral->addElement($element);
-
-            $element = new Ui_Element_Password('senha', 'Senha');
+            $element = new Ui_Element_Password('senha', 'Password');
+            $element->setAttrib('placeholder', "Leave it blank if you don't want to change it");
             $element->setAttrib('maxlength', 32);
             $element->setAttrib('cript', '1');
             $tabGeral->addElement($element);
 
-            $element = new Ui_Element_Text('email', 'Email');
+            $element = new Ui_Element_Text('email', 'E-Mail');
             $element->setAttrib('maxlength', 255);
             $element->setAttrib('obrig', 'obrig');
             $element->setRequired();
             $tabGeral->addElement($element);
 
-            $element = new Ui_Element_Text('senhaEmail', 'Senha SMTP');
-            $element->setAttrib('maxlength', 50);
-            $tabGeral->addElement($element);
-
-            $element = new Ui_Element_Text('smtp', 'SMTP');
-            $element->setAttrib('maxlength', 255);
-            $tabGeral->addElement($element);
-
-            $element = new Ui_Element_TextMask('porta', 'Porta SMTP');
-            $element->setMask('999');
-            $element->setPlaceholder('587');
-            $element->setAttrib('size', 1);
-            $element->setAttrib('maxlength', 3);
-            $tabGeral->addElement($element);
+//            $element = new Ui_Element_Password('senhaEmail');
+//            $element->setAttrib('maxlength', 50);
+//            $tabGeral->addElement($element);
+//
+//            $element = new Ui_Element_Text('smtp');
+//            $element->setAttrib('maxlength', 25);
+//            $tabGeral->addElement($element);
+//
+//            $element = new Ui_Element_TextMask('porta');
+//            $element->setMask('999');
+//            $element->setAttrib('size', 1);
+//            $tabGeral->addElement($element);
         }
 
 //        $empresa = new Empresa();
@@ -245,7 +221,7 @@ class UsuarioController extends AbstractController {
 //        $tabGeral->addElement($element);
 
         $salvar = new Ui_Element_Btn('btnSalvar');
-        $salvar->setDisplay('Salvar', PATH_IMAGES . 'Buttons/Ok.png');
+        $salvar->setDisplay('Save', PATH_IMAGES . 'Buttons/Ok.png');
         if ($tipo == 'user') {
             $salvar->setAttrib('params', 'id=' . $post->id . '&tipo=user');
         } else {
@@ -256,14 +232,14 @@ class UsuarioController extends AbstractController {
         $form->addElement($salvar);
 
         $cancelar = new Ui_Element_Btn('btnCancelar');
-        $cancelar->setDisplay('Cancelar', PATH_IMAGES . 'Buttons/Cancelar.png');
+        $cancelar->setDisplay('Close', PATH_IMAGES . 'Buttons/Cancelar.png');
         $form->addElement($cancelar);
 
         $mainTab->addTab($tabGeral);
 
         // Tab permissões
         $tabPermissoes = new Ui_Element_Tab('tabPermissoes');
-        $tabPermissoes->setTitle('Permissões');
+        $tabPermissoes->setTitle('Permissions');
         $tabPermissoes->setTemplate('Usuario/tabPermissoes.tpl');
 
         // Grid permissões
@@ -273,18 +249,17 @@ class UsuarioController extends AbstractController {
 //        $gridPermissoes->setFillListOptions('Permissao', 'readLst');
 //        $gridPermissoes->setController('Permissao');
 //        $gridPermissoes->setDimension('', '300');
-//        
-//        
 
-        $button = new Ui_Element_DataTables_Button('btnExcluirPermissao', 'Excluir');
+
+        $button = new Ui_Element_DataTables_Button('btnExcluirPermissao', 'Delete');
         $button->setImg('trash-o');
-        $button->setAttribs('msg = "Excluir o item selecionado ?"');
+        $button->setAttribs('msg = "Are you sure ou want to delete it?"');
         $button->setVisible('CAD_EMPRESA', 'excluir');
 //        $button->setSendFormFields();
         $gridPermissoes->addButton($button);
 
 
-        $button = new Ui_Element_DataTables_Button('btnEditar', 'Editar');
+        $button = new Ui_Element_DataTables_Button('btnEditar', 'Edit');
         $button->setImg('edit');
         $button->setUrl('Permissao');
         $button->setVisible('CAD_EMPRESA', 'inserir');
@@ -294,27 +269,27 @@ class UsuarioController extends AbstractController {
 //        $column->setCondicao('S', 'grupo');
 //        $gridPermissoes->addcolumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Processo', 'descricao');
+        $column = new Ui_Element_DataTables_Column_Text('Name', 'descricao');
         $column->setWidth('3');
         $gridPermissoes->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Ver', 'ver', 'center');
+        $column = new Ui_Element_DataTables_Column_Text('See', 'ver', 'center');
         $column->setWidth('1');
         $gridPermissoes->addColumn($column);
 //
-        $column = new Ui_Element_DataTables_Column_Text('Inserir', 'inserir', 'center');
+        $column = new Ui_Element_DataTables_Column_Text('Create', 'inserir', 'center');
         $column->setWidth('1');
         $gridPermissoes->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Excluir', 'excluir', 'center');
+        $column = new Ui_Element_DataTables_Column_Text('Delete', 'excluir', 'center');
         $column->setWidth('1');
         $gridPermissoes->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Editar', 'editar', 'center');
+        $column = new Ui_Element_DataTables_Column_Text('Edit', 'editar', 'center');
         $column->setWidth('1');
         $gridPermissoes->addColumn($column);
 //
-        $column = new Ui_Element_DataTables_Column_Text('Herdada', 'grupo', 'center');
+        $column = new Ui_Element_DataTables_Column_Text('Enherited', 'grupo', 'center');
         $column->setWidth('1');
         $gridPermissoes->addColumn($column);
 
@@ -325,7 +300,7 @@ class UsuarioController extends AbstractController {
 
 
         $button = new Ui_Element_Btn('btnInserir');
-        $button->setDisplay('Inserir', 'plus');
+        $button->setDisplay('New', 'plus');
         $button->setAttrib('click', '');
         $button->setAttrib('url', 'Permissao');
         $button->setType('success');
@@ -346,14 +321,14 @@ class UsuarioController extends AbstractController {
 //            $mainTab->addTab($tab);
 //        }
         // Tab Logs
-        $tabLogs = new Ui_Element_Tab('tabLogs');
-        $tabLogs->setTitle('Logs');
-
-        $log = Log::gridLogs($post->id, 'Usuario');
-
-        $tabLogs->addElement($log);
-
-        $mainTab->addTab($tabLogs);
+//        $tabLogs = new Ui_Element_Tab('tabLogs');
+//        $tabLogs->setTitle('Logs');
+//
+//        $log = Log::gridLogs($post->id, 'Usuario');
+//
+//        $tabLogs->addElement($log);
+//
+//        $mainTab->addTab($tabLogs);
 
         $form->addElement($mainTab);
 
@@ -368,18 +343,18 @@ class UsuarioController extends AbstractController {
         Session_Control::setDataSession('userEdit', $obj);
 
         if ($tipo == 'user') {
-            $label = 'Login do usúario';
-            $descricao = 'Nome Completo';
+            $label = 'User Login';
+            $descricao = 'Full Name';
         } else {
-            $label = 'Nome do grupo';
-            $descricao = 'Descrição';
+            $label = 'Group Name';
+            $descricao = 'Description';
         }
 
         $view = Zend_Registry::get('view');
         $view->assign('labelLogin', $label);
         $view->assign('descricao', $descricao);
 
-        $w = new Ui_Window('EditUsers', 'Edição de usúarios', $form->displayTpl($view, 'Usuario/edit.tpl'));
+        $w = new Ui_Window('EditUsers', 'Editing', $form->displayTpl($view, 'Usuario/edit.tpl'));
         $w->setDimension('795', '620');
         $w->setCloseOnEscape();
 
@@ -480,6 +455,7 @@ class UsuarioController extends AbstractController {
         $user->save();
 
 
+//        $br->setBrowserUrl(BASE_URL);
         $br->setRemoveWindow('EditUsers');
         $br->setUpdateDataTables('gridUsers');
         $br->setUpdateDataTables('gridGrupos');
@@ -638,6 +614,237 @@ class UsuarioController extends AbstractController {
 
     public function btnEditarPermissao() {
         
+    }
+
+    public function loadprofileAction() {
+        $post = Zend_Registry::get('post');
+
+        $br = new Browser_Control();
+        $view = Zend_Registry::get('view');
+
+        //temporariamente estou desativando o readonly para poder cadastrar as acoes antigas
+        $readOnly = false;
+
+        $obj = new Usuario;
+        $obj->read(Usuario::getIdUsuarioLogado());
+
+        $form = new Ui_Form();
+        $form->setAction('usuario');
+        $form->setName('formProfileEdit');
+        $form->setAttrib('enctype', 'multipart/form-data');
+
+        $element = new Ui_Element_File("Photo", 'Photo');
+//        $element->setAttrib('multiple', '');
+//        $element->setAttrib('obrig', '');
+        $form->addElement($element);
+
+        $view->assign('PhotoPath', $obj->getPhotoPath());
+
+        $element = new Ui_Element_Text('nomecompleto', "Name");
+        $element->setAttrib('maxlength', '35');
+        $element->setRequired();
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('email', "E-mail");
+        $element->setAttrib('maxlength', '255');
+        $element->setRequired();
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('telephone', "Phone number");
+        $element->setAttrib('maxlength', '25');
+        $element->setRequired();
+        $form->addElement($element);
+
+        $form->setDataForm($obj);
+        $obj->setInstance('userEdit');
+
+        $button = new Ui_Element_Btn('btnSaveProfile');
+        $button->setDisplay('Save', 'check');
+        $button->setType('success');
+//        $button->setVisible(!$readOnly);
+//        $button->setVisible('PROC_CAD_USERS', 'editar');
+        $button->setAttrib('click', '');
+
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('validaObrig', '1');
+        $form->addElement($button);
+
+        $cancel = new Ui_Element_Btn('btnCancelarProfile');
+        $cancel->setDisplay('Close', 'times');
+        $cancel->setAttrib('params', 'tipo=' . $post->tipo);
+        $form->addElement($cancel);
+
+        $form->setDataSession();
+
+        $view->assign('scripts', Browser_Control::getScripts());
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
+        $view->assign('titulo', "My Profile");
+        $view->assign('body', $form->displayTpl($view, 'Usuario/editProfile.tpl'));
+        //Usuario/edit.tpl
+        $view->output('index.tpl');
+    }
+
+    public function btnsaveprofileclickAction() {
+        $post = Zend_Registry::get('post');
+        $br = new Browser_Control();
+
+        $form = Session_Control::getDataSession('formUsersEdit');
+        $photo = $post->Photo;
+
+        $br = new Browser_Control();
+
+        $user = Usuario::getInstance('userEdit');
+
+        if ($photo['name'] != '') {
+            $user->setPhoto($photo['name']);
+        }
+
+        $user->setDataFromProfileRequest($post);
+
+        try {
+            $user->save();
+        } catch (Exception $exc) {
+            $br->setAlert('Error!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+        if ($photo['name'] != '') {
+            $path = RAIZ_DIRETORY . 'site/Public/Images/Profile';
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+            move_uploaded_file($photo['tmp_name'], $path . '/' . $user->getID() . '_' . $photo['name']);
+            $br->setAttrib('PhotoPath', 'src', $user->getPhotoPath());
+        }
+
+        $session = Zend_Registry::get('session');
+        $session->usuario = $user;
+        Zend_Registry::set('session', $session);
+
+        $br->setBrowserUrl(BASE_URL . 'index');
+        $br->send();
+
+        Session_Control::setDataSession('formUsersEdit', '');
+    }
+
+    public function btncancelarprofileclickAction() {
+        $br = new Browser_Control;
+        $br->setBrowserUrl(BASE_URL . 'index');
+        $br->send();
+    }
+
+    public function educatorsindexAction() {
+        $post = Zend_Registry::get('post');
+        $form = new Ui_Form();
+        $form->setName('formEducators');
+        $form->setAction($this->Action);
+
+
+        /*
+         *  --------- Grid das ACOES ------------
+         */
+        $grid = new Ui_Element_DataTables('educatorsGrid');
+        $grid->setParams('', BASE_URL . $this->Action . '/educatorslist');
+//        $grid->setTemplateID('grid');
+        $grid->setStateSave(true);
+//        $grid->setShowSearching(false);
+//        $grid->setShowOrdering(false);
+//        $grid->setShowLengthChange(false);
+//        $grid->setShowInfo(false);
+
+
+        $button = new Ui_Element_DataTables_Button('btnApprove', 'Approve');
+        $button->setImg('check-square-o');
+        $button->setAttrib('msg', "Do you confirm approving this educator?");
+        $button->setVisible('PROC_CAD_APPROVE_EDU', 'inserir');
+        $grid->addButton($button);
+
+        $button = new Ui_Element_DataTables_Button('btnDeny', 'Deny');
+        $button->setImg('ban');
+        $button->setAttrib('msg', "Do you confirm hiding this educator content from the site?");
+        $button->setVisible('PROC_CAD_APPROVE_EDU', 'excluir');
+        $grid->addButton($button);
+
+        $column = new Ui_Element_DataTables_Column_Text('Name', 'nomecompleto');
+        $column->setWidth('7');
+        $grid->addColumn($column);
+
+        $column = new Ui_Element_DataTables_Column_Text('Approved', 'approved_decoded');
+        $column->setWidth('3');
+        $grid->addColumn($column);
+
+        $form->addElement($grid);
+        Session_Control::setDataSession($grid->getId(), $grid);
+
+        $view = Zend_Registry::get('view');
+
+        $view->assign('scripts', Browser_Control::getScripts());
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
+        $view->assign('titulo', 'Approved Educators');
+
+        $view->assign('body', $form->displayTpl($view, 'Usuario/approveEducators.tpl'));
+        $view->output('index.tpl');
+    }
+
+    public function educatorslistAction() {
+        $post = Zend_Registry::get('post');
+
+        $post->id_indicador;
+        $lLst = new $this->Model;
+        $lLst->where('grupo', 3);
+        $lLst->readLst();
+
+        Grid_ControlDataTables::setDataGrid($lLst, false, true);
+    }
+
+    public function btnapproveclickAction() {
+        $br = new Browser_Control();
+        $post = Zend_Registry::get('post');
+
+        $obj = new Usuario();
+        if (isset($post->id)) {
+            $obj->read($post->id);
+        }
+        $obj->setApproved('S');
+
+        try {
+            $obj->save();
+        } catch (Exception $exc) {
+            $br->setAlert('Error!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+
+        $br->setMsgAlert($obj->getNomecompleto() . ' was approved!', 'Now all lunch n\' learn registered by him/her will be visible on the site');
+
+        $br->setUpdateDatatables('educatorsGrid');
+        $br->send();
+    }
+
+    public function btndenyclickAction() {
+        $br = new Browser_Control();
+        $post = Zend_Registry::get('post');
+
+        $obj = new Usuario();
+        if (isset($post->id)) {
+            $obj->read($post->id);
+        }
+        $obj->setApproved('N');
+
+        try {
+            $obj->save();
+        } catch (Exception $exc) {
+            $br->setAlert('Error!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+
+        $br->setMsgAlert($obj->getNomecompleto() . ' has his/her content hidden!', 'Now all lunch n\' learn registered by him/her will NOT be visible on the site');
+
+        $br->setUpdateDatatables('educatorsGrid');
+        $br->send();
     }
 
 }

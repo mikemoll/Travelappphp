@@ -43,7 +43,9 @@ class Zend_View_Helper_FormTabMain extends Zend_View_Helper_FormElement {
                         $hide = ' style="display:none;" ';
                     }
 //                    $tabs .= '<li class="' . $active . ' ' . $val->disabled . '" ' . $hide . '><a href="#' . $val->getName() . '" ' . $datatoggle . ' >' . $val->title . '</a></li>';
-                    $tabs .= '<li id="li' . $val->getName() . '" class="' . $active . '  " ' . $hide . '><a href="#' . $val->getName() . '" ' . $datatoggle . ' >' . $val->title . '</a></li>';
+                    $tabs .= '<li id="li' . $val->getName() . '" class="nav-item ' . $active . '  " ' . $hide . '>'
+                            . '<a class="nav-link" href="#' . $val->getName() . '" ' . $datatoggle . ' >' . $val->title . '</a>'
+                            . '</li>';
                     $active = '';
                 }
             }

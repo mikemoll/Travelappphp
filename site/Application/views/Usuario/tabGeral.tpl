@@ -1,80 +1,53 @@
 <!-- LINHA 1  -->
-<div class="row">
-    <div class="col-sm-2">
-        {$ativo}
+<div class="col-sm-12">
+    {$ativo}
+</div>
+<div class="col-sm-6">
+    {$nomeCompleto}
+</div>
+<div class="col-sm-6">
+    {$email}
+</div>
+{*<div class="col-sm-6">
+{$loginUser}
+</div>*}
+<div class="col-sm-4">
+    {$senha}
+</div>
+{if $idexterno != ''}
+    <div class="col-sm-12">
+        {$idexterno}
     </div>
-    <div class="col-sm-10">
-        {$nomeCompleto}
+{/if}
+{if $dificuldade != ''}
+    <div class="col-sm-12">
+        {$dificuldade}
     </div>
-</div>
-<div class="row">
-    <div class="col-sm-6">
-        {$loginUser}
+{/if}
+{if $grupo}
+    <div class="col-sm-12">
+        {$grupo}
     </div>
-    <div class="col-sm-6">
-        {$senha}
+{/if}
+
+{if $senhaEmail != ''}
+    <div class="col-sm-12">
+        {$senhaEmail}
     </div>
-</div>
-<div class="row">
-    <div class="col-sm-6">
-        {$email}
+{/if}
+{if $smtp != ''}
+    <div class="col-sm-12">
+        {$smtp}
     </div>
-
-    <div class="col-sm-6">
-        {$recebecomunicacaointerna}
+{/if}
+{if $porta != ''}
+    <div class="col-sm-12">
+        {$porta}
     </div>
-</div>
+{/if}
 
-
-<div class="row">
-
-    {if $idexterno != ''}
-        <div class="col-sm-12">
-            {$idexterno}
-        </div>
-    {/if}
-</div>
-
-<div class="row">
-    {if $dificuldade != ''}
-        <div class="col-sm-12">
-            {$dificuldade}
-        </div>
-    {/if}
-</div>
-
-<div class="row">
-    {if $grupo}
-        <div class="col-sm-12">
-            {$grupo}
-        </div>
-    {/if}
-</div>
-<div class="row">
-
-    {if $smtp != ''}
-        <div class="col-sm-4">
-            {$smtp}
-        </div>
-    {/if}
-    {if $porta != ''}
-        <div class="col-sm-4">
-            {$porta}
-        </div>
-    {/if}
-
-    {if $senhaEmail != ''}
-        <div class="col-sm-4">
-            {$senhaEmail}
-        </div>
-    {/if}
-</div>
-<div class="row">
-
-
-    {if $id_empresa != ''}
-        <div class="col-sm-12">
-            {$id_empresa}
-        </div>
-    {/if}
-</div>
+{if $id_empresa != ''}
+    <div class="col-sm-12">
+        {$id_empresa}
+    </div>
+{/if}

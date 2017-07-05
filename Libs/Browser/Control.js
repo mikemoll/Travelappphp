@@ -214,38 +214,99 @@ $(document).ready(function (p) {
      * inserir a imagem loader ao lado do mouse nas requisições ajax
      */
 //    $('body').append('<div id="ajaxStart" style="display:none;"></div>');
+    $('body').append('<div id="memory-usage" class="memory-usage">');
 //    $(document).mousemove(function (p) {
 //        $('#ajaxStart').css('left', p.pageX + 15);
 //        $('#ajaxStart').css('top', p.pageY);
 //        $('#ajaxStart').css('zIndex', getMaxZindex());
 //    });
-//	/**
-//	 * função que verifica o tamanho maximo de caracteres no textarea
-//	 */
-//	$('#descricao').live('keydown',function(e){
-//		var tam = $(this).attr('maxlength');
-//		var tecl = e.keyCode;
-//		if(tecl != 8 && tecl != 37 && tecl != 38 && tecl != 39 && tecl != 40 && tecl != 46){
-//			if(tam < ($(this).val().length + 1)){
-//				return false;
-//			}
-//		}
-//	});
+    /**
+     * função que verifica o tamanho maximo de caracteres no textarea
+     */
+    $('body').on('keydown', '#descricao', function (e) {
+        var tam = $(this).attr('maxlength');
+        var tecl = e.keyCode;
+        if (tecl != 8 && tecl != 37 && tecl != 38 && tecl != 39 && tecl != 40 && tecl != 46) {
+            if (tam < ($(this).val().length + 1)) {
+                return false;
+            }
+        }
+    });
 
+    $("body").on("keyup", "[maxlength]", function () {
+        var maxLength = $(this).attr('maxlength');
+        var id = $(this).attr('id');
+        var length = $(this).val().length;
+        var length = maxLength - length;
+        $('#chars' + id + '').text(length);
+    });
+
+
+    $("body").on('change', '.btn-file :file', function () {
+        var input = $(this),
+                numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [numFiles, label]);
+    });
+    $("body").on("focusin", ".datepicker", function () {
+        times = $(this).attr('data-times-focused');
+        if (typeof times == 'undefined') {
+            $(this).datepicker( );
+            $(this).attr('data-times-focused', '1');
+
+        }
+    });
+
+    $("body").delegate("change", "[data-alternative-field]", function () {
+        aternativeField = $(this).attr('data-alternative-field');
+        valor = $(this).val( );
+        $('#' + aternativeField).datepicker('update', valor);
+    });
+
+//    jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+//        "date-br-pre": function (a) {
+//            if (a == null || a == "") {
+//                return 0;
+//            }
+//            var brDataEHora = a.split(' ');
+//            var brDatea = brDataEHora[0].split('/');
+////            console.log(brDatea[2] + brDatea[1] + brDatea[0]);
+//            return (brDatea[2] + brDatea[1] + brDatea[0]) * 1;
+//        },
+//        "date-br-asc": function (a, b) {
+//            return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+//        },
+//        "date-br-desc": function (a, b) {
+//            return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+//        }
+//    });
+
+    $('.btn-file').on('fileselect', ':file', function (event, numFiles, label) {
+
+        var input = $(this).parents('.input-group').find(':text'),
+                log = numFiles > 1 ? numFiles + ' arquivos selecionados' : label;
+
+        if (input.length) {
+            input.val(log);
+        } else {
+            if (log)
+                alert(log);
+        }
+
+    });
     /**
      * cancela todos os submits dos fomulario
      */
-// $('form').live('submit', function(){
+// $('body').on('submit','form', function(){
 //	 return false;
 // });
-//    $("form").on("submit", function (event) {
+//    $('body').on("submit","form", function (event) {
 //        event.preventDefault();
 //    });
 
-    $('form').bind('submit', function (e) {
-        e.preventDefault();
-    });
-
+//    $('form').bind('submit', function (e) {
+//        e.preventDefault();
+//    });
 //    $("select[select2]").select2({width: '100%', selectOnClose: true});
 
 
@@ -321,6 +382,122 @@ $(document).ready(function (p) {
         }
     });
 //    setTimeout(test, 500, "works");
+
+
+
+    $('body').on('blur', '*[event*="blur"]', function () {
+        ajaxRequest($(this), 'blur');
+    });
+    $('body').on('change', '*[event*="change"]', function () {
+        ajaxRequest($(this), 'change');
+    });
+    $('body').on('click', '[event*="click"]', function (e) {
+        ajaxRequest($(this), 'click');
+    });
+    $('body').on('dblclick', '*[event*="dblclik"]', function () {
+        ajaxRequest($(this), 'dblclick');
+    });
+    $('body').on('focus', '*[event*="focus"]', function () {
+        ajaxRequest($(this), 'focus');
+    });
+    $('body').on('hover', '*[event*="hover"]', function () {
+        ajaxRequest($(this), 'hover');
+    });
+    $('body').on('focusout', '*[event*="out"]', function () {
+        ajaxRequest($(this), 'focusout');
+    });
+    $('body').on('keydown', '*[event*="keydown"]', function () {
+        ajaxRequest($(this), 'keydown');
+    });
+    $('body').on('keypress', '*[event*="keypress"]', function () {
+        ajaxRequest($(this), 'keypress');
+    });
+    $('body').on('keyup', '*[event*="keyup"]', function () {
+        ajaxRequest($(this), 'keyup');
+    });
+    $('body').on('mousedown', '*[event*="mousedown"]', function () {
+        ajaxRequest($(this), 'mousedown');
+    });
+    $('body').on('mousemove', '*[event*="mousemove"]', function () {
+        ajaxRequest($(this), 'mousemove');
+    });
+    $('body').on('mouseout', '*[event*="mouseout"]', function () {
+        ajaxRequest($(this), 'mouseout');
+    });
+    $('body').on('mouseover', '*[event*="mouseover"]', function () {
+        ajaxRequest($(this), 'mouseover');
+    });
+    $('body').on('mouseup', '*[event*="mouseup"]', function () {
+        ajaxRequest($(this), 'mouseup');
+    });
+    $('body').on('resize', '*[event*="resize"]', function () {
+        ajaxRequest($(this), 'resize');
+    });
+    $('body').on('scroll', '*[event*="scroll"]', function () {
+        ajaxRequest($(this), 'scroll');
+    });
+    $('body').on('select', '*[event*="select"]', function () {
+        ajaxRequest($(this), 'select');
+    });
+    $('body').on('submit', '*[event*="submit"]', function () {
+        ajaxRequest($(this), 'submit');
+    });
+    $('body').on('unload', '*[event*="unload"]', function () {
+        ajaxRequest($(this), 'unload');
+    });
+    $('body').on('click', '*[updateGrid]', function () {
+        eval('data = {"actions": [{"action":"UPDATEGRID", "id":"' + $(this).attr('updateGrid') + '"}]}');
+        returnRequest(data);
+    });
+    $('body').on('click', '*[updateDataTables]', function () {
+        eval('data = {"actions": [{"action":"UPDATEDATATABLES", "id":"' + $(this).attr('updateDataTables') + '", "sendFormValues":"' + $(this).attr('sendFormValues') + '"}]}');
+        returnRequest(data);
+    });
+    /**
+     * usado o keydown e o keyup pois alguns navegadores no keydown o keycode do
+     * enter não existe (ex: IE).
+     *
+     * e feito este if para não haver mais de uma requisição ajax no firefox
+     */
+    $('body').on('keydown', '*[hotkeys]', function (e) {
+        if (e.keyCode != 13) {
+            hotKeys(e, $(this));
+        }
+        if (pressedKey) {
+            return false;
+        }
+    });
+    $('body').on('keyup', '*[hotkeys]', function (e) {
+        if (e.keyCode == 13) {
+            hotKeys(e, $(this));
+        }
+        if (pressedKey) {
+            return false;
+        }
+        return false;
+    });
+
+
+    $('body').on('keyup', '*[hotkeys]', function (e) {
+        // Quando uma tecla for liberada verifica se o CTRL para notificar
+        // que CTRL não está pressionado
+        if (e.keyCode == 9 || e.keyCode == 13 || e.keyCode == 16 || e.keyCode == 17) {
+            pressedKey = false;
+        }
+    });
+
+    $('body').on('blur', '.datepicker', function () {
+        var data1 = $(this).val();
+        data1 = data1.split('/');
+        if (data1[2].length == 2) {
+            data1[2] = '20' + data1[2];
+        } else
+        if (data1[2].length == 3) {
+            alert("A data digitada tem um erro no ano! " + data1.join('/'));
+        }
+        $(this).val(data1.join('/'));
+    });
+
 });
 
 /**
@@ -420,6 +597,7 @@ function returnRequest(data) {
             setDataForm(obj);
         } else if (obj.action == 'NEWWINDOW') {
             $('body').append(obj.html);
+            $('#' + obj.id).modal();
         } else if (obj.action == 'VALIDAFORM') {
             validaForm(obj);
         } else if (obj.action == 'REMOVEATTR') {
@@ -860,74 +1038,6 @@ function abortAjax() {
     }
 }
 
-$('*[event*="blur"]').live('blur', function () {
-    ajaxRequest($(this), 'blur');
-});
-$('*[event*="change"]').live('change', function () {
-    ajaxRequest($(this), 'change');
-});
-$('*[event*="click"]').live('click', function (e) {
-    ajaxRequest($(this), 'click');
-});
-$('*[event*="dblclik"]').live('dblclick', function () {
-    ajaxRequest($(this), 'dblclick');
-});
-$('*[event*="focus"]').live('focus', function () {
-    ajaxRequest($(this), 'focus');
-});
-$('*[event*="hover"]').live('hover', function () {
-    ajaxRequest($(this), 'hover');
-});
-$('*[event*="out"]').live('focusout', function () {
-    ajaxRequest($(this), 'focusout');
-});
-$('*[event*="keydown"]').live('keydown', function () {
-    ajaxRequest($(this), 'keydown');
-});
-$('*[event*="keypress"]').live('keypress', function () {
-    ajaxRequest($(this), 'keypress');
-});
-$('*[event*="keyup"]').live('keyup', function () {
-    ajaxRequest($(this), 'keyup');
-});
-$('*[event*="mousedown"]').live('mousedown', function () {
-    ajaxRequest($(this), 'mousedown');
-});
-$('*[event*="mousemove"]').live('mousemove', function () {
-    ajaxRequest($(this), 'mousemove');
-});
-$('*[event*="mouseout"]').live('mouseout', function () {
-    ajaxRequest($(this), 'mouseout');
-});
-$('*[event*="mouseover"]').live('mouseover', function () {
-    ajaxRequest($(this), 'mouseover');
-});
-$('*[event*="mouseup"]').live('mouseup', function () {
-    ajaxRequest($(this), 'mouseup');
-});
-$('*[event*="resize"]').live('resize', function () {
-    ajaxRequest($(this), 'resize');
-});
-$('*[event*="scroll"]').live('scroll', function () {
-    ajaxRequest($(this), 'scroll');
-});
-$('*[event*="select"]').live('select', function () {
-    ajaxRequest($(this), 'select');
-});
-$('*[event*="submit"]').live('submit', function () {
-    ajaxRequest($(this), 'submit');
-});
-$('*[event*="unload"]').live('unload', function () {
-    ajaxRequest($(this), 'unload');
-});
-$('*[updateGrid]').live('click', function () {
-    eval('data = {"actions": [{"action":"UPDATEGRID", "id":"' + $(this).attr('updateGrid') + '"}]}');
-    returnRequest(data);
-});
-$('*[updateDataTables]').live('click', function () {
-    eval('data = {"actions": [{"action":"UPDATEDATATABLES", "id":"' + $(this).attr('updateDataTables') + '", "sendFormValues":"' + $(this).attr('sendFormValues') + '"}]}');
-    returnRequest(data);
-});
 
 /**
  * padrão da função
@@ -986,50 +1096,6 @@ function hotKeys(e, obj) {
         }
     });
 }
-/**
- * usado o keydown e o keyup pois alguns navegadores no keydown o keycode do
- * enter não existe (ex: IE).
- *
- * e feito este if para não haver mais de uma requisição ajax no firefox
- */
-$('*[hotkeys]').live('keydown', function (e) {
-    if (e.keyCode != 13) {
-        hotKeys(e, $(this));
-    }
-    if (pressedKey) {
-        return false;
-    }
-});
-$('*[hotkeys]').live('keyup', function (e) {
-    if (e.keyCode == 13) {
-        hotKeys(e, $(this));
-    }
-    if (pressedKey) {
-        return false;
-    }
-    return false;
-});
-
-
-$('*[hotkeys]').live('keyup', function (e) {
-    // Quando uma tecla for liberada verifica se o CTRL para notificar
-    // que CTRL não está pressionado
-    if (e.keyCode == 9 || e.keyCode == 13 || e.keyCode == 16 || e.keyCode == 17) {
-        pressedKey = false;
-    }
-});
-
-$('.datepicker').live('blur', function () {
-    var data1 = $(this).val();
-    data1 = data1.split('/');
-    if (data1[2].length == 2) {
-        data1[2] = '20' + data1[2];
-    } else
-    if (data1[2].length == 3) {
-        alert("A data digitada tem um erro no ano! " + data1.join('/'));
-    }
-    $(this).val(data1.join('/'));
-});
 
 var popupBlockerChecker = {
     check: function (popup_window) {

@@ -63,17 +63,17 @@ class Ui_Element_MenuItem {
                     $subMenus .= $subMenu->render($level);
                 }
 
-                $menu .= '<li>';
+                $menu .= '<li class="has_sub">';
                 if ($subMenus != '') {
-                    $flecha = '<span class="fa arrow"></span>';
+                    $flecha = '<span class="menu-arrow"></span>';
                 }
                 if ($this->badge != '') {
-                    $flecha .= "<span class='badge alert-info pull-right'>$this->badge </span>";
+                    $badge .= "<span class='label label-pill label-primary float-right'>$this->badge </span>";
                 }
                 if ($this->img) {
-                    $img = '<i class="fa fa-' . $this->img . ' fa-fw"></i> ';
+                    $img = '<i class="zmdi zmdi-' . $this->img . ' "></i> ';
                 }
-                $menu .= '    <a href="#"> ' . $img . $this->title . $flecha . '</a>';
+                $menu .= '    <a href="#" class="waves-effect subdrop"> ' . $badge . $img . '<span>' . $this->title . '</span>' . $flecha . '</a>';
 
 
 
@@ -85,18 +85,23 @@ class Ui_Element_MenuItem {
                     } elseif ($level == 4) {
                         $levelTxt = "fourth";
                     }
-                    $menu .= '  <ul class="nav nav-' . $levelTxt . '-level">';
+                    $menu .= '  <ul class="list-unstyled nav-' . $levelTxt . '-level">';
                     $menu .= $subMenus;
                     $menu .= '</ul> ';
                 }
                 $menu .= ' </li>';
             } else {
                 if ($this->link != '#' || $this->url != '') {
+                    if ($level == 1) {
 
-                    $menu .= '<li  > ';
-                    $menu .= '<a name="' . $this->id . '" onclick="abortAjax();" href="' . $this->link . '">';
+                        $menu .= '<li class="has_sub" > ';
+                        $menu .= '<a class="waves-effect" name="' . $this->id . '"  href="' . $this->link . '">';
+                    } else {
+                        $menu .= '<li > ';
+                        $menu .= '<a   name="' . $this->id . '"  href="' . $this->link . '">';
+                    }
                     if ($this->img) {
-                        $menu .= '<i class="fa fa-' . $this->img . ' fa-fw"></i> ';
+                        $menu .= '<i class="zmdi zmdi-' . $this->img . ' "></i> ';
                     }
                     $menu .= $this->title . '</a>';
                     $menu .= '</li> ';

@@ -86,6 +86,8 @@ class MensagemController extends AbstractController {
         $view = Zend_Registry::get('view');
 
         $view->assign('scripts', Browser_Control::getScripts());
+         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('titulo', $this->TituloLista);
         $view->assign('TituloPagina', $this->TituloLista);
 
@@ -201,6 +203,8 @@ class MensagemController extends AbstractController {
         $form->setDataSession();
 
         $view->assign('scripts', Browser_Control::getScripts());
+         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('titulo', $this->TituloEdicao);
         $view->assign('TituloPagina', $this->TituloEdicao);
         $view->assign('body', $form->displayTpl($view, $this->TplEdit));
@@ -355,6 +359,8 @@ class MensagemController extends AbstractController {
         }
 
         $view->assign('scripts', Browser_Control::getScripts());
+         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('body', $view->fetch('Mensagem/view.tpl'));
         $view->output('index.tpl');
     }

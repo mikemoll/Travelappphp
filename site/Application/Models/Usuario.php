@@ -15,7 +15,7 @@ class Usuario extends Db_Table {
     public $_primary = 'id_usuario';
     protected $_classList = array(array('nome' => 'Permissao', 'campo' => 'id_usuario'));
     protected $_log_ativo = false;
-    protected $_log_text = 'Usuário';
+    protected $_log_text = 'User';
     protected $_log_info = 'a_nomecompleto';
 
     public static function getIdExternoLogado() {
@@ -31,35 +31,18 @@ class Usuario extends Db_Table {
             return $usuario->getNomeCompleto();
     }
 
-    public static function getDadosSmtpUsuarioLogado() {
-        $session = Zend_Registry::get('session');
-        $usuario = $session->usuario;
-        if (is_object($usuario)) {
-            $config = array(
-                'ssl' => 'tls',
-                'auth' => 'login',
-                'port' => $usuario->getPorta(),
-                'username' => $usuario->getEmail(),
-                'password' => $usuario->getSenhaEmail(),
-                'smtp' => $usuario->getSmtp()
-            );
-//            print'<pre>';die(print_r( $config ));
-            return $config;
-        }
-    }
-
-    public static function getEmailUsuarioLogado() {
-        $session = Zend_Registry::get('session');
-        $usuario = $session->usuario;
-        if (is_object($usuario))
-            return $usuario->getEmail();
-    }
-
     public static function getIdUsuarioLogado() {
         $session = Zend_Registry::get('session');
         $usuario = $session->usuario;
         if (is_object($usuario))
             return $usuario->getID();
+    }
+
+    public static function getGroupUserLogado() {
+        $session = Zend_Registry::get('session');
+        $usuario = $session->usuario;
+        if (is_object($usuario))
+            return $usuario->getGrupo();
     }
 
     public static function getIdExternoUsuarioLogado() {
@@ -81,38 +64,49 @@ class Usuario extends Db_Table {
         $this->a_dificuldade = json_encode($param);
     }
 
-    /**
-     * Retorna a lista de Tecnicos do sistema de OS
-     *
-     * @return array
-     */
-    static function getUsuarioGilneiList($i = '') {
-
-//        if (!isset($_SESSION['getTecnicoList'])) {
-        $lObjLst = new Db_Sinigaglia();
-        $lObjLst->query("SELECT Usuarios.Tecnico as CodigoTecnico,"
-                . " Usuarios.Nome as Apelido  "
-                . "FROM Usuarios "
-                . "ORDER BY Usuarios.Nome;"
-        );
-        $rows = $lObjLst->fetchAll();
-
-        $list = array();
-        $list[""] = "";
-        foreach ($rows as $row) {
-            $list[$row["CodigoTecnico"]] = utf8_encode($row["Apelido"]);
+    public function getPhotoPath() {
+        if ($this->a_Photo) {
+            return HTTP_REFERER . 'Public/Images/Profile/' . $this->getID() . '_' . $this->a_Photo;
         }
-        $_SESSION['getTecnicoList'] = $list;
-//        } else {
-//            $list = $_SESSION['getTecnicoList'];
-//        }
-//        print'<pre>';
-//        die(print_r($list));
-        if (intval($i) != 0) {
-//            print'<pre>';(print_r(str_pad($i, 3, '0', STR_PAD_LEFT)  ));
-            return $list[str_pad($i, 3, '0', STR_PAD_LEFT)];
+    }
+
+    public function getAvarageStarsNumber() {
+        $l = new Review();
+        $l->join('bookedcourse', 'bookedcourse.id_bookedcourse = review.id_bookedcourse ', '');
+        $l->join('course', ' course.id_course = bookedcourse.id_course and course.id_educator = ' . $this->getID(), '');
+        $l->readLst();
+        if ($l->countItens() > 0) {
+            for ($i = 0; $i < $l->countItens(); $i++) {
+                $lReview = $l->getItem($i);
+                $countStars += $lReview->getStars();
+            }
+            $avg = $countStars / $l->countItens();
         }
-        return $list;
+        return $avg;
+    }
+
+    public function getAvarageStars() {
+        $avg = $this->getAvarageStarsNumber();
+        for ($i = 0; $i < $avg; $i++) {
+            $ret .= "<i class='fa fa-star'></i>";
+//            $ret .= '* ';
+        }
+        return $ret;
+    }
+
+    public function getCountEventHosted() {
+        $l = new BookedCourse();
+        $l->join('course', ' course.id_course = bookedcourse.id_course and course.id_educator = ' . $this->getID(), '');
+        $l->readLst('array');
+        return $l->countItens();
+    }
+
+    public function getCountReviews() {
+        $l = new Review();
+        $l->join('bookedcourse', 'bookedcourse.id_bookedcourse = review.id_bookedcourse ', '');
+        $l->join('course', ' course.id_course = bookedcourse.id_course and course.id_educator = ' . $this->getID(), '');
+        $l->readLst('array');
+        return $l->countItens();
     }
 
     /**
@@ -120,18 +114,16 @@ class Usuario extends Db_Table {
      *
      * @return array
      */
-    static function getUsuarioList($indice = '') {
+    static function getUsuarioList($i = '') {
 
         if (!isset($_SESSION['getUsuarioList'])) {
             $lObjLst = new Usuario();
-            $lObjLst->where('ativo', 'S');
-            $lObjLst->where('tipo', 'user');
-            $lObjLst->readLst();
+            $lObjLst->readLst('array');
+            $rows = $lObjLst->fetchAll();
             $list = array();
             $list[""] = "";
-            for ($i = 0; $i < $lObjLst->countItens(); $i++) {
-                $User = $lObjLst->getItem($i);
-                $list[$User->getID()] = $User->getNomeCompleto();
+            foreach ($rows as $row) {
+                $list[$row["id_usuario"]] = utf8_encode($row["nomecompleto"]);
             }
             $_SESSION['getUsuarioList'] = $list;
         } else {
@@ -139,9 +131,33 @@ class Usuario extends Db_Table {
         }
 //        print'<pre>';
 //        die(print_r($list));
-        if (intval($indice) != 0) {
+        if (intval($i) != 0) {
 //            print'<pre>';(print_r(str_pad($i, 3, '0', STR_PAD_LEFT)  ));
-            return $list[$indice];
+            return $list[$i];
+        }
+        return $list;
+    }
+
+    /**
+     * Return a list of Users that are Companies
+     *
+     * @return array
+     */
+    static function getCompanyList($i = '') {
+
+        $lObjLst = new Usuario();
+        $lObjLst->where('grupo', '4'); // the group of Companyes
+        $lObjLst->where('tipo', 'user'); // Just the users 
+        $lObjLst->readLst('array');
+        $rows = $lObjLst->getItens();
+//        $rows = $lObjLst->fetchAll();
+        $list = array();
+        $list[""] = "";
+        foreach ($rows as $row) {
+            $list[$row["id_usuario"]] = utf8_encode($row["nomecompleto"]);
+        }
+        if (intval($i) != 0) {
+            return $list[$i];
         }
         return $list;
     }
@@ -157,12 +173,12 @@ class Usuario extends Db_Table {
         $this->setTipo($post->tipo);
         $this->setGrupo($post->grupo);
         $this->setEmail($post->email);
-        $this->setrecebecomunicacaointerna($post->recebecomunicacaointerna);
         $this->setSmtp($post->smtp);
         $this->setPorta($post->porta);
         $this->setAssinaturaEmail($post->assinaturaEmail);
         $this->setAtivo($post->ativo);
         $this->setIdExterno($post->idexterno);
+        $this->setTelephone($post->telephone);
         $this->setExcluivel(cTRUE);
         $this->setEditavel(cTRUE);
         if ($post->senha != '') {
@@ -264,7 +280,7 @@ class Usuario extends Db_Table {
      * Verifica se o usuario pode acessar uma determinada area do sistema ou executar uma determinada ação.
      *
      * @param $controlador or $processo
-     * @param $acao
+     * @param $acao ['ver'|'inserir'|'excluir'|'editar']
      * @return boolean
      */
     public static function verificaAcesso($controlador, $acao = 'ver') {
@@ -368,6 +384,41 @@ class Usuario extends Db_Table {
                 }
                 break;
         }
+    }
+
+    public function setDataFromProfileRequest($post) {
+        $this->setNomeCompleto($post->nomecompleto);
+        $this->setEmail($post->email);
+        $this->setTelephone($post->telephone);
+    }
+
+    public static function getGroupsList($i = '') {
+        $list[''] = ' - ';
+        $list['3'] = 'I am an Educator';
+        $list['4'] = 'I am a Company';
+        if ($i != '') {
+            return $list[$i];
+        }
+        return $list;
+    }
+
+    public function setDataFromRegisterRequest($post) {
+        $this->setNomeCompleto($post->nomecompleto);
+        $this->setEmail($post->email);
+        $this->setTelephone($post->telephone);
+        $this->setGrupo($post->grupo);
+        $this->setAtivo(cTRUE);
+        $this->setExcluivel(cTRUE);
+        $this->setEditavel(cTRUE);
+        $this->setTipo('user');
+        $this->setDificuldade('null');
+
+        $this->setSenha(Format_Crypt::encryptPass($post->senha));
+        $this->setDatasenha(date('d/m/Y'));
+    }
+
+    public function getApproved_decoded() {
+        return ($this->getApproved() == 'S')?'Yes':'No';
     }
 
 }

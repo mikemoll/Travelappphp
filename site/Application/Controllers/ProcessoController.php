@@ -1,12 +1,11 @@
 <?php
 
 include_once 'AbstractController.php';
+
 class ProcessoController extends AbstractController {
 
     public function init() {
         parent::init();
-//        Browser_Control::setScript('js', 'Easydrag', 'easydrag.js');
-//        Browser_Control::setScript('css', 'Window', 'Window/Window.css');
     }
 
     public function indexAction() {
@@ -59,6 +58,8 @@ class ProcessoController extends AbstractController {
         $view = Zend_Registry::get('view');
 
         $view->assign('scripts', Browser_Control::getScripts());
+         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('body', $form->displayTpl($view, 'Processos/index.tpl'));
         $view->output('index.tpl');
     }
@@ -156,7 +157,7 @@ class ProcessoController extends AbstractController {
         $w->setDimension('600', '400');
         $w->setCloseOnEscape(true);
         $br = new Browser_Control();
-        $br->newWindow($w);
+        $br->newWindow($w, 'EditProcessos');
         $br->send();
     }
 
