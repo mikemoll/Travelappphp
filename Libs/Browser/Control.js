@@ -246,47 +246,47 @@ $(document).ready(function (p) {
         e.preventDefault();
     });
 
-    $("select[select2]").select2({width: '100%', selectOnClose: true});
+//    $("select[select2]").select2({width: '100%', selectOnClose: true});
 
 
 
 
-    $("select[data-select2-ajaxload]").select2({width: '100%', selectOnClose: true,
-        ajax: {
-            url: function (params) {
-                return cBaseUrl + $(this).attr('data-select2-ajaxload') + "/" + $(this).attr('id') + "change/controlValue/";
-            },
-            dataType: 'json',
-            delay: 250,
-            data: function (params) {
-                return params.term;
+//    $("select[data-select2-ajaxload]").select2({width: '100%', selectOnClose: true,
+//        ajax: {
+//            url: function (params) {
+//                return cBaseUrl + $(this).attr('data-select2-ajaxload') + "/" + $(this).attr('id') + "change/controlValue/";
+//            },
+//            dataType: 'json',
+//            delay: 250,
+//            data: function (params) {
+//                return params.term;
+////                return {
+////                    q: params.term, // search term
+////                    page: params.page
+////                };
+//            },
+//            processResults: function (data, params) {
+//
 //                return {
-//                    q: params.term, // search term
-//                    page: params.page
+//                    results: data
 //                };
-            },
-            processResults: function (data, params) {
-
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-        , placeholder: ''
-        , allowClear: true
-        , minimumInputLength: 3
-    });
-    $("select[select2]").attr('data-times-focused', '1');
-
-    $('.select2-selection').on('focus', function () {
-
-        id = $(this).attr('aria-labelledby');
-        if (typeof id !== 'undefined') {
-            id = id.split("-");
-            $('#' + id[1]).select2('open');
-        }
-    });
+//            },
+//            cache: true
+//        }
+//        , placeholder: ''
+//        , allowClear: true
+//        , minimumInputLength: 3
+//    });
+//    $("select[select2]").attr('data-times-focused', '1');
+//
+//    $('.select2-selection').on('focus', function () {
+//
+//        id = $(this).attr('aria-labelledby');
+//        if (typeof id !== 'undefined') {
+//            id = id.split("-");
+//            $('#' + id[1]).select2('open');
+//        }
+//    });
 
     marcaObrig();
 

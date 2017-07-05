@@ -12,12 +12,12 @@ class Ui_Element_MainMenu {
         $this->id = $id;
         $this->position = $position;
         $this->menuItem = array();
-        Browser_Control::setScript('js', 'Menu', 'Menu/pluginMenu.js');
-        if ($this->position == 'v') {
-            Browser_Control::setScript('css', 'MenuV', 'Menu/Vertical.css');
-        } else {
-            Browser_Control::setScript('css', 'MenuH', 'Menu/Horizontal.css');
-        }
+//        Browser_Control::setScript('js', 'Menu', 'Menu/pluginMenu.js');
+//        if ($this->position == 'v') {
+//            Browser_Control::setScript('css', 'MenuV', 'Menu/Vertical.css');
+//        } else {
+//            Browser_Control::setScript('css', 'MenuH', 'Menu/Horizontal.css');
+//        }
     }
 
     public function setParams($wSubmenu, $velocidade = '') {

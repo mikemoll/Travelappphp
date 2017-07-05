@@ -3,7 +3,7 @@
 include_once 'AbstractController.php';
 
 /**
- *  Classe de criaÃ§Ã£o e controle da tela inicial do sistema
+ *  Classe de criação e controle da tela inicial do sistema
  * 
  * @author Leonardo Danieli <leonardo.danieli@gmail.com>
  * @version 1.0
@@ -35,7 +35,7 @@ class IndexController extends AbstractController {
 
         // =========== Menu  ==========
         // INDICADORES
-        $menuItem = new Ui_Element_MenuItem('home', 'Home', HTTP_REFERER . 'index', '', 'home');
+        $menuItem = new Ui_Element_MenuItem('home', 'Dashboard', HTTP_REFERER . 'index', '', 'dashboard');
         $mainMenu->addMenuItem($menuItem);
 
 
@@ -43,7 +43,7 @@ class IndexController extends AbstractController {
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 
-        $menu = new Ui_Element_MenuItem('activities', 'Activities', HTTP_REFERER . 'activities', '', '');
+        $menu = new Ui_Element_MenuItem('activities', 'Activities', HTTP_REFERER . 'activities', '', ' zmdi zmdi-fire');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 

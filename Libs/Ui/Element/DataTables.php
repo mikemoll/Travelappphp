@@ -175,8 +175,9 @@ class Ui_Element_DataTables extends Zend_Form_Element {
 
 //        <script src="{$baseUrl}Public/Js/plugins/dataTables/jquery.dataTables.js"></script>
 //        <script src="{$baseUrl}Public/Js/plugins/dataTables/dataTables.bootstrap.js"></script>
-//        Browser_Control::setScript('js', 'DataTables',   '../../site/Public/Js/plugins/dataTables/jquery.dataTables.js');
-//        Browser_Control::setScript('js', 'DataTables2',   '../../site/Public/Js/plugins/dataTables/dataTables.bootstrap.js');
+        Browser_Control::setScript('js', 'DataTables3',   '../../site/Public/Js/jquery-ui.min.js');
+        Browser_Control::setScript('js', 'DataTables',   '../../site/Public/Js/plugins/dataTables/jquery.dataTables.js');
+        Browser_Control::setScript('js', 'DataTables2',   '../../site/Public/Js/plugins/dataTables/dataTables.bootstrap.js');
         Browser_Control::setScript('css', 'DataTables', 'DataTables/datatables.min.css');
     }
 
