@@ -15,12 +15,13 @@ class AbstractController extends Zend_Controller_Action {
     public $TplEdit; // = 'OrdemServico/edit.tpl';
 
     public function init() {
+        parent::init();
         $view = Zend_Registry::get('view');
         $post = Zend_Registry::get('post');
 
 // ==========================================================
 //        Browser_Control::setScript('js', 'Jquery2', 'jquery.js');
-        Browser_Control::setScript('js', 'jquery', '../../site/Public/assets/js/jquery.min.js');
+//        Browser_Control::setScript('js', 'jquery', '../../site/Public/assets/js/jquery.min.js');
 //        // jQuery  -->
         Browser_Control::setScript('js', 'tether', "../../site/Public/assets/js/tether.min.js"); // Tether for Bootstrap -->
         Browser_Control::setScript('js', 'bootstrap', "../../site/Public/assets/js/bootstrap.min.js");
@@ -41,6 +42,12 @@ class AbstractController extends Zend_Controller_Action {
 //        // Counter Up  -->
         Browser_Control::setScript('js', 'jquery.waypoints', "../../site/Public/assets/plugins/waypoints/lib/jquery.waypoints.js");
         Browser_Control::setScript('js', 'jquery.counterup', "../../site/Public/assets/plugins/counterup/jquery.counterup.min.js");
+
+//        Modal
+//        Browser_Control::setScript('js', 'custombox', "../../site/Public/assets/plugins/custombox/js/custombox.min.js");
+//        Browser_Control::setScript('js', 'legacy', "../../site/Public/assets/plugins/custombox/js/legacy.min.js");
+//        Browser_Control::setScript('css', 'custombox', '../../site/Public/assets/plugins/custombox/css/custombox.min.css');
+        
 //        // App js -->
         Browser_Control::setScript('js', 'jquery.core', "../../site/Public/assets/js/jquery.core.js");
         Browser_Control::setScript('js', 'jquery.app', "../../site/Public/assets/js/jquery.app.js");

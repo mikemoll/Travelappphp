@@ -23,6 +23,7 @@
             <script type="text/javascript">
             </script>
         {/literal}
+        <script src="{$baseUrl}Public/assets/js/jquery.min.js"></script><!-- Tether for Bootstrap -->
     </head>
     <body class="fixed-left">
         <div>
@@ -244,23 +245,7 @@
 
                             {$menu}
 
-                            <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-format-underlined"></i> <span> User Interface </span> <span class="menu-arrow"></span></a>
-                                <ul class="list-unstyled">
-                                    <li><a href="ui-buttons.html">Buttons</a></li>
-                                    <li><a href="ui-cards.html">Cards</a></li>
-                                    <li><a href="ui-dropdowns.html">Dropdowns</a></li>
-                                    <li><a href="ui-checkbox-radio.html">Checkboxs-Radios</a></li>
-                                    <li><a href="ui-navs.html">Navs</a></li>
-                                    <li><a href="ui-progress.html">Progress</a></li>
-                                    <li><a href="ui-modals.html">Modals</a></li>
-                                    <li><a href="ui-notification.html">Notification</a></li>
-                                    <li><a href="ui-alerts.html">Alerts</a></li>
-                                    <li><a href="ui-carousel.html">Carousel</a></li>
-                                    <li><a href="ui-bootstrap.html">Bootstrap UI</a></li>
-                                    <li><a href="ui-typography.html">Typography</a></li>
-                                </ul>
-                            </li>
+                      
                         </ul>
                         <div class="clearfix"></div>
                     </div>

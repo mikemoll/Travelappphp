@@ -25,17 +25,18 @@ switch ($_SERVER['HTTP_HOST']) {
 
     case 'localhost':
 //        error_reporting(0);
-        error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED| E_STRICT);
+        error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED | E_STRICT);
         $dbconfig = 'local';
         define('BASE', "travelappphp"); // BASE the path to the site's root folder (Ex.: na locaweb e o "public_htm", mas o caminho fica sem o "public_html")
         break;
 
-    case '172.0.0.5:8080': // Production
+    case '4coffee.com.br': // Production
+    case 'www.4coffee.com.br': // Production
 //        error_reporting(0);
-        error_reporting(E_ERROR);
-//        error_reporting(E_ALL ^ E_NOTICE | E_STRICT);
+//        error_reporting(E_ERROR);
+        error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED | E_STRICT);
         $dbconfig = 'producao';
-        define('BASE', ""); // BASE the path to the site's root folder (Ex.: na locaweb e o "public_htm", mas o caminho fica sem o "public_html")
+        define('BASE', "traveltrack"); // BASE the path to the site's root folder (Ex.: na locaweb e o "public_htm", mas o caminho fica sem o "public_html")
         break;
 }
 date_default_timezone_set('America/Sao_Paulo');
@@ -60,7 +61,9 @@ if ($operatingSystem == 'WINDOWS') {
     $path .= $pathSeparator . RAIZ_DIRETORY . $applicationName . 'Application' . $bar . 'Models';
     $path .= $pathSeparator . RAIZ_DIRETORY . $applicationName . 'Application' . $bar . 'ModelsView';
 }
-set_include_path(get_include_path() . $path);
+$path .= $pathSeparator . RAIZ_DIRETORY . 'Libs' . $bar . 'Zend';
+//set_include_path(get_include_path() . $path);
+set_include_path($path);
 
 //print '<pre>';
 //die(print_r(get_include_path() ));

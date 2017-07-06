@@ -276,4 +276,4 @@
 <!-- end row -->
 
 <!-- Page specific js -->
-<script src="{$baseUrl}Public/assets/pages/jquery.dashboard.js"></script>
+{*<script src="{$baseUrl}Public/assets/pages/jquery.dashboard.js"></script>*}

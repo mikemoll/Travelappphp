@@ -19,7 +19,7 @@ class ProcessoController extends AbstractController {
         $grid->setParams('', BASE_URL . $form->getAction() . '/listaProcessos');
         $grid->setShowPager(false);
 
-        $element = new Ui_Element_DataTables_Button('btnNovo', 'Inserir');
+        $element = new Ui_Element_DataTables_Button('btnNovo', 'New Item');
         $element->setImg('plus');
         $element->setVisible('PROC_CAD_PROCESSOS', 'inserir');
         $grid->addButton($element);
@@ -33,13 +33,13 @@ class ProcessoController extends AbstractController {
 //        $column = new Ui_Element_DataTables_Column_Check('ID', 'oid_processo', '30', 'center');
 //        $grid->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Nome', 'nome', '110');
+        $column = new Ui_Element_DataTables_Column_Text('Proccess Name', 'nome', '110');
         $grid->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Descricao', 'descricao', '190');
+        $column = new Ui_Element_DataTables_Column_Text('Description', 'descricao', '190');
         $grid->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Controladores', 'controladores', '190');
+        $column = new Ui_Element_DataTables_Column_Text('Controllers', 'controladores', '190');
         $grid->addColumn($column);
 
 
@@ -49,7 +49,7 @@ class ProcessoController extends AbstractController {
 
         // Botao btnNovo
         $button = new Ui_Element_Btn('btnNovo');
-        $button->setDisplay('Novo', 'plus');
+        $button->setDisplay('New Item', 'plus');
         $button->setType('success');
         $button->setAttrib('click', '');
         $form->addElement($button);
@@ -57,8 +57,7 @@ class ProcessoController extends AbstractController {
 
         $view = Zend_Registry::get('view');
 
-        $view->assign('scripts', Browser_Control::getScripts());
-         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('body', $form->displayTpl($view, 'Processos/index.tpl'));
         $view->output('index.tpl');
@@ -116,23 +115,23 @@ class ProcessoController extends AbstractController {
         $form->setName('formUpdateProcesso');
 
         // Campo nome
-        $nome = new Ui_Element_Text('Nome', 'Nome');
-        $nome->setAttrib('maxlength', '20');
+        $nome = new Ui_Element_Text('Nome', 'Name');
+        $nome->setAttrib('maxlength', '30');
         $form->addElement($nome);
 
         // Campo Descricao
-        $descricao = new Ui_Element_Text('Descricao', 'Descrição');
+        $descricao = new Ui_Element_Text('Descricao', 'Description');
         $descricao->setAttrib('maxlength', '30');
         $form->addElement($descricao);
 
         // Campo Descricao
-        $descricao = new Ui_Element_Text('Controladores', 'Controladores');
+        $descricao = new Ui_Element_Text('Controladores', 'Controllers it has access');
         $descricao->setAttrib('maxlength', '200');
         $form->addElement($descricao);
 
 
         $button = new Ui_Element_Btn('btnSalvar');
-        $button->setDisplay('Salvar', 'check');
+        $button->setDisplay('Save', 'check');
         $button->setType('success');
         $button->setAttrib('click', '');
         if (isset($post->id)) {
@@ -146,14 +145,14 @@ class ProcessoController extends AbstractController {
 
         // Botao Cancelar
         $button = new Ui_Element_Btn('btnCancelar');
-        $button->setDisplay('Cancelar', 'times');
+        $button->setDisplay('Cancel', 'times');
         $button->setType('default');
         $button->setAttrib('click', '');
         $form->addElement($button);
 
         $html = $form->displayTpl($view, 'Processos/edit.tpl');
 
-        $w = new Ui_Window('EditProcessos', "Edição de processos", $html, true);
+        $w = new Ui_Window('EditProcessos', "Proccess", $html, true);
         $w->setDimension('600', '400');
         $w->setCloseOnEscape(true);
         $br = new Browser_Control();
@@ -163,7 +162,7 @@ class ProcessoController extends AbstractController {
 
     public function btncancelarclickAction() {
         $br = new Browser_Control();
-        $br->setRemove('EditProcessos');
+        $br->setRemoveWindow('EditProcessos');
         $br->send();
     }
 

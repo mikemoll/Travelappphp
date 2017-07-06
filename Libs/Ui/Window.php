@@ -138,16 +138,33 @@ class Ui_Window {
 //		$html .= '</script>';
 //		$html .= $this->html;
 //		$html .= '</div>';
-        $html .= '<div  data-animation="blur" data-plugin="custommodal"
-                                       data-overlaySpeed="100" data-overlayColor="#36404a" id="' . $this->id . '"  class="modal-demo">
-                            <button type="button" class="close" onclick="Custombox.close();">
-                                <span>&times;</span><span class="sr-only">Close</span>
-                            </button>
-                            <h4 class="custom-modal-title">' . $this->title . '</h4>
-                            <div class="custom-modal-text">
-                            ' . $this->html . '
-        </div>
-        </div>';
+//        $html .= '<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"'
+//                . '  id="' . $this->id . '"  >
+//                            <button type="button" class="close" onclick="Custombox.close();">
+//                                <span>&times;</span><span class="sr-only">Close</span>
+//                            </button>
+//                            <h4 class="custom-modal-title">' . $this->title . '</h4>
+//                            <div class="custom-modal-text">
+//                            ' . $this->html . '
+//        </div>
+//        </div>';
+        $html .= '<div class="modal fade" id="' . $this->id . '" tabindex="-1" role="dialog" aria-labelledby="' . $this->id . '" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">' . $this->title . '</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                ' . $this->html . '
+                                                </div>
+                                                 
+                                            </div>
+                                        </div>
+                                    </div>
+';
 
 //        $html .= '<script type = "text/javascript">';
 //        $html .= "$(document).ready(function(){ $('#" . $this->id . "').modal('show')";

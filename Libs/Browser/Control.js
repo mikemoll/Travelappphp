@@ -241,7 +241,9 @@ $(document).ready(function (p) {
         $('#chars' + id + '').text(length);
     });
 
-
+    $('body').on('hidden.bs.modal', ".modal", function () {
+        $(this).remove();
+    });
     $("body").on('change', '.btn-file :file', function () {
         var input = $(this),
                 numFiles = input.get(0).files ? input.get(0).files.length : 1,
@@ -262,6 +264,7 @@ $(document).ready(function (p) {
         valor = $(this).val( );
         $('#' + aternativeField).datepicker('update', valor);
     });
+
 
 //    jQuery.extend(jQuery.fn.dataTableExt.oSort, {
 //        "date-br-pre": function (a) {
@@ -535,9 +538,15 @@ function returnRequest(data) {
         } else if (obj.action == 'REMOVE') {
             $('#' + obj.id).remove();
         } else if (obj.action == 'REMOVEWINDOW') {
-            $('#' + obj.id).dialog("close");
+            $('#' + obj.id).modal("hide").data('bs.modal', null);
         } else if (obj.action == 'CLOSEWINDOW') {
             window.close()
+        } else if (obj.action == 'NEWWINDOW') {
+            $('body').append(obj.html);
+            $('#' + obj.id).modal();
+            $(document).on('hidden', '#' + obj.id, function () {
+                $(this).remove();
+            });
         } else if (obj.action == 'CSS') {
             $('#' + obj.id).css(obj.prop, obj.val);
         } else if (obj.action == 'HTML') {
@@ -595,9 +604,6 @@ function returnRequest(data) {
             ajaxRequest($('#' + obj.id), obj.event, obj.params);
         } else if (obj.action == 'SETDATAFORM') {
             setDataForm(obj);
-        } else if (obj.action == 'NEWWINDOW') {
-            $('body').append(obj.html);
-            $('#' + obj.id).modal();
         } else if (obj.action == 'VALIDAFORM') {
             validaForm(obj);
         } else if (obj.action == 'REMOVEATTR') {
@@ -630,7 +636,6 @@ function returnRequest(data) {
 
 
 }
-;
 function sendNotification(theTitle, theBody, theIcon, link, target) {
     // Let's check if the browser supports notifications
     if (!("Notification" in window)) {

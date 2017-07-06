@@ -181,14 +181,14 @@ class Ui_Element_DataTables extends Zend_Form_Element {
 //        Browser_Control::setScript('css', 'DataTables', 'DataTables/datatables.min.css');
 
 
-        Browser_Control::setScript('js', 'jquery.dataTables', '../../site/Public/assets/plugins/dataTables/jquery.dataTables.min.js');
-        Browser_Control::setScript('js', 'dataTables.bootstrap4', '../../site/Public/assets/plugins/dataTables/dataTables.bootstrap4.min.js');
-        Browser_Control::setScript('js', 'dataTables.buttons', '../../site/Public/assets/plugins/dataTables/dataTables.buttons.min.js');
-        Browser_Control::setScript('js', 'buttons.bootstrap4', '../../site/Public/assets/plugins/dataTables/buttons.bootstrap4.min.js');
-        Browser_Control::setScript('js', 'dataTables.responsive', '../../site/Public/assets/plugins/dataTables/dataTables.responsive.min.js');
-        Browser_Control::setScript('js', 'responsive.bootstrap4', '../../site/Public/assets/plugins/dataTables/responsive.bootstrap4.min.js');
-
-        Browser_Control::setScript('css', 'dataTables.bootstrap4', '../../site/Public/assets/plugins/datatables/dataTables.bootstrap4.min.css');
+        Browser_Control::setScript('js', 'jquery.dataTables', '../../site/Public/assets/plugins/datatables/jquery.dataTables.min.js');
+        Browser_Control::setScript('js', 'dataTables.bootstrap4', '../../site/Public/assets/plugins/datatables/dataTables.bootstrap4.min.js');
+        Browser_Control::setScript('js', 'dataTables.buttons', '../../site/Public/assets/plugins/datatables/dataTables.buttons.min.js');
+        Browser_Control::setScript('js', 'buttons.bootstrap4', '../../site/Public/assets/plugins/datatables/buttons.bootstrap4.min.js');
+        Browser_Control::setScript('js', 'dataTables.responsive', '../../site/Public/assets/plugins/datatables/dataTables.responsive.min.js');
+        Browser_Control::setScript('js', 'responsive.bootstrap4', '../../site/Public/assets/plugins/datatables/responsive.bootstrap4.min.js');
+        
+        Browser_Control::setScript('css', 'dataTables.bootstrap4', '../../site/Public/assets/plugins/datatables/datatables.bootstrap4.min.css');
         Browser_Control::setScript('css', 'buttons.bootstrap4', '../../site/Public/assets/plugins/datatables/buttons.bootstrap4.min.css');
         Browser_Control::setScript('css', 'responsive.bootstrap4', '../../site/Public/assets/plugins/datatables/responsive.bootstrap4.min.css');
     }
@@ -514,31 +514,31 @@ class Ui_Element_DataTables extends Zend_Form_Element {
                 info: false,
             ";
         }
-        $options .= '
-            "language": {
-                "sEmptyTable": "Nenhum registro encontrado",
-    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
-    "sInfoPostFix": "",
-    "sInfoThousands": ".",
-    "sLengthMenu": "_MENU_ resultados por página",
-    "sLoadingRecords": "Carregando...",
-    "sProcessing": "Processando...",
-    "sZeroRecords": "Nenhum registro encontrado",
-    "sSearch": "Pesquisar",
-    "oPaginate": {
-        "sNext": "Próximo",
-        "sPrevious": "Anterior",
-        "sFirst": "Primeiro",
-        "sLast": "Último"
-    },
-    "oAria": {
-        "sSortAscending": ": Ordenar colunas de forma ascendente",
-        "sSortDescending": ": Ordenar colunas de forma descendente"
-    }
-            }
-        ';
+//        $options .= '
+//            "language": {
+//                "sEmptyTable": "Nenhum registro encontrado",
+//                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+//                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+//                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+//                "sInfoPostFix": "",
+//                "sInfoThousands": ".",
+//                "sLengthMenu": "_MENU_ resultados por página",
+//                "sLoadingRecords": "Carregando...",
+//                "sProcessing": "Processando...",
+//                "sZeroRecords": "Nenhum registro encontrado",
+//                "sSearch": "Pesquisar",
+//                "oPaginate": {
+//                    "sNext": "Próximo",
+//                    "sPrevious": "Anterior",
+//                    "sFirst": "Primeiro",
+//                    "sLast": "Último"
+//                },
+//                "oAria": {
+//                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+//                    "sSortDescending": ": Ordenar colunas de forma descendente"
+//                }
+//            }
+//        ';
         $options .= ' }';
         return $options;
     }

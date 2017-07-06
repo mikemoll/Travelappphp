@@ -381,7 +381,7 @@ class Browser_Control {
         $scripts = '';
         $js = Zend_Registry::get('js');
         foreach ($js as $val) {
-            $scripts .= '<script type="text/javascript" src="' . $val . '"></script>';
+            $scripts .= '<script type="text/javascript" src="' . $val . '"></script>' . "\n";
         }
         return $scripts;
     }
@@ -393,7 +393,7 @@ class Browser_Control {
         $scripts = '';
         $css = Zend_Registry::get('css');
         foreach ($css as $val) {
-            $scripts .= '<link rel="stylesheet" href="' . $val . '">';
+            $scripts .= '<link rel="stylesheet" href="' . $val . '">' . "\n";
         }
         return $scripts;
     }
