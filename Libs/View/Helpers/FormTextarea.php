@@ -101,7 +101,7 @@ class Zend_View_Helper_FormTextarea extends Zend_View_Helper_FormElement {
 
             $xhtml .= '<label>' . $label . '</label>';
         }
-        $xhtml .= '<textarea'
+        $xhtml .= '<textarea style="height:auto;" '
                 . ' name="' . $this->view->escape($name) . '"'
                 . ' id="' . $this->view->escape($name) . '"'
 //                . ' value="' . $this->view->escape($value) . '"'

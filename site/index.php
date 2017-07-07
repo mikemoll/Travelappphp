@@ -50,6 +50,9 @@ $bar = $operatingSystem == 'WINDOWS' ? '\\' : '/';
 $pathSeparator = $operatingSystem == 'WINDOWS' ? ';' : ':';
 $documentRoot = $operatingSystem == 'WINDOWS' ? str_replace('/', '\\', $_SERVER['DOCUMENT_ROOT']) : $_SERVER['DOCUMENT_ROOT'];
 
+/**
+ * EX: RAIZ_DIRETORY =  "var/www/". BASE;
+ */
 define('RAIZ_DIRETORY', $documentRoot . $bar . (BASE != '' ? BASE . $bar : ''));
 $applicationName = basename(getcwd()) . $bar;
 if ($operatingSystem == 'WINDOWS') {

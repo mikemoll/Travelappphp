@@ -73,6 +73,9 @@ class IndexController extends AbstractController {
         $menu2 = new Ui_Element_MenuItem('Proccess', 'Proccess', HTTP_REFERER . 'processo', '', '');
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $menu->addSubMenu($menu2);
+        $menu2 = new Ui_Element_MenuItem('DatabaseUptates', 'Database Uptates', HTTP_REFERER . 'dbupdate', '', 'database');
+//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
+        $menu->addSubMenu($menu2);
 
 
 
