@@ -60,6 +60,10 @@ class DbupdateController extends AbstractController {
         $column->setWidth('2');
         $grid->addColumn($column);
 
+        $column = new Ui_Element_DataTables_Column_Text('Is New', 'isnew');
+        $column->setWidth('1');
+        $grid->addColumn($column);
+
 
 
         $form->addElement($grid);
@@ -94,6 +98,8 @@ class DbupdateController extends AbstractController {
         $post = Zend_Registry::get('post');
 
         $obj = new $this->Model();
+
+        $obj->read(1);
         $flist = $obj->getFileList();
 //        print'<pre>';die(print_r( $flist ));
         Grid_ControlDataTables::setDataGrid($flist, false, '');
@@ -109,6 +115,9 @@ class DbupdateController extends AbstractController {
         $db = Zend_Db_Table::getDefaultAdapter();
         $sql = $homepage;
         $db->query($sql);
+
+        $obj->setUpdatedOn($obj->filetime);
+        $obj->save();
 
         $br->setAlert('Run Result', "It's all Good!");
         $br->send();
@@ -198,7 +207,7 @@ class DbupdateController extends AbstractController {
 
 
         try {
-            $lObj->save();
+            $lObj->createFile();
         } catch (Exception $exc) {
             $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
             $br->send();
@@ -208,7 +217,6 @@ class DbupdateController extends AbstractController {
         $br->setMsgAlert('Saved!', $msg);
         $br->setRemoveWindow($this->IdWindowEdit);
         $br->setUpdateDataTables($this->IdGrid);
-
         $br->send();
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Modelo da classe Config
  * @filesource
@@ -9,14 +10,14 @@
  * @version		1.0
  */
 class Config extends Db_Table {
-	protected $_name = 'config';
-	public $_primary = 'id_config';
-	protected $_log_text = 'Configuração';
 
-	public function setDataFromRequest($post) {
+    protected $_name = 'config';
+    public $_primary = 'id_config';
+    protected $_log_text = 'Configuração';
 
-		$this->setDescricao($post->descricao);
-		$this->setTrocaSenhaTempo($post->trocasenhatempo);
+    public function setDataFromRequest($post) {
+        $this->setDescricao($post->descricao);
+        $this->setTrocaSenhaTempo($post->trocasenhatempo);
+    }
 
-	}
 }
