@@ -156,7 +156,7 @@ class ProcessoController extends AbstractController {
         $w->setDimension('600', '400');
         $w->setCloseOnEscape(true);
         $br = new Browser_Control();
-        $br->newWindow($w, 'EditProcessos');
+        $br->newWindow($w);
         $br->send();
     }
 

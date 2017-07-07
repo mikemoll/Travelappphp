@@ -43,7 +43,7 @@ class IndexController extends AbstractController {
         $mainMenu->addMenuItem($menuItem);
 
 
-        $menu = new Ui_Element_MenuItem('trips', 'Trips', HTTP_REFERER . 'trips', '', 'airplane');
+        $menu = new Ui_Element_MenuItem('trips', 'Trips', HTTP_REFERER . 'trips', '');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 
@@ -55,9 +55,24 @@ class IndexController extends AbstractController {
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 //
-//        $menu2 = new Ui_Element_MenuItem('events', 'Events', HTTP_REFERER . 'events', '', 'calendar');
+//        $menu2 = new Ui_Element_MenuItem('events', 'Events2', HTTP_REFERER . 'events', '', 'calendar');
 ////        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
 //        $menu->addSubMenu($menu2);
+
+        $menu = new Ui_Element_MenuItem('adm', 'Administration', HTTP_REFERER . 'events', '', 'settings');
+//        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
+        $mainMenu->addMenuItem($menu);
+//
+        $menu2 = new Ui_Element_MenuItem('Users', 'Users', HTTP_REFERER . 'usuario/users', '', 'calendar');
+//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
+        $menu->addSubMenu($menu2);
+//
+        $menu2 = new Ui_Element_MenuItem('groups', 'Groups of Users', HTTP_REFERER . 'usuario/grupos', '', 'calendar');
+//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
+        $menu->addSubMenu($menu2);
+        $menu2 = new Ui_Element_MenuItem('Proccess', 'Proccess', HTTP_REFERER . 'processo', '', 'calendar');
+//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
+        $menu->addSubMenu($menu2);
 
 
 

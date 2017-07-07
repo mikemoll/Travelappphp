@@ -15,14 +15,18 @@ class LoginController extends AbstractController {
 
     public function init() {
 //        parent::init();
-        Browser_Control::setScript('css', 'Login', 'Login/Login.css');
-        $script = Zend_Registry::get('js');
-        Zend_Registry::set('js', $script);
-        Browser_Control::setScript('js', 'md5', 'md5.js');
-        unset($script['BorwserControl']);
-        Browser_Control::setScript('js', 'jquery', '../../site/Public/assets/js/jquery.min.js');
-        Browser_Control::setScript('js', 'BorwserControl', '../Browser/Control.js');
+//        Browser_Control::setScript('css', 'Login', 'assets/plugins/pace/pace-theme-flash.css');
+//    Browser_Control::setScript('css', 'Login', 'assets/plugins/bootstrapv3/css/bootstrap.min.css');
+//    Browser_Control::setScript('css', 'Login', 'assets/plugins/font-awesome/css/font-awesome.css');
+//    Browser_Control::setScript('css', 'Login', 'assets/plugins/jquery-scrollbar/jquery.scrollbar.css', "screen");
+//    Browser_Control::setScript('css', 'Login', 'assets/plugins/select2/css/select2.min.css', "screen");
+//    Browser_Control::setScript('css', 'Login', 'assets/plugins/switchery/css/switchery.min.css', "screen");
+//    Browser_Control::setScript('css', 'Login', 'pages/css/pages-icons.css', "screen");
+//    ;
 
+
+        Browser_Control::setScript('js', 'md5', 'md5.js');
+        Browser_Control::setScript('js', 'BorwserControl', '../Browser/Control.js');
     }
 
     public function indexAction() {
@@ -70,34 +74,25 @@ class LoginController extends AbstractController {
         $form->addElement($element);
 
         $button = new Ui_Element_Btn('btnLogin');
-        $button->setDisplay('Login');
+        $button->setDisplay('Sign In');
         $button->setAttrib('sendFormFields', '1');
-        $button->setAttrib('class', 'btn btn-md btn-success btn-block');
+        $button->setAttrib('class', 'btn btn-primary btn-cons m-t-10');
         $form->addElement($button);
 
         $button = new Ui_Element_Btn('btnEsqueci');
         $button->setDisplay('Forgot My Pass');
         $button->setAttrib('sendFormFields', '1');
-        $button->setAttrib('class', '');
+        $button->setAttrib('class', 'btn btn-info btn-cons m-t-10');
         $form->addElement($button);
 
         $form->setDataSession('formLogin');
 
         $view = Zend_Registry::get('view');
-//		$w = new Ui_Window('login', 'Login', $form->displayTpl($view, 'Login/index.tpl'));
-//		$w->setDimension('390', '240');
-//		$w->setCloseOnEscape('false');
-//		$w->setNotDraggable();
 
-        $view->assign('scripts', Browser_Control::getScripts());
-         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'Login');
-//		$view->assign('body', $w->render());
-//		$view->assign('body', $form->displayTpl($view, 'Login/index.tpl'));
         $html = $form->displayTpl($view, 'Login/form.tpl');
-//        die($html);
-//                print'<pre>';die(print_r( $view ));
         $view->assign('body', $html);
         $view->output('Login/index.tpl');
 //		$view->output('index.tpl');
@@ -137,7 +132,7 @@ class LoginController extends AbstractController {
             $config->read(1);
             if ($config->getTrocaSenhaTempo() == cTRUE && $config->getTempoTrocaSenha() <= $tempo) {
                 $url = BASE_URL . 'login/trocasenha/id/' . $user->getID() . '/m/outdated';
-                Log::createLogFile('O usuário ' . $user->getNomeCompleto() . ' Foi enviado para a Troca de Senha por tempo sem trocá-la');
+                Log::createLogFile('O usuario ' . $user->getNomeCompleto() . ' Foi enviado para a Troca de Senha por tempo sem trocá-la');
             } else {
                 if ($post->next != '') {
                     $url = base64_decode($post->next);
@@ -152,16 +147,16 @@ class LoginController extends AbstractController {
             $session->usuario = $user;
             Zend_Registry::set('session', $session);
 
-            $br->setHtml('msg', 'Olá <strong>' . $user->getNomeCompleto() . '</strong>! <br>Seja bem-vindo!');
-            $br->setClass('msg', 'alert alert-success');
-            $br->setCommand('$("#loginbox").animate({
-                opacity: 0,
-                top: "-=50"
-                        // height: "toggle"
-            }, 400, function () {
-                window.location = "' . $url . '" ;
-            });');
-//            $br->setBrowserUrl($url);
+//            $br->setHtml('msg', 'Olá <strong>' . $user->getNomeCompleto() . '</strong>! <br>Seja bem-vindo!');
+//            $br->setClass('msg', 'alert alert-success');
+//            $br->setCommand('$("#loginbox").animate({
+//                opacity: 0,
+//                top: "-=50"
+//                        // height: "toggle"
+//            }, 400, function () {
+//                window.location = "' . $url . '" ;
+//            });');
+            $br->setBrowserUrl($url);
             $limpaSession = true;
         } else {
             $br->addFieldValue('senha', '');
@@ -279,7 +274,7 @@ class LoginController extends AbstractController {
 //		$w->setNotDraggable();
 
         $view->assign('scripts', Browser_Control::getScripts());
-         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('titulo', 'Alterar senha');
         $view->assign('msg', $msg);

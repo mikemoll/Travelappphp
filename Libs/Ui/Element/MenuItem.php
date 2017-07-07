@@ -63,19 +63,30 @@ class Ui_Element_MenuItem {
                     $subMenus .= $subMenu->render($level);
                 }
 
-                $menu .= '<li class="has_sub">';
+                $menu .= '<li class="">';
                 if ($subMenus != '') {
-                    $flecha = '<span class="menu-arrow"></span>';
+                    $flecha = '<span class="arrow"></span>';
                 }
                 if ($this->badge != '') {
-                    $badge .= "<span class='label label-pill label-primary float-right'>$this->badge </span>";
+                    $details .= " <span class='details'>$this->badge</span>";
                 }
+                //== img ==
                 if ($this->img) {
-                    $img = '<i class="zmdi zmdi-' . $this->img . ' "></i> ';
+                    $img = '<i class="pg-' . $this->img . '"></i>';
+                } else {
+                    $img = substr($this->title, 0, 1);
                 }
-                $menu .= '    <a href="#" class="waves-effect subdrop"> ' . $badge . $img . '<span>' . $this->title . '</span>' . $flecha . '</a>';
-
-
+                $img = '<span class="icon-thumbnail">' . $img . '</span>  ';
+                //== /img ==
+                //              <li>
+//                 <a href="javascript:;">
+//                 <span class="title">Calendar</span>
+//                            <span class=" arrow"></span></a>
+//                        <span class="icon-thumbnail"><i class="pg-calender"></i></span>
+//                        <ul class="sub-menu">
+//                            <li class="">
+                $menu .= '    <a href="javascript:;" ><span class="title">' . $this->title . '</span>' . $flecha . '</a>';
+                $menu .= $img;
 
                 if ($subMenus != '') {
                     if ($level == 2) {
@@ -85,25 +96,35 @@ class Ui_Element_MenuItem {
                     } elseif ($level == 4) {
                         $levelTxt = "fourth";
                     }
-                    $menu .= '  <ul class="list-unstyled nav-' . $levelTxt . '-level">';
+                    $menu .= '  <ul class="sub-menu nav-' . $levelTxt . '-level">';
                     $menu .= $subMenus;
                     $menu .= '</ul> ';
                 }
                 $menu .= ' </li>';
             } else {
                 if ($this->link != '#' || $this->url != '') {
+                    if ($this->img) {
+                        $img = '<i class="pg-' . $this->img . '"></i>';
+                    } else {
+                        $img = substr($this->title, 0, 1);
+                    }
+                    $img = '<span class="icon-thumbnail">' . $img . '</span>  ';
                     if ($level == 1) {
-
-                        $menu .= '<li class="has_sub" > ';
-                        $menu .= '<a class="waves-effect" name="' . $this->id . '"  href="' . $this->link . '">';
+                        if ($this->badge != '') {
+                            $details = " <span class='details'>$this->badge</span>";
+                        }
+                        $menu .= '<li class="">';
+                        $menu .= ' <a href="' . $this->link . '" ' . ($details != '' ? 'class="detailed"' : '') . '>
+                             <span class="title">' . $this->title . '</span>
+                             ' . $details . '
+                         </a>' . $img . '';
                     } else {
                         $menu .= '<li > ';
-                        $menu .= '<a   name="' . $this->id . '"  href="' . $this->link . '">';
+                        $menu .= '<a   name="' . $this->id . '"  href="' . $this->link . '">' . $this->title;
+                        $menu .= '</a>';
+                        $menu .= $img;
                     }
-                    if ($this->img) {
-                        $menu .= '<i class="zmdi zmdi-' . $this->img . ' "></i> ';
-                    }
-                    $menu .= $this->title . '</a>';
+
                     $menu .= '</li> ';
                 }
             }

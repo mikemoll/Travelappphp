@@ -181,16 +181,17 @@ class Ui_Element_DataTables extends Zend_Form_Element {
 //        Browser_Control::setScript('css', 'DataTables', 'DataTables/datatables.min.css');
 
 
-        Browser_Control::setScript('js', 'jquery.dataTables', '../../site/Public/assets/plugins/datatables/jquery.dataTables.min.js');
-        Browser_Control::setScript('js', 'dataTables.bootstrap4', '../../site/Public/assets/plugins/datatables/dataTables.bootstrap4.min.js');
-        Browser_Control::setScript('js', 'dataTables.buttons', '../../site/Public/assets/plugins/datatables/dataTables.buttons.min.js');
-        Browser_Control::setScript('js', 'buttons.bootstrap4', '../../site/Public/assets/plugins/datatables/buttons.bootstrap4.min.js');
-        Browser_Control::setScript('js', 'dataTables.responsive', '../../site/Public/assets/plugins/datatables/dataTables.responsive.min.js');
-        Browser_Control::setScript('js', 'responsive.bootstrap4', '../../site/Public/assets/plugins/datatables/responsive.bootstrap4.min.js');
-        
-        Browser_Control::setScript('css', 'dataTables.bootstrap4', '../../site/Public/assets/plugins/datatables/datatables.bootstrap4.min.css');
-        Browser_Control::setScript('css', 'buttons.bootstrap4', '../../site/Public/assets/plugins/datatables/buttons.bootstrap4.min.css');
-        Browser_Control::setScript('css', 'responsive.bootstrap4', '../../site/Public/assets/plugins/datatables/responsive.bootstrap4.min.css');
+        Browser_Control::setScript('js', 'jquery.dataTables', '../../site/Public/assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js');
+        Browser_Control::setScript('js', 'dataTables.tableTools', '../../site/Public/assets/plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js');
+        Browser_Control::setScript('js', 'dataTables.bootstrap', '../../site/Public/assets/plugins/jquery-datatable/media/js/dataTables.bootstrap.js');
+        Browser_Control::setScript('js', 'jquery-datatable-bootstrap', '../../site/Public/assets/plugins/jquery-datatable/extensions/Bootstrap/jquery-datatable-bootstrap.js');
+        Browser_Control::setScript('js', 'datatables.responsive', '../../site/Public/assets/plugins/datatables-responsive/js/datatables.responsive.js');
+        Browser_Control::setScript('js', 'lodash', '../../site/Public/assets/plugins/datatables-responsive/js/lodash.min.js"');
+
+
+        Browser_Control::setScript('css', 'dataTables.bootstrap', '../../site/Public/assets/plugins/jquery-datatable/media/css/dataTables.bootstrap.min.css');
+        Browser_Control::setScript('css', 'dataTables.fixedColumns', '../../site/Public/assets/plugins/jquery-datatable/extensions/FixedColumns/css/dataTables.fixedColumns.min.css');
+        Browser_Control::setScript('css', 'dataTables.responsive', '../../site/Public/assets/plugins/datatables-responsive/css/datatables.responsive.css');
     }
 
     public function setTemplateID($val) {

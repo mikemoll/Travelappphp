@@ -587,7 +587,7 @@ class UsuarioController extends AbstractController {
         $user->save();
 
         $br = new Browser_Control();
-        $br->setRemove('EditUsers');
+        $br->setRemoveWindow('EditUsers');
         $br->setUpdateDataTables('gridUsers');
         $br->send();
     }

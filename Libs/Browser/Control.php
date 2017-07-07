@@ -285,20 +285,15 @@ class Browser_Control {
     }
 
     /**
-     * Cria uma Janela
+     * Cria uma Modal
      *
-     * @param $id
-     * @param $title
-     * @param $width
-     * @param $height
-     * @param $html [Optional]
-     * @param $src [Optional]
+     * @param $obj
      */
-    public function newWindow($obj, $id) {
+    public function newWindow($obj) {
         if (!is_object($obj)) {
             throw new Zend_Exception('O valor passado para a função não e um objeto');
         }
-        $this->addAction(array('action' => 'NEWWINDOW', 'html' => $obj->render(), 'id' => $id));
+        $this->addAction(array('action' => 'NEWWINDOW', 'html' => $obj->render(), 'id' => $obj->getID()));
     }
 
     /**

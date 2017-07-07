@@ -17,6 +17,7 @@ class Ui_Element_TextMask extends Zend_Form_Element_Text {
     public function __construct($id, $label = '') {
         parent::__construct($id, '');
 
+        Browser_Control::setScript('js', 'Mask', 'Mask/Mask.js');
         $this->label = $label;
     }
 

@@ -16,58 +16,20 @@ class AbstractController extends Zend_Controller_Action {
 
     public function init() {
         parent::init();
-        $view = Zend_Registry::get('view');
         $post = Zend_Registry::get('post');
 
-// ==========================================================
-//        Browser_Control::setScript('js', 'Jquery2', 'jquery.js');
-//        Browser_Control::setScript('js', 'jquery', '../../site/Public/assets/js/jquery.min.js');
-//        // jQuery  -->
-        Browser_Control::setScript('js', 'tether', "../../site/Public/assets/js/tether.min.js"); // Tether for Bootstrap -->
-        Browser_Control::setScript('js', 'bootstrap', "../../site/Public/assets/js/bootstrap.min.js");
-        Browser_Control::setScript('js', 'detect', "../../site/Public/assets/js/detect.js");
-        Browser_Control::setScript('js', 'fastclick', "../../site/Public/assets/js/fastclick.js");
-        Browser_Control::setScript('js', 'jquery.blockUI', "../../site/Public/assets/js/jquery.blockUI.js");
-        Browser_Control::setScript('js', 'waves', "../../site/Public/assets/js/waves.js");
-        Browser_Control::setScript('js', 'jquery.nicescroll', "../../site/Public/assets/js/jquery.nicescroll.js");
-        Browser_Control::setScript('js', 'jquery.scrollTo', "../../site/Public/assets/js/jquery.scrollTo.min.js");
-        Browser_Control::setScript('js', 'jquery.slimscroll', "../../site/Public/assets/js/jquery.slimscroll.js");
-        Browser_Control::setScript('js', 'switchery', "../../site/Public/assets/plugins/switchery/switchery.min.js");
-//
-//
-//        //Morris Chart-->
-        Browser_Control::setScript('js', 'morris', "../../site/Public/assets/plugins/morris/morris.min.js");
-        Browser_Control::setScript('js', 'raphael', "../../site/Public/assets/plugins/raphael/raphael-min.js");
-//
-//        // Counter Up  -->
-        Browser_Control::setScript('js', 'jquery.waypoints', "../../site/Public/assets/plugins/waypoints/lib/jquery.waypoints.js");
-        Browser_Control::setScript('js', 'jquery.counterup', "../../site/Public/assets/plugins/counterup/jquery.counterup.min.js");
-
-//        Modal
-//        Browser_Control::setScript('js', 'custombox', "../../site/Public/assets/plugins/custombox/js/custombox.min.js");
-//        Browser_Control::setScript('js', 'legacy', "../../site/Public/assets/plugins/custombox/js/legacy.min.js");
-//        Browser_Control::setScript('css', 'custombox', '../../site/Public/assets/plugins/custombox/css/custombox.min.css');
-        
-//        // App js -->
-        Browser_Control::setScript('js', 'jquery.core', "../../site/Public/assets/js/jquery.core.js");
-        Browser_Control::setScript('js', 'jquery.app', "../../site/Public/assets/js/jquery.app.js");
-
-//        Browser_Control::setScript('js', 'jquery.dashboard', "../../site/Public/assets/pages/jquery.dashboard.js");
-
-        
-
-
-        
-        // Framework js
-        Browser_Control::setScript('js', 'BorwserControl', '../Browser/Control.js');
-        // Framework Ui
-        Browser_Control::setScript('js', 'Tabs', 'Ui/Ui.js');
-        Browser_Control::setScript('css', 'Tabs', 'Ui/Ui.css');
-        Browser_Control::setScript('css', 'Padrao', '../../site/Public/Css/Padrao.css');
-// ==========================================================
-        $view->assign('nomeUsuario', Session_Control::getPropertyUserLogado('nomecompleto'));
-// ==========================================================
         if (!$post->ajax) {
+            // ----- It just get inside this if, if this is not an ajax request ---
+            $view = Zend_Registry::get('view');
+            // ==========================================================
+            // Framework js
+            Browser_Control::setScript('js', 'BorwserControl', '../Browser/Control.js');
+            // Framework Ui
+//        Browser_Control::setScript('js', 'Tabs', 'Ui/Ui.js');
+//        Browser_Control::setScript('css', 'Tabs', 'Ui/Ui.css');
+//        Browser_Control::setScript('css', 'Padrao', '../../site/Public/Css/Padrao.css');
+            // ==========================================================
+
             include_once './Application/Controllers/IndexController.php';
             $view->assign('menu', IndexController::getMenu());
             $view->assign('NomeSistema', cNOME_SISTEMA);

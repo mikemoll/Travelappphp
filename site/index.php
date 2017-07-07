@@ -27,7 +27,7 @@ switch ($_SERVER['HTTP_HOST']) {
 //        error_reporting(0);
         error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED | E_STRICT);
         $dbconfig = 'local';
-        define('BASE', "travelappphp"); // BASE the path to the site's root folder (Ex.: na locaweb e o "public_htm", mas o caminho fica sem o "public_html")
+        define('BASE', "traveltrack"); // BASE the path to the site's root folder (Ex.: na locaweb e o "public_htm", mas o caminho fica sem o "public_html")
         break;
 
     case '4coffee.com.br': // Production

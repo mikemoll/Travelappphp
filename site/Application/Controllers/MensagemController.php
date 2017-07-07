@@ -6,7 +6,6 @@ class MensagemController extends AbstractController {
 
     public function init() {
         parent::init();
-        Browser_Control::setScript('js', 'Mask', 'Mask/Mask.js');
         $this->IdGrid = 'gridMensagem';
         $this->FormName = 'formMensagem';
         $this->Action = 'Mensagem';

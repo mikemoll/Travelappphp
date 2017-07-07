@@ -1,35 +1,40 @@
-{literal}
-    <script>
-        $(document).ready(function () {
-            $("#loginbox").css('top', '-200');
-            $("#loginbox").animate({
-                opacity: 1,
-                top: "+=50"
-                        // height: "toggle"
-            }, 400, function () {
-                // Animation complete.
-            });
-        });
-    </script>
-{/literal}
-{*            <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    *}
-<div id="loginbox" style="opacity: 0; " class=" col-md-12 col-sm-12">
-    <div class="panel panel-info" >
-        <div style="" class="panel-body" >
-            {*            <div class="panel-title">Olá</div>*}
-            {*            <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">esqueci minha senha</a></div>*}
+<!-- START Login Form -->
+<!-- START Form Control-->
 
-            <div style="padding-top:10px"  >
-                <div id="msg" class="hide" role="alert">
-                </div>
-                {$user}
-                {$senha}
-                {$remember}
-                {$btnLogin}
-            </div>
-        </div>                     
-        {* <div class="text-right" style="padding: 5px wi">
-        {$btnEsqueci}
-        </div>*}
-    </div>  
+<div class="form-group form-group-default">
+
+    <label>Login</label>
+    <div class="controls">
+        {*            <input type="text" name="username" placeholder="User Name" class="form-control" required>*}
+        {$user}
+    </div>
 </div>
+
+<!-- END Form Control-->
+<!-- START Form Control-->
+<div class="form-group form-group-default">
+    <label>Password</label>
+    <div class="controls">
+        {*            <input type="password" class="form-control" name="password" placeholder="Credentials" required>*}
+        {$senha}
+    </div>
+</div>
+
+
+<!-- START Form Control-->
+<div class="row">
+    <div class="col-md-6 no-padding">
+        <div class="checkbox ">
+            <input type="checkbox" value="1" id="checkbox1">
+            <label for="checkbox1">Keep Me Signed in</label>
+        </div>
+    </div>
+    <div class="col-md-6 text-right">
+        <a href="#" class="text-info small">Help? Contact Support</a>
+    </div>
+</div>
+<!-- END Form Control-->
+{*<button class="btn btn-primary btn-cons m-t-10" type="submit">Sign in</button>*}
+{$btnLogin}
+{$btnEsqueci}
+<!--END Login Form-->

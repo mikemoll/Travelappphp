@@ -35,6 +35,10 @@ class Ui_Window {
         $this->resizable = 'false';
     }
 
+    public function getID() {
+        return $this->id;
+    }
+
     /**
      * Configura o tamanho da janela
      *
