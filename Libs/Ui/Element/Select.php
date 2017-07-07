@@ -10,6 +10,7 @@ class Ui_Element_Select extends Zend_Form_Element_Select {
     public function __construct($id, $label = '') {
         parent::__construct($id, '');
 
+        $this->addClass('full-width');
         $this->label = $label;
     }
 
