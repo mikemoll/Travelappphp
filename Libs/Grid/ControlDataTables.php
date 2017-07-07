@@ -45,41 +45,51 @@ class Grid_ControlDataTables {
             if ($filtro != '') {
                 //executa a filtragem dos itens caso o grid tenha um filtro
                 eval('$cond = $row->$get() ' . $oper . ' ' . $val . '? true : false;');
-            }
-            if (!$row->deleted() and $cond) {
-
-                $item = array();
-
-                if ($id != '') {
-                    if (is_string($id)) {
-                        $nome = 'get' . $id;
-                        $oid = $row->$nome();
-                    } else {
-                        $oid = $row->getID();
-                    }
-                } else {
-                    $oid = $key;
+                if (!$cond) {
+                    continue;
                 }
+            }
+            if (is_object($row)) {
+                if ($row->deleted()) {
+                    continue;
+                }
+            }
 
-                foreach ($colunas as $col) {
-                    $nomeColuna = $col->getName();
-                    if (trim($nomeColuna) != '') {
+            $item = array();
+
+            if ($id != '') {
+                if (is_string($id)) {
+                    $nome = 'get' . $id;
+                    $oid = $row->$nome();
+                } else {
+                    $oid = $row->getID();
+                }
+            } else {
+                $oid = $key;
+            }
+
+            foreach ($colunas as $col) {
+                $nomeColuna = $col->getName();
+                if (trim($nomeColuna) != '') {
+                    if (is_object($row)) {
                         $item[] = $col->render($oid, $row);
                     } else {
-                        $item[] = "''";
+                        $item[] = $row[$nomeColuna];
                     }
+                } else {
+                    $item[] = "''";
                 }
-
-                if (count($buttons) > 0) {
-                    $colButton = "<div class='btn-group btn-group-sm  btn-group-justified' style='width:" . (count($buttons) * 32) . "px'>";
-                    foreach ($buttons as $button) {
-                        $colButton .= $button->render($oid);
-                    }
-                    $colButton .=' </div> ';
-                    $item[] = $colButton;
-                }
-                $itemLst['data'][] = $item;
             }
+
+            if (count($buttons) > 0) {
+                $colButton = "<div class='btn-group btn-group-sm  btn-group-justified' style='width:" . (count($buttons) * 32) . "px'>";
+                foreach ($buttons as $button) {
+                    $colButton .= $button->render($oid);
+                }
+                $colButton .=' </div> ';
+                $item[] = $colButton;
+            }
+            $itemLst['data'][] = $item;
         }
 //        print'<pre>';
 //        die(print_r($itemLst));
@@ -113,6 +123,10 @@ class Grid_ControlDataTables {
             $obj = new $model;
             if (!$colocaOID)
                 $id = $obj->getPrimaryName();
+        }else {
+
+            // if it enters here is because $model is an array;
+            $obj = $model;
         }
 //        if ($obj->countItens() == 0) {
 //            $post->page = 1;
