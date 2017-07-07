@@ -64,21 +64,41 @@ function setConfirm(title, text, w, h, obj, event) {
 }
 
 function setAlert(title, text, w, h) {
-    $('#alert').html(text);
-    $('#alert').dialog({
-        title: title,
-        resizable: false,
-        modal: true,
-        height: h,
-        width: w,
-        position: 'center',
-        buttons: {
-            Ok: function () {
-                $(this).dialog('close');
-                return false;
-            }
-        }
-    });
+
+    html = '<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alert" aria-hidden="true">' +
+            '<div class="modal-dialog" role="document">' +
+            '<div class="modal-content">' +
+            '   <div class="modal-header">' +
+            '      <h5 class="modal-title" id="exampleModalLabel">' + title + '</h5>' +
+            '     <button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+            '        <span aria-hidden="true">&times;</span>' +
+            '   </button>' +
+            '    </div>' +
+            '   <div class="modal-body">' +
+            '  ' +
+                text +
+            ' </div>' +
+            ' </div>' +
+            '</div>' +
+            '</div>';
+    if ($('#alertModal').length == 0) {
+        $("body").append(html);
+    }
+    $('#alertModal').modal();
+//    $('#alert').dialog({
+//        title: title,
+//        resizable: false,
+//        modal: true,
+//        height: h,
+//        width: w,
+//        position: 'center',
+//        buttons: {
+//            Ok: function () {
+//                $(this).dialog('close');
+//                return false;
+//            }
+//        }
+//    });
 }
 
 function addToolTip(obj) {
