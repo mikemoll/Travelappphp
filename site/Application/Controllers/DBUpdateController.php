@@ -193,7 +193,7 @@ class DbupdateController extends AbstractController {
 
         //if it's not set, is because it's a new file!
         if (!isset($post->id)) {
-            $lObj->filename .= '-' . date('Y-m-d') . '.sql';
+            $lObj->filename .= '-' . date('Y-m-d-H\h i\m') . '.sql';
         }
 
 

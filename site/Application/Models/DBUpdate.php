@@ -24,7 +24,7 @@ class DBUpdate {
             $item['filename'] = $value;
             $content = file_get_contents($this->sqlFolder . "/$value");
             $item['content'] = $content;
-            $item['date'] = date('d/m/Y', filemtime($this->sqlFolder . '/' . $value));
+            $item['date'] = date('d/m/Y H:i:s', filemtime($this->sqlFolder . '/' . $value));
             $ret[] = $item;
         }
 
