@@ -65,9 +65,9 @@ class Zend_View_Helper_FormText extends Zend_View_Helper_FormElement {
             $endTag = '>';
         }
         if ($label != '') {
-            $xhtml = '<div class="form-group">';
+            $xhtml = '<div class="form-group  form-group-default ">';
 
-            $xhtml .='<span class="control-label">' . $label . '</span>';
+            $xhtml .= '<label>' . $label . '</label>';
         }
         $xhtml .= '<input '
                 . ' name="' . $this->view->escape($name) . '"'

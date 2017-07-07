@@ -54,17 +54,17 @@ class Zend_View_Helper_FormDate extends Zend_View_Helper_FormElement {
             // se mostrar o calendario a direita, tem que colocar padding-rigth, senão o texto fica junto com o calendario
             $paddingRigth = 'padding-right: 25px;';
         }
-        $xhtml .= '<input type="text"  class="form-control" style="' . $paddingRigth . '"'
+        $xhtml .= '<input type="text"  style="' . $paddingRigth . '"'
                 . ' name="' . $this->view->escape($name) . '"'
                 . ' id="' . $this->view->escape($id) . '"'
                 . ' value="' . $this->view->escape($value) . '"'
-                . ' data-mask="' . $mask . '"'
-                . ' data-date-format="' . $dateFormat . '"'
-                . ' data-date-autoclose="true"'
-                . ' data-date-today-highlight="true"'
-                . ' data-date-toggle-active="true"'
-                . ' data-date-language="pt-BR" '
-                . ' data-date-disable-touch-keyboard="true" '
+//                . ' data-mask="' . $mask . '"'
+//                . ' data-date-format="' . $dateFormat . '"'
+//                . ' data-date-autoclose="true"'
+//                . ' data-date-today-highlight="true"'
+//                . ' data-date-toggle-active="true"'
+//                . ' data-date-language="pt-BR" '
+//                . ' data-date-disable-touch-keyboard="true" '
                 . $this->_htmlAttribs($attribs)
                 . $endTag;
 

@@ -97,9 +97,9 @@ class Zend_View_Helper_FormTextarea extends Zend_View_Helper_FormElement {
 
         // XHTML or HTML end tag?
         if ($label != '') {
-            $xhtml .= '<div class="form-group">';
+            $xhtml .= '<div class="form-group  form-group-default">';
 
-            $xhtml .='<span class="control-label">' . $label . '</span>';
+            $xhtml .= '<label>' . $label . '</label>';
         }
         $xhtml .= '<textarea'
                 . ' name="' . $this->view->escape($name) . '"'

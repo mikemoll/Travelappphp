@@ -64,9 +64,9 @@ class Zend_View_Helper_FormPassword extends Zend_View_Helper_FormElement {
             $endTag = '>';
         }
         if ($label != '') {
-            $xhtml = '<div class="form-group">';
+            $xhtml = '<div class="form-group  form-group-default ">';
 
-            $xhtml .='<span class="control-label">' . $label . '</span>';
+            $xhtml .= '<label>' . $label . '</label>';
         }
 //        <input name="senha" id="senha" value="" maxlength="32" cript="1" type="password">
         $xhtml .= '<input type="password" '

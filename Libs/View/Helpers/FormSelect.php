@@ -114,9 +114,9 @@ class Zend_View_Helper_FormSelect extends Zend_View_Helper_FormElement
         
         $label = $attribs['label'];
         if ($label != '') {
-            $xhtml .= '<div class="form-group">';
+            $xhtml .= '<div class="form-group form-group-default form-group-default-select2">';
 
-            $xhtml .='<span class="control-label">' . $label . '</span>';
+            $xhtml .='<label>' . $label . '</label>';
         }
         // Build the surrounding select element first.
         $xhtml .= '<select'
