@@ -1,7 +1,7 @@
 /* = USER ============================== */
 CREATE TABLE `dreamplace` (
-  `id_dreamplace` int(11) NOT NULL,
-  `id_usuario` int(11) NOT NULL,
+  `id_dreamplace` SERIAL,
+  `id_usuario` bigint unsigned NOT NULL,
   `city` varchar(50) DEFAULT NULL,
   `country` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_dreamplace`),
@@ -9,20 +9,20 @@ CREATE TABLE `dreamplace` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `interests` (
-  `id_interests` int(11) NOT NULL,
+  `id_interests` SERIAL,
   `description` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id_interests`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `travelertype` (
-  `id_travelertype` int(11) NOT NULL,
+  `id_travelertype` SERIAL,
   `description` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id_travelertype`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `usuario` (
 /* fields from framework */
-  `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
+  `id_usuario` SERIAL,
   `loginuser` varchar(25) DEFAULT NULL,
   `nomecompleto` varchar(35) DEFAULT NULL,
   `lastname` varchar(35) DEFAULT NULL,
@@ -106,20 +106,20 @@ CREATE TABLE `friend` (
 /* =ACTIVITIES======================== */
 
 CREATE TABLE `activitytype` (
-  id_activitytype int(11) NOT NULL,
+  id_activitytype SERIAL,
   activitytypename varchar(30),
   PRIMARY KEY (`id_activitytype`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `currency` (
-  `id_currency` int(11) NOT NULL,
+  `id_currency` SERIAL,
   `symbol` varchar(4) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_currency`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `activity` (
-  id_activity int(11) NOT NULL,
+  id_activity SERIAL,
   activityname varchar(45) NOT NULL,
   id_activitytype int(11) NOT NULL,
   activitysupply varchar(500),
@@ -141,7 +141,7 @@ CREATE TABLE `activity` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `invitation` (
-  `id_invitation` int(11) NOT NULL,
+  `id_invitation` SERIAL,
   `email` varchar(255) DEFAULT NULL,
   `firstname` varchar(35) DEFAULT NULL,
   `lastname` varchar(35) DEFAULT NULL,
@@ -150,7 +150,7 @@ CREATE TABLE `invitation` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `activityuser` (
-  `id_activityuser` int(11) NOT NULL,
+  `id_activityuser` SERIAL,
   `id_activity` int(11) NOT NULL,
   `id_usuario` int(11), /* null when it is a not registered user */
   `status` enum('i', 'w', 'o', 'c', 'b') NOT NULL comment 'invited(may be not registered), wishlist, owner, confirmed, blocked',
@@ -165,13 +165,13 @@ CREATE TABLE `activityuser` (
 /* =TRIP======================== */
 
 CREATE TABLE `triptype` (
-  `id_triptype` int(11) NOT NULL,
+  `id_triptype` SERIAL,
   triptypename varchar(25),
   PRIMARY KEY (`id_triptype`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `trip` (
-  `id_trip` int(11) NOT NULL,
+  `id_trip` SERIAL,
   tripname varchar(30),
   publicurl varchar(50),
   description varchar(500),
@@ -186,7 +186,7 @@ CREATE TABLE `trip` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tripcity` (
-  `id_tripcity` int(11) NOT NULL,
+  `id_tripcity` SERIAL,
   `id_trip` int(11) NOT NULL,
   startdate datetime,
   enddate datetime,
@@ -197,7 +197,7 @@ CREATE TABLE `tripcity` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tripuser` (
-  `id_tripuser` int(11) NOT NULL,
+  `id_tripuser` SERIAL,
   `id_trip` int(11) NOT NULL,
   `id_usuario` int(11), /* null when it is a not registered user */
   `id_invitation` int(11),
@@ -210,7 +210,7 @@ CREATE TABLE `tripuser` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tripbudget` (
-  `id_tripbudget` int(11) NOT NULL,
+  `id_tripbudget` SERIAL,
   `id_trip` int(11) NOT NULL,
   `description` varchar(45) DEFAULT NULL,
   `value` decimal(13,2) DEFAULT NULL,
@@ -221,7 +221,7 @@ CREATE TABLE `tripbudget` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tripactivity` (
-  `id_tripactivity` int(11) NOT NULL,
+  `id_tripactivity` SERIAL,
   `id_trip` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL comment 'user who suggested',
   `status` enum('s','c') NOT NULL comment 'suggestion (trip wishlist), confirmed',
@@ -231,7 +231,7 @@ CREATE TABLE `tripactivity` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tripactivitycomment` (
-  `id_tripactivitycomment` int(11) NOT NULL,
+  `id_tripactivitycomment` SERIAL,
   `id_usuario` int(11) NOT NULL,
   `id_trip` int(11) NOT NULL,
   `message` varchar(255) DEFAULT NULL,
@@ -241,7 +241,7 @@ CREATE TABLE `tripactivitycomment` (
  ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tripchat` (
-  `id_tripchat` int(11) NOT NULL,
+  `id_tripchat` SERIAL,
   `id_usuario` int(11) NOT NULL,
   `id_trip` int(11) NOT NULL,
   `message` varchar(255) DEFAULT NULL,
@@ -254,13 +254,13 @@ CREATE TABLE `tripchat` (
 /*=EVENT================*/
 
 CREATE TABLE `eventtype` (
-  id_eventtype int(11) NOT NULL,
+  id_eventtype SERIAL,
   description varchar(20) NOT NULL,
   PRIMARY KEY (`id_eventtype`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `event` (
-  id_event int(11) NOT NULL,
+  id_event SERIAL,
   id_eventtype int(11) NOT NULL,
   eventname varchar(30),
   start_at datetime,
@@ -280,7 +280,7 @@ CREATE TABLE `event` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `eventuser` (
-  `id_eventuser` int(11) NOT NULL,
+  `id_eventuser` SERIAL,
   `id_event` int(11) NOT NULL,
   `id_usuario` int(11),
   `status` enum('i', 'w', 'o', 'c', 'b') NOT NULL comment 'invited(may be not registered), wishlist, owner, confirmed, blocked',
@@ -292,7 +292,7 @@ CREATE TABLE `eventuser` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tripevent` (
-  `id_tripevent` int(11) NOT NULL,
+  `id_tripevent` SERIAL,
   `id_trip` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL comment 'user who suggested',
   `status` enum('s','c') NOT NULL comment 'suggestion (trip wishlist), confirmed',
@@ -303,7 +303,7 @@ CREATE TABLE `tripevent` (
 
 /* = Framework ================== */
 CREATE TABLE `config` (
-  `id_config` int(11) NOT NULL AUTO_INCREMENT,
+  `id_config` SERIAL,
   `descricao` varchar(100) DEFAULT NULL,
   `trocasenhatempo` char(1) DEFAULT NULL,
   `tempotrocasenha` int(11) DEFAULT NULL,
@@ -312,7 +312,7 @@ CREATE TABLE `config` (
 
 
 CREATE TABLE `log` (
-  `id_log` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `id_log` SERIAL,
   `descricao` text COLLATE utf8_bin NOT NULL,
   `usuario` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `datahora` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -328,7 +328,7 @@ CREATE TABLE `log` (
 
 
 CREATE TABLE `permissao` (
-  `id_permissao` int(11) NOT NULL AUTO_INCREMENT,
+  `id_permissao` SERIAL,
   `id_processo` int(11) DEFAULT NULL,
   `ver` char(1) DEFAULT NULL,
   `inserir` char(1) DEFAULT NULL,
@@ -342,7 +342,7 @@ CREATE TABLE `permissao` (
 
 
 CREATE TABLE `processo` (
-  `id_processo` int(11) NOT NULL AUTO_INCREMENT,
+  `id_processo` SERIAL,
   `nome` varchar(60) DEFAULT NULL,
   `descricao` varchar(50) DEFAULT NULL,
   `controladores` varchar(160) DEFAULT NULL,
