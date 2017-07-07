@@ -51,6 +51,8 @@ class Zend_Db_Table extends Zend_Db_Table_Abstract
      */
     public function __construct($config = array(), $definition = null)
     {
+//        $this->a_crateon = date('d/m/Y H:i:s'); // set the date and time this object was created
+        
         if ($definition !== null && is_array($definition)) {
             $definition = new Zend_Db_Table_Definition($definition);
         }

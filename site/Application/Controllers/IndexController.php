@@ -39,19 +39,19 @@ class IndexController extends AbstractController {
 
         // =========== Menu  ==========
         // INDICADORES
-        $menuItem = new Ui_Element_MenuItem('home', 'Dashboard', HTTP_REFERER . 'index', '', 'view-dashboard');
+        $menuItem = new Ui_Element_MenuItem('home', 'Dashboard', HTTP_REFERER . 'index', '', 'home');
         $mainMenu->addMenuItem($menuItem);
 
 
-        $menu = new Ui_Element_MenuItem('trips', 'Trips', HTTP_REFERER . 'trips', '');
+        $menu = new Ui_Element_MenuItem('trips', 'Trips', HTTP_REFERER . 'trip', '', '', '10 new Trips');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 
-        $menu = new Ui_Element_MenuItem('activities', 'Activities', HTTP_REFERER . 'activities', '', ' zmdi zmdi-fire');
+        $menu = new Ui_Element_MenuItem('activities', 'Activities', HTTP_REFERER . 'activity', '', '');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 
-        $menu = new Ui_Element_MenuItem('events', 'Events', HTTP_REFERER . 'events', '', 'calendar');
+        $menu = new Ui_Element_MenuItem('events', 'Events', HTTP_REFERER . 'event', '', '');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 //
@@ -59,18 +59,18 @@ class IndexController extends AbstractController {
 ////        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
 //        $menu->addSubMenu($menu2);
 
-        $menu = new Ui_Element_MenuItem('adm', 'Administration', HTTP_REFERER . 'events', '', 'settings');
+        $menu = new Ui_Element_MenuItem('adm', 'Administration', HTTP_REFERER . '', '', 'settings');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 //
-        $menu2 = new Ui_Element_MenuItem('Users', 'Users', HTTP_REFERER . 'usuario/users', '', 'calendar');
+        $menu2 = new Ui_Element_MenuItem('Users', 'Users', HTTP_REFERER . 'usuario/users', '', '');
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $menu->addSubMenu($menu2);
 //
-        $menu2 = new Ui_Element_MenuItem('groups', 'Groups of Users', HTTP_REFERER . 'usuario/grupos', '', 'calendar');
+        $menu2 = new Ui_Element_MenuItem('groups', 'Groups of Users', HTTP_REFERER . 'usuario/grupos', '', '');
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $menu->addSubMenu($menu2);
-        $menu2 = new Ui_Element_MenuItem('Proccess', 'Proccess', HTTP_REFERER . 'processo', '', 'calendar');
+        $menu2 = new Ui_Element_MenuItem('Proccess', 'Proccess', HTTP_REFERER . 'processo', '', '');
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $menu->addSubMenu($menu2);
 

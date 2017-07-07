@@ -42,6 +42,13 @@ class AbstractController extends Zend_Controller_Action {
 // ==========================================================
     }
 
+    public function listAction() {
+//        $post = Zend_Registry::get('post');
+        $obj = new $this->Model();
+        $obj->readLst();
+        Grid_ControlDataTables::setDataGrid($obj, false, true);
+    }
+
     public function bloqueialoadAction() {
         $br = new Browser_Control();
         $post = Zend_Registry::get('post');

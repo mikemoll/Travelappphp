@@ -45,16 +45,16 @@ class Zend_View_Helper_FormDate extends Zend_View_Helper_FormElement {
         $dateFormat = $attribs['dateFormat'];
         $minViewMode = $attribs['minViewMode'];
         if ($label != '') {
-            $xhtml .= '<div class="form-group">';
+            $xhtml .= '<div class="form-group form-group-default  input-group">';
 
-            $xhtml .='<span class="control-label">' . $label . '</span>';
+            $xhtml .='<label >' . $label . '</label>';
         }
         $paddingRigth = '';
         if ($showCalendar) {
             // se mostrar o calendario a direita, tem que colocar padding-rigth, senão o texto fica junto com o calendario
             $paddingRigth = 'padding-right: 25px;';
         }
-        $xhtml .= '<input type="text" style="' . $paddingRigth . '"'
+        $xhtml .= '<input type="text"  class="form-control" style="' . $paddingRigth . '"'
                 . ' name="' . $this->view->escape($name) . '"'
                 . ' id="' . $this->view->escape($id) . '"'
                 . ' value="' . $this->view->escape($value) . '"'
@@ -70,7 +70,10 @@ class Zend_View_Helper_FormDate extends Zend_View_Helper_FormElement {
 
         if ($showCalendar) {
 //            $xhtml .= '<span class="input-group-addon"><i class="fa fa-calendar"></i></span> ';
-            $xhtml .= '<span class="add-on datepicker-icon"><i class="fa fa-calendar"></i></span> ';
+//            $xhtml .= '<span class="add-on datepicker-icon"><i class="fa fa-calendar"></i></span> ';
+            $xhtml .= '<span class="input-group-addon">
+                                          <i class="fa fa-calendar"></i>
+                                        </span> ';
 //            $xhtml .= '<i onclick="$(' . "'" . '#' . $id . "'" . ').focus()" class="fa fa-calendar" style="cursor:pointer;position: absolute; z-index: 2; margin: 10px 0 0 -22px;"></i> ';
         }
 //        $xhtml .= '<script >$(document).ready(function() {
