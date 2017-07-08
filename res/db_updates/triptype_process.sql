@@ -1,0 +1,1 @@
+insert into processo (nome, descricao, controladores) values ('PROC_TRIPTYPE', 'Trip types', 'insert , edit, delete');

@@ -89,11 +89,15 @@ class IndexController extends AbstractController {
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $menu->addSubMenu($menu2);
 
+        $menu2 = new Ui_Element_MenuItem('Triptype', 'Trip types', HTTP_REFERER . 'triptype', '', 'triptype');
+//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
+        $menu->addSubMenu($menu2);
+
         return $mainMenu->render();
     }
 
     public function loadAction() {
-        
+
     }
 
     public function sessionAction() {
