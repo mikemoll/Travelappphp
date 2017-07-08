@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="card-box  ">
             <div class="panel-heading text-right" >
-                {$btnNovo}
+                {$btnEditar}
             </div>
             <div class="panel-body">
                 {$grid}

@@ -23,10 +23,13 @@ class Trip extends Db_Table {
     }
 
     public function setDataFromRequest($post) {
-//        $this->setDataCadastro($post->DataCadastro);
-//        $this->setDataCadastro($post->DataCadastro);
-        $this->setAssunto($post->Assunto);
-        $this->setMensagem($post->getUnescaped('Mensagem'));
+        $this->settripname($post->tripname);
+        $this->setDescription($post->getUnescaped('Description'));
+        $this->settravelmethod($post->getUnescaped('travelmethod'));
+        $this->setinventory($post->getUnescaped('inventory'));
+        $this->setnotes($post->getUnescaped('notes'));
+        $this->setstartdate($post->getUnescaped('startdate'));
+        $this->setenddate($post->getUnescaped('enddate'));
     }
 
 }

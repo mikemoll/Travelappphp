@@ -221,54 +221,10 @@ class TripController extends AbstractController {
 //        $usuario = $session->usuario;
         $br = new Browser_Control();
 
-        /* @var $lObj  */
+        /* @var $lObj Trip */
         $lObj = Trip::getInstance($this->ItemEditInstanceName);
-        $form = Session_Control::getDataSession($this->ItemEditFormName);
-
-
-        /*
-         * Valida os dados do formulário
-         */
-//        $valid = $form->processAjax($_POST);
-//        if ($valid != 'true') {
-//            $br->validaForm($valid);
-//            $br->send();
-//            exit;
-//        }
-
-        $list = $post->DestinatarioLst;
-
-        $destLst = $lObj->getTripDestinatarioLst();
-        for ($i = 0; $i < $destLst->countItens(); $i++) {
-            $Item = $destLst->getItem($i);
-            $Item->setState(cDELETE);
-        }
-        if (count($list) > 0)
-            foreach ($list as $idUser) {
-                if ($idUser == '') {
-                    continue;
-                }
-                for ($i = 0; $i < $destLst->countItens(); $i++) {
-                    $Item = $destLst->getItem($i);
-                    if ($Item->getid_usuario() == $idUser) {
-                        $user = $Item;
-                        break;
-                    } else {
-                        $user = '';
-                    }
-                }
-                if ($user == '') {
-                    $n = new TripDestinatario();
-                    $n->setid_usuario($idUser);
-                    $destLst->addItem($n);
-                } else {
-                    $user->setState(cUPDATE);
-                }
-            }
-
 
         $lObj->setDataFromRequest($post);
-//        print'<pre>';die(print_r( $lObj ));
         try {
             $lObj->save();
             $lObj->setInstance($this->ItemEditInstanceName);
@@ -280,19 +236,8 @@ class TripController extends AbstractController {
         $msg = 'Suas alterações foram Salvas com sucesso!';
         $br->setMsgAlert('Salvo!', $msg);
 
-        if ($enviar) {
-            $retEnvio = $lObj->enviaPorEmail();
-            if ($retEnvio !== true) {
-                $msg = $retEnvio;
-                $br->setAlert('Erro ao enviar email!', $msg, '600', '600');
-            } else {
-                $msg = 'Email enviado para:<strong>';
-                $msg .= implode('</strong><br> <strong>', $lObj->listaEmailDestinatarios) . '</strong>';
 
-                $br->setMsgAlert('Enviado!', $msg);
-            }
-        }
-
+        $br->setBrowserUrl(BASE_URL . $this->Action);
         $br->send();
     }
 
