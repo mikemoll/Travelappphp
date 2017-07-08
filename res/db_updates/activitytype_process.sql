@@ -1,0 +1,1 @@
+insert into processo (nome, descricao, controladores) values ('PROC_ACTIVITYTYPE', 'Activity types', 'insert , edit, delete');

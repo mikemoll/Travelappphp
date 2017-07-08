@@ -85,6 +85,10 @@ class IndexController extends AbstractController {
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $menu->addSubMenu($menu2);
 
+        $menu2 = new Ui_Element_MenuItem('Activitytype', 'Activity types', HTTP_REFERER . 'activitytype', '', 'activitytype');
+//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
+        $menu->addSubMenu($menu2);
+
         return $mainMenu->render();
     }
 
