@@ -72,14 +72,14 @@ class AbstractController extends Zend_Controller_Action {
         }
     }
 
-    public function btncancelarclickAction() {
+    public function btncancelclickAction() {
         $post = Zend_Registry::get('post');
         $br = new Browser_Control();
         $br->setRemoveWindow($post->IdWindowEdit);
         $br->send();
     }
 
-    public function btnexcluirclickAction() {
+    public function btndeleteclickAction() {
         Grid_ControlDataTables::deleteDataGrid($this->Model, '', $this->IdGrid);
     }
 
