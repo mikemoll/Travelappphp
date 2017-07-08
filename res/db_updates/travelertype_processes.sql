@@ -1,0 +1,1 @@
+insert into processo (nome, descricao, controladores) values ('PROC_TRAVELERTYPE', 'Traveler types', 'insert , edit, delete');

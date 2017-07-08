@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Modelo da classe Currency
+ * Modelo da classe Travelertype
  * @filesource
  * @author      Rômulo Berri
  * @copyright   Rômulo Berri
@@ -9,10 +9,10 @@
  * @subpackage  sistema.apllication.models
  * @version     1.0
  */
-class Currency extends Db_Table {
+class Travelertype extends Db_Table {
 
-    protected $_name = 'currency';
-    public $_primary = 'id_currency';
+    protected $_name = 'travelertype';
+    public $_primary = 'id_travelertype';
 
     function __construct($config = array(), $definition = null) {
         parent::__construct($config, $definition);
@@ -23,8 +23,7 @@ class Currency extends Db_Table {
     }
 
     public function setDataFromRequest($post) {
-        $this->setSymbol($post->symbol);
-        $this->setName($post->name);
+        $this->setDescription($post->description);
     }
 
 }

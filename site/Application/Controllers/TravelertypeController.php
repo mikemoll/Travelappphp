@@ -2,21 +2,21 @@
 
 include_once 'AbstractController.php';
 
-class CurrencyController extends AbstractController {
+class TravelertypeController extends AbstractController {
 
     public function init() {
         parent::init();
         $this->IdGrid = 'grid';
-        $this->FormName = 'formCurrency';
-        $this->Action = 'Currency';
-        $this->TituloLista = "Currency";
-        $this->TituloEdicao = "Currency";
-        $this->ItemEditInstanceName = 'CurrencyEdit';
-        $this->ItemEditFormName = 'formCurrencyItemEdit';
-        $this->Model = 'Currency';
-        $this->IdWindowEdit = 'EditCurrency';
-        $this->TplIndex = 'Currency/index.tpl';
-        $this->TplEdit = 'Currency/edit.tpl';
+        $this->FormName = 'formTravelertype';
+        $this->Action = 'Travelertype';
+        $this->TituloLista = "Traveler Type";
+        $this->TituloEdicao = "Traveler Type";
+        $this->ItemEditInstanceName = 'TravelertypeEdit';
+        $this->ItemEditFormName = 'formTravelertypeItemEdit';
+        $this->Model = 'Travelertype';
+        $this->IdWindowEdit = 'EditTravelertype';
+        $this->TplIndex = 'Travelertype/index.tpl';
+        $this->TplEdit = 'Travelertype/edit.tpl';
     }
 
     public function indexAction() {
@@ -35,27 +35,23 @@ class CurrencyController extends AbstractController {
         $grid->setParams('', BASE_URL . $this->Action . '/list');
         $grid->setOrder('name', 'desc');
 
+
         $button = new Ui_Element_DataTables_Button('btnEdit', 'Edit');
         $button->setImg('edit');
         $button->setHref(HTTP_REFERER . $this->Action . '/edit');
-        $button->setVisible('PROC_CURRENCY', 'edit');
+        $button->setVisible('PROC_TRAVELERTYPE', 'edit');
         $grid->addButton($button);
 
         $button = new Ui_Element_DataTables_Button('btnDelete', 'Delete');
         $button->setImg('trash');
-        $button->setAttribs('msg = "Delete the selected currency?"');
-        $button->setVisible('PROC_CURRENCY', 'delete');
+        $button->setAttribs('msg = "Delete the selected traveler type?"');
+        $button->setVisible('PROC_TRAVELERTYPE', 'delete');
         $grid->addButton($button);
 
 
-        $column = new Ui_Element_DataTables_Column_Date('Currency Name', 'name');
+        $column = new Ui_Element_DataTables_Column_Date('Traveler type description', 'description');
         $column->setWidth('1');
         $grid->addColumn($column);
-
-        $column = new Ui_Element_DataTables_Column_Text('Symbol', 'symbol');
-        $column->setWidth('1');
-        $grid->addColumn($column);
-
 
         Session_Control::setDataSession($grid->getId(), $grid);
         $form->addElement($grid);
@@ -66,7 +62,7 @@ class CurrencyController extends AbstractController {
         $button->setDisplay('New Item', 'plus');
         $button->setHref(HTTP_REFERER . $this->Action . '/edit');
         $button->setType('success');
-        $button->setVisible('PROC_CURRENCY', 'insert');
+        $button->setVisible('PROC_TRAVELERTYPE', 'insert');
         $form->addElement($button);
 
 
@@ -97,14 +93,8 @@ class CurrencyController extends AbstractController {
         $form->setAction($this->Action);
         $form->setName($this->ItemEditFormName);
 
-        $element = new Ui_Element_Text('name', "Currency Name");
+        $element = new Ui_Element_Text('description', "Traveler type description");
         $element->setAttrib('maxlenght', 45);
-        $form->addElement($element);
-
-
-        $element = new Ui_Element_Text('symbol', "Symbol");
-//        $element->setTinyMce();
-        $element->setAttrib('maxlenght', 4);
         $form->addElement($element);
 
         $obj = new $this->Model();
@@ -152,7 +142,7 @@ class CurrencyController extends AbstractController {
         $br = new Browser_Control();
 
         /* @var $lObj */
-        $lObj = Currency::getInstance($this->ItemEditInstanceName);
+        $lObj = Travelertype::getInstance($this->ItemEditInstanceName);
         $form = Session_Control::getDataSession($this->ItemEditFormName);
 
         $lObj->setDataFromRequest($post);
@@ -167,7 +157,7 @@ class CurrencyController extends AbstractController {
         }
         $msg = 'Changes saved!';
         $br->setMsgAlert('Saved!', $msg);
-        $br->setBrowserUrl(BASE_URL . 'currency');
+        $br->setBrowserUrl(BASE_URL . 'travelertype');
         $br->send();
 
     }
