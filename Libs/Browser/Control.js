@@ -37,31 +37,38 @@ function desmarcaCheckedGrid() {
 }
 
 function setConfirm(title, text, w, h, obj, event) {
-    $('#alert').html(text);
-    $('#alert').dialog({
-        title: title,
-        resizable: false,
-        modal: true,
-        height: h,
-        width: w,
-        position: 'center',
-        buttons: {
-            Ok: function () {
-                msg = obj.attr('msg');
-                $(this).dialog('close');
-                obj.removeAttr('msg');
-                ajaxRequest(obj, event);
-                obj.attr('msg', msg);
-                return false;
-            },
-            Cancelar: function () {
-                $(this).dialog('close');
-                reativaBtnClicado()
-                return false;
-            }
-        }
+    html = '<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alert" aria-hidden="true">' +
+            '<div class="modal-dialog" role="document">' +
+            '<div class="modal-content">' +
+            '   <div class="modal-header">' +
+            '      <h5 class="modal-title" id="exampleModalLabel">' + title + '</h5>' +
+            '     <button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+            '        <span aria-hidden="true">&times;</span>' +
+            '   </button>' +
+            '    </div>' +
+            '   <div class="modal-body">' +
+            text +
+            ' </div>' +
+            ' <div class="modal-footer">' +
+            '   <button type="button" class="btn btn-default" data-dismiss="modal">No</button>' +
+            '   <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnConfirmYes"  >Yes</button>' +
+            ' </div>' +
+            ' </div>' +
+            '</div>' +
+            '</div>';
+    if ($('#alertModal').length === 0) {
+        $("body").append(html);
+    }
+    $('#alertModal').modal( );
+    $('#alertModal').on('click', '#btnConfirmYes', function () {
+        msg = obj.attr('msg');
+        obj.removeAttr('msg');
+        ajaxRequest(obj, event);
+        obj.attr('msg', msg);
+        return false;
     });
 }
+
 
 function setAlert(title, text, w, h) {
 
@@ -76,7 +83,7 @@ function setAlert(title, text, w, h) {
             '    </div>' +
             '   <div class="modal-body">' +
             '  ' +
-                text +
+            text +
             ' </div>' +
             ' </div>' +
             '</div>' +
@@ -85,20 +92,6 @@ function setAlert(title, text, w, h) {
         $("body").append(html);
     }
     $('#alertModal').modal();
-//    $('#alert').dialog({
-//        title: title,
-//        resizable: false,
-//        modal: true,
-//        height: h,
-//        width: w,
-//        position: 'center',
-//        buttons: {
-//            Ok: function () {
-//                $(this).dialog('close');
-//                return false;
-//            }
-//        }
-//    });
 }
 
 function addToolTip(obj) {
@@ -229,30 +222,10 @@ function validaForm(obj) {
 }
 $(document).ready(function (p) {
 
-    /**
-     * inseri em todos as paginas html uma div e calcula a posição do mouse para
-     * inserir a imagem loader ao lado do mouse nas requisições ajax
-     */
-//    $('body').append('<div id="ajaxStart" style="display:none;"></div>');
-    $('body').append('<div id="memory-usage" class="memory-usage">');
-//    $(document).mousemove(function (p) {
-//        $('#ajaxStart').css('left', p.pageX + 15);
-//        $('#ajaxStart').css('top', p.pageY);
-//        $('#ajaxStart').css('zIndex', getMaxZindex());
-//    });
+//    $('.page-container ').append('<div id="memory-usage" class="memory-usage">');
     /**
      * função que verifica o tamanho maximo de caracteres no textarea
      */
-    $('body').on('keydown', '#descricao', function (e) {
-        var tam = $(this).attr('maxlength');
-        var tecl = e.keyCode;
-        if (tecl != 8 && tecl != 37 && tecl != 38 && tecl != 39 && tecl != 40 && tecl != 46) {
-            if (tam < ($(this).val().length + 1)) {
-                return false;
-            }
-        }
-    });
-
     $("body").on("keyup", "[maxlength]", function () {
         var maxLength = $(this).attr('maxlength');
         var id = $(this).attr('id');
@@ -261,9 +234,14 @@ $(document).ready(function (p) {
         $('#chars' + id + '').text(length);
     });
 
+    /**
+     * remove modal from DOM after it is hidden
+     */
     $('body').on('hidden.bs.modal', ".modal", function () {
         $(this).remove();
+        reativaBtnClicado();
     });
+    
     $("body").on('change', '.btn-file :file', function () {
         var input = $(this),
                 numFiles = input.get(0).files ? input.get(0).files.length : 1,
@@ -566,6 +544,7 @@ function returnRequest(data) {
             $('#' + obj.id).modal();
             $(document).on('hidden', '#' + obj.id, function () {
                 $(this).remove();
+                reativaBtnClicado();
             });
         } else if (obj.action == 'CSS') {
             $('#' + obj.id).css(obj.prop, obj.val);
@@ -597,26 +576,7 @@ function returnRequest(data) {
         } else if (obj.action == 'MSG') {
             addToolTip(obj);
         } else if (obj.action == 'MSGALERT') {
-            waitingTime = waitingTime + 500;
-            window.setTimeout(function ( ) {
-                var d = new Date();
-                var Milliseconds = d.getMilliseconds();
-                div = '<div class="alert fade in msgAlert" id="msgAlert' + Milliseconds + '" style="display: none">';
-                div += '<strong></strong><br> <span></span>'
-                div += ' </div>'
-                $("body").append(div);
-                $("#msgAlert" + Milliseconds).children('strong').html(obj.title);
-                $("#msgAlert" + Milliseconds).children('span').html(obj.msg);
-                $("#msgAlert" + Milliseconds).addClass(obj.type).fadeTo(0, 500).css('top', positionMsgAlert).slideDown(500);
-                var height = $("#msgAlert" + Milliseconds).outerHeight() + 5;
-                positionMsgAlert = positionMsgAlert + height;
-//                $("#msgAlert" + Milliseconds);
-                window.setTimeout(function ( ) {
-                    positionMsgAlert = positionMsgAlert - height;
-                    $("#msgAlert" + Milliseconds).fadeTo(500, 0).slideUp(500).delay(800).remove();
-                }, 5000, positionMsgAlert, Milliseconds);
-                waitingTime = waitingTime - 500;
-            }, waitingTime);
+            $('body').pgNotification({style: 'flip', message: "<strong>" + obj.title + "</strong> <br> <span>" + obj.msg + "</span>"}).show();
         } else if (obj.action == 'ADDSCRIPT') {
             var script = $('script[src*=' + obj.script + ']');
             $('body').append(obj.script);
@@ -911,7 +871,7 @@ function ajaxRequest(obj, event, parametros) {
     }
     //se tiver o atributo msg é pq deve ser abeta a janela de confirmação.
     if (obj.attr('msg')) {
-        setConfirm('Mensagem', obj.attr('msg'), 300, 240, obj, event);
+        setConfirm('Confirmation', obj.attr('msg'), 300, 240, obj, event);
         return false;
     }
 
