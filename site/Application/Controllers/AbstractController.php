@@ -73,6 +73,12 @@ class AbstractController extends Zend_Controller_Action {
     }
 
     public function btncancelclickAction() {
+        $br = new Browser_Control();
+        $br->setBrowserUrl(BASE_URL . $this->Action);
+        $br->send();
+    }
+
+    public function btncloseclickAction() {
         $post = Zend_Registry::get('post');
         $br = new Browser_Control();
         $br->setRemoveWindow($post->IdWindowEdit);
@@ -80,7 +86,10 @@ class AbstractController extends Zend_Controller_Action {
     }
 
     public function btndeleteclickAction() {
-        Grid_ControlDataTables::deleteDataGrid($this->Model, '', $this->IdGrid);
+        $br = new Browser_Control();
+        Grid_ControlDataTables::deleteDataGrid($this->Model, '', $this->IdGrid, $br);
+        $br->setMsgAlert('Deleted', 'Item deleted!');
+        $br->send();
     }
 
 }
