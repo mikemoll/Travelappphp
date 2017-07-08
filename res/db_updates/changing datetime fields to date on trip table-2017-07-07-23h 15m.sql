@@ -1,0 +1,1 @@
+ALTER TABLE `trip` CHANGE `startdate` `startdate` DATE NULL DEFAULT NULL, CHANGE `enddate` `enddate` DATE NULL DEFAULT NULL;
