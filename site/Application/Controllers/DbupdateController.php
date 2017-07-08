@@ -98,8 +98,6 @@ class DbupdateController extends AbstractController {
         $post = Zend_Registry::get('post');
 
         $obj = new $this->Model();
-
-        $obj->read(1);
         $flist = $obj->getFileList();
 //        print'<pre>';die(print_r( $flist ));
         Grid_ControlDataTables::setDataGrid($flist, false, '');
