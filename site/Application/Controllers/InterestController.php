@@ -2,21 +2,21 @@
 
 include_once 'AbstractController.php';
 
-class CurrencyController extends AbstractController {
+class InterestController extends AbstractController {
 
     public function init() {
         parent::init();
         $this->IdGrid = 'grid';
-        $this->FormName = 'formCurrency';
-        $this->Action = 'Currency';
-        $this->TituloLista = "Currency";
-        $this->TituloEdicao = "Currency";
-        $this->ItemEditInstanceName = 'CurrencyEdit';
-        $this->ItemEditFormName = 'formCurrencyItemEdit';
-        $this->Model = 'Currency';
-        $this->IdWindowEdit = 'EditCurrency';
-        $this->TplIndex = 'Currency/index.tpl';
-        $this->TplEdit = 'Currency/edit.tpl';
+        $this->FormName = 'formInterest';
+        $this->Action = 'Interest';
+        $this->TituloLista = "Interest";
+        $this->TituloEdicao = "Edit";
+        $this->ItemEditInstanceName = 'InterestEdit';
+        $this->ItemEditFormName = 'formInterestItemEdit';
+        $this->Model = 'Interest';
+        $this->IdWindowEdit = 'EditInterest';
+        $this->TplIndex = 'Interest/index.tpl';
+        $this->TplEdit = 'Interest/edit.tpl';
     }
 
     public function indexAction() {
@@ -33,41 +33,46 @@ class CurrencyController extends AbstractController {
         $idGrid = $this->IdGrid;
         $grid = new Ui_Element_DataTables($idGrid);
         $grid->setParams('', BASE_URL . $this->Action . '/list');
-        $grid->setOrder('name', 'desc');
+//        $grid->setShowLengthChange(false);
+//        $grid->setShowPager(false);
+        $grid->setOrder('DataCadastro', 'desc');
+//        $grid->setFillListOptions('FichaTecnica', 'readFichatecnicaLst');
 
-        $button = new Ui_Element_DataTables_Button('btnEdit', 'Edit');
+        $button = new Ui_Element_DataTables_Button('btnEditar', 'Edit');
         $button->setImg('edit');
         $button->setHref(HTTP_REFERER . $this->Action . '/edit');
-        $button->setVisible('PROC_CURRENCY', 'edit');
+        $button->setVisible('PROC_MENSAGENS', 'editar');
         $grid->addButton($button);
 
         $button = new Ui_Element_DataTables_Button('btnDelete', 'Delete');
         $button->setImg('trash');
-        $button->setAttribs('msg = "Delete the selected currency?"');
-        $button->setVisible('PROC_CURRENCY', 'delete');
+        $button->setAttrib('msg', 'Are you sure that you want to delete this?');
+        $button->setVisible('PROC_MENSAGENS', 'excluir');
         $grid->addButton($button);
 
 
-        $column = new Ui_Element_DataTables_Column_Date('Currency Name', 'name');
-        $column->setWidth('1');
-        $grid->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Symbol', 'symbol');
-        $column->setWidth('1');
+        $column = new Ui_Element_DataTables_Column_Date('Interest Name', 'description');
+        $column->setWidth('10');
         $grid->addColumn($column);
 
 
-        Session_Control::setDataSession($grid->getId(), $grid);
+
+
         $form->addElement($grid);
+
+
+
 
         // =========================================================================
 //
-        $button = new Ui_Element_Btn('btnNew');
+        $button = new Ui_Element_Btn('btnEditar');
         $button->setDisplay('New Item', 'plus');
         $button->setHref(HTTP_REFERER . $this->Action . '/edit');
         $button->setType('success');
-        $button->setVisible('PROC_CURRENCY', 'insert');
+        $button->setVisible('PROC_TRIP', 'inserir');
         $form->addElement($button);
+
 
 
         $view = Zend_Registry::get('view');
@@ -97,14 +102,10 @@ class CurrencyController extends AbstractController {
         $form->setAction($this->Action);
         $form->setName($this->ItemEditFormName);
 
-        $element = new Ui_Element_Text('name', "Currency Name");
-        $element->setAttrib('maxlength', 45);
-        $form->addElement($element);
 
 
-        $element = new Ui_Element_Text('symbol', "Symbol");
-//        $element->setTinyMce();
-        $element->setAttrib('maxlength', 4);
+        $element = new Ui_Element_Text('description', "Description");
+        $element->setAttrib('maxlength', 30);
         $form->addElement($element);
 
         $obj = new $this->Model();
@@ -113,6 +114,10 @@ class CurrencyController extends AbstractController {
             $form->setDataForm($obj);
         }
         $obj->setInstance($this->ItemEditInstanceName);
+
+
+
+
 
         $button = new Ui_Element_Btn('btnSave');
         $button->setDisplay('Save', 'check');
@@ -125,10 +130,10 @@ class CurrencyController extends AbstractController {
         $button->setAttrib('validaObrig', '1');
         $form->addElement($button);
 
-        $cancelar = new Ui_Element_Btn('btnCancel');
+        $cancelar = new Ui_Element_Btn('btnCancelar');
         $cancelar->setAttrib('params', 'IdWindowEdit=' . $this->IdWindowEdit);
         $cancelar->setDisplay('Cancel', 'times');
-        $cancelar->setHref(HTTP_REFERER . $this->Action );
+        $cancelar->setHref(BASE_URL . $this->Action);
         $form->addElement($cancelar);
 
         $form->setDataSession();
@@ -141,22 +146,16 @@ class CurrencyController extends AbstractController {
         $view->output('index.tpl');
     }
 
-    public function btnnewclickAction() {
-        $this->edit();
-    }
-
-    public function btnsaveclickAction($enviar = false) {
+    public function btnsaveclickAction() {
         $post = Zend_Registry::get('post');
         $session = Zend_Registry::get('session');
 //        $usuario = $session->usuario;
         $br = new Browser_Control();
 
-        /* @var $lObj */
-        $lObj = Currency::getInstance($this->ItemEditInstanceName);
-        $form = Session_Control::getDataSession($this->ItemEditFormName);
+        /* @var $lObj Interest */
+        $lObj = Interest::getInstance($this->ItemEditInstanceName);
 
         $lObj->setDataFromRequest($post);
-//        print'<pre>';die(print_r( $lObj ));
         try {
             $lObj->save();
             $lObj->setInstance($this->ItemEditInstanceName);
@@ -165,11 +164,12 @@ class CurrencyController extends AbstractController {
             $br->send();
             die();
         }
-        $msg = 'Changes saved!';
-        $br->setMsgAlert('Saved!', $msg);
-        $br->setBrowserUrl(BASE_URL . 'currency');
-        $br->send();
+        $msg = 'Saved!';
+        $br->setMsgAlert('Success!', $msg);
 
+
+        $br->setBrowserUrl(BASE_URL . $this->Action);
+        $br->send();
     }
 
 }

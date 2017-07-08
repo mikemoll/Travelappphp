@@ -49,7 +49,7 @@ class LoginController extends AbstractController {
         $form->addElement($element);
 
         $element = new Ui_Element_Text('user');
-        $element->setAttrib('maxlenght', '30');
+        $element->setAttrib('maxlength', '30');
         $element->setAttrib('size', '21');
 //		$element->setAttrib('obrig', 'obrig');
         $element->setRequired();
@@ -62,7 +62,7 @@ class LoginController extends AbstractController {
         $form->addElement($element);
 
         $element = new Ui_Element_Password('senha');
-        $element->setAttrib('maxlenght', '30');
+        $element->setAttrib('maxlength', '30');
         $element->setAttrib('size', '21');
 //		$element->setAttrib('obrig', 'obrig');
         $element->setAttrib('cript', '1');
@@ -199,7 +199,7 @@ class LoginController extends AbstractController {
         $form->addElement($element);
 
         $element = new Ui_Element_Password('senhaAtual', 'Senha Atual');
-        $element->setAttrib('maxlenght', '30');
+        $element->setAttrib('maxlength', '30');
         $element->setAttrib('size', '21');
         $element->setAttrib('obrig', 'obrig');
         $element->setAttrib('cript', '1');
@@ -211,7 +211,7 @@ class LoginController extends AbstractController {
         $form->addElement($element);
 
         $element = new Ui_Element_Password('senhaNova', 'Senha NOVA');
-        $element->setAttrib('maxlenght', '30');
+        $element->setAttrib('maxlength', '30');
         $element->setAttrib('size', '21');
         $element->setAttrib('obrig', 'obrig');
         $element->setAttrib('cript', '1');
@@ -223,7 +223,7 @@ class LoginController extends AbstractController {
         $form->addElement($element);
 
         $element = new Ui_Element_Password('senhaNovaAgain', 'Repita a senha NOVA');
-        $element->setAttrib('maxlenght', '30');
+        $element->setAttrib('maxlength', '30');
         $element->setAttrib('size', '21');
         $element->setAttrib('obrig', 'obrig');
         $element->setAttrib('cript', '1');
@@ -235,7 +235,7 @@ class LoginController extends AbstractController {
         $form->addElement($element);
 
 //		$element = new Ui_Element_Password('senhaAtual');
-//		$element->setAttrib('maxlenght', '30');
+//		$element->setAttrib('maxlength', '30');
 //		$element->setAttrib('size', '21');
 //		$element->setAttrib('obrig', 'obrig');
 //		$element->setAttrib('cript', '1');
@@ -243,7 +243,7 @@ class LoginController extends AbstractController {
 //		$element->setAttrib('hotkeys', 'enter, btnTrocaSenha, click');
 //		$form->addElement($element);
 //		$element = new Ui_Element_Password('senhaNova');
-//		$element->setAttrib('maxlenght', '30');
+//		$element->setAttrib('maxlength', '30');
 //		$element->setAttrib('size', '21');
 //		$element->setAttrib('obrig', 'obrig');
 //		$element->setAttrib('cript', '1');

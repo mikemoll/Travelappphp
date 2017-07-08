@@ -56,7 +56,7 @@ class Zend_View_Helper_FormTextMask extends Zend_View_Helper_FormElement {
         extract($info); // name, value, attribs, options, listsep, disable
 
 
-        $maxlength = $attribs['maxlength'];
+        $maxlenght = $attribs['maxlenght'];
         $mask = '"' . $attribs['mask'] . '"';
         $autoTab = $attribs['autoTab'];
         $defaultValue = '"' . $attribs['defaultValue'] . '"';
@@ -117,8 +117,8 @@ class Zend_View_Helper_FormTextMask extends Zend_View_Helper_FormElement {
                 . ' value="' . $this->view->escape($value) . '"'
                 . $this->_htmlAttribs($attribs)
                 . $endTag;
-        if ($maxlength != '' and $maxlength > 0) {
-            $xhtml .= '<span class="max-char-text" ><span id="chars' . $this->view->escape($name) . '">' . ($maxlength - strlen($this->view->escape($value))) . '</span> remaining characters</span>';
+        if ($maxlenght != '' and $maxlenght > 0) {
+            $xhtml .= '<span class="max-char-text" ><span id="chars' . $this->view->escape($name) . '">' . ($maxlenght - strlen($this->view->escape($value))) . '</span> remaining characters</span>';
         }
         if ($label != '') {
             $xhtml .= '</div>';

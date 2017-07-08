@@ -117,7 +117,8 @@ class DbupdateController extends AbstractController {
         $obj->setUpdatedOn($obj->filetime);
         $obj->save();
 
-        $br->setAlert('Run Result', "It's all Good!");
+        $br->setAlert('Run Result', "It's all Good!<br><h3>query: </h3><pre>$homepage</pre>");
+        $br->setUpdateDataTables($this->IdGrid);
         $br->send();
     }
 
@@ -141,7 +142,7 @@ class DbupdateController extends AbstractController {
         $form->setName($this->ItemEditFormName);
 
         $element = new Ui_Element_Text('filename', "File Name");
-        $element->setAttrib('maxlenght', 30);
+        $element->setAttrib('maxlength', 30);
         $element->setValue($obj->filename);
         $element->setReadOnly($obj->filename != '');
         $form->addElement($element);
@@ -151,7 +152,7 @@ class DbupdateController extends AbstractController {
 //        $element->setTinyMce();
         $element->setValue($obj->content);
         $element->setAttrib('rows', 15);
-        $element->setAttrib('maxlenght', 500);
+        $element->setAttrib('maxlength', 500);
         $form->addElement($element);
 
 

@@ -94,7 +94,7 @@ class TravelertypeController extends AbstractController {
         $form->setName($this->ItemEditFormName);
 
         $element = new Ui_Element_Text('description', "Traveler type description");
-        $element->setAttrib('maxlenght', 45);
+        $element->setAttrib('maxlength', 45);
         $form->addElement($element);
 
         $obj = new $this->Model();

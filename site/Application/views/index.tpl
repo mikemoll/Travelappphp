@@ -21,6 +21,17 @@
             var cBaseUrl = '{$baseUrl}';
             var HTTP_HOST = '{$HTTP_HOST}';
         </script>
+        {literal}
+            <style>
+                .max-char-text {
+                    position: absolute;
+                    right: 20px;
+                    top: 2px;
+                    font-size: smaller;
+                    color: #ccc;
+                }
+            </style>
+        {/literal}
         <!-- This is the onli JS that has to be on the begining, cuz there are some components that need this before everithing else! (Leonardo )-->
         <script src="{$baseUrl}Public/assets/plugins/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
     </head>

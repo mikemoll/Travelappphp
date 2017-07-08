@@ -150,13 +150,13 @@ class MensagemController extends AbstractController {
         $form->addElement($element);
 
         $element = new Ui_Element_Text('Assunto', "Assunto");
-        $element->setAttrib('maxlenght', 1000);
+        $element->setAttrib('maxlength', 1000);
         $form->addElement($element);
 
         $element = new Ui_Element_Textarea('Mensagem', "Mensagem");
         $element->setTinyMce();
         $element->setAttrib('rows', 15);
-        $element->setAttrib('maxlenght', 5000);
+        $element->setAttrib('maxlength', 5000);
         $form->addElement($element);
 
         $obj = new $this->Model();
