@@ -81,7 +81,6 @@ class FormataDados {
             }
             return $valor;
         } else if (DataHora::isDate($valor, '/')) {
-            print'<pre>';die(print_r( $valor ));
             return DataHora::inverteDataIngles($valor);
         } else if ($valor == '') {
             return null;
