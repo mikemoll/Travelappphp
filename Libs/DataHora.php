@@ -1089,6 +1089,34 @@ class DataHora {
     }
 
     /**
+     *  inverte a data de entrada.
+     *
+     * Se entra 2010-09-07 saida 07/09/2010
+     * Se entra 07/09/2010 saida 2010-09-07
+     *
+     * @param string $pData
+     * @return string
+     */
+    static function inverteDataIngles($pData) {
+
+        if ($pData != '') {
+//        print($pData);
+            list($pData, $lHoras) = explode(' ', $pData);
+            list($m, $d, $y) = explode('/', $pData);
+//            print'<pre>';
+//            (print_r('$m, $d, $y '));
+//            print'<pre>';
+//            die(print_r("$m, $d, $y"));
+            if ($d == '') {
+                list($y, $m, $d) = explode('-', $pData);
+                return "$m/$d/$y" . ($lHoras != '' ? ' ' . $lHoras : '');
+            } else {
+                return "$y-$m-$d" . ($lHoras != '' ? ' ' . $lHoras : '');
+            }
+        }
+    }
+
+    /**
      *  Função que soma ou subtrai, dias, meses ou anos de uma data qualquer no formato dd-mm-yyyy
      *
      * $date = $dt->operations("06/01/2003", "sum", "day", "4")   // Return 10/01/2003<br>

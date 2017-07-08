@@ -72,7 +72,7 @@ class FormataDados {
 //         (print_r("$key - $tipo -  $valor <br><br>" ));
 
         if (strcmp($tipo, 'date') == 0) {
-            return DataHora::inverteData($valor);
+            return DataHora::inverteDataIngles($valor);
         } else if (strcmp($tipo, 'decimal') == 0 or strcmp($tipo, 'numeric') == 0 or strcmp($tipo, 'int4') == 0) {
             if (strpos($valor, ',') !== false) {
                 $source = array('.', ',');
@@ -81,7 +81,8 @@ class FormataDados {
             }
             return $valor;
         } else if (DataHora::isDate($valor, '/')) {
-            return DataHora::inverteData($valor);
+            print'<pre>';die(print_r( $valor ));
+            return DataHora::inverteDataIngles($valor);
         } else if ($valor == '') {
             return null;
         } else {
@@ -114,7 +115,7 @@ class FormataDados {
         } else if (strcmp($tipo, 'int4') == 0) {
             return number_format($valor, 0, '.', '');
         } else if (DataHora::isDate($valor, '-')) {
-            return DataHora::inverteData($valor);
+            return DataHora::inverteDataIngles($valor);
         } else {
             return $valor;
         }

@@ -4,9 +4,9 @@ class Ui_Element_Date extends Zend_Form_Element_Text {
 
     public $buttonImageOnly = true;
     public $showOn = 'button';
-    public $dateFormat = 'dd/mm/yyyy';
+    public $dateFormat = 'mm/dd/yyyy';
     public $placeholder = '__/__/_____';
-    public $mask = '39/19/9999';
+    public $mask = '19/39/9999';
     public $buttonText = '';
     public $autoSize = true;
     public $constrainInput = false;
@@ -30,7 +30,7 @@ class Ui_Element_Date extends Zend_Form_Element_Text {
         $this->setAttrib('placeholder', $this->placeholder);
         $this->setAttrib('data-date-min-view-mode', '0');
         $this->setAttrib('data-date-today-btn', 'true');
-        $this->setAttrib('data-date-language', 'pt-BR');
+        $this->setAttrib('data-date-language', 'en');
     }
 
     /**
