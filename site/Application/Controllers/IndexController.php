@@ -69,6 +69,19 @@ class IndexController extends AbstractController {
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
 
+            $menu2 = new Ui_Element_MenuItem('Activitytype', 'Activity types', HTTP_REFERER . 'activitytype', '', '');
+//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
+            $menu->addSubMenu($menu2);
+
+
+            $menu2 = new Ui_Element_MenuItem('Event', 'Event', HTTP_REFERER . 'event', '', 'event');
+//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
+            $menu->addSubMenu($menu2);
+
+            $menu2 = new Ui_Element_MenuItem('Eventtype', 'Event Types', HTTP_REFERER . 'eventtype', '', '');
+//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
+            $menu->addSubMenu($menu2);
+
             $menu2 = new Ui_Element_MenuItem('trips2', 'Trips', HTTP_REFERER . 'trip', '', '', '10 new Trips');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
@@ -85,9 +98,6 @@ class IndexController extends AbstractController {
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
 
-            $menu2 = new Ui_Element_MenuItem('Activitytype', 'Activity types', HTTP_REFERER . 'activitytype', '', 'activitytype');
-//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-            $menu->addSubMenu($menu2);
 
             $menu2 = new Ui_Element_MenuItem('Triptype', 'Trip types', HTTP_REFERER . 'triptype', '', 'triptype');
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
