@@ -54,6 +54,9 @@ class IndexController extends AbstractController {
         $menu = new Ui_Element_MenuItem('events', 'Events', HTTP_REFERER . 'event', '', '');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
+
+        $menu = new Ui_Element_MenuItem('Profile', 'Profile', HTTP_REFERER . 'usuario/profile', '', '');
+        $mainMenu->addMenuItem($menu);
 //
 //        $menu2 = new Ui_Element_MenuItem('events', 'Events2', HTTP_REFERER . 'events', '', 'calendar');
 ////        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
