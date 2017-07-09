@@ -155,7 +155,14 @@ class Db_Table extends Zend_Db_Table {
     }
 
     public function setDataFromRequest($post) {
-        
+        $campos = $post->getEscaped();
+        $info = $this->info();
+        foreach ($campos as $key => $value) {
+            if (array_key_exists($key, $info['metadata'])) {
+                $key = "a_$key";
+                $this->$key = $value;
+            }
+        }
     }
 
     /*
@@ -346,7 +353,6 @@ class Db_Table extends Zend_Db_Table {
         } else {
             throw new Zend_Db_Table_Exception('Deve ser passado um objeto ou um nome de modelo');
         }
-
 
         for ($i = 0; $i < $lista->countItens(); $i++) {
             $Item = $lista->getItem($i);
@@ -933,23 +939,24 @@ class Db_Table extends Zend_Db_Table {
         $rows = $this->fetchAll($filtros)->toArray();
         if (count($rows) == 0) {
             $this->error = 'Nenhum foi item não encontrado!';
-            return false;
+            return $this;
         }
 
         if ($modo == 'array') {
-            // isso foi desativado pois tem um monte de readLst(array) onde eu estou tratando os dadso manualmente,
-            // se eu fizer o tratamento dos dados aqui, vai dar pau quando eu fizer o tratamento no código que
-            // eu já fiz... sim, é uma merda, mas....
-            // O ideal seria ir no codigo fonte inteiro e desfazer o tratamento para que tudo seja feito aqui.
-            // Um dia... hoje é 31/05/17, vamos ver até quando!
-//            if ($this->_formatData) {
-//                foreach ($rows as $numLinha => $row) {
-//                    foreach ($row as $key => $value) {
-//                        $value = FormataDados::formataDadosRead($value);
-//                        $rows[$numLinha][$key] = $value;
-//                    }
-//                }
-//            }
+//            isso foi desativado pois tem um monte de readLst(array) onde eu estou tratando os dadso manualmente,
+//            se eu fizer o tratamento dos dados aqui, vai dar pau quando eu fizer o tratamento no código que
+//            eu já fiz... sim, é uma merda, mas....
+//            O ideal seria ir no codigo fonte inteiro e desfazer o tratamento para que tudo seja feito aqui.
+//            Um dia... hoje é 31/05/17, vamos ver até quando!
+//            ATIVADO EM 08/07/2017 para o projeto TravelTrack
+            if ($this->_formatData) {
+                foreach ($rows as $numLinha => $row) {
+                    foreach ($row as $key => $value) {
+                        $value = FormataDados::formataDadosRead($value);
+                        $rows[$numLinha][$key] = $value;
+                    }
+                }
+            }
             $this->_list = $rows;
             return $rows;
         }
