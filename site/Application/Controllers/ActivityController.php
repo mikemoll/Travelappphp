@@ -151,13 +151,11 @@ class ActivityController extends AbstractController {
         $form->addElement($element);
 
         $element = new Ui_Element_Select('id_activitytype', 'activity type');
-        $element->setAttrib('event', 'change');
         $element->addMultiOptions(Db_Table::getOptionList2('id_activitytype', 'activitytypename', 'activitytypename', 'Activitytype'));
         $form->addElement($element);
 
-        $element = new Ui_Element_Select('id_activitytype', 'activity type');
-        $element->setAttrib('event', 'change');
-        $element->addMultiOptions(Db_Table::getOptionList2('id_activitytype', 'activitytypename', 'activitytypename', 'Activitytype'));
+        $element = new Ui_Element_Select('id_currency', 'Currency');
+        $element->addMultiOptions(Db_Table::getOptionList2('id_currency', 'name', 'name', 'Currency'));
         $form->addElement($element);
 
 

@@ -2,8 +2,11 @@
 <input type="hidden" autofocus="true" />
 <!-- LINHA 1  -->
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-8">
         {$activityname}
+    </div>
+    <div class="col-lg-4">
+        {$id_activitytype}
     </div>
 </div>
 <div class="row">
@@ -20,6 +23,15 @@
     </div>
     <div class="col-lg-6">
         {$activitysupply}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        {$id_currency}
+    </div>
+    <div class="col-lg-6">
+        {$price}
     </div>
 </div>
 <div class="row">
@@ -39,11 +51,6 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-12">
-        {$id_activitytype}
-    </div>
-</div>
-<div class="row">
     <div class="col-lg-3">
         {$lat}
     </div>
@@ -52,11 +59,6 @@
     </div>
     <div class="col-lg-3">
         {$geoloc}
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-12">
-        {$price}
     </div>
 </div>
 
