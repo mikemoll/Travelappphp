@@ -65,6 +65,10 @@ class IndexController extends AbstractController {
 
         if (true) {
 
+            $menu2 = new Ui_Element_MenuItem('activities', 'Activities', HTTP_REFERER . 'activity', '', '', '3 new Activities created!');
+//        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
+            $menu->addSubMenu($menu2);
+
             $menu2 = new Ui_Element_MenuItem('trips2', 'Trips', HTTP_REFERER . 'trip', '', '', '10 new Trips');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
@@ -81,13 +85,13 @@ class IndexController extends AbstractController {
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
 
-             $menu2 = new Ui_Element_MenuItem('Activitytype', 'Activity types', HTTP_REFERER . 'activitytype', '', 'activitytype');
+            $menu2 = new Ui_Element_MenuItem('Activitytype', 'Activity types', HTTP_REFERER . 'activitytype', '', 'activitytype');
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-        $menu->addSubMenu($menu2);
+            $menu->addSubMenu($menu2);
 
-        $menu2 = new Ui_Element_MenuItem('Triptype', 'Trip types', HTTP_REFERER . 'triptype', '', 'triptype');
+            $menu2 = new Ui_Element_MenuItem('Triptype', 'Trip types', HTTP_REFERER . 'triptype', '', 'triptype');
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-        $menu->addSubMenu($menu2);
+            $menu->addSubMenu($menu2);
 
             // -----------------------------------------------------------
         }
@@ -101,11 +105,15 @@ class IndexController extends AbstractController {
             $menu3 = new Ui_Element_MenuItem('groups', 'Groups of Users', HTTP_REFERER . 'usuario/grupos', '', '');
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu2->addSubMenu($menu3);
-            
+
             $menu3 = new Ui_Element_MenuItem('Proccess', 'Proccess', HTTP_REFERER . 'processo', '', '');
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu2->addSubMenu($menu3);
-            $menu3 = new Ui_Element_MenuItem('DatabaseUptates', 'Database Uptates', HTTP_REFERER . 'dbupdate', '', 'database');
+            $menu3 = new Ui_Element_MenuItem('DatabaseUptates', 'Database Uptates', HTTP_REFERER . 'dbupdate', '', '');
+//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
+            $menu2->addSubMenu($menu3);
+
+            $menu3 = new Ui_Element_MenuItem('ExampleForm', 'Form Exemple', HTTP_REFERER . 'exampleform/edit', '', '');
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu2->addSubMenu($menu3);
         }

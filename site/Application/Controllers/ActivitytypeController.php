@@ -94,7 +94,8 @@ class ActivitytypeController extends AbstractController {
         $form->setName($this->ItemEditFormName);
 
         $element = new Ui_Element_Text('activitytypename', "Activity type name");
-        $element->setAttrib('maxlenght', 45);
+        $element->setAttrib('maxlength', 45);
+        $element->setRequired();
         $form->addElement($element);
 
         $obj = new $this->Model();
@@ -118,7 +119,7 @@ class ActivitytypeController extends AbstractController {
         $cancelar = new Ui_Element_Btn('btnCancel');
         $cancelar->setAttrib('params', 'IdWindowEdit=' . $this->IdWindowEdit);
         $cancelar->setDisplay('Cancel', 'times');
-        $cancelar->setHref(HTTP_REFERER . $this->Action );
+        $cancelar->setHref(HTTP_REFERER . $this->Action);
         $form->addElement($cancelar);
 
         $form->setDataSession($this->ItemEditFormName);
@@ -159,7 +160,6 @@ class ActivitytypeController extends AbstractController {
         $br->setMsgAlert('Saved!', $msg);
         $br->setBrowserUrl(BASE_URL . 'activitytype');
         $br->send();
-
     }
 
 }
