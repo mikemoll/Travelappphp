@@ -1,0 +1,1 @@
+ALTER TABLE `tripactivity` ADD `id_activity` bigint NOT NULL AFTER `status`;
