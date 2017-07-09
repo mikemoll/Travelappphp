@@ -153,8 +153,8 @@ class DbupdateController extends AbstractController {
         $element = new Ui_Element_Textarea('content', "Content");
 //        $element->setTinyMce();
         $element->setValue($obj->content);
-        $element->setAttrib('rows', 15);
-        $element->setAttrib('maxlength', 500);
+        $element->setAttrib('rows', 20);
+//        $element->setAttrib('maxlength', 500);
         $form->addElement($element);
 
 
