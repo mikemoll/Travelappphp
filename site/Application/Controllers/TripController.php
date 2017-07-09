@@ -128,6 +128,7 @@ class TripController extends AbstractController {
 
         $element = new Ui_Element_Text('tripname', "Trip Name");
         $element->setAttrib('maxlength', 30);
+        $element->setRequired();
         $form->addElement($element);
 
 
@@ -156,9 +157,11 @@ class TripController extends AbstractController {
         $form->addElement($element);
 
         $element = new Ui_Element_Date('startdate', "Start Date");
+        $element->setRequired();
         $form->addElement($element);
 
         $element = new Ui_Element_Date('enddate', "End Date");
+        $element->setRequired();
         $form->addElement($element);
 
         $obj = new $this->Model();
@@ -204,7 +207,19 @@ class TripController extends AbstractController {
         $session = Zend_Registry::get('session');
 //        $usuario = $session->usuario;
         $br = new Browser_Control();
+        // ----------------------
 
+        $form = Session_Control::getDataSession($this->ItemEditFormName);
+
+        $valid = $form->processAjax($_POST);
+
+        $br = new Browser_Control();
+        if ($valid != 'true') {
+            $br->validaForm($valid);
+            $br->send();
+            exit;
+        }
+        // ----------------------
         /* @var $lObj Trip */
         $lObj = Trip::getInstance($this->ItemEditInstanceName);
 

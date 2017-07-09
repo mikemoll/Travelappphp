@@ -130,7 +130,7 @@ class InterestController extends AbstractController {
         $button->setAttrib('validaObrig', '1');
         $form->addElement($button);
 
-        $cancelar = new Ui_Element_Btn('btnCancelar');
+        $cancelar = new Ui_Element_Btn('btnCancel');
         $cancelar->setAttrib('params', 'IdWindowEdit=' . $this->IdWindowEdit);
         $cancelar->setDisplay('Cancel', 'times');
         $cancelar->setHref(BASE_URL . $this->Action);

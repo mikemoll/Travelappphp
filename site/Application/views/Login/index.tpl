@@ -91,7 +91,7 @@
         <script src="{$baseUrl}Public/assets/plugins/switchery/js/switchery.min.js" type="text/javascript"></script>
         <script src="{$baseUrl}Public/assets/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
         <!-- END VENDOR JS -->
-        <script src="pages/js/pages.min.js"></script>
+        <script src="{$baseUrl}Public/pages/js/pages.min.js"></script>
         {$scriptsJs}
 
         {literal}
