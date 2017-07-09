@@ -118,7 +118,13 @@ class DbupdateController extends AbstractController {
         $homepage = file_get_contents($obj->sqlFolder . "/$filename");
         $db = Zend_Db_Table::getDefaultAdapter();
         $sql = $homepage;
-        $db->query($sql);
+        try {
+            $db->query($sql);
+        } catch (Exception $exc) {
+            $br->setAlert('Error!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
 
         $obj->setUpdatedOn($obj->filetime);
         $obj->save();
