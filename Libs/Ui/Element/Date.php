@@ -6,7 +6,7 @@ class Ui_Element_Date extends Zend_Form_Element_Text {
     public $showOn = 'button';
     public $dateFormat = 'mm/dd/yyyy';
     public $placeholder = '__/__/_____';
-    public $mask = '19/39/9999';
+    public $mask = '99/99/9999';
     public $buttonText = '';
     public $autoSize = true;
     public $constrainInput = false;
@@ -18,7 +18,9 @@ class Ui_Element_Date extends Zend_Form_Element_Text {
         $this->addDecorator('ViewHelper');
         $this->setAttrib('class', 'form-control datepicker');
 //		Browser_Control::setScript('js', 'Date', 'Date/Date.js');
-        Browser_Control::setScript('js', 'Mask', 'Mask/Mask.js');
+//        Browser_Control::setScript('js', 'Mask', 'Mask/Mask.js');
+        Browser_Control::setScript('js', 'jquery.inputmask', '../../site/Public/assets/plugins/jquery-inputmask/jquery.inputmask.min.js');
+
 //		Browser_Control::setScript('css', 'Date', 'Date/Date.css');
 //                $this->buttonImage = PATH_IMAGES.'Calendarios/CalendarAdd24x24.png';
     }

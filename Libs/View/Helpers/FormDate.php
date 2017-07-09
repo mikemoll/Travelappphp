@@ -13,14 +13,14 @@ class Zend_View_Helper_FormDate extends Zend_View_Helper_FormElement {
         unset($attribs['mask']);
 
 //        $attribs['masked'] = 'true';
-        // build the element
+// build the element
         $disabled = '';
         if ($disable) {
-            // disabled
+// disabled
             $disabled = ' disabled="disabled"';
         }
 
-        // XHTML or HTML end tag?
+// XHTML or HTML end tag?
         $endTag = ' />';
         if (($this->view instanceof Zend_View_Abstract) && !$this->view->doctype()->isXhtml()) {
             $endTag = '>';
@@ -47,11 +47,11 @@ class Zend_View_Helper_FormDate extends Zend_View_Helper_FormElement {
         if ($label != '') {
             $xhtml .= '<div class="form-group form-group-default  input-group">';
 
-            $xhtml .='<label >' . $label . '</label>';
+            $xhtml .= '<label >' . $label . '</label>';
         }
         $paddingRigth = '';
         if ($showCalendar) {
-            // se mostrar o calendario a direita, tem que colocar padding-rigth, senão o texto fica junto com o calendario
+// se mostrar o calendario a direita, tem que colocar padding-rigth, senão o texto fica junto com o calendario
             $paddingRigth = 'padding-right: 25px;';
         }
         $xhtml .= '<input type="text"  style="' . $paddingRigth . '"'
@@ -91,12 +91,12 @@ class Zend_View_Helper_FormDate extends Zend_View_Helper_FormElement {
 //                . '</script>';
 
 
-        $xhtml .= "<script type='text/javascript'>$('#" . $id . "').setMask({mask: '$mask', autoTab: false})</script>";
 
 
         if ($label != '') {
             $xhtml .= '</div>';
         }
+        $xhtml .= '<script type="text/javascript">$(document).ready(function(){$("#' . $id . '").mask(  "' . $mask . '" )});</script>';
 
         return $xhtml;
     }

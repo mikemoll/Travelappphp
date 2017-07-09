@@ -57,7 +57,7 @@ class Zend_View_Helper_FormTextMask extends Zend_View_Helper_FormElement {
 
 
         $maxlenght = $attribs['maxlenght'];
-        $mask = '"' . $attribs['mask'] . '"';
+        $mask =   $attribs['mask']  ;
         $autoTab = $attribs['autoTab'];
         $defaultValue = '"' . $attribs['defaultValue'] . '"';
         $reverse = $attribs['reverse'];
@@ -109,7 +109,7 @@ class Zend_View_Helper_FormTextMask extends Zend_View_Helper_FormElement {
         if ($label != '') {
             $xhtml = '<div class="form-group form-group-default">';
 
-            $xhtml .='<label>' . $label . '</label>';
+            $xhtml .= '<label>' . $label . '</label>';
         }
         $xhtml .= '<input type="text"'
                 . ' name="' . $this->view->escape($name) . '"'
@@ -124,7 +124,9 @@ class Zend_View_Helper_FormTextMask extends Zend_View_Helper_FormElement {
             $xhtml .= '</div>';
         }
 
-        $xhtml .= "<script type='text/javascript'>$('#" . $id . "').setMask({" . $param . "})</script>";
+//        $xhtml .= "<script type='text/javascript'>$('#" . $id . "').mask({" . $param . "})</script>";
+        $xhtml .= '<script type="text/javascript">$(document).ready(function(){$("#' . $id . '").mask(  "' . $mask . '" )});</script>';
+
         return $xhtml;
     }
 
