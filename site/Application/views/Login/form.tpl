@@ -1,3 +1,5 @@
+<p class="p-t-35">Sign into your travel track account</p>
+<p id=""msg></p>
 <!-- START Login Form -->
 <!-- START Form Control-->
 
@@ -30,11 +32,16 @@
         </div>
     </div>
     <div class="col-md-6 text-right">
-        <a href="#" class="text-info small">Help? Contact Support</a>
+        <a href="#" class="text-info small">Forgot my password</a>
     </div>
 </div>
 <!-- END Form Control-->
 {*<button class="btn btn-primary btn-cons m-t-10" type="submit">Sign in</button>*}
 {$btnLogin}
+{$btnLoginFacebook}
 {$btnEsqueci}
+
+<p class="p-t-35">Not registered yet?</p>
+{$btnCreate}
+
 <!--END Login Form-->

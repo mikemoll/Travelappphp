@@ -121,7 +121,7 @@ class ActivitytypeController extends AbstractController {
         $cancelar->setHref(HTTP_REFERER . $this->Action );
         $form->addElement($cancelar);
 
-        $form->setDataSession();
+        $form->setDataSession($this->ItemEditFormName);
 
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());

@@ -201,25 +201,32 @@ function resetForm(obj) {
     $('#' + obj.idForm)[0].reset();
 
 }
+
 function validaForm(obj) {
     eval('json = ' + obj.json + ';');
     var ret = '';
     $.each(json, function (i, o) {
-        label = 'campo "' + $('label[for="' + i + '"]').html() + '" ';
-        if (o.isEmpty != undefined) {
-            ret += 'O ' + label + 'deve ser informado. <br />';
-        } else if (o.notAlnum != undefined) {
-            ret += 'O ' + label + 'não pode conter valores alfanuméricos. <br />';
-        } else if (o.stringLengthTooLong != undefined) {
-            ret += 'O número de caracteres excedido para o ' + label + '.<br />';
-        } else if (o.stringLengthTooShort != undefined) {
-            ret += 'O número de caracteres e muito curto para o ' + label + '.<br />';
+        label = 'field "' + $('label[for="' + i + '"]').html() + '" ';
+        if (label == undefined) {
+            label = 'field "' + $('#"' + i + '"').attr('id') + '" ';
+
         }
+        if (o.isEmpty != undefined) {
+            ret += 'The ' + label + ' should be informed.';
+        } else if (o.notAlnum != undefined) {
+            ret += 'The ' + label + ' can\'t have alphanumeric values.';
+        } else if (o.stringLengthTooLong != undefined) {
+            ret += 'Number of characters exceeded for the ' + label + '.';
+        } else if (o.stringLengthTooShort != undefined) {
+            ret += 'Number of characters too short for the ' + label + '.';
+        }
+        ret += '<br/>';
         $('#' + i).css('outline', '1px solid red');
 
     });
-    setAlert('Verificar campos', ret, 300, 180);
+    setAlert('Check these fields', ret, 300, 180);
 }
+
 $(document).ready(function (p) {
 
 //    $('.page-container ').append('<div id="memory-usage" class="memory-usage">');
