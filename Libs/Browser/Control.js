@@ -206,11 +206,15 @@ function validaForm(obj) {
     eval('json = ' + obj.json + ';');
     var ret = '';
     $.each(json, function (i, o) {
-        label = 'field "' + $('label[for="' + i + '"]').html() + '" ';
+        label = $('label[for="' + i + '"]').html();
         if (label == undefined) {
-            label = 'field "' + $('#"' + i + '"').attr('id') + '" ';
+            label = $("#" + i).attr('placeholder');
+            if (label == undefined) {
+                label = $("#" + i).attr('id');
+            }
 
         }
+        label = 'field "' + label + '" ';
         if (o.isEmpty != undefined) {
             ret += 'The ' + label + ' should be informed.';
         } else if (o.notAlnum != undefined) {
@@ -248,7 +252,7 @@ $(document).ready(function (p) {
         $(this).remove();
         reativaBtnClicado();
     });
-    
+
     $("body").on('change', '.btn-file :file', function () {
         var input = $(this),
                 numFiles = input.get(0).files ? input.get(0).files.length : 1,
@@ -871,7 +875,7 @@ function ajaxRequest(obj, event, parametros) {
         });
 
         if (flag) {
-            setAlert('Campos Obrigatórios', 'Os campos em vermelho devem ser preenchidos', 200, 200);
+            $('body').pgNotification({style: 'flip', type: 'warning', message: "<strong>" + 'Required Fields' + "</strong> <br> <span>The fields in red should be filled!</span>"}).show();
             reativaBtnClicado();
             return false;
         }

@@ -41,6 +41,8 @@
                 }
             </script>
         {/literal}
+        <!-- This is the onli JS that has to be on the begining, cuz there are some components that need this before everithing else! (Leonardo )-->
+        <script src="{$baseUrl}Public/assets/plugins/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
     </head>
     <body class="fixed-header ">
         <div>
@@ -52,6 +54,7 @@
             <link href="{$baseUrl}Public/assets/plugins/switchery/css/switchery.min.css" rel="stylesheet" type="text/css" media="screen" />
             <link href="{$baseUrl}Public/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
             <link class="main-stylesheet" href="{$baseUrl}Public/pages/css/pages.css" rel="stylesheet" type="text/css" />
+{*             <link href="{$baseUrl}Public/assets/plugins/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" type="text/css" media="screen">*}
             <!--[if lte IE 9]>
                 <link href="{$baseUrl}Public/pages/css/ie9.css" rel="stylesheet" type="text/css" />
             <![endif]-->
@@ -84,7 +87,7 @@
             </div>
             <!-- END Login Right Container-->
         </div>
- 
+
         <!-- BEGIN VENDOR JS -->
         <script src="{$baseUrl}Public/assets/plugins/pace/pace.min.js" type="text/javascript"></script>
         <script src="{$baseUrl}Public/assets/plugins/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
@@ -101,9 +104,13 @@
         <script type="text/javascript" src="{$baseUrl}Public/assets/plugins/classie/classie.js"></script>
         <script src="{$baseUrl}Public/assets/plugins/switchery/js/switchery.min.js" type="text/javascript"></script>
         <script src="{$baseUrl}Public/assets/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+        <script src="{$baseUrl}Public/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
+
         <!-- END VENDOR JS -->
         <script src="{$baseUrl}Public/pages/js/pages.min.js"></script>
+        <!-- BEGIN FRAMEWORK JS-->
         {$scriptsJs}
+        <!-- END FRAMEWORK JS-->
 
         {literal}
             <script>

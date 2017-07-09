@@ -17,12 +17,8 @@ class Ui_Element_Date extends Zend_Form_Element_Text {
     public function init() {
         $this->addDecorator('ViewHelper');
         $this->setAttrib('class', 'form-control datepicker');
-//		Browser_Control::setScript('js', 'Date', 'Date/Date.js');
-//        Browser_Control::setScript('js', 'Mask', 'Mask/Mask.js');
         Browser_Control::setScript('js', 'jquery.inputmask', '../../site/Public/assets/plugins/jquery-inputmask/jquery.inputmask.min.js');
-
-//		Browser_Control::setScript('css', 'Date', 'Date/Date.css');
-//                $this->buttonImage = PATH_IMAGES.'Calendarios/CalendarAdd24x24.png';
+        Browser_Control::setScript('css', 'datepicker3', '../../site/Public/assets/plugins/bootstrap-datepicker/css/datepicker3.css');
     }
 
     public function __construct($id, $label = '') {

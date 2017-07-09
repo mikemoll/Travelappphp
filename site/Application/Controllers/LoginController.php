@@ -15,15 +15,6 @@ class LoginController extends AbstractController {
 
     public function init() {
 //        parent::init();
-//        Browser_Control::setScript('css', 'Login', 'assets/plugins/pace/pace-theme-flash.css');
-//    Browser_Control::setScript('css', 'Login', 'assets/plugins/bootstrapv3/css/bootstrap.min.css');
-//    Browser_Control::setScript('css', 'Login', 'assets/plugins/font-awesome/css/font-awesome.css');
-//    Browser_Control::setScript('css', 'Login', 'assets/plugins/jquery-scrollbar/jquery.scrollbar.css', "screen");
-//    Browser_Control::setScript('css', 'Login', 'assets/plugins/select2/css/select2.min.css', "screen");
-//    Browser_Control::setScript('css', 'Login', 'assets/plugins/switchery/css/switchery.min.css', "screen");
-//    Browser_Control::setScript('css', 'Login', 'pages/css/pages-icons.css', "screen");
-//    ;
-
 
         Browser_Control::setScript('js', 'md5', 'md5.js');
         Browser_Control::setScript('js', 'BorwserControl', '../Browser/Control.js');
@@ -174,7 +165,7 @@ class LoginController extends AbstractController {
             $br->addFieldValue('senha', '');
             $br->addFieldValue('user', '');
             $br->setDataForm('formLogin');
-            $br->setMsgAlert("Whoops!","User and password doesn't match");
+            $br->setMsgAlert("Whoops!", "User and password doesn't match");
         }
         $br->send();
         if ($limpaSession) {
@@ -356,43 +347,35 @@ class LoginController extends AbstractController {
 
         $element = new Ui_Element_Text('nomeCompleto');
         $element->setAttrib('maxlength', '35');
-        $element->setAttrib('size', '21');
         $element->setRequired();
-        $element->setAttrib('class', 'form-control');
+        $element->setHideRemainingCharacters();
         $element->setAttrib('placeholder', 'First name');
-        $element->setAttrib('required', '');
         $element->setAttrib('autofocus', '');
         $form->addElement($element);
 
 
         $element = new Ui_Element_Text('lastname');
         $element->setAttrib('maxlength', '35');
-        $element->setAttrib('size', '21');
         $element->setRequired();
-        $element->setAttrib('class', 'form-control');
+        $element->setHideRemainingCharacters();
         $element->setAttrib('placeholder', 'Last name');
-        $element->setAttrib('required', '');
         $form->addElement($element);
 
 
         $element = new Ui_Element_Text('email');
         $element->setAttrib('maxlength', '255');
-        $element->setAttrib('size', '21');
+        $element->setHideRemainingCharacters();
         $element->setAttrib('type', 'email');
         $element->setRequired();
-        $element->setAttrib('class', 'form-control');
         $element->setAttrib('placeholder', 'Email');
-        $element->setAttrib('required', '');
         $form->addElement($element);
 
-        $element = new Ui_Element_Date('birthdate');
+        $element = new Ui_Element_Date('birthdate', 'Birthdate');
         $element->setRequired();
-        $element->setAttrib('class', 'form-control');
-        $element->setAttrib('required', '');
+//        $element->setAttrib('class', 'form-control');
         $form->addElement($element);
 
         $element = new Ui_Element_Select('gender');
-        $element->setAttrib('required', '');
         $element->setRequired();
         $element->addMultiOption('', '- Select your gender -');
         $element->addMultiOption('F', 'Female');
@@ -401,63 +384,49 @@ class LoginController extends AbstractController {
 
         $element = new Ui_Element_Text('education');
         $element->setAttrib('maxlength', '100');
-        $element->setAttrib('size', '21');
-        $element->setAttrib('class', 'form-control');
+        $element->setHideRemainingCharacters();
         $element->setAttrib('placeholder', 'Education');
         $form->addElement($element);
 
         $element = new Ui_Element_Text('hometowncity');
         $element->setAttrib('maxlength', '50');
-        $element->setAttrib('size', '21');
-        $element->setAttrib('class', 'form-control');
-        $element->setAttrib('placeholder', 'Hometown (city)');
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', 'Home Town');
         $form->addElement($element);
 
         $element = new Ui_Element_Text('hometowncountry');
         $element->setAttrib('maxlength', '50');
-        $element->setAttrib('size', '21');
-        $element->setAttrib('class', 'form-control');
-        $element->setAttrib('placeholder', 'Hometown (country)');
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', 'Home Country');
         $form->addElement($element);
 
 
         $element = new Ui_Element_Text('loginUser');
         $element->setAttrib('maxlength', '30');
-        $element->setAttrib('size', '21');
-//      $element->setAttrib('obrig', 'obrig');
+        $element->setHideRemainingCharacters();
         $element->setRequired();
-        $element->setAttrib('class', 'form-control');
         $element->setAttrib('placeholder', 'user name');
-        $element->setAttrib('required', '');
-       // $element->setAttrib('hotkeys', 'enter, btnLogin, click');
+        // $element->setAttrib('hotkeys', 'enter, btnLogin, click');
         $form->addElement($element);
 
         $element = new Ui_Element_Password('senha');
         $element->setAttrib('maxlength', '30');
-        $element->setAttrib('size', '21');
-//      $element->setAttrib('obrig', 'obrig');
         $element->setAttrib('cript', '1');
-        $element->setAttrib('class', 'form-control');
         $element->setAttrib('placeholder', 'password');
-        $element->setAttrib('required', '');
         $element->setRequired();
         //$element->setAttrib('hotkeys', 'enter, btnLogin, click');
         $form->addElement($element);
 
         $element = new Ui_Element_Password('confirmpassword');
         $element->setAttrib('maxlength', '30');
-        $element->setAttrib('size', '21');
-//      $element->setAttrib('obrig', 'obrig');
         $element->setAttrib('cript', '1');
-        $element->setAttrib('class', 'form-control');
         $element->setAttrib('placeholder', 'confirm password');
-        $element->setAttrib('required', '');
         $element->setRequired();
         //$element->setAttrib('hotkeys', 'enter, btnLogin, click');
         $form->addElement($element);
 
         $element = new Ui_Element_Checkbox('termsofuse');
-        $element->setAttrib('label', 'I agree with the <a href="#" class="text-info">terms of use.</a>');//
+        $element->setAttrib('label', 'I agree with the <a href="#" class="text-info">terms of use.</a>'); //
         $element->setCheckedValue('S');
         $element->setUncheckedValue('N');
         $form->addElement($element);
@@ -469,6 +438,7 @@ class LoginController extends AbstractController {
         $button = new Ui_Element_Btn('btnRegister');
         $button->setDisplay('Register');
         $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('validaObrig', '1');
         $button->setAttrib('class', 'btn btn-primary btn-cons m-t-10');
         $form->addElement($button);
 
@@ -500,29 +470,22 @@ class LoginController extends AbstractController {
 //   public function btnregisterclickAction() {
 //         $post = Zend_Registry::get('post');
 //         $br = new Browser_Control();
-
 //         $form = Session_Control::getDataSession('formNewuser');
-
 //         $valid = $form->processAjax($_POST);
-
 //         $br = new Browser_Control();
 //         if ($valid != 'true') {
 //             $br->validaForm($valid);
 //             $br->send();
 //             exit;
 //         }
-
 //         $user = Usuario::getInstance('formNewuser');
 //         $user->setDataFromRequest($post);
 //         $user->save();
-
-
 // //        $br->setBrowserUrl(BASE_URL);
 //         $br->setRemoveWindow('newuser');
 //         $br->setUpdateDataTables('gridUsers');
 //         $br->setUpdateDataTables('gridGrupos');
 //         $br->send();
-
 //         Session_Control::setDataSession('formNewuser', '');
 //     }
 
@@ -558,7 +521,8 @@ class LoginController extends AbstractController {
         $br->setMsgAlert('Please check your e-mail and confirm your registration to proceed!', $msg);
         $br->setBrowserUrl(BASE_URL . 'login');
         $br->send();
-
     }
+
 }
+
 ?>

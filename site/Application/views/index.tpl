@@ -46,7 +46,7 @@
             <link href="{$baseUrl}Public/assets/plugins/nvd3/nv.d3.min.css" rel="stylesheet" type="text/css" media="screen" />
             <link href="{$baseUrl}Public/assets/plugins/mapplic/css/mapplic.css" rel="stylesheet" type="text/css" />
             <link href="{$baseUrl}Public/assets/plugins/rickshaw/rickshaw.min.css" rel="stylesheet" type="text/css" />
-            <link href="{$baseUrl}Public/assets/plugins/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" type="text/css" media="screen">
+{*            <link href="{$baseUrl}Public/assets/plugins/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" type="text/css" media="screen">*}
             <link href="{$baseUrl}Public/assets/plugins/jquery-metrojs/MetroJs.css" rel="stylesheet" type="text/css" media="screen" />
             <link href="{$baseUrl}Public/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
             <link class="main-stylesheet" href="{$baseUrl}Public/pages/css/pages.css" rel="stylesheet" type="text/css" />
