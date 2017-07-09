@@ -39,13 +39,13 @@ class TriptypeController extends AbstractController {
         $button = new Ui_Element_DataTables_Button('btnEdit', 'Edit');
         $button->setImg('edit');
         $button->setHref(HTTP_REFERER . $this->Action . '/edit');
-        $button->setVisible('PROC_TRIPTYPE', 'edit');
+        $button->setVisible('PROC_TRIPTYPE', 'editar');
         $grid->addButton($button);
 
         $button = new Ui_Element_DataTables_Button('btnDelete', 'Delete');
         $button->setImg('trash');
-        $button->setAttribs('msg = "Delete the selected trip type?"');
-        $button->setVisible('PROC_TRIPTYPE', 'delete');
+        $button->setAttrib('msg', "Delete the selected trip type?");
+        $button->setVisible('PROC_TRIPTYPE', 'excluir');
         $grid->addButton($button);
 
 
@@ -118,7 +118,7 @@ class TriptypeController extends AbstractController {
         $cancelar = new Ui_Element_Btn('btnCancel');
         $cancelar->setAttrib('params', 'IdWindowEdit=' . $this->IdWindowEdit);
         $cancelar->setDisplay('Cancel', 'times');
-        $cancelar->setHref(HTTP_REFERER . $this->Action );
+        $cancelar->setHref(HTTP_REFERER . $this->Action);
         $form->addElement($cancelar);
 
         $form->setDataSession();
@@ -159,7 +159,6 @@ class TriptypeController extends AbstractController {
         $br->setMsgAlert('Saved!', $msg);
         $br->setBrowserUrl(BASE_URL . 'triptype');
         $br->send();
-
     }
 
 }

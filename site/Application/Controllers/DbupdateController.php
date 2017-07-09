@@ -35,8 +35,7 @@ class DbupdateController extends AbstractController {
         $grid->setParams('', BASE_URL . $this->Action . '/list');
 //        $grid->setShowLengthChange(false);
 //        $grid->setShowPager(false);
-        $grid->setOrder('DataCadastro', 'desc');
-//        $grid->setFillListOptions('FichaTecnica', 'readFichatecnicaLst');
+        $grid->setOrder('filetime', 'desc');
 
         $button = new Ui_Element_DataTables_Button('btnEditar', 'Edit');
         $button->setImg('edit');
@@ -58,6 +57,14 @@ class DbupdateController extends AbstractController {
 
         $column = new Ui_Element_DataTables_Column_Text('Date', 'date');
         $column->setWidth('2');
+        $grid->addColumn($column);
+
+        $column = new Ui_Element_DataTables_Column_Text('File Time', 'filetime');
+        $column->setWidth('1');
+        $grid->addColumn($column);
+
+        $column = new Ui_Element_DataTables_Column_Text('Last Update', 'UpdatedOn');
+        $column->setWidth('1');
         $grid->addColumn($column);
 
         $column = new Ui_Element_DataTables_Column_Text('Is New', 'isnew');
@@ -98,9 +105,8 @@ class DbupdateController extends AbstractController {
         $post = Zend_Registry::get('post');
 
         $obj = new $this->Model();
-        $flist = $obj->getFileList();
-//        print'<pre>';die(print_r( $flist ));
-        Grid_ControlDataTables::setDataGrid($flist, false, '');
+        $obj->readLst();
+        Grid_ControlDataTables::setDataGrid($obj, false, '');
     }
 
     public function btnrunclickAction() {
@@ -131,10 +137,6 @@ class DbupdateController extends AbstractController {
         if (isset($post->id)) {
             $obj->read($post->id);
         }
-//        $obj->setInstance($this->ItemEditInstanceName);
-
-
-
 
 
         $form = new Ui_Form();
@@ -169,7 +171,7 @@ class DbupdateController extends AbstractController {
         $button->setAttrib('validaObrig', '1');
         $form->addElement($button);
 
-        $cancelar = new Ui_Element_Btn('btnCancelar');
+        $cancelar = new Ui_Element_Btn('btnClose');
         $cancelar->setAttrib('params', 'IdWindowEdit=' . $this->IdWindowEdit);
         $cancelar->setDisplay('Cancel', 'times');
         $form->addElement($cancelar);
@@ -212,54 +214,11 @@ class DbupdateController extends AbstractController {
             $br->send();
             die();
         }
-        $msg = 'Suas alterações foram Salvas com sucesso!';
+        $msg = 'Saved!';
         $br->setMsgAlert('Saved!', $msg);
         $br->setRemoveWindow($this->IdWindowEdit);
         $br->setUpdateDataTables($this->IdGrid);
         $br->send();
-    }
-
-    public function viewAction() {
-        $br = new Browser_Control();
-        $post = Zend_Registry::get('post');
-        $view = Zend_Registry::get('view');
-        $idUsuario = Usuario::getIdUsuarioLogado();
-
-        $obj = new $this->Model();
-        if (isset($post->id)) {
-            $obj->read($post->id);
-        }
-        $obj->setInstance($this->ItemEditInstanceName);
-        if ($obj->found() and ( Usuario::verificaAcesso('PROC_MENSAGENS', 'inserir') or $obj->getUsuarioTemAcesso($idUsuario) )) {
-            $obj->setVisualizada($idUsuario);
-
-            $view->assign('titulo', 'Cominicação Interna');
-
-            if (Usuario::verificaAcesso('PROC_MENSAGEM', 'editar')) {
-                $view->assign('id_mensagem', $obj->getID());
-            }
-            $view->assign('TituloPagina', $obj->getAssunto());
-            $view->assign('Assunto', $obj->getAssunto());
-            $view->assign('DBUpdate', $obj->getDBUpdate());
-            $view->assign('Remetente', $obj->getNomeRemetente());
-            $view->assign('DataCadastro', $obj->getDataCadastro());
-            if (Usuario::verificaAcesso('PROC_MENSAGENS', 'inserir')) {
-                $view->assign('visualizacoes', $obj->getListaVisualizacoes());
-            }
-        } else {
-
-            $view->assign('titulo', 'DBUpdate não encontrada');
-            $view->assign('TituloPagina', 'DBUpdate não encontrada');
-            $view->assign('Assunto', 'DBUpdate não encontrada');
-            $view->assign('Remetente', 'Administrador');
-            $view->assign('DBUpdate', 'A mensagem que você está tentando acessar não está disponível.');
-        }
-
-        $view->assign('scripts', Browser_Control::getScripts());
-        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
-        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
-        $view->assign('body', $view->fetch('DBUpdate/view.tpl'));
-        $view->output('index.tpl');
     }
 
 }

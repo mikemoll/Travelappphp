@@ -6,6 +6,17 @@ class ProcessoController extends AbstractController {
 
     public function init() {
         parent::init();
+        $this->IdGrid = 'grid';
+        $this->FormName = 'formProcesso';
+        $this->Action = 'Processo';
+        $this->TituloLista = "Trip Type";
+        $this->TituloEdicao = "Trip Type";
+        $this->ItemEditInstanceName = 'ProcessoEdit';
+        $this->ItemEditFormName = 'formProcessoItemEdit';
+        $this->Model = 'Processo';
+        $this->IdWindowEdit = 'EditProcesso';
+        $this->TplIndex = 'Processo/index.tpl';
+        $this->TplEdit = 'Processo/edit.tpl';
     }
 
     public function indexAction() {
@@ -19,31 +30,30 @@ class ProcessoController extends AbstractController {
         $grid->setParams('', BASE_URL . $form->getAction() . '/listaProcessos');
         $grid->setShowPager(false);
 
-        $element = new Ui_Element_DataTables_Button('btnNovo', 'New Item');
+        $element = new Ui_Element_DataTables_Button('btnNovo', 'Edit');
         $element->setImg('plus');
         $element->setVisible('PROC_CAD_PROCESSOS', 'inserir');
         $grid->addButton($element);
-//        $element = new Ui_Element_DataTables_Button('btnExcluir', 'Excluir');
-//        $element->setImg('Buttons/Cancelar.png');
-//        $element->setAttribs('msg = "Excluir o item selecionado ?"');
-//        $element->setVisible('PROC_CAD_PROCESSOS', 'excluir');
-//        $element->setSendFormFields('sendFormFields', '1');
-//        $grid->addButton($element);
+
+        $element = new Ui_Element_DataTables_Button('btnDelete', 'Delete');
+        $element->setImg('trash');
+        $element->setAttrib('msg', "Excluir o item selecionado ?");
+        $element->setVisible('PROC_CAD_PROCESSOS', 'excluir');
+        $grid->addButton($element);
 //
-//        $column = new Ui_Element_DataTables_Column_Check('ID', 'oid_processo', '30', 'center');
-//        $grid->addColumn($column);
-
-        $column = new Ui_Element_DataTables_Column_Text('Proccess Name', 'nome', '110');
+        $column = new Ui_Element_DataTables_Column_Text('ID', 'id_processo');
         $grid->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Description', 'descricao', '190');
+        $column = new Ui_Element_DataTables_Column_Text('Proccess Name', 'nome');
         $grid->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Controllers', 'controladores', '190');
+        $column = new Ui_Element_DataTables_Column_Text('Description', 'descricao');
+        $grid->addColumn($column);
+
+        $column = new Ui_Element_DataTables_Column_Text('Controllers', 'controladores');
         $grid->addColumn($column);
 
 
-        Session_Control::setDataSession($grid->getId(), $grid);
         $form->addElement($grid);
 
 
@@ -61,10 +71,6 @@ class ProcessoController extends AbstractController {
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('body', $form->displayTpl($view, 'Processos/index.tpl'));
         $view->output('index.tpl');
-    }
-
-    public function btnexcluirclickAction() {
-        Grid_ControlDataTables::deleteDataGrid('Processos', 'processos');
     }
 
     public function listaprocessosAction() {

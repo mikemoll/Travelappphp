@@ -13,6 +13,6 @@
 </div>
 <div class="row">
     <div class="col-lg-12">
-        {$btnSalvar} {$btnCancelar}
+        {$btnSalvar} {$btnClose}
     </div>
 </div>

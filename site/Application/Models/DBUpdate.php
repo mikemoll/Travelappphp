@@ -26,18 +26,9 @@ class DBUpdate extends Db_Table {
 
         foreach ($files2 as $value) {
             $fileTime = filemtime($this->sqlFolder . '/' . $value);
-
             $item['filename'] = $value;
-//            print'<pre>';
-//            die(print_r("$fileTime > " . time()));
-
-            $item['date'] = date('d/m/Y H:i:s', $fileTime);
+            $item['date'] = date('d/m/Y H:i', $fileTime);
             $item['filetime'] = $fileTime;
-            if ($fileTime > $this->getUpdatedOn()) {
-                $item['isnew'] = ' <span class="badge badge-warning">New!</span>';
-            }
-            $content = file_get_contents($this->sqlFolder . "/$value");
-            $item['content'] = $content;
             $ret[] = $item;
         }
 
@@ -65,8 +56,49 @@ class DBUpdate extends Db_Table {
         $fileLst = $this->getFileList();
         $this->filename = $fileLst[$id]['filename'];
         $this->filetime = $fileLst[$id]['filetime'];
-        $this->content = $fileLst[$id]['content'];
+        $content = file_get_contents($this->sqlFolder . "/" . $fileLst[$id]['filename']);
+        $this->content = $content;
         $this->date = $fileLst[$id]['date'];
+    }
+
+    public function readLst($modo = 'obj') {
+
+        parent::read(1);
+
+        $fileLst = $this->getFileList();
+
+        foreach ($fileLst as $key => $file) {
+            $item = new DBUpdate();
+            $item->filename = $file['filename'];
+            $item->filetime = $file['filetime'];
+            $item->a_updatedon = $this->a_updatedon;
+            $item->date = $file['date'];
+            $this->add($item);
+        }
+//        print'<pre>';
+//        die(print_r($this->limpaObjeto()));
+    }
+
+    public function getisnew() {
+        if ($this->getfiletime() > $this->getUpdatedOn()) {
+            return ' <span class="badge badge-warning">New!</span>';
+        }
+    }
+
+    public function getfilename() {
+        return $this->filename;
+    }
+
+    public function getfiletime() {
+        return $this->filetime;
+    }
+
+    public function getcontent() {
+        return $this->content;
+    }
+
+    public function getdate() {
+        return $this->date;
     }
 
     public function setDataFromRequest($post) {

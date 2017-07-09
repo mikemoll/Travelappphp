@@ -189,6 +189,9 @@ class ExampleFormController extends AbstractController {
         $grid->addButton($button);
 
 
+        $column = new Ui_Element_DataTables_Column_Check('ID', 'id_trip');
+        $grid->addColumn($column);
+
 
         $column = new Ui_Element_DataTables_Column_Date('ExampleForm Name', 'tripname');
         $column->setWidth('4');
