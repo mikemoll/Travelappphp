@@ -74,6 +74,15 @@ class Ui_Element_Textarea extends Zend_Form_Element_Textarea {
         }
     }
 
+    /**
+     * set if it to Hide Remaining Characters
+     *
+     * @param string $placeholder
+     */
+    public function setHideRemainingCharacteres() {
+        $this->setAttrib('data-hide-remaining-caracters', true);
+    }
+
     /** Para que o TinyMce funcione em Ui_Window aberta pelo Browser_Control, é preciso
      * passar a instancia do Browser_Control para chamar o addLoadScript para que ele execute ao abrir a "Ui_Window"
      *

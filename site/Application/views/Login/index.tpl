@@ -21,6 +21,17 @@
             var HTTP_HOST = '{$HTTP_HOST}';
         </script>
         {literal}
+            <style>
+                .max-char-text {
+                    position: absolute;
+                    right: 20px;
+                    top: 2px;
+                    font-size: smaller;
+                    color: #ccc;
+                }
+            </style>
+        {/literal}
+        {literal}
             <script type="text/javascript">
                 window.onload = function ()
                 {

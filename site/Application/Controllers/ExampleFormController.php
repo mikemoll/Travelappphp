@@ -116,7 +116,14 @@ class ExampleFormController extends AbstractController {
         $form->addElement($element);
 
         $element = new Ui_Element_Text('maxlength', "Field with Maxlength");
-        $element->setAttrib('maxlength', 45);
+        $element->setAttrib('maxlength', 5);
+        $element->setPlaceholder("\$element->setAttrib('maxlength', 5)");
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('hidingremaningcharacteres', "Field with Maxlength, but hiding the remaining characters");
+        $element->setAttrib('maxlength', 5);
+        $element->setHideRemainingCharacters();
+        $element->setPlaceholder("\$element->setAttrib('maxlength', 5);  \$element->setHideRemainingCharacteres();");
         $form->addElement($element);
 
         $element = new Ui_Element_Text('placeholder', "Simple Text Placeholder");
@@ -124,20 +131,21 @@ class ExampleFormController extends AbstractController {
         $form->addElement($element);
 
         $element = new Ui_Element_Text('textRequired', "Simple Text Required");
-        $element->setAttrib('maxlength', 45);
         $element->setRequired();
+        $element->setPlaceholder("\$element->setRequired();");
         $form->addElement($element);
 
-        $element = new Ui_Element_Text('pass', "Password Field");
-        $element->setAttrib('maxlength', 45);
-        $element->setAttrib('cript', '1');
-        $element->setRequired();
-        $form->addElement($element);
 
         $element = new Ui_Element_Text('hotkey', "Field with HotKey!");
         $element->setPlaceholder('$element->setAttrib("hotkeys", "enter, btnLogin, click");');
         $element->setAttrib('hotkeys', 'enter, btnLogin, click');
         $form->addElement($element);
+
+        $element = new Ui_Element_Password('pass', "Password Field");
+        $element->setAttrib('cript', '1');
+        $element->setRequired();
+        $form->addElement($element);
+
 
         $element = new Ui_Element_TextMask('textmask', "textmask");
         $element->setMask('9999,99');

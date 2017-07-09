@@ -117,7 +117,7 @@ class Zend_View_Helper_FormTextMask extends Zend_View_Helper_FormElement {
                 . ' value="' . $this->view->escape($value) . '"'
                 . $this->_htmlAttribs($attribs)
                 . $endTag;
-        if ($maxlenght != '' and $maxlenght > 0) {
+        if ($maxlenght != '' and $maxlenght > 0 and $attribs['data-hide-remaining-caracters'] != true) {
             $xhtml .= '<span class="max-char-text" ><span id="chars' . $this->view->escape($name) . '">' . ($maxlenght - strlen($this->view->escape($value))) . '</span> remaining characters</span>';
         }
         if ($label != '') {

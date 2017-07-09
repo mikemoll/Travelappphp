@@ -55,6 +55,15 @@ class Ui_Element_Text extends Zend_Form_Element_Text {
     }
 
     /**
+     * set if it to Hide Remaining Characters
+     *
+     * @param string $placeholder
+     */
+    public function setHideRemainingCharacters() {
+        $this->setAttrib('data-hide-remaining-caracters', true);
+    }
+
+    /**
      * Define o placeholder desse componente
      *
      * @param string $placeholder

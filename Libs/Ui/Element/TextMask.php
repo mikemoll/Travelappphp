@@ -23,6 +23,15 @@ class Ui_Element_TextMask extends Zend_Form_Element_Text {
     }
 
     /**
+     * set if it to Hide Remaining Characters
+     *
+     * @param string $placeholder
+     */
+    public function setHideRemainingCharacteres() {
+        $this->setAttrib('data-hide-remaining-caracters', true);
+    }
+
+    /**
      * Define se esse componente deve executar o onBlur
      *
      * @param string $id

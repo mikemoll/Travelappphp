@@ -75,7 +75,7 @@ class Zend_View_Helper_FormText extends Zend_View_Helper_FormElement {
                 . ' value="' . $this->view->escape($value) . '"'
                 . $this->_htmlAttribs($attribs)
                 . $endTag;
-        if ($maxlength != '' and $maxlength > 0) {
+        if ($maxlength != '' and $maxlength > 0 and $attribs['data-hide-remaining-caracters'] != true) {
             $xhtml .= '<span class="max-char-text" ><span id="chars' . $this->view->escape($name) . '">' . ($maxlength - strlen($this->view->escape($value))) . '</span> remaining characters</span>';
         }
         if ($label != '') {
