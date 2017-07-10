@@ -309,10 +309,13 @@ class Db_Table extends Zend_Db_Table {
 
         if (is_object($lista)) {
             $itens = $lista->getItens();
-            $getKey = 'get' . $keyName;
-            $getValue = 'get' . $valueName;
-            foreach ($itens as $litem) {
-                $return[] = array('key' => $litem->$getKey(), 'value' => $litem->$getValue());
+            if (count($itens) > 0) {
+
+                $getKey = 'get' . $keyName;
+                $getValue = 'get' . $valueName;
+                foreach ($itens as $litem) {
+                    $return[] = array('key' => $litem->$getKey(), 'value' => $litem->$getValue());
+                }
             }
         } else if ($lista !== false) {
             unset($lista['totalItens']);
