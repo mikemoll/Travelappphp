@@ -81,7 +81,7 @@ class EventController extends AbstractController {
         $button->setDisplay('New Item', 'plus');
         $button->setHref(HTTP_REFERER . $this->Action . '/edit');
         $button->setType('success');
-        $button->setVisible('PROC_TRIP', 'inserir');
+        $button->setVisible('PROC_Event', 'inserir');
         $form->addElement($button);
 
 
@@ -125,6 +125,12 @@ class EventController extends AbstractController {
         $form = new Ui_Form();
         $form->setAction($this->Action);
         $form->setName($this->ItemEditFormName);
+
+        $element = new Ui_Element_Checkbox('public', 'Public Event <small>(Is this event a public event for every user of Travel Track?)</small>');
+        $element->setCheckedValue('S');
+        $element->setUncheckedValue('N');
+        $element->setAttrib('switchery', 'switchery');
+        $form->addElement($element);
 
         $element = new Ui_Element_Text('eventname', "Event Name");
         $element->setAttrib('maxlength', 45);
@@ -202,6 +208,54 @@ class EventController extends AbstractController {
         $element->setAttrib('maxlength', 500);
         $form->addElement($element);
 
+
+        ////-------- Grid   Event Activity --------------------------------------------------------------
+
+        $button = new Ui_Element_Btn('btnInvite');
+        $button->setDisplay('Invite a Friend to your Event', 'send');
+        $button->setType('success');
+        $button->setAttrib('validaObrig', '1');
+        $form->addElement($button);
+
+
+        $grid = new Ui_Element_DataTables('gridUser');
+        $grid->setParams('', BASE_URL . $this->Action . '/listuser');
+        $grid->setShowLengthChange(false);
+        $grid->setShowSearching(false);
+        $grid->setShowPager(false);
+//        $grid->setOrder('DataCadastro', 'desc');
+//
+//
+//        $button = new Ui_Element_DataTables_Button('btnEdit', 'Edit');
+//        $button->setImg('edit');
+//        $button->setVisible('PROC_MENSAGENS', 'editar');
+//        $grid->addButton($button);
+//
+        $button = new Ui_Element_DataTables_Button('btnDeleteUser', 'Delete');
+        $button->setImg('trash');
+        $button->setAttrib('msg', "Are you sure that you want to delete this?");
+        $button->setVisible('PROC_MENSAGENS', 'excluir');
+        $grid->addButton($button);
+
+
+        $column = new Ui_Element_DataTables_Column_Date('User Name', 'username');
+        $column->setWidth('4');
+        $grid->addColumn($column);
+
+        $column = new Ui_Element_DataTables_Column_Text('email', 'email');
+        $column->setWidth('4');
+        $grid->addColumn($column);
+
+        $column = new Ui_Element_DataTables_Column_Text('Satus', 'DescSatus');
+        $column->setWidth('2');
+        $grid->addColumn($column);
+
+
+        $form->addElement($grid);
+
+        // =========================================================================
+
+
         $obj = new $this->Model();
         if (isset($post->id)) {
             $obj->read($post->id);
@@ -236,6 +290,155 @@ class EventController extends AbstractController {
         $view->assign('TituloPagina', $this->TituloEdicao);
         $view->assign('body', $form->displayTpl($view, $this->TplEdit));
         $view->output('index.tpl');
+    }
+
+    public function listuserAction() {
+//        $post = Zend_Registry::get('post');
+        /* @var $lObj Event */
+        $lObj = Event::getInstance($this->ItemEditInstanceName);
+        $obj = new EventUser();
+        $obj->where('id_event', $lObj->getid_Event());
+        $obj->readLst();
+        Grid_ControlDataTables::setDataGrid($obj, false, true);
+    }
+
+    public function btninviteclickAction() {
+        $view = Zend_Registry::get('view');
+        $post = Zend_Registry::get('post');
+        $br = new Browser_Control();
+
+        /* @var $lObj Event */
+        $lObj = Event::getInstance($this->ItemEditInstanceName);
+
+        if ($lObj->getState() == cCREATE) {
+            $br->setMsgAlert('Ops!', 'First You need to save de Event!');
+            $br->send();
+            return;
+        }
+
+        $form = new Ui_Form();
+        $form->setAction($this->Action);
+        $form->setName('Invite');
+
+        $element = new Ui_Element_Text('firstname', "Friend's Name");
+        $element->setAttrib('maxlength', 35);
+        $element->setRequired();
+        $element->setAttrib('event', 'blur');
+        $element->setAttrib('class', 'form-control');
+        $form->addElement($element);
+//        $element = new Ui_Element_Select('firstname', "Friend's Name");
+//        $element->setSelect2(true);
+//        $element->setSelect2AjaxLoad($this->Action);
+//        $element->setAttrib('data-allow-clear', 'true');
+//        $element->setAttrib('data-placeholder', '');
+//        $form->addElement($element);
+
+        $element = new Ui_Element_Text('email', "Email");
+        $element->setAttrib('maxlength', 255);
+        $form->addElement($element);
+
+//        $obj = new $this->Model();
+//        if (isset($post->id)) {
+//            $obj->read($post->id);
+//            $form->setDataForm($obj);
+//        }
+//        $obj->setInstance($this->ItemEditInstanceName);
+
+        $button = new Ui_Element_Btn('btnSendInvitation');
+        $button->setDisplay('Send', 'send');
+        $button->setType('success');
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('validaObrig', '1');
+        $form->addElement($button);
+
+        $cancelar = new Ui_Element_Btn('btnClose');
+        $cancelar->setAttrib('params', 'IdWindowEdit=EditInvite');
+        $cancelar->setDisplay('Close', 'times');
+        $form->addElement($cancelar);
+
+        $form->setDataSession();
+
+        $w = new Ui_Window('EditInvite', 'Invite your Friends', $form->displayTpl($view, 'Event/invite.tpl'));
+
+        $br->newWindow($w);
+        $br->send();
+    }
+
+//
+//    public function firstnamechangeAction() {
+//        $br = new Browser_Control();
+//        $post = Zend_Registry::get('post');
+//        $query = substr($post->controlValue, 1);
+//        $query = html_entity_decode($query);
+//
+//        $friends = new Friend();
+//        $friends->where('friend.id_usuario', Usuario::getIdUsuarioLogado());
+////        $q = explode(' ', $query);
+////        foreach ($l as $nomeCliente) {
+////            $friends->where('usuario.nomecompleto', $nomeCliente, 'like', 'or', 'username');
+////            $friends->where('usuario.last', $nomeCliente, 'like', 'or', 'username');
+////        }
+//        $friends->readLst();
+////        print'<pre>';
+////        die(print_r($friends));
+//        $itens = array();
+//        if ($friends->countItens() > 0) {
+//            for ($i = 0; $i < $friends->countItens(); $i++) {
+//                $Item = $friends->getItem($i);
+//                $itens[] = $Item->getNomeCompleto() . ' - ' . $Item->getEmail();
+//            }
+//        }
+//        die(json_encode($itens));
+//    }
+
+    public function firstnameblurAction() {
+        $br = new Browser_Control();
+        $post = Zend_Registry::get('post');
+
+        $friends = new Friend();
+        $friends->where('friend.id_usuario', Usuario::getIdUsuarioLogado());
+        $friends->where('usuario.nomecompleto', $post->controlValue, 'like', 'or', 'username');
+        $friends->readLst();
+        if ($friends->countItens() > 0) {
+            $Item = $friends->getItem(0);
+            $br->addFieldValue('email', $Item->getEmail());
+            $br->setDataForm();
+        }
+        $br->send();
+    }
+
+    public function btnsendinvitationclickAction() {
+        $br = new Browser_Control();
+        $post = Zend_Registry::get('post');
+        $user = new Usuario;
+        $user->where('email', $post->email);
+        $user->readLst();
+        $user = $user->getItem(0);
+
+
+
+
+        /* @var $lObj Event */
+        $lObj = Event::getInstance($this->ItemEditInstanceName);
+
+        $eventUser = new EventUser();
+        $eventUser->setid_event($lObj->getID());
+        $eventUser->setid_usuario($user->getID());
+        $eventUser->setstatus('i');
+//        $eventUser->setid_invitation(0);
+        $eventUser->save();
+        try {
+            $eventUser->save();
+            $lObj->setInstance($this->ItemEditInstanceName);
+        } catch (Exception $exc) {
+            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+        $br->setMsgAlert('Sent!', 'Your Invitation was sent!');
+        $br->setRemoveWindow('EditInvite');
+        $br->setUpdateDataTables('gridUser');
+        $br->send();
     }
 
     public function btnsaveclickAction() {

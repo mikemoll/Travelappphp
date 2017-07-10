@@ -68,6 +68,16 @@ $form->addElement($element);
     </div>
 </div>
 <div class="row">
+    <div class="col-lg-6">
+        {$checkbox}
+        <pre>
+            {$checkboxCode}
+        </pre>
+    </div>
+    <div class="col-lg-6">
+    </div>
+</div>
+<div class="row">
     <h2>Grid</h2>
 </div>
 <div class="row">

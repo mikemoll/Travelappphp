@@ -167,6 +167,18 @@ class ExampleFormController extends AbstractController {
         $element->addMultiOption('3', 'Opt 3');
         $form->addElement($element);
 
+        $element = new Ui_Element_Checkbox('checkbox', 'Checkbox');
+        $element->setCheckedValue('S');
+        $element->setUncheckedValue('N');
+        $form->addElement($element);
+
+        $view->assign('checkboxCode', "
+            \$element = new Ui_Element_Checkbox('checkbox', 'Checkbox');
+            \$element->setCheckedValue('S');
+            \$element->setUncheckedValue('N');
+            \$tabGeral->addElement(\$element);");
+
+
 
 //        $obj = new $this->Model();
 //        if (isset($post->id)) {

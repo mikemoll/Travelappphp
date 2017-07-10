@@ -123,7 +123,7 @@ class Db_Table extends Zend_Db_Table {
      * por padrão ele não busca o total de linhas da tabela
      * @var Bool;
      */
-    protected $_readCount = true;
+    protected $_readCount = false;
     protected $_removeJoin = false;
 
     /**
