@@ -60,8 +60,6 @@ class Zend_View_Helper_FormCheckbox extends Zend_View_Helper_FormElement {
         $checkedValue = $attribs['checkedValue'];
 //        print'<pre>';
 //        die(print_r($info));
-
-
 //        '<div class="checkbox">
 //<label>
 //<input type="checkbox" value="">
@@ -76,7 +74,11 @@ class Zend_View_Helper_FormCheckbox extends Zend_View_Helper_FormElement {
         unset($attribs['checked']);
         unset($attribs['label']);
         unset($attribs['checkedValue']);
-        $xhtml = '<div class="checkbox">';
+        if ($attribs['switchery'] != '') {
+            $attribs['class'] .= ' switchery';
+        } else {
+            $xhtml = '<div class="checkbox">';
+        }
         if ($label != '') {
             $xhtml .= '<input type="checkbox"'
                     . ' name="' . $this->view->escape($name) . '"'
@@ -87,7 +89,7 @@ class Zend_View_Helper_FormCheckbox extends Zend_View_Helper_FormElement {
                     . $this->_htmlAttribs($attribs)
                     . $endTag;
 
-            $xhtml .='<label for="' . $this->view->escape($name) . '">';
+            $xhtml .= '<label for="' . $this->view->escape($name) . '">';
             $xhtml .= $label;
             $xhtml .= '</label>';
         } else {
@@ -100,7 +102,21 @@ class Zend_View_Helper_FormCheckbox extends Zend_View_Helper_FormElement {
                     . $this->_htmlAttribs($attribs)
                     . $endTag;
         }
-        $xhtml .= '</div>';
+        if ($attribs['switchery'] != '') {
+            $xhtml .= "
+    <script>
+        $(document).ready(function () {
+
+            var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
+            // Success color: #10CFBD
+            elems.forEach(function (html) {
+                var switchery = new Switchery(html, {color: '#10CFBD'});
+            });
+        })
+    </script>";
+        } else {
+            $xhtml .= '</div>';
+        }
         return $xhtml;
     }
 
