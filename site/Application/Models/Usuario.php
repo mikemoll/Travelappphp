@@ -604,4 +604,12 @@ class Usuario extends Db_Table {
         $this->UserTravelertypesLst = $val;
     }
 
+    public static function usernameExists($username) {
+        $lLst = new Usuario;
+        $lLst->where('loginUser', $username);
+        $lLst->readLst();
+        return $lLst->countItens() > 0;
+    }
+
+
 }

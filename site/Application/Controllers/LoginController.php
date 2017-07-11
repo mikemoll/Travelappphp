@@ -489,6 +489,15 @@ class LoginController extends AbstractController {
 //         Session_Control::setDataSession('formNewuser', '');
 //     }
 
+    public function validDate($mdY) {
+        $d = explode('/',$mdY);
+        return (count($d) == 3) and checkdate($d[0],$d[1],$d[2]);
+    }
+
+    public function isFutureDate($mdY) {
+        return strtotime($mdY) > strtotime(date('m/d/Y'));
+    }
+
     public function btnregisterclickAction($enviar = false) {
         $post = Zend_Registry::get('post');
         $session = Zend_Registry::get('session');
@@ -497,14 +506,39 @@ class LoginController extends AbstractController {
 
         // validating user
         $form = Session_Control::getDataSession('formNewuser');
-        $valid = $form->processAjax($_POST);
 
-        $br = new Browser_Control();
+        //Validations:
+        $valid = $form->processAjax($_POST);
         if ($valid != 'true') {
             $br->validaForm($valid);
             $br->send();
-            exit;
+            return;
+        } else if (($post->senha != '') && ($post->senha != $post->confirmpassword)) {
+            $br->setAlert("Error","The password informed doesn't match the confirm password.");
+            $br->send();
+            return;
+        } else if (!filter_var($post->email, FILTER_VALIDATE_EMAIL)) {
+            $br->setAlert("Error","The email informed is not valid.");
+            $br->send();
+            return;
+        } else if ( Usuario::usernameExists($post->loginUser) ) {
+            $br->setAlert("Error","This username has already being choosen. Please choose another.");
+            $br->send();
+            return;
+        } else if (!$this->validDate($post->birthdate)) {
+            $br->setAlert("Error","The bithdate must be a valid date in the format month/day/year.");
+            $br->send();
+            return;
+        } else if ($this->isFutureDate($post->birthdate)) {
+            $br->setAlert("Error","The bithdate must not be in the future.");
+            $br->send();
+            return;
+        } else if ($post->termsofuse != 'S') {
+            $br->setAlert("Error","You must agree with the term of use to proceed!");
+            $br->send();
+            return;
         }
+
 
         // saving the user
         $lObj = Usuario::getInstance('newUser');
