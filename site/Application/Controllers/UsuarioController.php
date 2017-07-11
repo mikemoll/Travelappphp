@@ -616,117 +616,7 @@ class UsuarioController extends AbstractController {
         
     }
 
-    public function loadprofileAction() {
-        $post = Zend_Registry::get('post');
 
-        $br = new Browser_Control();
-        $view = Zend_Registry::get('view');
-
-        //temporariamente estou desativando o readonly para poder cadastrar as acoes antigas
-        $readOnly = false;
-
-        $obj = new Usuario;
-        $obj->read(Usuario::getIdUsuarioLogado());
-
-        $form = new Ui_Form();
-        $form->setAction('usuario');
-        $form->setName('formProfileEdit');
-        $form->setAttrib('enctype', 'multipart/form-data');
-
-        $element = new Ui_Element_File("Photo", 'Photo');
-//        $element->setAttrib('multiple', '');
-//        $element->setAttrib('obrig', '');
-        $form->addElement($element);
-
-        $view->assign('PhotoPath', $obj->getPhotoPath());
-
-        $element = new Ui_Element_Text('nomecompleto', "Name");
-        $element->setAttrib('maxlength', '35');
-        $element->setRequired();
-        $form->addElement($element);
-
-        $element = new Ui_Element_Text('email', "E-mail");
-        $element->setAttrib('maxlength', '255');
-        $element->setRequired();
-        $form->addElement($element);
-
-        $element = new Ui_Element_Text('telephone', "Phone number");
-        $element->setAttrib('maxlength', '25');
-        $element->setRequired();
-        $form->addElement($element);
-
-        $form->setDataForm($obj);
-        $obj->setInstance('userEdit');
-
-        $button = new Ui_Element_Btn('btnSaveProfile');
-        $button->setDisplay('Save', 'check');
-        $button->setType('success');
-//        $button->setVisible(!$readOnly);
-//        $button->setVisible('PROC_CAD_USERS', 'editar');
-        $button->setAttrib('click', '');
-
-        $button->setAttrib('sendFormFields', '1');
-        $button->setAttrib('validaObrig', '1');
-        $form->addElement($button);
-
-        $cancel = new Ui_Element_Btn('btnCancelarProfile');
-        $cancel->setDisplay('Close', 'times');
-        $cancel->setAttrib('params', 'tipo=' . $post->tipo);
-        $form->addElement($cancel);
-
-        $form->setDataSession();
-
-        $view->assign('scripts', Browser_Control::getScripts());
-        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
-        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
-        $view->assign('titulo', "My Profile");
-        $view->assign('body', $form->displayTpl($view, 'Usuario/editProfile.tpl'));
-        //Usuario/edit.tpl
-        $view->output('index.tpl');
-    }
-
-    public function btnsaveprofileclickAction() {
-        $post = Zend_Registry::get('post');
-        $br = new Browser_Control();
-
-        $form = Session_Control::getDataSession('formUsersEdit');
-        $photo = $post->Photo;
-
-        $br = new Browser_Control();
-
-        $user = Usuario::getInstance('userEdit');
-
-        if ($photo['name'] != '') {
-            $user->setPhoto($photo['name']);
-        }
-
-        $user->setDataFromProfileRequest($post);
-
-        try {
-            $user->save();
-        } catch (Exception $exc) {
-            $br->setAlert('Error!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
-            $br->send();
-            die();
-        }
-        if ($photo['name'] != '') {
-            $path = RAIZ_DIRETORY . 'site/Public/Images/Profile';
-            if (!file_exists($path)) {
-                mkdir($path, 0777, true);
-            }
-            move_uploaded_file($photo['tmp_name'], $path . '/' . $user->getID() . '_' . $photo['name']);
-            $br->setAttrib('PhotoPath', 'src', $user->getPhotoPath());
-        }
-
-        $session = Zend_Registry::get('session');
-        $session->usuario = $user;
-        Zend_Registry::set('session', $session);
-
-        $br->setBrowserUrl(BASE_URL . 'index');
-        $br->send();
-
-        Session_Control::setDataSession('formUsersEdit', '');
-    }
 
     public function btncancelarprofileclickAction() {
         $br = new Browser_Control;
@@ -805,7 +695,7 @@ class UsuarioController extends AbstractController {
 
         $obj = new Usuario();
         if (isset($post->id)) {
-            $obj->read($post->id);
+                $obj->read($post->id);
         }
         $obj->setApproved('S');
 
@@ -847,4 +737,285 @@ class UsuarioController extends AbstractController {
         $br->send();
     }
 
+
+    public function profileeditAction() {
+        $br = new Browser_Control();
+        $post = Zend_Registry::get('post');
+
+        $view = Zend_Registry::get('view');
+        if (isset($post->id)) {
+            // if some field needs to be readonly on the item edition, use this variable;
+//            $readOnly = true;
+        }
+
+        $obj = new Usuario;
+        $obj->read(Usuario::getIdUsuarioLogado());
+
+        $form = new Ui_Form();
+        $form->setAction($this->Action);
+        $form->setName('formProfileEdit');
+        $form->setAttrib('enctype', 'multipart/form-data');
+
+        $element = new Ui_Element_File("Photo", 'Photo');
+        $form->addElement($element);
+
+        $view->assign('PhotoPath', $obj->getPhotoPath());
+
+        $element = new Ui_Element_Text('nomeCompleto');
+        $element->setAttrib('maxlength', 35);
+        $element->setRequired();
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', 'First name');
+        $element->setAttrib('autofocus', '');
+        $form->addElement($element);
+
+
+        $element = new Ui_Element_Text('lastname');
+        $element->setAttrib('maxlength', 35);
+        $element->setRequired();
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', 'Last name');
+        $form->addElement($element);
+
+
+        $element = new Ui_Element_Text('email');
+        $element->setAttrib('maxlength', 255);
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('type', 'email');
+        $element->setRequired();
+        $element->setAttrib('placeholder', 'your@email.com');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Date('birthdate', 'Birthdate');
+        $element->setRequired();
+        $form->addElement($element);
+
+        $element = new Ui_Element_Select('gender');
+        $element->setRequired();
+        $element->addMultiOption('', '- Select -');
+        $element->addMultiOption('F', 'Female');
+        $element->addMultiOption('M', 'Male');
+        $element->addMultiOption('O', 'Other');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('education');
+        $element->setAttrib('maxlength', 100);
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', 'Some University');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('hometowncity');
+        $element->setAttrib('maxlength', 50);
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', 'City where you were raised');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('hometowncountry');
+        $element->setAttrib('maxlength', 50);
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', 'Country where you were raised');
+        $form->addElement($element);
+
+
+        $element = new Ui_Element_Text('loginUser');
+        $element->setAttrib('maxlength', 30);
+        $element->setHideRemainingCharacters();
+        $element->setRequired();
+        $element->setAttrib('placeholder', 'User name');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Password('senha');
+        $element->setAttrib('maxlength', 30);
+        $element->setAttrib('cript', '1');
+        $element->setAttrib('placeholder', 'Fill in to change your password');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Password('confirmpassword');
+        $element->setAttrib('maxlength', 30);
+        $element->setAttrib('cript', '1');
+        $element->setAttrib('placeholder', 'Fill in to confirm changing your password');
+        $form->addElement($element);
+
+
+        $element = new Ui_Element_Text('liveincity');
+        $element->setAttrib('maxlength', 50);
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', "Don't miss out on local events and when friends are in town");
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('liveincountry');
+        $element->setAttrib('maxlength', 50);
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', 'The country you currently live in');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('telephone');
+        $element->setAttrib('maxlength', 25);
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', '+1 999 999 9999');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Select('relationship');
+        $element->addMultiOption('', '- Select -');
+        $element->addMultiOption('s', 'single');
+        $element->addMultiOption('m', 'married');
+        $element->addMultiOption('ir', 'in a relationship');
+        $element->addMultiOption('e', 'engaged');
+        $element->addMultiOption('cu', 'in a civil union');
+        $element->addMultiOption('dp', 'in a domestic partnership');
+        $element->addMultiOption('or', 'in an open relationship');
+        $element->addMultiOption('ic', 'it is complicated');
+        $element->addMultiOption('sp', 'separated');
+        $element->addMultiOption('d', 'divorced');
+        $element->addMultiOption('w', 'widowed');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Textarea('bio');
+        $element->setAttrib('rows', 4);
+        $element->setAttrib('maxlength', 140);
+        $element->setAttrib('placeholder', 'Tell us how awesome you are, your favourite quote etc.');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('instagram');
+        $element->setAttrib('maxlength', 45);
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', '@instagram_username');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('twitter');
+        $element->setAttrib('maxlength', 45);
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', '@twitter_username');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('facebook');
+        $element->setAttrib('maxlength', 45);
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', 'your.facebook.profile');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('occupation');
+        $element->setAttrib('maxlength', 60);
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', 'We all got bills to pay');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('dreamjob');
+        $element->setAttrib('maxlength', 60);
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', 'bungee jumping instuctor, panda cuddler, self-made millionaire');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Textarea('traveledto');
+        $element->setAttrib('rows', 4);
+        $element->setAttrib('maxlength', 255);
+        $element->setAttrib('placeholder', 'Let your friends know the awesome places you traveled to!');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('calendartype');
+        $element->setAttrib('maxlength', 1);
+        $element->setHideRemainingCharacters();
+        $element->setRequired();
+        $element->setAttrib('placeholder', 'change this to choose from pictures');
+        $form->addElement($element);
+
+        // LOADS THE FORM WITH THE USER DATA
+        $form->setDataForm($obj);
+        $obj->setInstance('profileEdit');
+
+        $button = new Ui_Element_Btn('btnSaveProfile');
+        $button->setDisplay('Save', 'check');
+        $button->setType('success');
+        $button->setAttrib('click', '');
+        if (isset($post->id)) {
+            $button->setAttrib('params', 'id=' . $post->id);
+        }
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('validaObrig', '1');
+        $form->addElement($button);
+
+        $cancelar = new Ui_Element_Btn('btnCancel');
+        $cancelar->setAttrib('params', 'IdWindowEdit=EditUserProfile');
+        $cancelar->setDisplay('Cancel', 'times');
+        $cancelar->setHref(HTTP_REFERER . $this->Action );
+        $form->addElement($cancelar);
+
+        $form->setDataSession('formProfileEdit');
+
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
+        $view->assign('titulo', 'My profile');
+        $view->assign('TituloPagina', 'My profile');
+        $view->assign('body', $form->displayTpl($view, 'Usuario/editProfile.tpl'));
+        $view->output('index.tpl');
+
+    }
+
+    public function btnsaveprofileclickAction() {
+        $post = Zend_Registry::get('post');
+        $br = new Browser_Control();
+
+        $form = Session_Control::getDataSession('formProfileEdit');
+        $photo = $post->Photo;
+
+        $br = new Browser_Control();
+
+        // Validations:
+        $valid = $form->processAjax($_POST);
+        if ($valid != 'true') {
+            $br->validaForm($valid);
+            $br->send();
+            return;
+        } else if (($post->senha != '') && ($post->senha != $post->confirmpassword)) {
+            $br->setAlert("Error","The password informed doesn't match the confirm password.");
+            $br->send();
+            return;
+        } else if (!filter_var($post->email, FILTER_VALIDATE_EMAIL)) {
+            $br->setAlert("Error","The email informed is not valid.");
+            $br->send();
+            return;
+        }
+
+        $user = Usuario::getInstance('profileEdit');
+
+        if ($photo['name'] != '') {
+            $user->setPhoto($photo['name']);
+        }
+
+        $user->setDataFromProfileRequest($post);
+
+        //Put the uploaded file in the proper folder
+        if ($photo['name'] != '') {
+            $path = RAIZ_DIRETORY . 'site/Public/Images/Profile';
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+            move_uploaded_file($photo['tmp_name'], $path . '/' . $user->getID() . '_' . $photo['name']);
+            $br->setAttrib('PhotoPath', 'src', $user->getPhotoPath());
+        }
+
+        try {
+            $user->save();
+            $user->setInstance('profileEdit');
+        } catch (Exception $exc) {
+            $br->setAlert('Error!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+
+
+        //Update the session user data
+        $session = Zend_Registry::get('session');
+        $session->usuario = $user;
+        Zend_Registry::set('session', $session);
+
+        // redirect to the dashboard with a message
+        $msg = 'Changes saved!!';
+        $br->setMsgAlert('Saved!!', $msg);
+        $br->setBrowserUrl(BASE_URL . 'index');
+        $br->send();
+
+    }
+
 }
+

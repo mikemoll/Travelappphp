@@ -377,7 +377,7 @@ class LoginController extends AbstractController {
 
         $element = new Ui_Element_Select('gender');
         $element->setRequired();
-        $element->addMultiOption('', '- Select your gender -');
+        $element->addMultiOption('', '- Select -');
         $element->addMultiOption('F', 'Female');
         $element->addMultiOption('M', 'Male');
         $form->addElement($element);
@@ -391,13 +391,13 @@ class LoginController extends AbstractController {
         $element = new Ui_Element_Text('hometowncity');
         $element->setAttrib('maxlength', '50');
         $element->setHideRemainingCharacters();
-        $element->setAttrib('placeholder', 'Home Town');
+        $element->setAttrib('placeholder', 'Home town');
         $form->addElement($element);
 
         $element = new Ui_Element_Text('hometowncountry');
         $element->setAttrib('maxlength', '50');
         $element->setHideRemainingCharacters();
-        $element->setAttrib('placeholder', 'Home Country');
+        $element->setAttrib('placeholder', 'Home country');
         $form->addElement($element);
 
 
@@ -405,14 +405,14 @@ class LoginController extends AbstractController {
         $element->setAttrib('maxlength', '30');
         $element->setHideRemainingCharacters();
         $element->setRequired();
-        $element->setAttrib('placeholder', 'user name');
+        $element->setAttrib('placeholder', 'User name');
         // $element->setAttrib('hotkeys', 'enter, btnLogin, click');
         $form->addElement($element);
 
         $element = new Ui_Element_Password('senha');
         $element->setAttrib('maxlength', '30');
         $element->setAttrib('cript', '1');
-        $element->setAttrib('placeholder', 'password');
+        $element->setAttrib('placeholder', 'Password');
         $element->setRequired();
         //$element->setAttrib('hotkeys', 'enter, btnLogin, click');
         $form->addElement($element);
@@ -420,7 +420,7 @@ class LoginController extends AbstractController {
         $element = new Ui_Element_Password('confirmpassword');
         $element->setAttrib('maxlength', '30');
         $element->setAttrib('cript', '1');
-        $element->setAttrib('placeholder', 'confirm password');
+        $element->setAttrib('placeholder', 'Confirm password');
         $element->setRequired();
         //$element->setAttrib('hotkeys', 'enter, btnLogin, click');
         $form->addElement($element);

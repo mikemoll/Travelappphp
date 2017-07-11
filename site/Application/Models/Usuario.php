@@ -67,6 +67,8 @@ class Usuario extends Db_Table {
     public function getPhotoPath() {
         if ($this->a_Photo) {
             return HTTP_REFERER . 'Public/Images/Profile/' . $this->getID() . '_' . $this->a_Photo;
+        } else {
+            return HTTP_REFERER . 'Public/Images/people.png';//default image
         }
     }
 
@@ -181,6 +183,27 @@ class Usuario extends Db_Table {
         $this->setTelephone($post->telephone);
         $this->setExcluivel(cTRUE);
         $this->setEditavel(cTRUE);
+        $this->setLastname($post->lastname);
+        $this->setBirthdate($post->birthdate);
+        $this->setGender($post->gender);
+        $this->setEducation($post->education);
+        $this->setHometowncity($post->hometowncity);
+        $this->setHometowncountry($post->hometowncountry);
+
+        $this->setActualcity($post->actualcity);
+        $this->setActualcountry($post->actualcountry);
+        $this->setLiveincity($post->liveincity);
+        $this->setLiveincountry($post->liveincountry);
+        $this->setRelationship($post->relationship);
+        $this->setBio($post->bio);
+        $this->setInstagram($post->instagram);
+        $this->setTwitter($post->twitter);
+        $this->setFacebook($post->facebook);
+        $this->setOccupation($post->occupation);
+        $this->setDreamjob($post->dreamjob);
+        $this->setCalendartype($post->calendartype);
+        $this->setTraveledto($post->traveledto);
+
         if ($post->senha != '') {
             $this->setSenha(Format_Crypt::encryptPass($post->senha));
 //            $this->setDataSenha(date('Y-m-d'));
@@ -388,8 +411,37 @@ class Usuario extends Db_Table {
 
     public function setDataFromProfileRequest($post) {
         $this->setNomeCompleto($post->nomecompleto);
+        $this->setLastname($post->lastname);
         $this->setEmail($post->email);
         $this->setTelephone($post->telephone);
+
+        $this->setNomeCompleto($post->nomeCompleto);
+        $this->setEmail($post->email);
+        $this->setTelephone($post->telephone);
+        $this->setBirthdate($post->birthdate);
+        $this->setGender($post->gender);
+        $this->setEducation($post->education);
+        $this->setHometowncity($post->hometowncity);
+        $this->setHometowncountry($post->hometowncountry);
+
+        $this->setActualcity($post->actualcity);
+        $this->setActualcountry($post->actualcountry);
+        $this->setLiveincity($post->liveincity);
+        $this->setLiveincountry($post->liveincountry);
+        $this->setRelationship($post->relationship);
+        $this->setBio($post->bio);
+        $this->setInstagram($post->instagram);
+        $this->setTwitter($post->twitter);
+        $this->setFacebook($post->facebook);
+        $this->setOccupation($post->occupation);
+        $this->setDreamjob($post->dreamjob);
+        $this->setCalendartype($post->calendartype);
+        $this->setTraveledto($post->traveledto);
+
+        if ( ($post->senha != '') && ($post->senha == $post->confirmpassword) ) {
+            $this->setSenha(Format_Crypt::encryptPass($post->senha));
+            //$this->setDataSenha(date('Y-m-d'));
+        }
     }
 
     public static function getGroupsList($i = '') {
