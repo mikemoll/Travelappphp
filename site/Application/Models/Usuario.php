@@ -374,6 +374,24 @@ class Usuario extends Db_Table {
                 $permissoes->setDeleted();
                 $permissoes->save();
 
+                $lLst = $this->getUserInterestsLst();
+                if ($lLst->countItens() > 0) {
+                    for ($i = 0; $i < $lLst->countItens(); $i++) {
+                        $Item = $lLst->getItem($i);
+                        $Item->setDeleted();
+                    }
+                    $lLst->save();
+                }
+
+                $lLst = $this->getUserTravelertypesLst();
+                if ($lLst->countItens() > 0) {
+                    for ($i = 0; $i < $lLst->countItens(); $i++) {
+                        $Item = $lLst->getItem($i);
+                        $Item->setDeleted();
+                    }
+                    $lLst->save();
+                }
+
                 parent::save();
                 break;
 
@@ -405,9 +423,31 @@ class Usuario extends Db_Table {
                         $permissoes->save();
                     }
                 }
+
+                $lInterestLst = $this->getUserInterestsLst();
+
+                if ($lInterestLst->countItens() > 0) {
+                    for ($i = 0; $i < $lInterestLst->countItens(); $i++) {
+                        $Item = $lInterestLst->getItem($i);
+                        $Item->setid_usuario($this->getID());
+                        $Item->save();
+                    }
+                }
+
+                $TtLst = $this->getUserTravelertypesLst();
+
+                if ($TtLst->countItens() > 0) {
+                    for ($i = 0; $i < $TtLst->countItens(); $i++) {
+                        $Item = $TtLst->getItem($i);
+                        $Item->setid_usuario($this->getID());
+                        $Item->save();
+                    }
+                }
                 break;
         }
+
     }
+
 
     public function setDataFromProfileRequest($post) {
         $this->setNomeCompleto($post->nomecompleto);
@@ -471,6 +511,97 @@ class Usuario extends Db_Table {
 
     public function getApproved_decoded() {
         return ($this->getApproved() == 'S')?'Yes':'No';
+    }
+
+    public function getUserInterestsLst() {
+        if ($this->UserInterestsLst == null) {
+            $this->UserInterestsLst = new UserInterests();
+        }
+        return $this->UserInterestsLst;
+    }
+
+    public function getAllInterestsLst() {
+        $objLst = new Interest();
+        $objLst->readLst();
+        if ($objLst->countItens() > 0) {
+            for ($i = 0; $i < $objLst->countItens(); $i++) {
+                $interest = $objLst->getItem($i);
+                $list[$interest->getid_interests()] = $interest->getdescription();
+            }
+        } else {
+            $list= array();
+        }
+        return $list;
+    }
+
+    public function getInterests() {
+        $lLst = $this->getUserInterestsLst();
+        if ($lLst->countItens() > 0) {
+            for ($i = 0; $i < $lLst->countItens(); $i++) {
+                $User = $lLst->getItem($i);
+                $list[] = $User->getid_interest();
+            }
+        }
+        return $list;
+    }
+
+    public function setUserInterestsLst($val) {
+        $this->UserInterestsLst = $val;
+    }
+
+    function read($id = null, $modo = 'obj') {
+        parent::read($id, $modo);
+
+        $itemLst = new UserInterests();
+        $itemLst->where('id_usuario', $this->getID());
+        $itemLst->readLst();
+        $this->setUserInterestsLst($itemLst);
+
+        $itemLst = new UserTravelertype();
+        $itemLst->where('id_usuario', $this->getID());
+        $itemLst->readLst();
+        $this->setUserTravelertypesLst($itemLst);
+
+        return $this;
+    }
+
+    public function getAllTravelerTypesLst() {
+        $objLst = new Travelertype();
+        $objLst->readLst();
+        if ($objLst->countItens() > 0) {
+            for ($i = 0; $i < $objLst->countItens(); $i++) {
+                $tt = $objLst->getItem($i);
+                $list[$tt->getid_travelertype()] = $tt->getdescription();
+            }
+        } else {
+            $list= array();
+        }
+        return $list;
+    }
+
+    public function getUserTravelertypesLst() {
+        if ($this->UserTravelertypesLst == null) {
+            $this->UserTravelertypesLst = new UserInterests();
+        }
+        return $this->UserTravelertypesLst;
+    }
+
+    public function gettravelertypes() {
+        $objLst = $this->getUserTravelertypesLst();
+
+        if ($objLst->countItens() > 0) {
+            for ($i = 0; $i < $objLst->countItens(); $i++) {
+                $User = $objLst->getItem($i);
+                $list[] = $User->getid_travelertype();
+            }
+        } else {
+            $list= array();
+        }
+        return $list;
+    }
+
+    public function setUserTravelertypesLst($val) {
+        $this->UserTravelertypesLst = $val;
     }
 
 }

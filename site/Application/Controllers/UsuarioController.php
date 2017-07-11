@@ -915,8 +915,24 @@ class UsuarioController extends AbstractController {
         $element = new Ui_Element_Text('calendartype');
         $element->setAttrib('maxlength', 1);
         $element->setHideRemainingCharacters();
-        $element->setRequired();
+        //$element->setRequired();
         $element->setAttrib('placeholder', 'change this to choose from pictures');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Select('interests');
+        $element->addMultiOptions($obj->getAllInterestsLst());
+        $element->setAttrib('placeholder', 'What are your interests?');
+        $element->setAttrib('data-allow-clear', 'true');
+        $element->setSelect2(true);
+        $element->setAttrib('multiple', 'multiple');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Select('travelertypes');
+        $element->addMultiOptions($obj->getAllTravelerTypesLst());
+        $element->setAttrib('placeholder', "What's your traveler type?");
+        $element->setAttrib('data-allow-clear', 'true');
+        $element->setSelect2(true);
+        $element->setAttrib('multiple', 'multiple');
         $form->addElement($element);
 
         // LOADS THE FORM WITH THE USER DATA
@@ -961,12 +977,13 @@ class UsuarioController extends AbstractController {
         $br = new Browser_Control();
 
         // Validations:
-        $valid = $form->processAjax($_POST);
-        if ($valid != 'true') {
-            $br->validaForm($valid);
-            $br->send();
-            return;
-        } else if (($post->senha != '') && ($post->senha != $post->confirmpassword)) {
+        // $valid = $form->processAjax($_POST);
+        // if ($valid != 'true') {
+        //     $br->validaForm($valid);
+        //     $br->send();
+        //     return;
+        // } else
+        if (($post->senha != '') && ($post->senha != $post->confirmpassword)) {
             $br->setAlert("Error","The password informed doesn't match the confirm password.");
             $br->send();
             return;
@@ -994,6 +1011,84 @@ class UsuarioController extends AbstractController {
             $br->setAttrib('PhotoPath', 'src', $user->getPhotoPath());
         }
 
+        // save the interests
+        $list = $post->interests;
+        $destLst = $user->getUserInterestsLst();
+
+        for ($i = 0; $i < $destLst->countItens(); $i++) { // mark all to delete
+            $Item = $destLst->getItem($i);
+            $Item->setState(cDELETE);
+        }
+        if (count($list) > 0) {
+            foreach ($list as $idInterest) { //for each item selected by the user
+                if ($idInterest == '') {
+                    continue;
+                }
+                $interest = '';
+                for ($i = 0; $i < $destLst->countItens(); $i++) { // find the interest on the user interests on database
+                    $Item = $destLst->getItem($i);
+                    if ($Item->getid_interest() == $idInterest) {
+                       $interest = $Item;
+                       break;
+                    } else {
+                        $interest = '';
+                    }
+                }
+
+                if ($interest == '') { // if the interest doesn't exist on user interests, add it.
+
+                    $n = new UserInterests();
+                    $n->setid_interest($idInterest);
+                    $n->setid_usuario($user->getID());
+                    $destLst->addItem($n);
+                } else {
+                    $interest->setState(cUPDATE); //else update it
+                }
+
+            }
+        }
+
+        // save the traveler types
+        $list = $post->travelertypes;
+        $destLst = $user->getUserTravelertypesLst();
+
+        for ($i = 0; $i < $destLst->countItens(); $i++) { // mark all to delete
+            $Item = $destLst->getItem($i);
+            $Item->setState(cDELETE);
+        }
+        if (count($list) > 0) {
+            foreach ($list as $idTravelertype) { //for each item selected by the user
+                if ($idTravelertype == '') {
+                    continue;
+                }
+                $tt = '';
+                for ($i = 0; $i < $destLst->countItens(); $i++) { // find the tt on the user interests on database
+                    $Item = $destLst->getItem($i);
+                    if ($Item->getid_travelertype() == $idTravelertype) {
+                       $tt = $Item;
+                       break;
+                    } else {
+                        $tt = '';
+                    }
+                }
+
+                if ($tt == '') { // if the tt doesn't exist on user interests, add it.
+
+                    $n = new UserTravelertype();
+                    $n->setid_travelertype($idTravelertype);
+                    $n->setid_usuario($user->getID());
+                    $destLst->addItem($n);
+                } else {
+                    $tt->setState(cUPDATE); //else update it
+                }
+
+            }
+        }
+
+
+        //$user->setUserInterestsLst($destLst);
+
+        // save everything on database
         try {
             $user->save();
             $user->setInstance('profileEdit');
@@ -1002,6 +1097,7 @@ class UsuarioController extends AbstractController {
             $br->send();
             die();
         }
+
 
 
         //Update the session user data
@@ -1016,6 +1112,7 @@ class UsuarioController extends AbstractController {
         $br->send();
 
     }
+
 
 }
 
