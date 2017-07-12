@@ -1113,6 +1113,16 @@ class UsuarioController extends AbstractController {
 
     }
 
+    public function friendslistloadAction() {
+        $br = new Browser_Control();
+        $view = Zend_Registry::get('view');
+
+        
+        $view->assign('friends',Friend::getFriendsLst(Usuario::getIDUsuarioLogado()));
+
+        $br->setHtml('friendslist',$view->fetch('Usuario/friendsList.tpl'));
+        $br->send();
+    }
 
 }
 

@@ -255,7 +255,7 @@ class LoginController extends AbstractController {
 //		$form->addElement($element);
 
         $button = new Ui_Element_Btn('btnTrocaSenha');
-        $button->setDisplay('Trocar Senha');
+        $button->setDisplay('Change password');
         $button->setAttrib('sendFormFields', '1');
         $button->setAttrib('class', 'btn btn-md btn-primary');
         if ($id != '') {
@@ -502,6 +502,7 @@ class LoginController extends AbstractController {
     public function btnregisterclickAction($enviar = false) {
         $post = Zend_Registry::get('post');
         $session = Zend_Registry::get('session');
+
 //        $usuario = $session->usuario;
         $br = new Browser_Control();
 
@@ -515,7 +516,11 @@ class LoginController extends AbstractController {
             $br->send();
             return;
         } else if (($post->senha != '') && ($post->senha != $post->confirmpassword)) {
-            $br->setAlert("Error","The password informed doesn't match the confirm password.");
+            $br->setAlert("Error","The password doesn't match the confirm password.");
+            $br->send();
+            return;
+        } else if (strlen($post->senha) < 6) {
+            $br->setAlert("Error","The password must contain at least 6 characters.");
             $br->send();
             return;
         } else if (!filter_var($post->email, FILTER_VALIDATE_EMAIL)) {
@@ -543,6 +548,9 @@ class LoginController extends AbstractController {
         $lObj = Usuario::getInstance('newUser');
         $lObj->setDataFromRequest($post);
 
+        //sets the password expiration date
+        $lObj->setdatasenha(date('m/d/Y'));
+
         // generates the random number to confirm the account
         srand();
         $lObj->setconfirmurl(substr(str_pad(dechex(rand(12345678,99994595)).
@@ -566,8 +574,8 @@ class LoginController extends AbstractController {
         //$enviaEmail->sendEmailComunicacaoInterna($message, $subject, $lObj->getemail()); //, $emailFrom, $nameFrom);
 
         $msg = 'An e-mail was sent to you to confirm your account!';
-        $br->setMsgAlert('Please check your e-mail and confirm your registration to proceed!', $msg);
-        $br->setBrowserUrl(BASE_URL . 'login');
+        //$br->setMsgAlert('Please check your e-mail and confirm your registration to proceed!', $msg);
+        $br->setBrowserUrl(BASE_URL . 'login/index/msg/'.$msg);
         $br->send();
     }
 

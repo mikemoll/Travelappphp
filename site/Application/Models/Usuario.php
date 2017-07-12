@@ -64,12 +64,17 @@ class Usuario extends Db_Table {
         $this->a_dificuldade = json_encode($param);
     }
 
-    public function getPhotoPath() {
-        if ($this->a_Photo) {
-            return HTTP_REFERER . 'Public/Images/Profile/' . $this->getID() . '_' . $this->a_Photo;
+    public static function makephotoPath($id, $photo) {
+        if ($photo) {
+            return HTTP_REFERER . 'Public/Images/Profile/' . $id . '_' . $photo;
         } else {
             return HTTP_REFERER . 'Public/Images/people.png';//default image
         }
+    }
+
+
+    public function getPhotoPath() {
+        return Usuario::makephotoPath($this->getID(), $this->a_Photo);
     }
 
     public function getAvarageStarsNumber() {
@@ -610,6 +615,5 @@ class Usuario extends Db_Table {
         $lLst->readLst();
         return $lLst->countItens() > 0;
     }
-
 
 }
