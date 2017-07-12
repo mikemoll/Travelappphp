@@ -1,5 +1,6 @@
+
+<p id="msg">{$msg}</p>
 <p class="p-t-35">Sign into your travel track account</p>
-<p id=""msg></p>
 <!-- START Login Form -->
 <!-- START Form Control-->
 

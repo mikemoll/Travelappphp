@@ -14,3 +14,7 @@ CHANGE COLUMN `id_travelertype`   `id_travelertype` BIGINT(20) NOT NULL ,
 ADD COLUMN `id_usertravelertype` SERIAL FIRST,
 DROP PRIMARY KEY,
 ADD PRIMARY KEY (`id_usertravelertype`);
+
+ALTER TABLE `usuario` 
+ADD COLUMN `confirmurl` VARCHAR(16) NULL DEFAULT NULL AFTER `hometowncountry`;
+

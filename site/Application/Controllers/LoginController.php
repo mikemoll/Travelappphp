@@ -95,6 +95,7 @@ class LoginController extends AbstractController {
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'Login');
+        $view->assign('msg', $post->msg);
         $html = $form->displayTpl($view, 'Login/form.tpl');
         $view->assign('body', $html);
         $view->output('Login/index.tpl');
@@ -539,10 +540,18 @@ class LoginController extends AbstractController {
             return;
         }
 
-
-        // saving the user
         $lObj = Usuario::getInstance('newUser');
         $lObj->setDataFromRequest($post);
+
+        // generates the random number to confirm the account
+        srand();
+        $lObj->setconfirmurl(substr(str_pad(dechex(rand(12345678,99994595)).
+                                     dechex(rand(10003001,95964595)).
+                                     dechex(rand(10003001,95964595)),16,'0',STR_PAD_LEFT),0,16));
+        $link = HTTP_REFERER . 'login/confirmaccount/id/' . $lObj->getconfirmurl().$lObj->getID();
+        $message ='<h1>Welcome to TravelTrack '.$lObj->getnomecompleto.'</h1><p>Confirm your account accessing the link: <a href="'.$link.'" target="_blank">'.$link.'</a></p>';
+
+        //saving the user data
         try {
             $lObj->save();
             $lObj->setInstance('newUser');
@@ -551,12 +560,36 @@ class LoginController extends AbstractController {
             $br->send();
             die();
         }
+
+        $subject = 'Welcome to TravelTrack';
+        //$enviaEmail = new SendEmail();
+        //$enviaEmail->sendEmailComunicacaoInterna($message, $subject, $lObj->getemail()); //, $emailFrom, $nameFrom);
+
         $msg = 'An e-mail was sent to you to confirm your account!';
         $br->setMsgAlert('Please check your e-mail and confirm your registration to proceed!', $msg);
         $br->setBrowserUrl(BASE_URL . 'login');
         $br->send();
     }
 
-}
+    public function confirmaccountAction() {
+        $get = Zend_Registry::get('post');
 
-?>
+        $id = $get->id;
+        $id_usuario = substr($id,16);
+        $confirmurl = substr($id,0,16);
+
+        $user = new Usuario;
+        $user->setid_usuario($id_usuario);
+
+        if (($id_usuario != '') && ($user->read()) && ($user->getconfirmurl() == $confirmurl)) {
+            $user->setativo('S');
+            $user->save();
+            $msg = 'Your account has been confirmed!';
+        } else {
+            $msg = 'This confirmation link has expired...';
+        }
+
+        $this->_redirect('./login/index/msg/'.$msg);
+    }
+
+}
