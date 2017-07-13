@@ -54,7 +54,7 @@ class Db_Table extends Zend_Db_Table {
     /**
      * Lista de classes buscadas na consulta
      */
-    protected $_list;
+    protected $_list = array();
 
     /**
      * Lista de classes que sera incluida no leitura do objeto pai,
@@ -342,13 +342,15 @@ class Db_Table extends Zend_Db_Table {
      * @throws Zend_Db_Table_Exception
      */
     public static function getOptionList2($keyName, $valueName, $orderName, $class, $firstEmpty = true) {
+        $return = array();
         if ($firstEmpty) {
 //            $return[] = array('key' => '', 'value' => '---');
             $return[] = '---';
         }
 
         if (is_object($class)) {
-            $lista = $class->readLst();
+            $class->readLst();
+            $lista = $class;
         } else if ($class != '') {
             $item = new $class;
             $item->sortOrder($orderName);
@@ -357,15 +359,14 @@ class Db_Table extends Zend_Db_Table {
             throw new Zend_Db_Table_Exception('Deve ser passado um objeto ou um nome de modelo');
         }
 
-        for ($i = 0; $i < $lista->countItens(); $i++) {
-            $Item = $lista->getItem($i);
-            $getKey = "get$keyName";
-            $getValue = "get$valueName";
+        if ($lista->countItens() > 0) {
+            for ($i = 0; $i < $lista->countItens(); $i++) {
+                $Item = $lista->getItem($i);
+                $getKey = "get$keyName";
+                $getValue = "get$valueName";
 //            $return[] = array('key' => $Item->$getKey(), 'value' => $Item->$getValue());
-            $return[$Item->$getKey()] = $Item->$getValue();
-        }
-        if ($return == '') {
-            $return = array();
+                $return[$Item->$getKey()] = $Item->$getValue();
+            }
         }
         return $return;
     }
@@ -929,7 +930,7 @@ class Db_Table extends Zend_Db_Table {
      * Faz uma leitura no banco de dados de retornando varias linhas
      *
      * @param string $modo
-     * @return array or class
+     * @return mix
      */
     public function readLst($modo = 'obj') {
 
@@ -940,10 +941,12 @@ class Db_Table extends Zend_Db_Table {
         $filtros = $this->getSelect();
 //        print'<pre>';die(print_r( $filtros->__toString() ));
         $rows = $this->fetchAll($filtros)->toArray();
+//        print'<pre>';die(print_r( $rows ));
         if (count($rows) == 0) {
             $this->error = 'Nenhum foi item não encontrado!';
             return $this;
         }
+
 
         if ($modo == 'array') {
 //            isso foi desativado pois tem um monte de readLst(array) onde eu estou tratando os dadso manualmente,
@@ -963,7 +966,6 @@ class Db_Table extends Zend_Db_Table {
             $this->_list = $rows;
             return $rows;
         }
-
 
 
         if ($this->_readCount) {
