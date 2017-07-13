@@ -857,17 +857,9 @@ class UsuarioController extends AbstractController {
 
         $element = new Ui_Element_Select('relationship');
         $element->addMultiOption('', '- Select -');
-        $element->addMultiOption('s', 'single');
-        $element->addMultiOption('m', 'married');
-        $element->addMultiOption('ir', 'in a relationship');
-        $element->addMultiOption('e', 'engaged');
-        $element->addMultiOption('cu', 'in a civil union');
-        $element->addMultiOption('dp', 'in a domestic partnership');
-        $element->addMultiOption('or', 'in an open relationship');
-        $element->addMultiOption('ic', 'it is complicated');
-        $element->addMultiOption('sp', 'separated');
-        $element->addMultiOption('d', 'divorced');
-        $element->addMultiOption('w', 'widowed');
+        foreach( Usuario::RELATIONSHIPS as $key => $description) {
+            $element->addMultiOption($key, $description);
+        }
         $form->addElement($element);
 
         $element = new Ui_Element_Textarea('bio');
@@ -1117,12 +1109,46 @@ class UsuarioController extends AbstractController {
         $br = new Browser_Control();
         $view = Zend_Registry::get('view');
 
-        
+
         $view->assign('friends',Friend::getFriendsLst(Usuario::getIDUsuarioLogado()));
 
-        $br->setHtml('friendslist',$view->fetch('Usuario/friendsList.tpl'));
+        $br->setHtml('chat',$view->fetch('Usuario/friendsList.tpl'));
         $br->send();
     }
 
+    public function loadprofileclickAction() {
+        $br = new Browser_Control();
+        $view = Zend_Registry::get('view');
+
+        $post = Zend_Registry::get('post');
+
+        $id = $post->id;
+        $user = new Usuario();
+        $user->read($id);
+
+        $view->assign('interests', $user->getInterestsIcons());
+        $view->assign('travelertypes', $user->getTravelertypeIcons());
+        $view->assign('name', htmlentities( $user->getnomecompleto().' '.$user->getlastname() ));
+        $view->assign('livein', htmlentities( $user->getliveincity().', '.$user->getliveincountry()));
+        $view->assign('Photo', htmlentities($user->getPhotoPath()));
+        $view->assign('bio', nl2br(htmlentities( $user->getbio())));
+        $view->assign('traveledto', nl2br(htmlentities( utf8_encode($user->gettraveledto()))));
+        $view->assign('hometown', htmlentities( $user->gethometowncity().', '.$user->gethometowncountry()));
+        $view->assign('relationship', htmlentities( Usuario::RELATIONSHIPS[$user->getrelationship()]));
+        $view->assign('education', htmlentities( $user->geteducation()));
+        $view->assign('dreamjob', htmlentities( $user->getdreamjob()));
+        $view->assign('facebook', $user->getfacebook());
+        $view->assign('twitter', $user->gettwitter());
+        $view->assign('instagram', $user->getinstagram());
+        $view->assign('occupation', $user->getoccupation());
+        
+
+        $br->setHtml('chat',$view->fetch('Usuario/viewProfile.tpl'));
+        $br->send();
+    }
+
+    public function friendslistclickAction() {
+        $this->friendslistloadAction();
+    }
 }
 

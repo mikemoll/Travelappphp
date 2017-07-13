@@ -17,6 +17,17 @@ class Usuario extends Db_Table {
     protected $_log_ativo = false;
     protected $_log_text = 'User';
     protected $_log_info = 'a_nomecompleto';
+    const RELATIONSHIPS = array('s'  => 'single',
+                                'm'  => 'married',
+                                'ir' => 'in a relationship',
+                                'e'  => 'engaged',
+                                'cu' => 'in a civil union',
+                                'dp' => 'in a domestic partnership',
+                                'or' => 'in an open relationship',
+                                'ic' => 'it is complicated',
+                                'sp' => 'separated',
+                                'd'  => 'divorced',
+                                'w'  => 'widowed');
 
     public static function getIdExternoLogado() {
         $session = Zend_Registry::get('session');
@@ -541,10 +552,36 @@ class Usuario extends Db_Table {
 
     public function getInterests() {
         $lLst = $this->getUserInterestsLst();
+        $list = array();
         if ($lLst->countItens() > 0) {
             for ($i = 0; $i < $lLst->countItens(); $i++) {
-                $User = $lLst->getItem($i);
-                $list[] = $User->getid_interest();
+                $item = $lLst->getItem($i);
+                $list[] = $item->getid_interest();
+            }
+        }
+        return $list;
+    }
+    public function getInterestsIcons() {
+        $lLst = $this->getUserInterestsLst();
+        $list = array();
+        if ($lLst->countItens() > 0) {
+            for ($i = 0; $i < $lLst->countItens(); $i++) {
+                $item = $lLst->getItem($i);
+                $list[] = array('name' =>$item->getdescription(),
+                                'icon' => HTTP_REFERER . 'Public/Images/interests/' . $item->getid_interest() . '.png');
+            }
+        }
+        return $list;
+    }
+
+    public function getTravelertypeIcons() {
+        $lLst = $this->getUserTravelertypesLst();
+        $list = array();
+        if ($lLst->countItens() > 0) {
+            for ($i = 0; $i < $lLst->countItens(); $i++) {
+                $item = $lLst->getItem($i);
+                $list[] = array('name' =>$item->getdescription(),
+                                'icon' => HTTP_REFERER . 'Public/Images/interests/' . $item->getid_travelertype() . '.png');
             }
         }
         return $list;

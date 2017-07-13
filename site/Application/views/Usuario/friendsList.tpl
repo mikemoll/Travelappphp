@@ -1,3 +1,4 @@
+                        <div class="view bg-white" >
                             <!-- BEGIN View Header !-->
                             <div class="navbar navbar-default">
                                 <div class="navbar-inner">
@@ -26,7 +27,7 @@
                                         {foreach from=$friends_lst key=id_friend item=friend}
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a data-view-animation="push-parrallax" data-view-port="#chat" data-navigate="view" class="" href="#{$id_friend}">
+                                            <a id="loadProfile" name="loadProfile" url="Usuario" event="click" params="id={$id_friend}">
                                                 <span class="col-xs-height col-middle">
                                                     <span class="thumbnail-wrapper d32 circular bg-success">
                                                         <img width="34" height="34" alt="" data-src-retina="{$friend.Photo}" data-src="{$friend.Photo}" src="{$friend.Photo}" class="col-top">
@@ -44,3 +45,4 @@
                                 </div>
                                 {/foreach}
                             </div>
+                        </div>
