@@ -1,0 +1,23 @@
+Digital Ocean
+
+Username:    ryanm@rasplayer.com
+Password:    ihnmedia6136
+
+If you login digitalocean.com, you can see the droplet(like virtual server) "ubuntu-parkrealty".
+All new servers(parkrealty.ca, logic-realty, new vancouvercondos.com) are running in the droplet now.
+
+The droplet has static IP, so you can access by IP 198.199.93.138
+You can think of the droplet as normal linux server, which means you can access through something like SSH.
+
+ssh root@198.199.93.138
+Password: ihnmedia6136
+
+# Directories
+- parkrealty.ca : /opt/apps/park-realty-new
+- logic-realty: /opt/apps/logic-realty
+- new vancouvercondos.com: /var/www/vancouvercondos
+
+# DB (Mysql)
+- ID: root
+- Password: ihnmedia
+- database: vancouvercondos_new
