@@ -3,60 +3,72 @@
 include_once 'AbstractController.php';
 
 /**
- *  Classe de cria��o e controle da tela inicial do sistema
+ *  Search and Explore
  * 
  * @author Leonardo Danieli <leonardo.danieli@gmail.com>
  * @version 1.0
  * 
  */
-class IndexController extends AbstractController {
+class ExploreController extends AbstractController {
 
     public function init() {
         parent::init();
         $this->IdGrid = 'grid';
-        $this->FormName = 'formIndex';
-        $this->Action = 'Index';
-        $this->TituloLista = "Index";
-        $this->TituloEdicao = "Index";
-        $this->ItemEditInstanceName = 'IndexEdit';
-        $this->ItemEditFormName = 'formIndexItemEdit';
-        $this->Model = 'Index';
-        $this->IdWindowEdit = 'EditIndex';
-        $this->TplIndex = 'Index/index.tpl';
-        $this->TplEdit = 'Index/edit.tpl';
+        $this->FormName = 'formExplore';
+        $this->Action = 'Explore';
+        $this->TituloLista = "Explore";
+        $this->TituloEdicao = "Explore";
+        $this->ItemEditInstanceName = 'ExploreEdit';
+        $this->ItemEditFormName = 'formExploreItemEdit';
+        $this->Model = 'Explore';
+        $this->IdWindowEdit = 'EditExplore';
+        $this->TplExplore = 'Explore/index.tpl';
+        $this->TplEdit = 'Explore/edit.tpl';
     }
 
     public function indexAction() {
         $view = Zend_Registry::get('view');
-        $session = Zend_Registry::get('session');
-        $usuario = $session->usuario;
+        $post = Zend_Registry::get('post');
 
+        $q = $post->q;
 
-        $form = new Ui_Form();
-        $form->setAction($this->Action);
-        $form->setName($this->ItemEditFormName);
+        // ---- Activities ----------
+        $ActivityLst = new Activity();
+        $ActivityLst->where('activityname', $q, 'like', 'or', 'q');
+//        $ActivityLst->where('location', $q, 'like', 'or', 'q');
+        $ActivityLst->where('description', $q, 'like', 'or', 'q');
+        $ActivityLst->readLst();
 
+        for ($i = 0; $i < $ActivityLst->countItens(); $i++) {
+            $Activity = $ActivityLst->getItem($i);
 
+            $view->assign('item', $Activity);
+            $activityHtml .= $view->fetch('Explore/activityCard.tpl');
+        }
 
-        $element = new Ui_Element_Text('search');
-        $element->setPlaceholder('Search for places, activities or events');
-        $element->setAttrib('hotkeys', 'enter, btnSearch, click');
-        $form->addElement($element);
+        // ---- Events ----------
+        $ActivityLst = new Event();
+        $ActivityLst->where('eventname', $q, 'like', 'or', 'q');
+//        $ActivityLst->where('location', $q, 'like', 'or', 'q');
+        $ActivityLst->where('description', $q, 'like', 'or', 'q');
+        $ActivityLst->readLst();
 
-        $button = new Ui_Element_Btn('btnSearch');
-        $button->setDisplay('', 'search');
-//        $button->setType('success');
-        $button->setSendFormFiends();
-//        $button->setAttrib('validaObrig', '1');
-        $form->addElement($button);
+        for ($i = 0; $i < $ActivityLst->countItens(); $i++) {
+            $Activity = $ActivityLst->getItem($i);
 
-        $form->setDataSession();
+            $view->assign('item', $Activity);
+            $eventHtml .= $view->fetch('Explore/EventCard.tpl');
+        }
+
 
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('titulo', $this->TituloEdicao);
         $view->assign('TituloPagina', $this->TituloEdicao);
-        $view->assign('body', $form->displayTpl($view, 'Index/search.tpl'));
+//        $view->assign('body', $form->displayTpl($view, 'Explore/index.tpl'));
+        $view->assign('eventLst', $eventHtml);
+        $view->assign('activityLst', $activityHtml);
+        $view->assign('body', $view->fetch('Explore/index.tpl'));
         $view->output('index.tpl');
     }
 
@@ -78,23 +90,26 @@ class IndexController extends AbstractController {
 
         // =========== Menu  ==========
         // INDICADORES
-        $menuItem = new Ui_Element_MenuItem('home', 'Explore', HTTP_REFERER . 'index', '', 'home');
+        $menuItem = new Ui_Element_MenuItem('home', 'Dashboard', HTTP_REFERER . 'index', '', 'home');
         $mainMenu->addMenuItem($menuItem);
 
 
-        $menu = new Ui_Element_MenuItem('dreambord', 'Dreamboard', HTTP_REFERER . 'dreamboard/index', '', '', '10 new Dreams');
+        $menu = new Ui_Element_MenuItem('trips', 'Trips', HTTP_REFERER . 'trip/dashboard', '', '', '10 new Trips');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 
-
-        $menu = new Ui_Element_MenuItem('trips', 'My Trips', HTTP_REFERER . 'trip/dashboard', '', '', '2 new Trips');
+        $menu = new Ui_Element_MenuItem('activities', 'Activities', HTTP_REFERER . 'activity', '', '');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 
-        $menu = new Ui_Element_MenuItem('Profile', 'Profile', HTTP_REFERER . 'usuario/profileedit', '', 'head');
+        $menu = new Ui_Element_MenuItem('events', 'Explores', HTTP_REFERER . 'event', '', '');
+//        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
+        $mainMenu->addMenuItem($menu);
+
+        $menu = new Ui_Element_MenuItem('Profile', 'Profile', HTTP_REFERER . 'usuario/profileedit', '', '');
         $mainMenu->addMenuItem($menu);
 //
-//        $menu2 = new Ui_Element_MenuItem('events', 'Indexs2', HTTP_REFERER . 'events', '', 'calendar');
+//        $menu2 = new Ui_Element_MenuItem('events', 'Explores2', HTTP_REFERER . 'events', '', 'calendar');
 ////        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
 //        $menu->addSubMenu($menu2);
         // -----------------------------------------------------------
@@ -113,11 +128,11 @@ class IndexController extends AbstractController {
             $menu->addSubMenu($menu2);
 
 
-            $menu2 = new Ui_Element_MenuItem('Index', 'Index', HTTP_REFERER . 'event', '', 'event');
+            $menu2 = new Ui_Element_MenuItem('Explore', 'Explore', HTTP_REFERER . 'event', '', 'event');
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
 
-            $menu2 = new Ui_Element_MenuItem('Indextype', 'Index Types', HTTP_REFERER . 'eventtype', '', '');
+            $menu2 = new Ui_Element_MenuItem('Exploretype', 'Explore Types', HTTP_REFERER . 'eventtype', '', '');
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
 

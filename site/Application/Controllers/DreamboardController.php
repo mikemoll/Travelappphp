@@ -3,67 +3,33 @@
 include_once 'AbstractController.php';
 
 /**
- *  Classe de cria��o e controle da tela inicial do sistema
+ *  Search and Dreamboard
  * 
  * @author Leonardo Danieli <leonardo.danieli@gmail.com>
  * @version 1.0
  * 
  */
-class IndexController extends AbstractController {
+class DreamboardController extends AbstractController {
 
     public function init() {
         parent::init();
         $this->IdGrid = 'grid';
-        $this->FormName = 'formIndex';
-        $this->Action = 'Index';
-        $this->TituloLista = "Index";
-        $this->TituloEdicao = "Index";
-        $this->ItemEditInstanceName = 'IndexEdit';
-        $this->ItemEditFormName = 'formIndexItemEdit';
-        $this->Model = 'Index';
-        $this->IdWindowEdit = 'EditIndex';
-        $this->TplIndex = 'Index/index.tpl';
-        $this->TplEdit = 'Index/edit.tpl';
+        $this->FormName = 'formDreamboard';
+        $this->Action = 'Dreamboard';
+        $this->TituloLista = "Dreamboard";
+        $this->TituloEdicao = "Dreamboard";
+        $this->ItemEditInstanceName = 'DreamboardEdit';
+        $this->ItemEditFormName = 'formDreamboardItemEdit';
+        $this->Model = 'Dreamboard';
+        $this->IdWindowEdit = 'EditDreamboard';
+        $this->TplDreamboard = 'Dreamboard/index.tpl';
+        $this->TplEdit = 'Dreamboard/edit.tpl';
     }
 
-    public function indexAction() {
-        $view = Zend_Registry::get('view');
-        $session = Zend_Registry::get('session');
-        $usuario = $session->usuario;
-
-
-        $form = new Ui_Form();
-        $form->setAction($this->Action);
-        $form->setName($this->ItemEditFormName);
-
-
-
-        $element = new Ui_Element_Text('search');
-        $element->setPlaceholder('Search for places, activities or events');
-        $element->setAttrib('hotkeys', 'enter, btnSearch, click');
-        $form->addElement($element);
-
-        $button = new Ui_Element_Btn('btnSearch');
-        $button->setDisplay('', 'search');
-//        $button->setType('success');
-        $button->setSendFormFiends();
-//        $button->setAttrib('validaObrig', '1');
-        $form->addElement($button);
-
-        $form->setDataSession();
-
-        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
-        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
-        $view->assign('titulo', $this->TituloEdicao);
-        $view->assign('TituloPagina', $this->TituloEdicao);
-        $view->assign('body', $form->displayTpl($view, 'Index/search.tpl'));
-        $view->output('index.tpl');
-    }
-
-    public function btnsearchclickAction() {
+    public function btnbookmarkitclickAction() {
         $post = Zend_Registry::get('post');
         $br = new Browser_Control();
-        $br->setBrowserUrl(BASE_URL . 'explore/index/q/' . $post->serach);
+        $br->setMsgAlert('Done!', 'Your dream is saved!');
         $br->send();
     }
 
@@ -78,23 +44,26 @@ class IndexController extends AbstractController {
 
         // =========== Menu  ==========
         // INDICADORES
-        $menuItem = new Ui_Element_MenuItem('home', 'Explore', HTTP_REFERER . 'index', '', 'home');
+        $menuItem = new Ui_Element_MenuItem('home', 'Dashboard', HTTP_REFERER . 'index', '', 'home');
         $mainMenu->addMenuItem($menuItem);
 
 
-        $menu = new Ui_Element_MenuItem('dreambord', 'Dreamboard', HTTP_REFERER . 'dreamboard/index', '', '', '10 new Dreams');
+        $menu = new Ui_Element_MenuItem('trips', 'Trips', HTTP_REFERER . 'trip/dashboard', '', '', '10 new Trips');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 
-
-        $menu = new Ui_Element_MenuItem('trips', 'My Trips', HTTP_REFERER . 'trip/dashboard', '', '', '2 new Trips');
+        $menu = new Ui_Element_MenuItem('activities', 'Activities', HTTP_REFERER . 'activity', '', '');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 
-        $menu = new Ui_Element_MenuItem('Profile', 'Profile', HTTP_REFERER . 'usuario/profileedit', '', 'head');
+        $menu = new Ui_Element_MenuItem('events', 'Dreamboards', HTTP_REFERER . 'event', '', '');
+//        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
+        $mainMenu->addMenuItem($menu);
+
+        $menu = new Ui_Element_MenuItem('Profile', 'Profile', HTTP_REFERER . 'usuario/profileedit', '', '');
         $mainMenu->addMenuItem($menu);
 //
-//        $menu2 = new Ui_Element_MenuItem('events', 'Indexs2', HTTP_REFERER . 'events', '', 'calendar');
+//        $menu2 = new Ui_Element_MenuItem('events', 'Dreamboards2', HTTP_REFERER . 'events', '', 'calendar');
 ////        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
 //        $menu->addSubMenu($menu2);
         // -----------------------------------------------------------
@@ -113,11 +82,11 @@ class IndexController extends AbstractController {
             $menu->addSubMenu($menu2);
 
 
-            $menu2 = new Ui_Element_MenuItem('Index', 'Index', HTTP_REFERER . 'event', '', 'event');
+            $menu2 = new Ui_Element_MenuItem('Dreamboard', 'Dreamboard', HTTP_REFERER . 'event', '', 'event');
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
 
-            $menu2 = new Ui_Element_MenuItem('Indextype', 'Index Types', HTTP_REFERER . 'eventtype', '', '');
+            $menu2 = new Ui_Element_MenuItem('Dreamboardtype', 'Dreamboard Types', HTTP_REFERER . 'eventtype', '', '');
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
 
