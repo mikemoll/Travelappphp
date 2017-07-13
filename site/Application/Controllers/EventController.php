@@ -211,9 +211,19 @@ class EventController extends AbstractController {
 
         ////-------- Grid   Event Activity --------------------------------------------------------------
 
-        $button = new Ui_Element_Btn('btnInvite');
-        $button->setDisplay('Invite a Friend to your Event', 'send');
+
+        $element = new Ui_Element_Select('friends', 'event type');
+        $friends = new Friend();
+        $friends->where('friend.id_usuario', Usuario::getIdUsuarioLogado());
+        $friends->join('eventuser', 'eventuser.id_usuario != friend.id_friend', 'eventuser.id_usuario', 'left');
+        $element->addMultiOptions(Db_Table::getOptionList2('id_friend', 'nomecompleto', 'nomecompleto', $friends, false));
+        $element->setMultiSelect();
+        $form->addElement($element);
+
+        $button = new Ui_Element_Btn('btnAddFriend');
+        $button->setDisplay('Invite a Friend to your Event', 'plus');
         $button->setType('success');
+        $button->setSendFormFiends();
         $button->setAttrib('validaObrig', '1');
         $form->addElement($button);
 
@@ -231,7 +241,7 @@ class EventController extends AbstractController {
 //        $button->setVisible('PROC_MENSAGENS', 'editar');
 //        $grid->addButton($button);
 //
-        $button = new Ui_Element_DataTables_Button('btnDeleteUser', 'Delete');
+        $button = new Ui_Element_DataTables_Button('btnDeleteEventUser', 'Delete Invitation');
         $button->setImg('trash');
         $button->setAttrib('msg', "Are you sure that you want to delete this?");
         $button->setVisible('PROC_MENSAGENS', 'excluir');
@@ -407,36 +417,49 @@ class EventController extends AbstractController {
         $br->send();
     }
 
-    public function btnsendinvitationclickAction() {
+    public function btnaddfriendclickAction() {
         $br = new Browser_Control();
         $post = Zend_Registry::get('post');
-        $user = new Usuario;
-        $user->where('email', $post->email);
-        $user->readLst();
-        $user = $user->getItem(0);
-
-
-
 
         /* @var $lObj Event */
         $lObj = Event::getInstance($this->ItemEditInstanceName);
 
-        $eventUser = new EventUser();
-        $eventUser->setid_event($lObj->getID());
-        $eventUser->setid_usuario($user->getID());
-        $eventUser->setstatus('i');
-//        $eventUser->setid_invitation(0);
-        $eventUser->save();
-        try {
-            $eventUser->save();
-            $lObj->setInstance($this->ItemEditInstanceName);
-        } catch (Exception $exc) {
-            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+        if ($lObj->getState() == cCREATE) {
+            $br->setMsgAlert('Ops!', 'First You need to save de Event!');
             $br->send();
-            die();
+            return;
         }
+
+        foreach ($post->friends as $key => $value) {
+//            print'<pre>';die(print_r("$key => $value"  ));
+            $eventUser = new EventUser();
+            $eventUser->setid_event($lObj->getID());
+            $eventUser->setid_usuario($value);
+            $eventUser->setstatus('i');
+            $eventUser->setid_invitation(0);
+            try {
+                $eventUser->save();
+//                $this->sendInviteToEvent(); // @TODO Implement this method
+            } catch (Exception $exc) {
+                $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+                $br->send();
+                die();
+            }
+        }
+
+        $lObj->setInstance($this->ItemEditInstanceName);
+
+
+
+
         $br->setMsgAlert('Sent!', 'Your Invitation was sent!');
-        $br->setRemoveWindow('EditInvite');
+//        $br->setRemoveWindow('EditInvite');
+        $friends = new Friend();
+        $friends->where('friend.id_usuario', Usuario::getIdUsuarioLogado());
+        $friends->join('eventuser', 'eventuser.id_usuario != friend.id_friend', 'eventuser.id_usuario');
+        $br->addFieldValue('friends', array(), 'select');
+        $br->addFieldValue('friends', Db_Table::getOptionList2('id_friend', 'nomecompleto', 'nomecompleto', $friends, false), 'select');
+        $br->setDataForm();
         $br->setUpdateDataTables('gridUser');
         $br->send();
     }
@@ -460,6 +483,21 @@ class EventController extends AbstractController {
         $msg = '';
         $br->setMsgAlert('Saved!', $msg);
         $br->setBrowserUrl(BASE_URL . $this->Action);
+        $br->send();
+    }
+
+    public function btndeleteeventuserclickAction() {
+        $br = new Browser_Control();
+        Grid_ControlDataTables::deleteDataGrid('EventUser', '', 'gridUser', $br);
+
+//        $friends = new Friend();
+//        $friends->where('friend.id_usuario', Usuario::getIdUsuarioLogado());
+//        $friends->join('eventuser', 'eventuser.id_usuario != friend.id_friend', 'eventuser.id_usuario', 'left');
+//        $br->addFieldValue(Db_Table::getOptionList2('id_friend', 'nomecompleto', 'nomecompleto', $friends, false), 'select');
+//        $br->setDataForm();
+
+
+        $br->setMsgAlert('Deleted', 'Item deleted!');
         $br->send();
     }
 

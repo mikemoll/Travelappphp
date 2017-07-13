@@ -75,9 +75,10 @@
     </div>
     <div class="col-lg-4">
         <h3>
-            Invited users to this Event
+            Invited Friends to this Event
         </h3>
-        {$btnInvite}
+        {$friends}
+        {$btnAddFriend}
         {$gridUser}
     </div>
 </div>
