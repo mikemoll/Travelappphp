@@ -26,10 +26,10 @@
 
                                 <p align="center">
                                     {foreach from=$interests item=it}
-                                        <img alt="it.name" src="{$it.icon}" />
+                                        <img alt="{$it.name}" title="{$it.name}" src="{$it.icon}" />
                                     {/foreach} &nbsp; 
                                     {foreach from=$travelertypes item=it}
-                                        <img alt="it.name" src="{$it.icon}" />
+                                        <img alt="{$it.name}" title="{$it.name}" src="{$it.icon}" />
                                     {/foreach}
                                 </p>
                                 <p class="fs-12">Traveled to:<br> <span>{$traveledto}</span></p>

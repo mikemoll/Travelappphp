@@ -48,12 +48,13 @@ class Friend extends Db_Table {
                 } else  {
                     $status = '<i>Waiting to create an account...</i>';
                 }
+                $friend_array['isfriend'] = 'N';
             } else {
                 $status = $friend->getbio();
                 if (strlen($status) > 35) {
                     $status = substr($status, 0, 30).'...';
                 }
-
+                $friend_array['isfriend'] = 'S';
             }
             $friend_array['status'] = $status;
             $friend_array['name'] = $name;

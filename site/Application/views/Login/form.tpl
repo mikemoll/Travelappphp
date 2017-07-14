@@ -1,6 +1,9 @@
 
+<h1 class="light">Welcome to<br>Tumbleweed</h1>
+<h3 class="light">Discover, plan and enjoy your gratest travel adventures.</h3>
+
 <p id="msg">{$msg}</p>
-<p class="p-t-35">Sign into your travel track account</p>
+<p class="p-t-35">Sign into your Tumbleweed account</p>
 <!-- START Login Form -->
 <!-- START Form Control-->
 
@@ -39,8 +42,11 @@
 <!-- END Form Control-->
 {*<button class="btn btn-primary btn-cons m-t-10" type="submit">Sign in</button>*}
 {$btnLogin}
-{$btnLoginFacebook}
-{$btnEsqueci}
+<br/>
+<button class="btn btn-success btn-cons m-t-10" type="submit">Request invite</button>
+
+{* $btnLoginFacebook *}
+{* $btnEsqueci *}
 
 <p class="p-t-35">Not registered yet?</p>
 {$btnCreate}

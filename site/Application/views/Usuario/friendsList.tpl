@@ -3,7 +3,7 @@
                             <div class="navbar navbar-default">
                                 <div class="navbar-inner">
                                     <!-- BEGIN Header Controler !-->
-                                    <a href="javascript:;" class="inline action p-l-10 link text-master" data-navigate="view" data-view-port="#chat" data-view-animation="push-parrallax">
+                                    <a href="javascript:;" class="inline action p-l-10 link text-master" id="addFriend" name="addFriend" url="Usuario" event="click" >
                                         <i class="pg-plus"></i>
                                     </a>
                                     <!-- END Header Controler !-->
@@ -27,7 +27,7 @@
                                         {foreach from=$friends_lst key=id_friend item=friend}
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a id="loadProfile" name="loadProfile" url="Usuario" event="click" params="id={$id_friend}">
+                                            <a id="loadProfile" name="loadProfile" url="Usuario" {if $friend.isfriend eq 'S'} event="click" params="id={$id_friend}" {/if}>
                                                 <span class="col-xs-height col-middle">
                                                     <span class="thumbnail-wrapper d32 circular bg-success">
                                                         <img width="34" height="34" alt="" data-src-retina="{$friend.Photo}" data-src="{$friend.Photo}" src="{$friend.Photo}" class="col-top">

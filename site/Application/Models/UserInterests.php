@@ -8,4 +8,10 @@ class UserInterests extends Db_Table {
             return Usuario::getUsuarioList($this->getid_usuario());
         }
     }
+
+
+    function readLst($modo = 'obj') {
+        $this->join('interests', 'interests.id_interests = userinterests.id_interest', 'description');
+        parent::readLst($modo);
+    }
 }

@@ -65,14 +65,16 @@
             <!-- START Login Background Pic Wrapper-->
             <div class="bg-pic">
                 <!-- START Background Pic-->
-                <img src="{$baseUrl}Public/assets/img/demo/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg" data-src="{$baseUrl}Public/assets/img/demo/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg" data-src-retina="assets/img/demo/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg" alt="" class="lazy">
+                <img src="{$baseUrl}Public/assets/img/demo/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg" data-src="{$baseUrl}Public/assets/img/demo/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg" data-src-retina="{$baseUrl}Public/assets/img/demo/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg" alt="" class="lazy">
                 <!-- END Background Pic-->
                 <!-- START Background Caption-->
                 <div class="bg-caption pull-bottom sm-pull-bottom text-white p-l-20 m-b-20">
                     <h2 class="semi-bold text-white">
-                        Travel track make it easy to enjoy what matters the most in the life</h2>
+                        Tumbleweed</h2>
+                    <h2 class="semi-bold text-white">
+                        go everywhere</h2>
                     <p class="small">
-                        © 2017 Travel Track.
+                        All work copyright | © 2017 Travel Track.
                     </p>
                 </div>
                 <!-- END Background Caption-->
@@ -81,7 +83,7 @@
             <!-- START Login Right Container-->
             <div class="login-container bg-white">
                 <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
-                    <img src="{$baseUrl}Public/assets/img/logo.png" alt="logo" data-src="{$baseUrl}Public/assets/img/logo.png" data-src-retina="assets/img/logo_2x.png" width="78" height="22">
+                    {* <img src="{$baseUrl}Public/assets/img/logo.png" alt="logo" data-src="{$baseUrl}Public/assets/img/logo.png" data-src-retina="assets/img/logo_2x.png" width="78" height="22"> *}
                     {$body}
                 </div>
             </div>

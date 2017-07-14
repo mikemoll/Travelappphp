@@ -309,7 +309,7 @@ class LoginController extends AbstractController {
             exit;
         } else {
             $user->setSenha(Format_Crypt::encryptPass($post->senhaNova));
-            $user->setDataSenha(date('d/m/Y'));
+            $user->setDataSenha(date('m/d/Y'));
 
             $session = Zend_Registry::get('session');
             $session->usuario = $user;
@@ -363,45 +363,6 @@ class LoginController extends AbstractController {
         $form->addElement($element);
 
 
-        $element = new Ui_Element_Text('email');
-        $element->setAttrib('maxlength', '255');
-        $element->setHideRemainingCharacters();
-        $element->setAttrib('type', 'email');
-        $element->setRequired();
-        $element->setAttrib('placeholder', 'Email');
-        $form->addElement($element);
-
-        $element = new Ui_Element_Date('birthdate', 'Birthdate');
-        $element->setRequired();
-//        $element->setAttrib('class', 'form-control');
-        $form->addElement($element);
-
-        $element = new Ui_Element_Select('gender');
-        $element->setRequired();
-        $element->addMultiOption('', '- Select -');
-        $element->addMultiOption('F', 'Female');
-        $element->addMultiOption('M', 'Male');
-        $form->addElement($element);
-
-        $element = new Ui_Element_Text('education');
-        $element->setAttrib('maxlength', '100');
-        $element->setHideRemainingCharacters();
-        $element->setAttrib('placeholder', 'Education');
-        $form->addElement($element);
-
-        $element = new Ui_Element_Text('hometowncity');
-        $element->setAttrib('maxlength', '50');
-        $element->setHideRemainingCharacters();
-        $element->setAttrib('placeholder', 'Home town');
-        $form->addElement($element);
-
-        $element = new Ui_Element_Text('hometowncountry');
-        $element->setAttrib('maxlength', '50');
-        $element->setHideRemainingCharacters();
-        $element->setAttrib('placeholder', 'Home country');
-        $form->addElement($element);
-
-
         $element = new Ui_Element_Text('loginUser');
         $element->setAttrib('maxlength', '30');
         $element->setHideRemainingCharacters();
@@ -432,10 +393,6 @@ class LoginController extends AbstractController {
         $element->setUncheckedValue('N');
         $form->addElement($element);
 
-        $element = new Ui_Element_Hidden('next');
-        $element->setValue($post->next);
-        $form->addElement($element);
-
         $button = new Ui_Element_Btn('btnRegister');
         $button->setDisplay('Register');
         $button->setAttrib('sendFormFields', '1');
@@ -449,12 +406,6 @@ class LoginController extends AbstractController {
         $button->setAttrib('class', 'btn btn-cancel btn-cons m-t-10');
         $form->addElement($button);
 
-        // $button = new Ui_Element_Btn('btnEsqueci');
-        // $button->setDisplay('Forgot My Pass');
-        // $button->setAttrib('sendFormFields', '1');
-        // $button->setAttrib('class', 'btn btn-info btn-cons m-t-10');
-        // $form->addElement($button);
-
         $form->setDataSession('formNewuser');
 
         $view = Zend_Registry::get('view');
@@ -465,30 +416,8 @@ class LoginController extends AbstractController {
         $html = $form->displayTpl($view, 'Login/newuser.tpl');
         $view->assign('body', $html);
         $view->output('Login/index.tpl');
-//      $view->output('index.tpl');
     }
 
-//   public function btnregisterclickAction() {
-//         $post = Zend_Registry::get('post');
-//         $br = new Browser_Control();
-//         $form = Session_Control::getDataSession('formNewuser');
-//         $valid = $form->processAjax($_POST);
-//         $br = new Browser_Control();
-//         if ($valid != 'true') {
-//             $br->validaForm($valid);
-//             $br->send();
-//             exit;
-//         }
-//         $user = Usuario::getInstance('formNewuser');
-//         $user->setDataFromRequest($post);
-//         $user->save();
-// //        $br->setBrowserUrl(BASE_URL);
-//         $br->setRemoveWindow('newuser');
-//         $br->setUpdateDataTables('gridUsers');
-//         $br->setUpdateDataTables('gridGrupos');
-//         $br->send();
-//         Session_Control::setDataSession('formNewuser', '');
-//     }
 
     public function validDate($mdY) {
         $d = explode('/',$mdY);
@@ -523,41 +452,187 @@ class LoginController extends AbstractController {
             $br->setAlert("Error","The password must contain at least 6 characters.");
             $br->send();
             return;
-        } else if (!filter_var($post->email, FILTER_VALIDATE_EMAIL)) {
-            $br->setAlert("Error","The email informed is not valid.");
-            $br->send();
-            return;
+        // } else if (!filter_var($post->email, FILTER_VALIDATE_EMAIL)) {
+        //     $br->setAlert("Error","The email informed is not valid.");
+        //     $br->send();
+        //     return;
         } else if ( Usuario::usernameExists($post->loginUser) ) {
             $br->setAlert("Error","This username has already being choosen. Please choose another.");
             $br->send();
             return;
-        } else if (!$this->validDate($post->birthdate)) {
-            $br->setAlert("Error","The bithdate must be a valid date in the format month/day/year.");
-            $br->send();
-            return;
-        } else if ($this->isFutureDate($post->birthdate)) {
-            $br->setAlert("Error","The bithdate must not be in the future.");
-            $br->send();
-            return;
+        // } else if (!$this->validDate($post->birthdate)) {
+        //     $br->setAlert("Error","The bithdate must be a valid date in the format month/day/year.");
+        //     $br->send();
+        //     return;
+        // } else if ($this->isFutureDate($post->birthdate)) {
+        //     $br->setAlert("Error","The bithdate must not be in the future.");
+        //     $br->send();
+        //     return;
         } else if ($post->termsofuse != 'S') {
             $br->setAlert("Error","You must agree with the term of use to proceed!");
             $br->send();
             return;
         }
 
+        $user = Usuario::getInstance('newUser');
+        $user->setDataFromRequest($post);
+
+        //sets the password expiration date
+        $user->setdatasenha(date('m/d/Y'));
+
+        //sets user type
+        $user->settipo('user');
+
+        //sets Active user
+        $user->setativo('S');
+
+        //sets user permission group
+        $user->setgrupo(2);
+
+        //sets user homepage
+        $user->setpaginainicial('index');
+
+
+        // generates the random number to confirm the account
+        // WE WON'T NEED THIS CONFIRMATION ON FIRST VERSION....
+        // srand();
+        // $lObj->setconfirmurl(substr(str_pad(dechex(rand(12345678,99994595)).
+        //                              dechex(rand(10003001,95964595)).
+        //                              dechex(rand(10003001,95964595)),16,'0',STR_PAD_LEFT),0,16));
+        // $link = HTTP_REFERER . 'login/confirmaccount/id/' . $lObj->getconfirmurl().$lObj->getID();
+        // $message ='<h1>Welcome to TravelTrack '.$lObj->getnomecompleto.'</h1><p>Confirm your account accessing the link: <a href="'.$link.'" target="_blank">'.$link.'</a></p>';
+
+        //saving the user data
+        try {
+            $user->save();
+            $user->setInstance('newUser');
+        } catch (Exception $exc) {
+            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+
+        //Login the user
+
+//        if ($post->remember) {
+        $cookie_name = "userName";
+        $cookie_value = $user->getusername;
+        setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
+//        }
+
+        Log::createLogFile('The user ' . $user->getNomeCompleto() . ' Sign Up');
+
+        $session = Zend_Registry::get('session');
+        $session->usuario = $user;
+        Zend_Registry::set('session', $session);
+
+        $limpaSession = true;
+
+
+
+
+        //$subject = 'Welcome to TravelTrack';
+        //$enviaEmail = new SendEmail();
+        //$enviaEmail->sendEmailComunicacaoInterna($message, $subject, $lObj->getemail()); //, $emailFrom, $nameFrom);
+
+        //$msg = 'An e-mail was sent to you to confirm your account!';
+        //$br->setMsgAlert('Please check your e-mail and confirm your registration to proceed!', $msg);
+        $br->setBrowserUrl(BASE_URL . 'login/newuser2/id/' . $user->getID());
+        $br->send();
+    }
+
+    public function newuser2Action() {
+        $post = Zend_Registry::get('post');
+
+        $form = new Ui_Form();
+        $form->setName('formNewuser');
+        $form->setAction('login');
+        $form->setAttrib('class', 'form-signin');
+        $form->setAttrib('role', 'form');
+
+        $obj = new Usuario;
+        if (isset($post->id)) {
+            $obj->read($post->id);
+            $form->setDataForm($obj);
+        }
+        $obj->setInstance('newUser');
+
+        $element = new Ui_Element_Text('hometowncity');
+        $element->setAttrib('maxlength', '50');
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', 'The city you were raised');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('hometowncountry');
+        $element->setAttrib('maxlength', '50');
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', 'The country you were raised');
+        $form->addElement($element);
+
+        $button = new Ui_Element_Btn('btnSkip2');
+        $button->setDisplay('Skip');
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('class', 'btn btn-cons m-t-10');
+        $form->addElement($button);
+
+        $button = new Ui_Element_Btn('btnContinue2');
+        $button->setDisplay('Continue');
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('validaObrig', '1');
+        $button->setAttrib('class', 'btn btn-primary  btn-cons m-t-10');
+        $form->addElement($button);
+
+        $element = new Ui_Element_Hidden('id');
+        $element->setValue($post->id);
+        $form->addElement($element);
+
+        $form->setDataSession('formNewuser');
+
+        $view = Zend_Registry::get('view');
+
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
+        $view->assign('TituloPagina', 'New user');
+        $html = $form->displayTpl($view, 'Login/newuser2.tpl');
+        $view->assign('body', $html);
+        $view->output('Login/index.tpl');
+    }
+
+    public function btnskip2clickAction($enviar = false) {
+        $post = Zend_Registry::get('post');
+        $session = Zend_Registry::get('session');
+
+        $br = new Browser_Control();
+
         $lObj = Usuario::getInstance('newUser');
         $lObj->setDataFromRequest($post);
 
-        //sets the password expiration date
-        $lObj->setdatasenha(date('m/d/Y'));
+        $br->setBrowserUrl(BASE_URL . 'login/newuser3/id/' . $lObj->getID());
+        $br->send();
+    }
 
-        // generates the random number to confirm the account
-        srand();
-        $lObj->setconfirmurl(substr(str_pad(dechex(rand(12345678,99994595)).
-                                     dechex(rand(10003001,95964595)).
-                                     dechex(rand(10003001,95964595)),16,'0',STR_PAD_LEFT),0,16));
-        $link = HTTP_REFERER . 'login/confirmaccount/id/' . $lObj->getconfirmurl().$lObj->getID();
-        $message ='<h1>Welcome to TravelTrack '.$lObj->getnomecompleto.'</h1><p>Confirm your account accessing the link: <a href="'.$link.'" target="_blank">'.$link.'</a></p>';
+    public function btncontinue2clickAction($enviar = false) {
+
+        $post = Zend_Registry::get('post');
+        $session = Zend_Registry::get('session');
+
+        $br = new Browser_Control();
+
+        // validating user
+        $form = Session_Control::getDataSession('formNewuser');
+
+        //Validations:
+        $valid = $form->processAjax($_POST);
+        if ($valid != 'true') {
+            $br->validaForm($valid);
+            $br->send();
+            return;
+        }
+
+        $lObj = new Usuario();
+        $lObj->read($post->id);
+        $lObj->sethometowncity($post->hometowncity);
+        $lObj->sethometowncountry($post->hometowncountry);
 
         //saving the user data
         try {
@@ -569,13 +644,449 @@ class LoginController extends AbstractController {
             die();
         }
 
-        $subject = 'Welcome to TravelTrack';
-        //$enviaEmail = new SendEmail();
-        //$enviaEmail->sendEmailComunicacaoInterna($message, $subject, $lObj->getemail()); //, $emailFrom, $nameFrom);
+        $br->setBrowserUrl(BASE_URL . 'login/newuser3/id/' . $lObj->getID());
+        $br->send();
+    }
 
-        $msg = 'An e-mail was sent to you to confirm your account!';
-        //$br->setMsgAlert('Please check your e-mail and confirm your registration to proceed!', $msg);
-        $br->setBrowserUrl(BASE_URL . 'login/index/msg/'.$msg);
+    public function newuser3Action() {
+        $post = Zend_Registry::get('post');
+
+        $form = new Ui_Form();
+        $form->setName('formNewuser');
+        $form->setAction('login');
+        $form->setAttrib('class', 'form-signin');
+        $form->setAttrib('role', 'form');
+
+        $obj = new Usuario;
+        if (isset($post->id)) {
+            $obj->read($post->id);
+            $form->setDataForm($obj);
+        }
+        $obj->setInstance('newUser');
+
+
+        $element = new Ui_Element_Text('liveincity');
+        $element->setAttrib('maxlength', '50');
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', "City where you're currently living");
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('liveincountry');
+        $element->setAttrib('maxlength', '50');
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', "City where you're currently living");
+        $form->addElement($element);
+
+        $button = new Ui_Element_Btn('btnSkip3');
+        $button->setDisplay('Skip');
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('class', 'btn btn-cons m-t-10');
+        $form->addElement($button);
+
+        $button = new Ui_Element_Btn('btnContinue3');
+        $button->setDisplay('Continue');
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('validaObrig', '1');
+        $button->setAttrib('class', 'btn btn-primary  btn-cons m-t-10');
+        $form->addElement($button);
+
+        $element = new Ui_Element_Hidden('id');
+        $element->setValue($post->id);
+        $form->addElement($element);
+
+        $form->setDataSession('formNewuser');
+
+        $view = Zend_Registry::get('view');
+
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
+        $view->assign('TituloPagina', 'New user');
+        $html = $form->displayTpl($view, 'Login/newuser3.tpl');
+        $view->assign('body', $html);
+        $view->output('Login/index.tpl');
+
+    }
+
+ public function btnskip3clickAction($enviar = false) {
+        $post = Zend_Registry::get('post');
+        $session = Zend_Registry::get('session');
+
+        $br = new Browser_Control();
+
+        $lObj = Usuario::getInstance('newUser');
+        $lObj->setDataFromRequest($post);
+
+        $br->setBrowserUrl(BASE_URL . 'login/newuser4/id/' . $lObj->getID());
+        $br->send();
+    }
+
+    public function btncontinue3clickAction($enviar = false) {
+
+        $post = Zend_Registry::get('post');
+        $session = Zend_Registry::get('session');
+
+        $br = new Browser_Control();
+
+        // validating user
+        $form = Session_Control::getDataSession('formNewuser');
+
+        //Validations:
+        $valid = $form->processAjax($_POST);
+        if ($valid != 'true') {
+            $br->validaForm($valid);
+            $br->send();
+            return;
+        }
+
+        $lObj = new Usuario();
+        $lObj->read($post->id);
+        $lObj->setliveincity($post->liveincity);
+        $lObj->setliveincountry($post->liveincountry);
+
+        //saving the user data
+        try {
+            $lObj->save();
+            $lObj->setInstance('newUser');
+        } catch (Exception $exc) {
+            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+
+        $br->setBrowserUrl(BASE_URL . 'login/newuser4/id/' . $lObj->getID());
+        $br->send();
+    }
+
+
+    public function newuser4Action() {
+        $post = Zend_Registry::get('post');
+
+        $form = new Ui_Form();
+        $form->setName('formNewuser');
+        $form->setAction('login');
+        $form->setAttrib('class', 'form-signin');
+        $form->setAttrib('role', 'form');
+
+        $obj = new Usuario;
+        if (isset($post->id)) {
+            $obj->read($post->id);
+            $form->setDataForm($obj);
+        }
+        $obj->setInstance('newUser');
+
+        $element = new Ui_Element_Textarea('traveledto');
+        $element->setAttrib('rows', 8);
+        $element->setAttrib('maxlength', 255);
+        $element->setAttrib('placeholder', 'Let your friends know the awesome places you traveled to!');
+        $form->addElement($element);
+
+        $button = new Ui_Element_Btn('btnSkip4');
+        $button->setDisplay('Skip');
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('class', 'btn btn-cons m-t-10');
+        $form->addElement($button);
+
+        $button = new Ui_Element_Btn('btnContinue4');
+        $button->setDisplay('Continue');
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('validaObrig', '1');
+        $button->setAttrib('class', 'btn btn-primary  btn-cons m-t-10');
+        $form->addElement($button);
+
+        $element = new Ui_Element_Hidden('id');
+        $element->setValue($post->id);
+        $form->addElement($element);
+
+        $form->setDataSession('formNewuser');
+
+        $view = Zend_Registry::get('view');
+
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
+        $view->assign('TituloPagina', 'New user');
+        $html = $form->displayTpl($view, 'Login/newuser4.tpl');
+        $view->assign('body', $html);
+        $view->output('Login/index.tpl');
+
+    }
+
+    public function btnskip4clickAction($enviar = false) {
+        $post = Zend_Registry::get('post');
+        $session = Zend_Registry::get('session');
+
+        $br = new Browser_Control();
+
+        $lObj = Usuario::getInstance('newUser');
+        $lObj->setDataFromRequest($post);
+
+        $br->setBrowserUrl(BASE_URL . 'login/newuser5/id/' . $lObj->getID());
+        $br->send();
+    }
+
+    public function btncontinue4clickAction($enviar = false) {
+
+        $post = Zend_Registry::get('post');
+        $session = Zend_Registry::get('session');
+
+        $br = new Browser_Control();
+
+        // validating user
+        $form = Session_Control::getDataSession('formNewuser');
+
+        //Validations:
+        $valid = $form->processAjax($_POST);
+        if ($valid != 'true') {
+            $br->validaForm($valid);
+            $br->send();
+            return;
+        }
+
+        $lObj = new Usuario();
+        $lObj->read($post->id);
+        $lObj->settraveledto($post->traveledto);
+
+        //saving the user data
+        try {
+            $lObj->save();
+            $lObj->setInstance('newUser');
+        } catch (Exception $exc) {
+            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+
+        $br->setBrowserUrl(BASE_URL . 'login/newuser5/id/' . $lObj->getID());
+        $br->send();
+    }
+
+
+    public function newuser5Action() {
+        $post = Zend_Registry::get('post');
+
+        $form = new Ui_Form();
+        $form->setName('formNewuser');
+        $form->setAction('login');
+        $form->setAttrib('class', 'form-signin');
+        $form->setAttrib('role', 'form');
+
+        $obj = new Usuario;
+        if (isset($post->id)) {
+            $obj->read($post->id);
+            $form->setDataForm($obj);
+        }
+        $obj->setInstance('newUser');
+
+        $element = new Ui_Element_Textarea('bio');
+        $element->setAttrib('rows', 4);
+        $element->setAttrib('maxlength', 140);
+        $element->setAttrib('placeholder', 'Tell us how awesome you are, your favourite quote etc.');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('occupation');
+        $element->setAttrib('maxlength', 60);
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', 'We all got bills to pay');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('dreamjob');
+        $element->setAttrib('maxlength', 60);
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', 'bungee jumping instuctor, panda cuddler, self-made millionaire');
+        $form->addElement($element);
+
+        $button = new Ui_Element_Btn('btnSkip5');
+        $button->setDisplay('Skip');
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('class', 'btn btn-cons m-t-10');
+        $form->addElement($button);
+
+        $button = new Ui_Element_Btn('btnContinue5');
+        $button->setDisplay('Continue');
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('validaObrig', '1');
+        $button->setAttrib('class', 'btn btn-primary  btn-cons m-t-10');
+        $form->addElement($button);
+
+        $element = new Ui_Element_Hidden('id');
+        $element->setValue($post->id);
+        $form->addElement($element);
+
+        $form->setDataSession('formNewuser');
+
+        $view = Zend_Registry::get('view');
+
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
+        $view->assign('TituloPagina', 'New user');
+        $html = $form->displayTpl($view, 'Login/newuser5.tpl');
+        $view->assign('body', $html);
+        $view->output('Login/index.tpl');
+
+    }
+
+    public function btnskip5clickAction($enviar = false) {
+        $post = Zend_Registry::get('post');
+        $session = Zend_Registry::get('session');
+
+        $br = new Browser_Control();
+
+        $lObj = Usuario::getInstance('newUser');
+        $lObj->setDataFromRequest($post);
+
+        $br->setBrowserUrl(BASE_URL . 'login/newuser6/id/' . $lObj->getID());
+        $br->send();
+    }
+
+    public function btncontinue5clickAction($enviar = false) {
+
+        $post = Zend_Registry::get('post');
+        $session = Zend_Registry::get('session');
+
+        $br = new Browser_Control();
+
+        // validating user
+        $form = Session_Control::getDataSession('formNewuser');
+
+        //Validations:
+        $valid = $form->processAjax($_POST);
+        if ($valid != 'true') {
+            $br->validaForm($valid);
+            $br->send();
+            return;
+        }
+
+        $lObj = new Usuario();
+        $lObj->read($post->id);
+        $lObj->setbio($post->bio);
+        $lObj->setoccupation($post->occupation);
+        $lObj->setdreamjob($post->dreamjob);
+
+        //saving the user data
+        try {
+            $lObj->save();
+            $lObj->setInstance('newUser');
+        } catch (Exception $exc) {
+            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+
+        $br->setBrowserUrl(BASE_URL . 'login/newuser6/id/' . $lObj->getID());
+        $br->send();
+    }
+
+    public function newuser6Action() {
+        $post = Zend_Registry::get('post');
+
+        $form = new Ui_Form();
+        $form->setName('formNewuser');
+        $form->setAction('login');
+        $form->setAttrib('class', 'form-signin');
+        $form->setAttrib('role', 'form');
+
+        $obj = new Usuario;
+        if (isset($post->id)) {
+            $obj->read($post->id);
+            $form->setDataForm($obj);
+        }
+        $obj->setInstance('newUser');
+
+        $element = new Ui_Element_Text('instagram');
+        $element->setAttrib('maxlength', 45);
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', 'your_instagram_username');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('twitter');
+        $element->setAttrib('maxlength', 45);
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', 'your_twitter_username');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('facebook');
+        $element->setAttrib('maxlength', 45);
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', 'your.facebook.profile');
+        $form->addElement($element);
+
+        $button = new Ui_Element_Btn('btnSkip6');
+        $button->setDisplay('Skip');
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('class', 'btn btn-cons m-t-10');
+        $form->addElement($button);
+
+        $button = new Ui_Element_Btn('btnContinue6');
+        $button->setDisplay('Continue');
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('validaObrig', '1');
+        $button->setAttrib('class', 'btn btn-primary  btn-cons m-t-10');
+        $form->addElement($button);
+
+        $element = new Ui_Element_Hidden('id');
+        $element->setValue($post->id);
+        $form->addElement($element);
+
+        $form->setDataSession('formNewuser');
+
+        $view = Zend_Registry::get('view');
+
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
+        $view->assign('TituloPagina', 'New user');
+        $html = $form->displayTpl($view, 'Login/newuser6.tpl');
+        $view->assign('body', $html);
+        $view->output('Login/index.tpl');
+
+    }
+
+    public function btnskip6clickAction($enviar = false) {
+        $post = Zend_Registry::get('post');
+        $session = Zend_Registry::get('session');
+
+        $br = new Browser_Control();
+
+        $lObj = Usuario::getInstance('newUser');
+        $lObj->setDataFromRequest($post);
+
+        $br->setBrowserUrl(BASE_URL . 'index');
+        $br->send();
+    }
+
+    public function btncontinue6clickAction($enviar = false) {
+
+        $post = Zend_Registry::get('post');
+        $session = Zend_Registry::get('session');
+
+        $br = new Browser_Control();
+
+        // validating user
+        $form = Session_Control::getDataSession('formNewuser');
+
+        //Validations:
+        $valid = $form->processAjax($_POST);
+        if ($valid != 'true') {
+            $br->validaForm($valid);
+            $br->send();
+            return;
+        }
+
+        $lObj = new Usuario();
+        $lObj->read($post->id);
+        $lObj->setinstagram($post->instagram);
+        $lObj->settwitter($post->twitter);
+        $lObj->setfacebook($post->facebook);
+
+        //saving the user data
+        try {
+            $lObj->save();
+            $lObj->setInstance('newUser');
+        } catch (Exception $exc) {
+            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+
+        $br->setBrowserUrl(BASE_URL . 'index');
         $br->send();
     }
 

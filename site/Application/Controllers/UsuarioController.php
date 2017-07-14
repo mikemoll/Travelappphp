@@ -871,13 +871,13 @@ class UsuarioController extends AbstractController {
         $element = new Ui_Element_Text('instagram');
         $element->setAttrib('maxlength', 45);
         $element->setHideRemainingCharacters();
-        $element->setAttrib('placeholder', '@instagram_username');
+        $element->setAttrib('placeholder', 'your_instagram_username');
         $form->addElement($element);
 
         $element = new Ui_Element_Text('twitter');
         $element->setAttrib('maxlength', 45);
         $element->setHideRemainingCharacters();
-        $element->setAttrib('placeholder', '@twitter_username');
+        $element->setAttrib('placeholder', 'your_twitter_username');
         $form->addElement($element);
 
         $element = new Ui_Element_Text('facebook');
@@ -1141,7 +1141,6 @@ class UsuarioController extends AbstractController {
         $view->assign('twitter', $user->gettwitter());
         $view->assign('instagram', $user->getinstagram());
         $view->assign('occupation', $user->getoccupation());
-        
 
         $br->setHtml('chat',$view->fetch('Usuario/viewProfile.tpl'));
         $br->send();
@@ -1149,6 +1148,14 @@ class UsuarioController extends AbstractController {
 
     public function friendslistclickAction() {
         $this->friendslistloadAction();
+    }
+
+    public function addfriendclickAction() {
+        $br = new Browser_Control();
+        $view = Zend_Registry::get('view');
+
+        $br->setHtml('chat',$view->fetch('Usuario/addFriend.tpl'));
+        $br->send();
     }
 }
 

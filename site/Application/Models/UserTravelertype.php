@@ -9,4 +9,9 @@ class UserTravelertype extends Db_Table {
         }
     }
 
+    function readLst($modo = 'obj') {
+        $this->join('travelertype', 'travelertype.id_travelertype = usertravelertype.id_travelertype', 'description');
+        parent::readLst($modo);
+    }
+
 }
