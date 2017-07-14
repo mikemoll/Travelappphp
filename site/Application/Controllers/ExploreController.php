@@ -32,19 +32,49 @@ class ExploreController extends AbstractController {
 
         $q = $post->q;
 
+
+
+        $form = new Ui_Form();
+        $form->setAction($this->Action);
+        $form->setName($this->ItemEditFormName);
+
+
+
+        $element = new Ui_Element_Text('search');
+        $element->setPlaceholder('Search for places, activities or events');
+        $element->setAttrib('hotkeys', 'enter, btnSearch, click');
+        $form->addElement($element);
+
+        $button = new Ui_Element_Btn('btnSearch');
+        $button->setDisplay('', 'search');
+//        $button->setType('success');
+        $button->setSendFormFiends();
+//        $button->setAttrib('validaObrig', '1');
+        $form->addElement($button);
+
+        $form->setDataSession();
+
+        // ---- Activities ----------
+//        $ActivityLst = new Activity();
+//        $ActivityLst->where('activityname', $q, 'like', 'or', 'q');
+////        $ActivityLst->where('location', $q, 'like', 'or', 'q');
+//        $ActivityLst->where('description', $q, 'like', 'or', 'q');
+//        $ActivityLst->readLst();
+//
+//        for ($i = 0; $i < $ActivityLst->countItens(); $i++) {
+//            $Activity = $ActivityLst->getItem($i);
+//
+//            $view->assign('item', $Activity);
+//            $activityHtml .= $view->fetch('Explore/activityCard.tpl');
+//        }
         // ---- Activities ----------
         $ActivityLst = new Activity();
         $ActivityLst->where('activityname', $q, 'like', 'or', 'q');
 //        $ActivityLst->where('location', $q, 'like', 'or', 'q');
         $ActivityLst->where('description', $q, 'like', 'or', 'q');
         $ActivityLst->readLst();
+        $view->assign('activityLst', $ActivityLst->getItens());
 
-        for ($i = 0; $i < $ActivityLst->countItens(); $i++) {
-            $Activity = $ActivityLst->getItem($i);
-
-            $view->assign('item', $Activity);
-            $activityHtml .= $view->fetch('Explore/activityCard.tpl');
-        }
 
         // ---- Events ----------
         $ActivityLst = new Event();
@@ -52,13 +82,8 @@ class ExploreController extends AbstractController {
 //        $ActivityLst->where('location', $q, 'like', 'or', 'q');
         $ActivityLst->where('description', $q, 'like', 'or', 'q');
         $ActivityLst->readLst();
+        $view->assign('eventLst', $ActivityLst->getItens());
 
-        for ($i = 0; $i < $ActivityLst->countItens(); $i++) {
-            $Activity = $ActivityLst->getItem($i);
-
-            $view->assign('item', $Activity);
-            $eventHtml .= $view->fetch('Explore/EventCard.tpl');
-        }
 
 
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
@@ -66,16 +91,60 @@ class ExploreController extends AbstractController {
         $view->assign('titulo', $this->TituloEdicao);
         $view->assign('TituloPagina', $this->TituloEdicao);
 //        $view->assign('body', $form->displayTpl($view, 'Explore/index.tpl'));
-        $view->assign('eventLst', $eventHtml);
-        $view->assign('activityLst', $activityHtml);
-        $view->assign('body', $view->fetch('Explore/index.tpl'));
+        $view->assign('body', $form->displayTpl($view, 'Explore/index.tpl'));
+//        $view->assign('body', $view->fetch('Explore/index.tpl'));
         $view->output('index.tpl');
+    }
+
+    public function galeryitemclickAction() {
+        $br = new Browser_Control();
+        $post = Zend_Registry::get('post');
+
+        if ($post->id_activity) {
+            $Item = new Activity();
+            $id = $post->id_activity;
+            $idName = 'id_activity';
+        } else
+        if ($post->id_event) {
+            $Item = new Event();
+            $id = $post->id_event;
+            $idName = 'id_event';
+        }
+        $Item->read($id);
+
+        if ($Item->getActivityName() == '') {
+            $br->setHtml('itemTitle', $Item->getEventName());
+        } else {
+            $br->setHtml('itemTitle', $Item->getActivityName());
+        }
+        $br->setHtml('itemDescription', $Item->getDescription());
+        $br->setHtmlByClass('itemPrice', '$' . $Item->getPrice());
+        $br->setAttrib('btnAddDream', 'params', $idName . '=' . $Item->getID());
+
+        $lP = $Item->getPicsLst();
+        foreach ($lP as $value) {
+            $html .= '<img class="slide" src="' . $value['src'] . '">';
+//            $html .= '<div class="slide" data-image="' . $value['src'] . '" src="' . $value['src'] . '"></div>';
+        }
+        $br->setHtmlByClass('itemGalery', $html);
+
+
+
+        $br->send();
+    }
+
+    public function btnadddreamclickAction() {
+        $post = Zend_Registry::get('post');
+        $br = new Browser_Control();
+        $br->setClass("itemDetails", "dialog item-details dialog");
+        $br->setMsgAlert('Done!', 'Your dream is saved!');
+        $br->send();
     }
 
     public function btnsearchclickAction() {
         $post = Zend_Registry::get('post');
         $br = new Browser_Control();
-        $br->setBrowserUrl(BASE_URL . 'explore/index/q/' . $post->serach);
+        $br->setBrowserUrl(BASE_URL . 'explore/index/q/' . $post->search);
         $br->send();
     }
 

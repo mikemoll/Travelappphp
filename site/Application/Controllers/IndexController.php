@@ -32,25 +32,6 @@ class IndexController extends AbstractController {
         $usuario = $session->usuario;
 
 
-        $form = new Ui_Form();
-        $form->setAction($this->Action);
-        $form->setName($this->ItemEditFormName);
-
-
-
-        $element = new Ui_Element_Text('search');
-        $element->setPlaceholder('Search for places, activities or events');
-        $element->setAttrib('hotkeys', 'enter, btnSearch, click');
-        $form->addElement($element);
-
-        $button = new Ui_Element_Btn('btnSearch');
-        $button->setDisplay('', 'search');
-//        $button->setType('success');
-        $button->setSendFormFiends();
-//        $button->setAttrib('validaObrig', '1');
-        $form->addElement($button);
-
-        $form->setDataSession();
 
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
@@ -78,7 +59,7 @@ class IndexController extends AbstractController {
 
         // =========== Menu  ==========
         // INDICADORES
-        $menuItem = new Ui_Element_MenuItem('home', 'Explore', HTTP_REFERER . 'index', '', 'home');
+        $menuItem = new Ui_Element_MenuItem('home', 'Explore', HTTP_REFERER . 'Explore/index', '', 'home');
         $mainMenu->addMenuItem($menuItem);
 
 

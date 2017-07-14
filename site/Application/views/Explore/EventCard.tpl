@@ -7,7 +7,7 @@
     </style>
 {/literal}
 <!-- START ROW -->
-<div class="col-sm-6 m-b-10">
+<div class="col-sm-12 m-b-10">
     <div class="ar-1-1">
         <!-- START WIDGET widget_imageWidgetBasic-->
         <div class="widget-2 panel no-border bg-primary widget widget-loader-circle-lg no-margin event-{$item->getID()}">
