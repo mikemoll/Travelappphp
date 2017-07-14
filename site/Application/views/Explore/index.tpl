@@ -43,6 +43,69 @@
         </div>
         <!-- START GALLERY ITEM -->
 
+        {section name=i loop=$places}
+            <!-- START GALLERY ITEM -->
+            <!--
+                  FOR DEMO PURPOSES, FIRST GALLERY ITEM (.first) IS HIDDEN
+                  FOR SCREENS <920px. PLEASE REMOVE THE CLASS 'first' WHEN YOU IMPLEMENT
+            -->
+            <div class="gallery-item " data-id="{$places[i].place_id}"  event="click" name="galeryItem" params="id_place={$places[i].place_id}" data-width="1" data-height="1">
+                <!-- START PREVIEW -->
+                <div class="live-tile slide" data-speed="750" data-delay="4000" data-mode="carousel">
+
+                    {foreach from=$places[i].photos name=galery item=item}
+                        <div class="{if $smarty.foreach.galery.first}slide-front{else}slide-back{/if}">
+                            <img src="{$item.src}" alt="" class="image-responsive-height">
+                        </div>
+                    {foreachelse}
+                        <div class="slide-back">
+                            <img src="{$baseUrl}Public/assets/img/gallery/2_1.jpg" alt="" class="image-responsive-height">
+                        </div>
+                    {/foreach}
+                </div>
+                <!-- END PREVIEW -->
+                <!-- START ITEM OVERLAY DESCRIPTION -->
+                <div class="overlayer bottom-left full-width">
+                    <div class="overlayer-wrapper item-info more-content">
+                        <div class="gradient-grey p-l-20 p-r-20 p-t-20 p-b-5">
+                            <div class="">
+                                <h3 class="pull-left bold text-white no-margin">{$places[i].name}</h3>
+                                {*                                <h3 class="pull-right semi-bold text-white font-montserrat bold no-margin">${$places[i]->getPrice()}</h3>*}
+                                <div class="clearfix"></div>
+                                {*                                <span class="hint-text pull-left text-white">{$places[i]->getDescription()|truncate:20:''}</span>*}
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="">
+                                <h5 class="text-white light">{$places[i].formatted_address}</h5>
+                            </div>
+                            <div class="m-t-10">
+                                <div class="thumbnail-wrapper d32 circular m-t-5">
+                                    {*                                    <img width="40" height="40" src="{$baseUrl}Public/assets/img/profiles/avatar.jpg" data-src="{$baseUrl}Public/assets/img/profiles/avatar.jpg" data-src-retina="{$baseUrl}Public/assets/img/profiles/avatar2x.jpg" alt="">*}
+                                </div>
+                                <div class="inline m-l-10">
+                                    {*<p class="no-margin text-white fs-12">Designed by Alex Nester</p>
+                                    <p class="rating">
+                                    <i class="fa fa-star rated"></i>
+                                    <i class="fa fa-star rated"></i>
+                                    <i class="fa fa-star rated"></i>
+                                    <i class="fa fa-star rated"></i>
+                                    <i class="fa fa-star"></i>
+                                    </p>*}
+                                </div>
+                                <div class="pull-right m-t-10">
+                                    <a href="#none" class="btn btn-white btn-xs btn-mini bold fs-14" type="button">+</a>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END PRODUCT OVERLAY DESCRIPTION -->
+            </div>
+            <!-- END GALLERY ITEM -->
+
+        {/section}
+
         {section name=i loop=$activityLst}
             <!-- START GALLERY ITEM -->
             <!--

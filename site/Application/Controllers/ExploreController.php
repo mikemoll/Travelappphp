@@ -31,6 +31,7 @@ class ExploreController extends AbstractController {
         $post = Zend_Registry::get('post');
 
         $q = $post->q;
+        $type = $post->type != '' ? $post->type : '(regions)';
 
 
 
@@ -54,7 +55,28 @@ class ExploreController extends AbstractController {
 
         $form->setDataSession();
 
-        // ---- Activities ----------
+        // ---- GOOGLE ----------
+//        $ret = $this->callAPI('GET', array('query' => $q));
+//        $ret = $this->callAPI(array('query' => $q, 'type' => 'airport'));
+        $ret = $this->callAPI(array('query' => $q, 'type' => $type));
+//        print'<pre>';die(print_r( $ret ));
+        foreach ($ret->results as $value) {
+            $place['place_id'] = $value->place_id;
+            $place['formatted_address'] = $value->formatted_address;
+            $place['name'] = $value->name;
+            $place['rating'] = $value->rating;
+            $place['types'] = $value->types;
+            foreach ($value->photos as $photo) {
+//                $photo2['src'] = '<a href="https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=' . $photo->photo_reference . '&key=AIzaSyDsL2HI8bxi78DT4oHVw1XTOT4qKjksPi0">photo</a>';
+                $photo2['src'] = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=' . $photo->photo_reference . '&key=AIzaSyDsL2HI8bxi78DT4oHVw1XTOT4qKjksPi0';
+                $place['photos'][] = $photo2;
+            }
+            $places[] = $place;
+            $place = array();
+        }
+//        print'<pre>';die(print_r( $places ));
+//        dr( $places );
+        $view->assign('places', $places);
 //        $ActivityLst = new Activity();
 //        $ActivityLst->where('activityname', $q, 'like', 'or', 'q');
 ////        $ActivityLst->where('location', $q, 'like', 'or', 'q');
@@ -69,18 +91,18 @@ class ExploreController extends AbstractController {
 //        }
         // ---- Activities ----------
         $ActivityLst = new Activity();
-        $ActivityLst->where('activityname', $q, 'like', 'or', 'q');
-//        $ActivityLst->where('location', $q, 'like', 'or', 'q');
-        $ActivityLst->where('description', $q, 'like', 'or', 'q');
+//        $ActivityLst->where('activityname', $q, 'like', 'or', 'q');
+////        $ActivityLst->where('location', $q, 'like', 'or', 'q');
+//        $ActivityLst->where('description', $q, 'like', 'or', 'q');
         $ActivityLst->readLst();
         $view->assign('activityLst', $ActivityLst->getItens());
 
 
         // ---- Events ----------
         $ActivityLst = new Event();
-        $ActivityLst->where('eventname', $q, 'like', 'or', 'q');
-//        $ActivityLst->where('location', $q, 'like', 'or', 'q');
-        $ActivityLst->where('description', $q, 'like', 'or', 'q');
+//        $ActivityLst->where('eventname', $q, 'like', 'or', 'q');
+////        $ActivityLst->where('location', $q, 'like', 'or', 'q');
+//        $ActivityLst->where('description', $q, 'like', 'or', 'q');
         $ActivityLst->readLst();
         $view->assign('eventLst', $ActivityLst->getItens());
 
@@ -94,6 +116,29 @@ class ExploreController extends AbstractController {
         $view->assign('body', $form->displayTpl($view, 'Explore/index.tpl'));
 //        $view->assign('body', $view->fetch('Explore/index.tpl'));
         $view->output('index.tpl');
+    }
+
+    /**
+     * Method: POST, PUT, GET etc
+     * Data: array("param" => "value") ==> index.php?param=value
+     *
+     * @param type $method
+     * @param type $url
+     * @param type $data
+     * @return type
+     */
+    function callAPI($data = false) {
+//        https://maps.googleapis.com/maps/api/place/textsearch/json?query=paris&key=AIzaSyDsL2HI8bxi78DT4oHVw1XTOT4qKjksPi0
+        $url = 'https://maps.googleapis.com/maps/api/place/textsearch/json';
+        $data['key'] = 'AIzaSyDsL2HI8bxi78DT4oHVw1XTOT4qKjksPi0';
+        $url = sprintf("%s?%s", $url, http_build_query($data));
+
+
+        $result = file_get_contents($url);
+
+
+        $result = json_decode($result);
+        return $result;
     }
 
     public function galeryitemclickAction() {
