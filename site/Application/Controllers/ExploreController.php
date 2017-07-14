@@ -31,34 +31,81 @@ class ExploreController extends AbstractController {
         $post = Zend_Registry::get('post');
 
         $q = $post->q;
+        $type = $post->type != '' ? $post->type : '(regions)';
 
+
+
+        $form = new Ui_Form();
+        $form->setAction($this->Action);
+        $form->setName($this->ItemEditFormName);
+
+
+
+        $element = new Ui_Element_Text('search');
+        $element->setPlaceholder('Search for places, activities or events');
+        $element->setAttrib('hotkeys', 'enter, btnSearch, click');
+        $form->addElement($element);
+
+        $button = new Ui_Element_Btn('btnSearch');
+        $button->setDisplay('', 'search');
+//        $button->setType('success');
+        $button->setSendFormFiends();
+//        $button->setAttrib('validaObrig', '1');
+        $form->addElement($button);
+
+        $form->setDataSession();
+
+        // ---- GOOGLE ----------
+//        $ret = $this->callAPI('GET', array('query' => $q));
+//        $ret = $this->callAPI(array('query' => $q, 'type' => 'airport'));
+        $ret = $this->callAPI(array('query' => $q, 'type' => $type));
+//        print'<pre>';die(print_r( $ret ));
+        foreach ($ret->results as $value) {
+            $place['place_id'] = $value->place_id;
+            $place['formatted_address'] = $value->formatted_address;
+            $place['name'] = $value->name;
+            $place['rating'] = $value->rating;
+            $place['types'] = $value->types;
+            foreach ($value->photos as $photo) {
+//                $photo2['src'] = '<a href="https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=' . $photo->photo_reference . '&key=AIzaSyDsL2HI8bxi78DT4oHVw1XTOT4qKjksPi0">photo</a>';
+                $photo2['src'] = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=' . $photo->photo_reference . '&key=AIzaSyDsL2HI8bxi78DT4oHVw1XTOT4qKjksPi0';
+                $place['photos'][] = $photo2;
+            }
+            $places[] = $place;
+            $place = array();
+        }
+//        print'<pre>';die(print_r( $places ));
+//        dr( $places );
+        $view->assign('places', $places);
+//        $ActivityLst = new Activity();
+//        $ActivityLst->where('activityname', $q, 'like', 'or', 'q');
+////        $ActivityLst->where('location', $q, 'like', 'or', 'q');
+//        $ActivityLst->where('description', $q, 'like', 'or', 'q');
+//        $ActivityLst->readLst();
+//
+//        for ($i = 0; $i < $ActivityLst->countItens(); $i++) {
+//            $Activity = $ActivityLst->getItem($i);
+//
+//            $view->assign('item', $Activity);
+//            $activityHtml .= $view->fetch('Explore/activityCard.tpl');
+//        }
         // ---- Activities ----------
         $ActivityLst = new Activity();
-        $ActivityLst->where('activityname', $q, 'like', 'or', 'q');
-//        $ActivityLst->where('location', $q, 'like', 'or', 'q');
-        $ActivityLst->where('description', $q, 'like', 'or', 'q');
+//        $ActivityLst->where('activityname', $q, 'like', 'or', 'q');
+////        $ActivityLst->where('location', $q, 'like', 'or', 'q');
+//        $ActivityLst->where('description', $q, 'like', 'or', 'q');
         $ActivityLst->readLst();
+        $view->assign('activityLst', $ActivityLst->getItens());
 
-        for ($i = 0; $i < $ActivityLst->countItens(); $i++) {
-            $Activity = $ActivityLst->getItem($i);
-
-            $view->assign('item', $Activity);
-            $activityHtml .= $view->fetch('Explore/activityCard.tpl');
-        }
 
         // ---- Events ----------
         $ActivityLst = new Event();
-        $ActivityLst->where('eventname', $q, 'like', 'or', 'q');
-//        $ActivityLst->where('location', $q, 'like', 'or', 'q');
-        $ActivityLst->where('description', $q, 'like', 'or', 'q');
+//        $ActivityLst->where('eventname', $q, 'like', 'or', 'q');
+////        $ActivityLst->where('location', $q, 'like', 'or', 'q');
+//        $ActivityLst->where('description', $q, 'like', 'or', 'q');
         $ActivityLst->readLst();
+        $view->assign('eventLst', $ActivityLst->getItens());
 
-        for ($i = 0; $i < $ActivityLst->countItens(); $i++) {
-            $Activity = $ActivityLst->getItem($i);
-
-            $view->assign('item', $Activity);
-            $eventHtml .= $view->fetch('Explore/EventCard.tpl');
-        }
 
 
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
@@ -66,16 +113,101 @@ class ExploreController extends AbstractController {
         $view->assign('titulo', $this->TituloEdicao);
         $view->assign('TituloPagina', $this->TituloEdicao);
 //        $view->assign('body', $form->displayTpl($view, 'Explore/index.tpl'));
-        $view->assign('eventLst', $eventHtml);
-        $view->assign('activityLst', $activityHtml);
-        $view->assign('body', $view->fetch('Explore/index.tpl'));
+        $view->assign('body', $form->displayTpl($view, 'Explore/index.tpl'));
+//        $view->assign('body', $view->fetch('Explore/index.tpl'));
         $view->output('index.tpl');
+    }
+
+    /**
+     * Method: POST, PUT, GET etc
+     * Data: array("param" => "value") ==> index.php?param=value
+     *
+     * @param type $method
+     * @param type $url
+     * @param type $data
+     * @return type
+     */
+    function callAPI($data = false) {
+//        https://maps.googleapis.com/maps/api/place/textsearch/json?query=paris&key=AIzaSyDsL2HI8bxi78DT4oHVw1XTOT4qKjksPi0
+        $url = 'https://maps.googleapis.com/maps/api/place/textsearch/json';
+        $data['key'] = 'AIzaSyDsL2HI8bxi78DT4oHVw1XTOT4qKjksPi0';
+        $url = sprintf("%s?%s", $url, http_build_query($data));
+
+
+        $result = file_get_contents($url);
+
+
+        $result = json_decode($result);
+        return $result;
+    }
+
+    public function galeryitemclickAction() {
+        $br = new Browser_Control();
+        $post = Zend_Registry::get('post');
+
+        if ($post->id_activity) {
+            $Item = new Activity();
+            $id = $post->id_activity;
+            $idName = 'id_activity';
+        } else
+        if ($post->id_event) {
+            $Item = new Event();
+            $id = $post->id_event;
+            $idName = 'id_event';
+        }
+        $Item->read($id);
+
+        if ($Item->getActivityName() == '') {
+            $br->setHtml('itemTitle', $Item->getEventName());
+        } else {
+            $br->setHtml('itemTitle', $Item->getActivityName());
+        }
+        $br->setHtml('itemDescription', $Item->getDescription());
+        $br->setHtmlByClass('itemPrice', '$' . $Item->getPrice());
+        $br->setAttrib('btnAddDream', 'params', $idName . '=' . $Item->getID());
+
+        $lP = $Item->getPicsLst();
+        foreach ($lP as $value) {
+//            $html .= '<img class="slide" src="' . $value['src'] . '">';
+            $html .= '<div class="slide" data-image="' . $value['src'] . '" ></div>';
+            break;
+        }
+        $br->setHtmlByClass('itemGalery', $html);
+        $br->setCommand("
+                        $('.item-slideshow > div').each(function () {
+                            var img = $(this).data('image');
+                            $(this).css({
+                                'background-image': 'url(' + img + ')',
+                                'background-size': 'cover'
+                            })
+                        });");
+        $br->setAttrib('itemDetailGalery', 'class', 'item-slideshow full-height itemGalery');
+//        $br->setCommand('
+//            alert("sdav" );
+//                         $("#itemDetailGalery").owlCarousel({
+//        items: 1,
+//        nav: true,
+//        navText: [' . "'" . '<i class="fa fa-chevron-left"></i>' . "'" . ', ' . "'" . '<i class="fa fa-chevron-right"></i>' . "'" . '],
+//        dots: true
+//    });');
+
+
+
+        $br->send();
+    }
+
+    public function btnadddreamclickAction() {
+        $post = Zend_Registry::get('post');
+        $br = new Browser_Control();
+        $br->setClass("itemDetails", "dialog item-details dialog");
+        $br->setMsgAlert('Done!', 'Your dream is saved!');
+        $br->send();
     }
 
     public function btnsearchclickAction() {
         $post = Zend_Registry::get('post');
         $br = new Browser_Control();
-        $br->setBrowserUrl(BASE_URL . 'explore/index/q/' . $post->serach);
+        $br->setBrowserUrl(BASE_URL . 'explore/index/q/' . $post->search);
         $br->send();
     }
 

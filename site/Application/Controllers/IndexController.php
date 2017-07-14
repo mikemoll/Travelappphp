@@ -31,33 +31,15 @@ class IndexController extends AbstractController {
         $session = Zend_Registry::get('session');
         $usuario = $session->usuario;
 
+        $this->redirect('/explore');
 
-        $form = new Ui_Form();
-        $form->setAction($this->Action);
-        $form->setName($this->ItemEditFormName);
-
-
-
-        $element = new Ui_Element_Text('search');
-        $element->setPlaceholder('Search for places, activities or events');
-        $element->setAttrib('hotkeys', 'enter, btnSearch, click');
-        $form->addElement($element);
-
-        $button = new Ui_Element_Btn('btnSearch');
-        $button->setDisplay('', 'search');
-//        $button->setType('success');
-        $button->setSendFormFiends();
-//        $button->setAttrib('validaObrig', '1');
-        $form->addElement($button);
-
-        $form->setDataSession();
-
-        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
-        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
-        $view->assign('titulo', $this->TituloEdicao);
-        $view->assign('TituloPagina', $this->TituloEdicao);
-        $view->assign('body', $form->displayTpl($view, 'Index/search.tpl'));
-        $view->output('index.tpl');
+//        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+//        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
+//        $view->assign('titulo', $this->TituloEdicao);
+//        $view->assign('TituloPagina', $this->TituloEdicao);
+////        $view->assign('body', $form->displayTpl($view, 'Index/search.tpl'));
+////        $view->assign('body', $form->displayTpl($view, 'Index/search.tpl'));
+//        $view->output('index.tpl');
     }
 
     public function btnsearchclickAction() {
@@ -78,7 +60,7 @@ class IndexController extends AbstractController {
 
         // =========== Menu  ==========
         // INDICADORES
-        $menuItem = new Ui_Element_MenuItem('home', 'Explore', HTTP_REFERER . 'index', '', 'home');
+        $menuItem = new Ui_Element_MenuItem('home', 'Explore', HTTP_REFERER . 'Explore/index', '', 'home');
         $mainMenu->addMenuItem($menuItem);
 
 
@@ -98,7 +80,7 @@ class IndexController extends AbstractController {
 ////        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
 //        $menu->addSubMenu($menu2);
         // -----------------------------------------------------------
-        $menu = new Ui_Element_MenuItem('adm', 'Administration', HTTP_REFERER . '', '', 'settings');
+        $menu = new Ui_Element_MenuItem('adm', 'Admin', HTTP_REFERER . '', '', 'settings');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 
@@ -112,15 +94,14 @@ class IndexController extends AbstractController {
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
 
-
-            $menu2 = new Ui_Element_MenuItem('Index', 'Index', HTTP_REFERER . 'event', '', 'event');
-//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
+            $menu2 = new Ui_Element_MenuItem('events', 'Events', HTTP_REFERER . 'event', '', '', '3 new Events created!');
+//        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
 
-            $menu2 = new Ui_Element_MenuItem('Indextype', 'Index Types', HTTP_REFERER . 'eventtype', '', '');
+            $menu2 = new Ui_Element_MenuItem('Eventtype', 'Event Type', HTTP_REFERER . 'eventtype', '', '');
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
-
+ 
             $menu2 = new Ui_Element_MenuItem('trips2', 'Trips', HTTP_REFERER . 'trip', '', '', '10 new Trips');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);

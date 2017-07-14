@@ -9,58 +9,6 @@ class FormataDados {
      * @param String or Object $valor
      * @param String $tipo
      */
-    public static function formataDadosSaveSinigaglia($valor, $tipo) {
-
-        if (is_object($valor)) {
-            $key = 'get' . $tipo;
-            $tipo = $valor->getTipoColuna($tipo);
-            $valor = $valor->$key();
-        }
-
-
-        if (strcmp($tipo, 'date') == 0 or strcmp($tipo, 'datetime') == 0) {
-            if ($valor != '') {
-                return "'" . DataHora::inverteData($valor) . "'";
-            } else {
-                return 'null';
-            }
-        } else if (strcmp($tipo, 'nvarchar') == 0 or strcmp($tipo, 'ntext') == 0 or strcmp($tipo, 'nchar') == 0 or strcmp($tipo, 'char') == 0or strcmp($tipo, 'bit') == 0) {
-            return "'" . str_replace("'", "''", $valor) . "'";
-        } else if (strcmp($tipo, 'numeric') == 0 or strcmp($tipo, 'float') == 0 or strcmp($tipo, 'decimal') == 0 or strcmp($tipo, 'real') == 0) {
-            if ($valor != '') {
-                if (strpos($valor, ',') !== false) {
-                    $source = array('.', ',');
-                    $replace = array('', '.');
-                    $valor = str_replace($source, $replace, $valor); //remove os pontos e substitui a virgula pelo ponto
-                }
-                return $valor;
-            } else {
-                return 'null';
-            }
-        } else if (strcmp($tipo, 'int4') == 0 or strcmp($tipo, 'int') !== false) {
-            if ($valor != '') {
-                return number_format($valor, 0, '.', '');
-            } else {
-                return '0';
-            }
-        } else if (DataHora::isDate($valor, '/')) {
-            if ($valor != '') {
-                return "'" . DataHora::inverteData($valor) . "'";
-            } else {
-                return 'null';
-            }
-        } else {
-            return $valor;
-        }
-    }
-
-    /**
-     * Formata uma valor depedendo do tipo passado para a função, caso seja passado na propriedade valor
-     * um objeto o tipo e valor sera pego do proprio objeto
-     *
-     * @param String or Object $valor
-     * @param String $tipo
-     */
     public static function formataDadosSave($valor, $tipo) {
 
         if (is_object($valor)) {
@@ -108,7 +56,7 @@ class FormataDados {
         if ($valor == '') {
             return null;
         } elseif (strcmp($tipo, 'date') == 0) {
-            return DataHora::inverteData($valor);
+            return DataHora::inverteDataIngles($valor);
         } else if (strcmp($tipo, 'numeric') == 0) {
             return number_format($valor, 2, '.', '');
         } else if (strcmp($tipo, 'int4') == 0) {
