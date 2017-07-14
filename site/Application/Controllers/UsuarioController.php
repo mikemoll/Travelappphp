@@ -616,8 +616,6 @@ class UsuarioController extends AbstractController {
         
     }
 
-
-
     public function btncancelarprofileclickAction() {
         $br = new Browser_Control;
         $br->setBrowserUrl(BASE_URL . 'index');
@@ -695,7 +693,7 @@ class UsuarioController extends AbstractController {
 
         $obj = new Usuario();
         if (isset($post->id)) {
-                $obj->read($post->id);
+            $obj->read($post->id);
         }
         $obj->setApproved('S');
 
@@ -736,7 +734,6 @@ class UsuarioController extends AbstractController {
         $br->setUpdateDatatables('educatorsGrid');
         $br->send();
     }
-
 
     public function profileeditAction() {
         $br = new Browser_Control();
@@ -953,7 +950,7 @@ class UsuarioController extends AbstractController {
         $cancelar = new Ui_Element_Btn('btnCancel');
         $cancelar->setAttrib('params', 'IdWindowEdit=EditUserProfile');
         $cancelar->setDisplay('Cancel', 'times');
-        $cancelar->setHref(HTTP_REFERER . $this->Action );
+        $cancelar->setHref(HTTP_REFERER . $this->Action);
         $form->addElement($cancelar);
 
         $form->setDataSession('formProfileEdit');
@@ -964,7 +961,6 @@ class UsuarioController extends AbstractController {
         $view->assign('TituloPagina', 'My profile');
         $view->assign('body', $form->displayTpl($view, 'Usuario/editProfile.tpl'));
         $view->output('index.tpl');
-
     }
 
     public function btnsaveprofileclickAction() {
@@ -984,11 +980,11 @@ class UsuarioController extends AbstractController {
         //     return;
         // } else
         if (($post->senha != '') && ($post->senha != $post->confirmpassword)) {
-            $br->setAlert("Error","The password informed doesn't match the confirm password.");
+            $br->setAlert("Error", "The password informed doesn't match the confirm password.");
             $br->send();
             return;
         } else if (!filter_var($post->email, FILTER_VALIDATE_EMAIL)) {
-            $br->setAlert("Error","The email informed is not valid.");
+            $br->setAlert("Error", "The email informed is not valid.");
             $br->send();
             return;
         }
@@ -1028,15 +1024,14 @@ class UsuarioController extends AbstractController {
                 for ($i = 0; $i < $destLst->countItens(); $i++) { // find the interest on the user interests on database
                     $Item = $destLst->getItem($i);
                     if ($Item->getid_interest() == $idInterest) {
-                       $interest = $Item;
-                       break;
+                        $interest = $Item;
+                        break;
                     } else {
                         $interest = '';
                     }
                 }
 
                 if ($interest == '') { // if the interest doesn't exist on user interests, add it.
-
                     $n = new UserInterests();
                     $n->setid_interest($idInterest);
                     $n->setid_usuario($user->getID());
@@ -1044,7 +1039,6 @@ class UsuarioController extends AbstractController {
                 } else {
                     $interest->setState(cUPDATE); //else update it
                 }
-
             }
         }
 
@@ -1065,15 +1059,14 @@ class UsuarioController extends AbstractController {
                 for ($i = 0; $i < $destLst->countItens(); $i++) { // find the tt on the user interests on database
                     $Item = $destLst->getItem($i);
                     if ($Item->getid_travelertype() == $idTravelertype) {
-                       $tt = $Item;
-                       break;
+                        $tt = $Item;
+                        break;
                     } else {
                         $tt = '';
                     }
                 }
 
                 if ($tt == '') { // if the tt doesn't exist on user interests, add it.
-
                     $n = new UserTravelertype();
                     $n->setid_travelertype($idTravelertype);
                     $n->setid_usuario($user->getID());
@@ -1081,13 +1074,11 @@ class UsuarioController extends AbstractController {
                 } else {
                     $tt->setState(cUPDATE); //else update it
                 }
-
             }
         }
 
 
         //$user->setUserInterestsLst($destLst);
-
         // save everything on database
         try {
             $user->save();
@@ -1110,19 +1101,17 @@ class UsuarioController extends AbstractController {
         $br->setMsgAlert('Saved!!', $msg);
         $br->setBrowserUrl(BASE_URL . 'index');
         $br->send();
-
     }
 
     public function friendslistloadAction() {
         $br = new Browser_Control();
         $view = Zend_Registry::get('view');
 
-        
-        $view->assign('friends',Friend::getFriendsLst(Usuario::getIDUsuarioLogado()));
 
-        $br->setHtml('friendslist',$view->fetch('Usuario/friendsList.tpl'));
+        $view->assign('friends', Friend::getFriendsLst(Usuario::getIDUsuarioLogado()));
+
+        $br->setHtml('friendslist', $view->fetch('Usuario/friendsList.tpl'));
         $br->send();
     }
 
 }
-

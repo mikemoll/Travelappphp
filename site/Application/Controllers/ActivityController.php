@@ -125,6 +125,7 @@ class ActivityController extends AbstractController {
         $form = new Ui_Form();
         $form->setAction($this->Action);
         $form->setName($this->ItemEditFormName);
+        $form->setAttrib('enctype', 'multipart/form-data');
 
         $element = new Ui_Element_Text('activityname', "Activity Name");
         $element->setAttrib('maxlength', 45);
@@ -136,6 +137,8 @@ class ActivityController extends AbstractController {
         $element = new Ui_Element_Date('end_at', "Ending");
         $form->addElement($element);
 
+        $element = new Ui_Element_File("Photo", 'Photo');
+        $form->addElement($element);
 
         $element = new Ui_Element_Text('address', "address");
         $element->setAttrib('maxlength', 150);
@@ -208,6 +211,7 @@ class ActivityController extends AbstractController {
         }
         $obj->setInstance($this->ItemEditInstanceName);
 
+        $view->assign('PhotoPath', $obj->getPhotoPath());
 
 
         $button = new Ui_Element_Btn('btnSalvar');
@@ -243,6 +247,20 @@ class ActivityController extends AbstractController {
 
         /* @var $lObj Activity */
         $lObj = Activity::getInstance($this->ItemEditInstanceName);
+        $photo = $post->Photo;
+        if ($photo['name'] != '') {
+            $lObj->setPhoto(Format_String::normalizeString($photo['name']));
+        }
+//        print'<pre>';die(print_r( $photo ));
+        //Put the uploaded file in the proper folder
+        if ($photo['name'] != '') {
+            $path = RAIZ_DIRETORY . 'site/Public/Images/Activity';
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+            move_uploaded_file($photo['tmp_name'], $path . '/' . $lObj->getID() . '_' . $lObj->getPhoto());
+            $br->setAttrib('PhotoPath', 'src', $lObj->getPhotoPath());
+        }
 
         $lObj->setDataFromRequest($post);
         try {

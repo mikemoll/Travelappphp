@@ -125,11 +125,15 @@ class EventController extends AbstractController {
         $form = new Ui_Form();
         $form->setAction($this->Action);
         $form->setName($this->ItemEditFormName);
+        $form->setAttrib('enctype', 'multipart/form-data');
 
         $element = new Ui_Element_Checkbox('public', 'Public Event <small>(Is this event a public event for every user of Travel Track?)</small>');
         $element->setCheckedValue('S');
         $element->setUncheckedValue('N');
         $element->setAttrib('switchery', 'switchery');
+        $form->addElement($element);
+
+        $element = new Ui_Element_File("Photo", 'Photo');
         $form->addElement($element);
 
         $element = new Ui_Element_Text('eventname', "Event Name");
@@ -274,6 +278,7 @@ class EventController extends AbstractController {
         $obj->setInstance($this->ItemEditInstanceName);
 
 
+        $view->assign('PhotoPath', $obj->getPhotoPath());
 
         $button = new Ui_Element_Btn('btnSave');
         $button->setDisplay('Save', 'check');
@@ -470,7 +475,20 @@ class EventController extends AbstractController {
 
         /* @var $lObj Event */
         $lObj = Event::getInstance($this->ItemEditInstanceName);
-
+        $photo = $post->Photo;
+        if ($photo['name'] != '') {
+            $lObj->setPhoto(Format_String::normalizeString($photo['name']));
+        }
+//        print'<pre>';die(print_r( $photo ));
+        //Put the uploaded file in the proper folder
+        if ($photo['name'] != '') {
+            $path = RAIZ_DIRETORY . 'site/Public/Images/Event';
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+            move_uploaded_file($photo['tmp_name'], $path . '/' . $lObj->getID() . '_' . $lObj->getPhoto());
+            $br->setAttrib('PhotoPath', 'src', $lObj->getPhotoPath());
+        }
         $lObj->setDataFromRequest($post);
         try {
             $lObj->save();

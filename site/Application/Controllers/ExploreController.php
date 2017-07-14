@@ -123,10 +123,28 @@ class ExploreController extends AbstractController {
 
         $lP = $Item->getPicsLst();
         foreach ($lP as $value) {
-            $html .= '<img class="slide" src="' . $value['src'] . '">';
-//            $html .= '<div class="slide" data-image="' . $value['src'] . '" src="' . $value['src'] . '"></div>';
+//            $html .= '<img class="slide" src="' . $value['src'] . '">';
+            $html .= '<div class="slide" data-image="' . $value['src'] . '" ></div>';
+            break;
         }
         $br->setHtmlByClass('itemGalery', $html);
+        $br->setCommand("
+                        $('.item-slideshow > div').each(function () {
+                            var img = $(this).data('image');
+                            $(this).css({
+                                'background-image': 'url(' + img + ')',
+                                'background-size': 'cover'
+                            })
+                        });");
+        $br->setAttrib('itemDetailGalery', 'class', 'item-slideshow full-height itemGalery');
+//        $br->setCommand('
+//            alert("sdav" );
+//                         $("#itemDetailGalery").owlCarousel({
+//        items: 1,
+//        nav: true,
+//        navText: [' . "'" . '<i class="fa fa-chevron-left"></i>' . "'" . ', ' . "'" . '<i class="fa fa-chevron-right"></i>' . "'" . '],
+//        dots: true
+//    });');
 
 
 

@@ -53,8 +53,8 @@
                 <!-- START PREVIEW -->
                 <div class="live-tile slide" data-speed="750" data-delay="4000" data-mode="carousel">
 
-                    {foreach from=$activityLst[i]->getPicsLst() item=item}
-                        <div class="{if $smarty.foreach.foreachname.first}slide-front{else}slide-back{/if}">
+                    {foreach from=$activityLst[i]->getPicsLst() name=galery item=item}
+                        <div class="{if $smarty.foreach.galery.first}slide-front{else}slide-back{/if}">
                             <img src="{$item.src}" alt="" class="image-responsive-height">
                         </div>
                     {foreachelse}
@@ -112,15 +112,19 @@
                   FOR DEMO PURPOSES, FIRST GALLERY ITEM (.first) IS HIDDEN
                   FOR SCREENS <920px. PLEASE REMOVE THE CLASS 'first' WHEN YOU IMPLEMENT
             -->
-            <div class="gallery-item " data-width="1" data-height="1">
+            <div class="gallery-item " data-id="{$eventLst[i]->getID()}"  event="click" name="galeryItem" params="id_event={$eventLst[i]->getID()}" data-width="1" data-height="1">
                 <!-- START PREVIEW -->
                 <div class="live-tile slide" data-speed="750" data-delay="4000" data-mode="carousel">
-                    <div class="slide-front">
-                        <img src="{$baseUrl}Public/assets/img/gallery/2_1.jpg" alt="" class="image-responsive-height">
-                    </div>
-                    <div class="slide-back">
-                        <img src="{$baseUrl}Public/assets/img/gallery/2_2.jpg" alt="" class="image-responsive-height">
-                    </div>
+
+                    {foreach from=$eventLst[i]->getPicsLst() name=galery item=item}
+                        <div class="{if $smarty.foreach.galery.first}slide-front{else}slide-back{/if}">
+                            <img src="{$item.src}" alt="" class="image-responsive-height">
+                        </div>
+                    {foreachelse}
+                        <div class="slide-back">
+                            <img src="{$baseUrl}Public/assets/img/gallery/2_1.jpg" alt="" class="image-responsive-height">
+                        </div>
+                    {/foreach}
                 </div>
                 <!-- END PREVIEW -->
                 <!-- START ITEM OVERLAY DESCRIPTION -->
@@ -162,7 +166,6 @@
                 <!-- END PRODUCT OVERLAY DESCRIPTION -->
             </div>
             <!-- END GALLERY ITEM -->
-
         {/section}
 
     </div>
@@ -175,9 +178,7 @@
         <div class="container-fluid">
             <div class="row dialog__overview">
                 <div class="col-sm-7 no-padding item-slideshow-wrapper full-height">
-                    <div class="item-slideshow full-height itemGalery">
-                        <div class="slide" data-image="{$baseUrl}Public/assets/img/gallery/item-square.jpg">
-                        </div>
+                    <div class="item-slideshow full-height itemGalery" id="itemDetailGalery">
                         <div class="slide" data-image="{$baseUrl}Public/assets/img/gallery/item-square.jpg">
                         </div>
                     </div>

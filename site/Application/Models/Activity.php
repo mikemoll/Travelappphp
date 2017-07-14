@@ -19,9 +19,21 @@ class Activity extends Db_Table {
     }
 
     public function getPicsLst() {
-        $pics[]['src'] = 'http://tripintour.com/blog/wp-content/uploads/2013/07/maracana-inauguracao-28-size-5981.jpg';
-        $pics[]['src'] = 'https://media-cdn.tripadvisor.com/media/photo-s/0e/85/48/e6/seven-mile-beach-grand.jpg';
+        $pics[]['src'] = $this->getPhotoPath();
+//        $pics[]['src'] = 'https://media-cdn.tripadvisor.com/media/photo-s/0e/85/48/e6/seven-mile-beach-grand.jpg';
         return $pics;
+    }
+
+    public static function makephotoPath($id, $photo) {
+        if ($photo) {
+            return HTTP_REFERER . 'Public/Images/Activity/' . $id . '_' . $photo;
+        } else {
+            return HTTP_REFERER . 'Public/Images/people.png'; //default image
+        }
+    }
+
+    public function getPhotoPath() {
+        return self::makephotoPath($this->getID(), $this->a_photo);
     }
 
     public function getShortDescription() {

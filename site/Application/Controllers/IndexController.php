@@ -31,14 +31,15 @@ class IndexController extends AbstractController {
         $session = Zend_Registry::get('session');
         $usuario = $session->usuario;
 
+        $this->redirect('/explore');
 
-
-        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
-        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
-        $view->assign('titulo', $this->TituloEdicao);
-        $view->assign('TituloPagina', $this->TituloEdicao);
-        $view->assign('body', $form->displayTpl($view, 'Index/search.tpl'));
-        $view->output('index.tpl');
+//        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+//        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
+//        $view->assign('titulo', $this->TituloEdicao);
+//        $view->assign('TituloPagina', $this->TituloEdicao);
+////        $view->assign('body', $form->displayTpl($view, 'Index/search.tpl'));
+////        $view->assign('body', $form->displayTpl($view, 'Index/search.tpl'));
+//        $view->output('index.tpl');
     }
 
     public function btnsearchclickAction() {
@@ -79,7 +80,7 @@ class IndexController extends AbstractController {
 ////        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
 //        $menu->addSubMenu($menu2);
         // -----------------------------------------------------------
-        $menu = new Ui_Element_MenuItem('adm', 'Administration', HTTP_REFERER . '', '', 'settings');
+        $menu = new Ui_Element_MenuItem('adm', 'Admin', HTTP_REFERER . '', '', 'settings');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 
@@ -93,15 +94,14 @@ class IndexController extends AbstractController {
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
 
-
-            $menu2 = new Ui_Element_MenuItem('Index', 'Index', HTTP_REFERER . 'event', '', 'event');
-//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
+            $menu2 = new Ui_Element_MenuItem('events', 'Events', HTTP_REFERER . 'event', '', '', '3 new Events created!');
+//        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
 
-            $menu2 = new Ui_Element_MenuItem('Indextype', 'Index Types', HTTP_REFERER . 'eventtype', '', '');
+            $menu2 = new Ui_Element_MenuItem('Eventtype', 'Event Type', HTTP_REFERER . 'eventtype', '', '');
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
-
+ 
             $menu2 = new Ui_Element_MenuItem('trips2', 'Trips', HTTP_REFERER . 'trip', '', '', '10 new Trips');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
