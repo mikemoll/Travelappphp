@@ -110,6 +110,19 @@ class TripController extends AbstractController {
         $view->output('index.tpl');
     }
 
+    public function newtripAction() {
+        $view = Zend_Registry::get('view');
+//        $post = Zend_Registry::get('post');
+//        $br = new Browser_Control();
+
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
+        $view->assign('titulo', $this->TituloLista);
+        $view->assign('TituloPagina', $this->TituloLista);
+        $view->assign('body', $view->fetch('Trip/app/newtrip-1.tpl'));
+        $view->output('index.tpl');
+    }
+
     public function editAction() {
         $br = new Browser_Control();
         $post = Zend_Registry::get('post');

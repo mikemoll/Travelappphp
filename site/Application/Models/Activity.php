@@ -40,4 +40,9 @@ class Activity extends Db_Table {
         return $this->getDescription();
     }
 
+    function readLst($modo = 'obj') {
+        $this->join('dreamboard', 'dreamboard.id_activity = activity.id_activity and id_usuario = ' . Usuario::getIdUsuarioLogado(), 'id_activity as favorite', 'left');
+        parent::readLst($modo);
+    }
+
 }

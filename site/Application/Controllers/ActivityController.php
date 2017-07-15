@@ -174,8 +174,9 @@ class ActivityController extends AbstractController {
         $element->setAttrib('maxlength', 150);
         $form->addElement($element);
 
-        $element = new Ui_Element_TextMask('price', "price");
-        $element->setMask('9999,99');
+//        $element = new Ui_Element_TextMask('price', "price");
+        $element = new Ui_Element_Text('price', "price");
+//        $element->setMask('9999,99');
         $element->setAttrib('maxlength', 14);
         $form->addElement($element);
 

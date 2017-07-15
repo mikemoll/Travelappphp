@@ -65,12 +65,18 @@ class AbstractController extends Zend_Controller_Action {
     }
 
     public function __call($method, $args) {
-        if ('Action' == substr($method, -6) and 'index' != substr($method, 0, 5)) {
-            // If the action method was not found, forward to the
-            // index action
-            return $this->forward('index');
-        } elseif ('index' == substr($method, 0, 5)) {
-            $this->_redirect(HTTP_REFERER . 'index');
+        if (!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+            if ('Action' == substr($method, -6) and 'index' != substr($method, 0, 5)) {
+                // If the action method was not found, forward to the
+                // index action
+                return $this->forward('index');
+            } elseif ('index' == substr($method, 0, 5)) {
+                $this->_redirect(HTTP_REFERER . 'index');
+            }
+        } else {
+            $br = new Browser_Control();
+            $br->setAlert("Request Error!", "There is something wrong with your request!<br><br>The action called doesn't exist<br><br><strong> " . strtolower($_SERVER['REQUEST_URI']) . "</strong> ");
+            $br->send();
         }
     }
 

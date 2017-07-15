@@ -237,6 +237,27 @@ class Db_Table extends Zend_Db_Table {
     }
 
     /**
+     * Adiciona um objeto na memoria
+     *
+     * @param type $nome
+     * @param type $group
+     */
+    static public function setSession($nome, $data, $group = '') {
+        $session = Zend_Registry::get('session');
+        if ($group != '') {
+            if (!isset($session->$group)) {
+                $session->$group = array();
+            }
+            $a = $session->$group;
+            $a[$nome] = serialize($data);
+            $session->$group = $a;
+        } else {
+            $session->$nome = serialize($data);
+        }
+        Zend_Registry::set('session', $session);
+    }
+
+    /**
      * Retorna um objeto da memoria
      *
      * @param type $nome
@@ -244,6 +265,23 @@ class Db_Table extends Zend_Db_Table {
      * @return type
      */
     static function getInstance($nome, $group = '') {
+        $session = Zend_Registry::get('session');
+        if ($group != '') {
+            $a = $session->$group;
+            return unserialize($a[$nome]);
+        } else {
+            return unserialize($session->$nome);
+        }
+    }
+
+    /**
+     * Retorna um objeto da memoria
+     *
+     * @param type $nome
+     * @param type $group
+     * @return type
+     */
+    static function getSession($nome, $group = '') {
         $session = Zend_Registry::get('session');
         if ($group != '') {
             $a = $session->$group;
@@ -420,6 +458,7 @@ class Db_Table extends Zend_Db_Table {
      */
     public function setDeleted() {
         $this->_state = cDELETE;
+        return $this;
     }
 
     /**

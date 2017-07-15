@@ -1126,7 +1126,7 @@ class UsuarioController extends AbstractController {
         $view->assign('bio', nl2br(htmlentities( $user->getbio())));
         $view->assign('traveledto', nl2br(htmlentities( utf8_encode($user->gettraveledto()))));
         $view->assign('hometown', htmlentities( $user->gethometowncity().', '.$user->gethometowncountry()));
-        $view->assign('relationship', htmlentities( Usuario::RELATIONSHIPS[$user->getrelationship()]));
+//        $view->assign('relationship', htmlentities( Usuario::RELATIONSHIPS[$user->getrelationship()]));
         $view->assign('education', htmlentities( $user->geteducation()));
         $view->assign('dreamjob', htmlentities( $user->getdreamjob()));
         $view->assign('facebook', $user->getfacebook());

@@ -17,23 +17,18 @@ class Usuario extends Db_Table {
     protected $_log_ativo = false;
     protected $_log_text = 'User';
     protected $_log_info = 'a_nomecompleto';
-    const RELATIONSHIPS = array('s'  => 'single',
-                                'm'  => 'married',
-                                'ir' => 'in a relationship',
-                                'e'  => 'engaged',
-                                'cu' => 'in a civil union',
-                                'dp' => 'in a domestic partnership',
-                                'or' => 'in an open relationship',
-                                'ic' => 'it is complicated',
-                                'sp' => 'separated',
-                                'd'  => 'divorced',
-                                'w'  => 'widowed');
 
-    public static function getIdExternoLogado() {
-        $session = Zend_Registry::get('session');
-        $usuario = $session->usuario;
-        return $usuario->a_idexterno;
-    }
+//    const RELATIONSHIPS = array('s' => 'single',
+//        'm' => 'married',
+//        'ir' => 'in a relationship',
+//        'e' => 'engaged',
+//        'cu' => 'in a civil union',
+//        'dp' => 'in a domestic partnership',
+//        'or' => 'in an open relationship',
+//        'ic' => 'it is complicated',
+//        'sp' => 'separated',
+//        'd' => 'divorced',
+//        'w' => 'widowed');
 
     public static function getNomeUsuarioLogado() {
         $session = Zend_Registry::get('session');
@@ -56,17 +51,6 @@ class Usuario extends Db_Table {
             return $usuario->getGrupo();
     }
 
-    public static function getIdExternoUsuarioLogado() {
-        $session = Zend_Registry::get('session');
-        $usuario = $session->usuario;
-        if (is_object($usuario))
-            return $usuario->getIDExterno();
-    }
-
-    function getNomeUsuarioIdExterno() {
-        return Fichatecnica::getTecnicoList($this->getid_externo());
-    }
-
     function getDificuldade() {
         return json_decode($this->a_dificuldade);
     }
@@ -79,10 +63,9 @@ class Usuario extends Db_Table {
         if ($photo) {
             return HTTP_REFERER . 'Public/Images/Profile/' . $id . '_' . $photo;
         } else {
-            return HTTP_REFERER . 'Public/Images/people.png';//default image
+            return HTTP_REFERER . 'Public/Images/people.png'; //default image
         }
     }
-
 
     public function getPhotoPath() {
         return Usuario::makephotoPath($this->getID(), $this->a_Photo);
@@ -461,9 +444,7 @@ class Usuario extends Db_Table {
                 }
                 break;
         }
-
     }
-
 
     public function setDataFromProfileRequest($post) {
         $this->setNomeCompleto($post->nomecompleto);
@@ -494,7 +475,7 @@ class Usuario extends Db_Table {
         $this->setCalendartype($post->calendartype);
         $this->setTraveledto($post->traveledto);
 
-        if ( ($post->senha != '') && ($post->senha == $post->confirmpassword) ) {
+        if (($post->senha != '') && ($post->senha == $post->confirmpassword)) {
             $this->setSenha(Format_Crypt::encryptPass($post->senha));
             //$this->setDataSenha(date('Y-m-d'));
         }
@@ -526,7 +507,7 @@ class Usuario extends Db_Table {
     }
 
     public function getApproved_decoded() {
-        return ($this->getApproved() == 'S')?'Yes':'No';
+        return ($this->getApproved() == 'S') ? 'Yes' : 'No';
     }
 
     public function getUserInterestsLst() {
@@ -545,7 +526,7 @@ class Usuario extends Db_Table {
                 $list[$interest->getid_interests()] = $interest->getdescription();
             }
         } else {
-            $list= array();
+            $list = array();
         }
         return $list;
     }
@@ -561,14 +542,15 @@ class Usuario extends Db_Table {
         }
         return $list;
     }
+
     public function getInterestsIcons() {
         $lLst = $this->getUserInterestsLst();
         $list = array();
         if ($lLst->countItens() > 0) {
             for ($i = 0; $i < $lLst->countItens(); $i++) {
                 $item = $lLst->getItem($i);
-                $list[] = array('name' =>$item->getdescription(),
-                                'icon' => HTTP_REFERER . 'Public/Images/interests/' . $item->getid_interest() . '.png');
+                $list[] = array('name' => $item->getdescription(),
+                    'icon' => HTTP_REFERER . 'Public/Images/interests/' . $item->getid_interest() . '.png');
             }
         }
         return $list;
@@ -580,8 +562,8 @@ class Usuario extends Db_Table {
         if ($lLst->countItens() > 0) {
             for ($i = 0; $i < $lLst->countItens(); $i++) {
                 $item = $lLst->getItem($i);
-                $list[] = array('name' =>$item->getdescription(),
-                                'icon' => HTTP_REFERER . 'Public/Images/interests/' . $item->getid_travelertype() . '.png');
+                $list[] = array('name' => $item->getdescription(),
+                    'icon' => HTTP_REFERER . 'Public/Images/interests/' . $item->getid_travelertype() . '.png');
             }
         }
         return $list;
@@ -616,7 +598,7 @@ class Usuario extends Db_Table {
                 $list[$tt->getid_travelertype()] = $tt->getdescription();
             }
         } else {
-            $list= array();
+            $list = array();
         }
         return $list;
     }
@@ -637,7 +619,7 @@ class Usuario extends Db_Table {
                 $list[] = $User->getid_travelertype();
             }
         } else {
-            $list= array();
+            $list = array();
         }
         return $list;
     }
@@ -660,4 +642,3 @@ class Usuario extends Db_Table {
         $lLst->readLst();
         return $lLst->countItens() > 0;
     }
-}

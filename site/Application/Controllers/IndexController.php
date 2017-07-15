@@ -64,7 +64,7 @@ class IndexController extends AbstractController {
         $mainMenu->addMenuItem($menuItem);
 
 
-        $menu = new Ui_Element_MenuItem('dreambord', 'Dreamboard', HTTP_REFERER . 'dreamboard/index', '', '', '10 new Dreams');
+        $menu = new Ui_Element_MenuItem('dreambord', 'Dreamboard', HTTP_REFERER . 'dreamboard/dashboard', '', '', '10 new Dreams');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 
@@ -101,7 +101,7 @@ class IndexController extends AbstractController {
             $menu2 = new Ui_Element_MenuItem('Eventtype', 'Event Type', HTTP_REFERER . 'eventtype', '', '');
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
- 
+
             $menu2 = new Ui_Element_MenuItem('trips2', 'Trips', HTTP_REFERER . 'trip', '', '', '10 new Trips');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);

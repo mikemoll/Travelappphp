@@ -3,10 +3,39 @@
         .widget-1:after{
             background-image: url(http://www.ladyhattan.com/wp-content/uploads/2014/03/Eiffel-Tower-Paris-France.jpg) !important;
         }
+        .widget-0:after{
+            background-image: url(http://az608707.vo.msecnd.net/files/Torcross_EN-US9088790716_1366x768.jpg) !important;
+        }
     </style>
 {/literal}
 <!-- START ROW -->
 <div class="row">
+    <div class="col-sm-4 m-b-3">
+        <div class="ar-2-1">
+            <!-- START WIDGET widget_plainWidget-->
+            <div class="panel no-border bg-master widget widget-0 widget-loader-circle-lg no-margin">
+                <div class="panel-heading">
+                    <div class="panel-controls">
+                        <ul>
+                            <li><a data-toggle="refresh" class="portlet-refresh" href="#"><i class="portlet-icon portlet-icon-refresh-lg-white"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <a href="newtrip">
+                        <div class="pull-bottom bottom-left bottom-right padding-25">
+                            <h1 class="text-white semi-bold">New Trip!</h1>
+                            <span class="label font-montserrat fs-11">Click here to start!</span>
+                            <p class="text-white m-t-20">Feels like a good day to travel!</p>
+                            {*                        <p class="text-white hint-text m-t-30">July 2017, 15 Saturday </p>*}
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!-- END WIDGET -->
+        </div>
+    </div>
     <div class="col-md-6 col-xlg-5">
         <div class="row">
             <div class="col-md-12 m-b-10">

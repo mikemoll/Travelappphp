@@ -704,7 +704,7 @@
         <script src="{$baseUrl}Public/assets/plugins/switchery/js/switchery.min.js" type="text/javascript"></script>
         <!-- end of default js -->
         <!-- From here down, is the dashbord js (I think so!) -->
-
+{*
         <script src="{$baseUrl}Public/assets/plugins/nvd3/lib/d3.v3.js" type="text/javascript"></script>
         <script src="{$baseUrl}Public/assets/plugins/nvd3/nv.d3.min.js" type="text/javascript"></script>
         <script src="{$baseUrl}Public/assets/plugins/nvd3/src/utils.js" type="text/javascript"></script>
@@ -720,7 +720,7 @@
         <script src="{$baseUrl}Public/assets/plugins/jquery-metrojs/MetroJs.min.js" type="text/javascript"></script>
         <script src="{$baseUrl}Public/assets/plugins/jquery-sparkline/jquery.sparkline.min.js" type="text/javascript"></script>
         <script src="{$baseUrl}Public/assets/plugins/skycons/skycons.js" type="text/javascript"></script>
-        <script src="{$baseUrl}Public/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
+        <script src="{$baseUrl}Public/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>*}
         <!-- END VENDOR JS -->
 
         <!-- BEGIN FRAMEWORK JS-->
@@ -731,8 +731,8 @@
         <script src="{$baseUrl}Public/pages/js/pages.min.js"></script>
         <!-- END CORE TEMPLATE JS -->
         <!-- BEGIN PAGE LEVEL JS -->
-        <script src="{$baseUrl}Public/assets/js/dashboard.js" type="text/javascript"></script>
-        <script src="{$baseUrl}Public/assets/js/scripts.js" type="text/javascript"></script>
+{*        <script src="{$baseUrl}Public/assets/js/dashboard.js" type="text/javascript"></script>*}
+{*        <script src="{$baseUrl}Public/assets/js/scripts.js" type="text/javascript"></script>*}
         <!-- END PAGE LEVEL JS -->
     </body>
 </html>

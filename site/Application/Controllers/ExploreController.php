@@ -31,19 +31,20 @@ class ExploreController extends AbstractController {
         $post = Zend_Registry::get('post');
 
         $q = $post->q;
-        $type = $post->type != '' ? $post->type : '(regions)';
 
 
 
         $form = new Ui_Form();
         $form->setAction($this->Action);
         $form->setName($this->ItemEditFormName);
+        $form->setAttrib('onsubmit', 'return false;');
 
 
 
-        $element = new Ui_Element_Text('search');
+        $element = new Ui_Element_Text('search2');
         $element->setPlaceholder('Search for places, activities or events');
         $element->setAttrib('hotkeys', 'enter, btnSearch, click');
+        $element->setValue($q);
         $form->addElement($element);
 
         $button = new Ui_Element_Btn('btnSearch');
@@ -51,32 +52,48 @@ class ExploreController extends AbstractController {
 //        $button->setType('success');
         $button->setSendFormFiends();
 //        $button->setAttrib('validaObrig', '1');
+        $button->setAttrib('onclick', 'return false;');
         $form->addElement($button);
 
         $form->setDataSession();
 
         // ---- GOOGLE ----------
-//        $ret = $this->callAPI('GET', array('query' => $q));
-//        $ret = $this->callAPI(array('query' => $q, 'type' => 'airport'));
-        $ret = $this->callAPI(array('query' => $q, 'type' => $type));
+        $type = $post->type != '' ? $post->type : '(regions)';
+
+        if ($q != '') {
+            $ret = $this->callAPI(array('query' => $q, 'type' => $type));  // commneted to stop making requests
+//        $ret->results = array();
 //        print'<pre>';die(print_r( $ret ));
-        foreach ($ret->results as $value) {
-            $place['place_id'] = $value->place_id;
-            $place['formatted_address'] = $value->formatted_address;
-            $place['name'] = $value->name;
-            $place['rating'] = $value->rating;
-            $place['types'] = $value->types;
-            foreach ($value->photos as $photo) {
-//                $photo2['src'] = '<a href="https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=' . $photo->photo_reference . '&key=AIzaSyDsL2HI8bxi78DT4oHVw1XTOT4qKjksPi0">photo</a>';
-                $photo2['src'] = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=' . $photo->photo_reference . '&key=AIzaSyDsL2HI8bxi78DT4oHVw1XTOT4qKjksPi0';
-                $place['photos'][] = $photo2;
+            foreach ($ret->results as $value) {
+                $place['place_id'] = $value->place_id;
+                $place['formatted_address'] = $value->formatted_address;
+                $place['name'] = $value->name;
+                $place['rating'] = $value->rating;
+                $place['types'] = $value->types;
+                foreach ($value->photos as $photo) {
+                    $photo2['src'] = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=' . $photo->photo_reference . '&key=AIzaSyDsL2HI8bxi78DT4oHVw1XTOT4qKjksPi0';
+                    $place['photos'][] = $photo2;
+                }
+                $places[] = $place;
+                $place = array();
             }
-            $places[] = $place;
-            $place = array();
+            if (count($places) == 0) {
+                $place['place_id'] = '21212';
+                $place['formatted_address'] = 'Paris, France';
+                $place['name'] = 'Paris';
+                $place['rating'] = 4.5;
+//            $place['types'] = $value->types;
+                $photo2['src'] = 'http://www.ladyhattan.com/wp-content/uploads/2014/03/Eiffel-Tower-Paris-France.jpg';
+                $place['photos'][] = $photo2;
+                $places[] = $place;
+                $place = array();
+            }
+//        print'<pre>';
+//        die(print_r($places));
+//        dr($places);
+            $view->assign('places', $places);
+            Db_Table::setSession('places', $places);
         }
-//        print'<pre>';die(print_r( $places ));
-//        dr( $places );
-        $view->assign('places', $places);
 //        $ActivityLst = new Activity();
 //        $ActivityLst->where('activityname', $q, 'like', 'or', 'q');
 ////        $ActivityLst->where('location', $q, 'like', 'or', 'q');
@@ -108,6 +125,7 @@ class ExploreController extends AbstractController {
 
 
 
+//        $view->assign('url', $this->Action);
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('titulo', $this->TituloEdicao);
@@ -145,34 +163,54 @@ class ExploreController extends AbstractController {
         $br = new Browser_Control();
         $post = Zend_Registry::get('post');
 
-        if ($post->id_activity) {
-            $Item = new Activity();
-            $id = $post->id_activity;
-            $idName = 'id_activity';
-        } else
-        if ($post->id_event) {
-            $Item = new Event();
-            $id = $post->id_event;
-            $idName = 'id_event';
-        }
-        $Item->read($id);
+        if ($post->place_id) {
+            $places = Db_Table::getSession('places');
+            foreach ($places as $value) {
+                if ($value['place_id'] == $post->place_id) {
+                    break;
+                }
+            }
 
-        if ($Item->getActivityName() == '') {
-            $br->setHtml('itemTitle', $Item->getEventName());
+            $br->setHtml('itemTitle', $value['name']);
+            $br->setHtml('itemCountry', $value['formatted_address']);
+            $br->setHtml('itemDescription', '');
+            $br->setHtmlByClass('itemPrice', '');
+            $br->setAttrib('btnAddDream', 'params', 'place_id' . '=' . $value['place_id']);
+            $itemGaleryImage .= '<div class="slide" data-image="' . $value['photos'][0]['src'] . '" ></div>';
         } else {
-            $br->setHtml('itemTitle', $Item->getActivityName());
-        }
-        $br->setHtml('itemDescription', $Item->getDescription());
-        $br->setHtmlByClass('itemPrice', '$' . $Item->getPrice());
-        $br->setAttrib('btnAddDream', 'params', $idName . '=' . $Item->getID());
 
-        $lP = $Item->getPicsLst();
-        foreach ($lP as $value) {
+
+            if ($post->id_activity) {
+                $Item = new Activity();
+                $id = $post->id_activity;
+                $idName = 'id_activity';
+            } else
+            if ($post->id_event) {
+                $Item = new Event();
+                $id = $post->id_event;
+                $idName = 'id_event';
+            }
+
+            $Item->read($id);
+
+            if ($Item->getActivityName() == '') {
+                $br->setHtml('itemTitle', $Item->getEventName());
+            } else {
+                $br->setHtml('itemTitle', $Item->getActivityName());
+            }
+            $br->setHtml('itemCountry', $Item->getCountry());
+            $br->setHtml('itemDescription', $Item->getDescription());
+            $br->setHtmlByClass('itemPrice', '$' . $Item->getPrice());
+            $br->setAttrib('btnAddDream', 'params', $idName . '=' . $Item->getID());
+
+            $lP = $Item->getPicsLst();
+            foreach ($lP as $value) {
 //            $html .= '<img class="slide" src="' . $value['src'] . '">';
-            $html .= '<div class="slide" data-image="' . $value['src'] . '" ></div>';
-            break;
+                $itemGaleryImage .= '<div class="slide" data-image="' . $value['src'] . '" ></div>';
+                break;
+            }
         }
-        $br->setHtmlByClass('itemGalery', $html);
+        $br->setHtmlByClass('itemGalery', $itemGaleryImage);
         $br->setCommand("
                         $('.item-slideshow > div').each(function () {
                             var img = $(this).data('image');
@@ -199,121 +237,65 @@ class ExploreController extends AbstractController {
     public function btnadddreamclickAction() {
         $post = Zend_Registry::get('post');
         $br = new Browser_Control();
+
+        $dreamLts = new Dreamboard;
+        $dreamLts->where('dreamboard.id_usuario', Usuario::getIdUsuarioLogado());
+        $dreamLts->where('dreamboard.id_activity', $post->id_activity, '=', 'or', 'id');
+        $dreamLts->where('dreamboard.id_event', $post->id_event, '=', 'or', 'id');
+        $dreamLts->where('dreamboard.place_id', $post->place_id, '=', 'or', 'id');
+        $dreamLts->readLst();
+        if ($dreamLts->countItens() == 0) {
+            $dream = new Dreamboard();
+            $dream->setID_Usuario(Usuario::getIdUsuarioLogado());
+            $dream->setID_activity($post->id_activity);
+            $dream->setID_event($post->id_event);
+            $dream->setplace_id($post->place_id);
+            $dream->save();
+            $br->setMsgAlert('Done!', 'Your dream is saved!');
+        } else {
+
+            $br->setMsgAlert('Done!', 'This place was already saved!');
+        }
+
         $br->setClass("itemDetails", "dialog item-details dialog");
-        $br->setMsgAlert('Done!', 'Your dream is saved!');
+        $br->send();
+    }
+
+    public function btnremovedreamclickAction() {
+        $post = Zend_Registry::get('post');
+        $br = new Browser_Control();
+
+        $dreamLts = new Dreamboard;
+        $dreamLts->where('dreamboard.id_usuario', Usuario::getIdUsuarioLogado());
+        $dreamLts->where('dreamboard.id_activity', $post->id_activity, '=', 'or', 'id');
+        $dreamLts->where('dreamboard.id_event', $post->id_event, '=', 'or', 'id');
+        $dreamLts->where('dreamboard.place_id', $post->place_id, '=', 'or', 'id');
+        $dreamLts->readLst();
+        if ($dreamLts->countItens() > 0) {
+            $dreamLts->getItem(0)->setDeleted()->save();
+            $br->setMsgAlert('Removed!', 'Your dream was removed!');
+        }
+
+        $br->setClass("itemDetails", "dialog item-details dialog");
         $br->send();
     }
 
     public function btnsearchclickAction() {
         $post = Zend_Registry::get('post');
         $br = new Browser_Control();
-        $br->setBrowserUrl(BASE_URL . 'explore/index/q/' . $post->search);
+        $br->setBrowserUrl(HTTP_HOST . BASE_URL . 'explore/index/q/' . $post->search2);
+        $br->send();
+    }
+
+    public function btnaddtotripclickAction() {
+        $post = Zend_Registry::get('post');
+        $br = new Browser_Control();
+        $br->setBrowserUrl(HTTP_HOST . BASE_URL . 'trip/newtrip');
         $br->send();
     }
 
     public function loadAction() {
-
-    }
-
-    public static function getMenu() {
-
-        $mainMenu = new Ui_Element_MainMenu('menuPrincipal');
-        $mainMenu->setParams('200');
-
-        // =========== Menu  ==========
-        // INDICADORES
-        $menuItem = new Ui_Element_MenuItem('home', 'Dashboard', HTTP_REFERER . 'index', '', 'home');
-        $mainMenu->addMenuItem($menuItem);
-
-
-        $menu = new Ui_Element_MenuItem('trips', 'Trips', HTTP_REFERER . 'trip/dashboard', '', '', '10 new Trips');
-//        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-        $mainMenu->addMenuItem($menu);
-
-        $menu = new Ui_Element_MenuItem('activities', 'Activities', HTTP_REFERER . 'activity', '', '');
-//        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-        $mainMenu->addMenuItem($menu);
-
-        $menu = new Ui_Element_MenuItem('events', 'Explores', HTTP_REFERER . 'event', '', '');
-//        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-        $mainMenu->addMenuItem($menu);
-
-        $menu = new Ui_Element_MenuItem('Profile', 'Profile', HTTP_REFERER . 'usuario/profileedit', '', '');
-        $mainMenu->addMenuItem($menu);
-//
-//        $menu2 = new Ui_Element_MenuItem('events', 'Explores2', HTTP_REFERER . 'events', '', 'calendar');
-////        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-//        $menu->addSubMenu($menu2);
-        // -----------------------------------------------------------
-        $menu = new Ui_Element_MenuItem('adm', 'Administration', HTTP_REFERER . '', '', 'settings');
-//        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-        $mainMenu->addMenuItem($menu);
-
-        if (true) {
-
-            $menu2 = new Ui_Element_MenuItem('activities', 'Activities', HTTP_REFERER . 'activity', '', '', '3 new Activities created!');
-//        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-            $menu->addSubMenu($menu2);
-
-            $menu2 = new Ui_Element_MenuItem('Activitytype', 'Activity types', HTTP_REFERER . 'activitytype', '', '');
-//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-            $menu->addSubMenu($menu2);
-
-
-            $menu2 = new Ui_Element_MenuItem('Explore', 'Explore', HTTP_REFERER . 'event', '', 'event');
-//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-            $menu->addSubMenu($menu2);
-
-            $menu2 = new Ui_Element_MenuItem('Exploretype', 'Explore Types', HTTP_REFERER . 'eventtype', '', '');
-//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-            $menu->addSubMenu($menu2);
-
-            $menu2 = new Ui_Element_MenuItem('trips2', 'Trips', HTTP_REFERER . 'trip', '', '', '10 new Trips');
-//        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-            $menu->addSubMenu($menu2);
-
-            $menu2 = new Ui_Element_MenuItem('Currency', 'Currencies', HTTP_REFERER . 'currency', '', '');
-//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-            $menu->addSubMenu($menu2);
-
-            $menu2 = new Ui_Element_MenuItem('Travelertype', 'Traveler types', HTTP_REFERER . 'travelertype', '', '');
-//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-            $menu->addSubMenu($menu2);
-
-            $menu2 = new Ui_Element_MenuItem('interest', 'Interest', HTTP_REFERER . 'interest', '', '');
-//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-            $menu->addSubMenu($menu2);
-
-
-            $menu2 = new Ui_Element_MenuItem('Triptype', 'Trip types', HTTP_REFERER . 'triptype', '', 'triptype');
-//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-            $menu->addSubMenu($menu2);
-
-            // -----------------------------------------------------------
-        }
-        $menu2 = new Ui_Element_MenuItem('Development', 'Development', '', '', '');
-        $mainMenu->addMenuItem($menu2);
-        if (true) {
-            $menu3 = new Ui_Element_MenuItem('Users', 'Users', HTTP_REFERER . 'usuario/users', '', '');
-//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-            $menu2->addSubMenu($menu3);
-
-            $menu3 = new Ui_Element_MenuItem('groups', 'Groups of Users', HTTP_REFERER . 'usuario/grupos', '', '');
-//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-            $menu2->addSubMenu($menu3);
-
-            $menu3 = new Ui_Element_MenuItem('Proccess', 'Proccess', HTTP_REFERER . 'processo', '', '');
-//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-            $menu2->addSubMenu($menu3);
-            $menu3 = new Ui_Element_MenuItem('DatabaseUptates', 'Database Uptates', HTTP_REFERER . 'dbupdate', '', '');
-//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-            $menu2->addSubMenu($menu3);
-
-            $menu3 = new Ui_Element_MenuItem('ExampleForm', 'Form Exemple', HTTP_REFERER . 'exampleform/edit', '', '');
-//        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-            $menu2->addSubMenu($menu3);
-        }
-        return $mainMenu->render();
+        
     }
 
 }
