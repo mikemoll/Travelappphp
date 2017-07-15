@@ -65,8 +65,9 @@
             <!-- START Login Background Pic Wrapper-->
             <div class="bg-pic">
                 <!-- START Background Pic-->
-                <img src="{$baseUrl}Public/assets/img/demo/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg" data-src="{$baseUrl}Public/assets/img/demo/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg" data-src-retina="{$baseUrl}Public/assets/img/demo/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg" alt="" class="lazy">
-                <!-- END Background Pic-->
+                 <img src="{$background}" data-src="{$background}" data-src-retina="{$background}" alt="" class="lazy">
+                <!-- <img src="{$baseUrl}Public/assets/img/demo/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg" data-src="{$baseUrl}Public/assets/img/demo/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg" data-src-retina="{$baseUrl}Public/assets/img/demo/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg" alt="" class="lazy">
+                 --><!-- END Background Pic
                 <!-- START Background Caption-->
                 <div class="bg-caption pull-bottom sm-pull-bottom text-white p-l-20 m-b-20">
                     <h2 class="semi-bold text-white">
@@ -74,7 +75,7 @@
                     <h2 class="semi-bold text-white">
                         go everywhere</h2>
                     <p class="small">
-                        All work copyright | © 2017 Travel Track.
+                        All work copyright | © 2017 Tumbleweed.
                     </p>
                 </div>
                 <!-- END Background Caption-->

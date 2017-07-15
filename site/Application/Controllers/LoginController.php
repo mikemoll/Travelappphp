@@ -91,7 +91,7 @@ class LoginController extends AbstractController {
         $form->setDataSession('formLogin');
 
         $view = Zend_Registry::get('view');
-
+        $view->assign('background',BASE_URL.'Public/assets/img/demo/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg' );
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'Login');
@@ -410,6 +410,7 @@ class LoginController extends AbstractController {
 
         $view = Zend_Registry::get('view');
 
+        $view->assign('background',BASE_URL.'Public/Images/signup/1.jpg' );
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'New user');
@@ -537,11 +538,17 @@ class LoginController extends AbstractController {
 
         //$msg = 'An e-mail was sent to you to confirm your account!';
         //$br->setMsgAlert('Please check your e-mail and confirm your registration to proceed!', $msg);
-        $br->setBrowserUrl(BASE_URL . 'login/newuser2/id/' . $user->getID());
+        $br->setBrowserUrl(BASE_URL . 'login/newuser2');
         $br->send();
     }
 
     public function newuser2Action() {
+        $id = Usuario::getIDUsuarioLogado();
+        if (($id == '')||($id == NULL)) {
+            $this->_redirect('./login');
+            exit;
+        }
+
         $post = Zend_Registry::get('post');
 
         $form = new Ui_Form();
@@ -551,10 +558,9 @@ class LoginController extends AbstractController {
         $form->setAttrib('role', 'form');
 
         $obj = new Usuario;
-        if (isset($post->id)) {
-            $obj->read($post->id);
-            $form->setDataForm($obj);
-        }
+        $obj->read($id);
+        $form->setDataForm($obj);
+
         $obj->setInstance('newUser');
 
         $element = new Ui_Element_Text('hometowncity');
@@ -582,13 +588,11 @@ class LoginController extends AbstractController {
         $button->setAttrib('class', 'btn btn-primary  btn-cons m-t-10');
         $form->addElement($button);
 
-        $element = new Ui_Element_Hidden('id');
-        $element->setValue($post->id);
-        $form->addElement($element);
-
         $form->setDataSession('formNewuser');
 
         $view = Zend_Registry::get('view');
+
+        $view->assign('background',BASE_URL.'Public/Images/signup/2.jpg' );
 
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
@@ -599,38 +603,25 @@ class LoginController extends AbstractController {
     }
 
     public function btnskip2clickAction($enviar = false) {
-        $post = Zend_Registry::get('post');
-        $session = Zend_Registry::get('session');
-
         $br = new Browser_Control();
-
-        $lObj = Usuario::getInstance('newUser');
-        $lObj->setDataFromRequest($post);
-
-        $br->setBrowserUrl(BASE_URL . 'login/newuser3/id/' . $lObj->getID());
+        $br->setBrowserUrl(BASE_URL . 'login/newuser3');
         $br->send();
     }
 
     public function btncontinue2clickAction($enviar = false) {
-
         $post = Zend_Registry::get('post');
         $session = Zend_Registry::get('session');
-
         $br = new Browser_Control();
 
-        // validating user
-        $form = Session_Control::getDataSession('formNewuser');
-
-        //Validations:
-        $valid = $form->processAjax($_POST);
-        if ($valid != 'true') {
-            $br->validaForm($valid);
+        $id = Usuario::getIDUsuarioLogado();
+        if (($id == '')||($id == NULL)) {
+            $br->setBrowserUrl(BASE_URL . 'login/');
             $br->send();
-            return;
+            exit;
         }
 
         $lObj = new Usuario();
-        $lObj->read($post->id);
+        $lObj->read($id);
         $lObj->sethometowncity($post->hometowncity);
         $lObj->sethometowncountry($post->hometowncountry);
 
@@ -644,11 +635,17 @@ class LoginController extends AbstractController {
             die();
         }
 
-        $br->setBrowserUrl(BASE_URL . 'login/newuser3/id/' . $lObj->getID());
+        $br->setBrowserUrl(BASE_URL . 'login/newuser3/');
         $br->send();
     }
 
     public function newuser3Action() {
+        $id = Usuario::getIDUsuarioLogado();
+        if (($id == '')||($id == NULL)) {
+            $this->_redirect('./login');
+            exit;
+        }
+
         $post = Zend_Registry::get('post');
 
         $form = new Ui_Form();
@@ -658,10 +655,8 @@ class LoginController extends AbstractController {
         $form->setAttrib('role', 'form');
 
         $obj = new Usuario;
-        if (isset($post->id)) {
-            $obj->read($post->id);
-            $form->setDataForm($obj);
-        }
+        $obj->read($id);
+        $form->setDataForm($obj);
         $obj->setInstance('newUser');
 
 
@@ -690,13 +685,11 @@ class LoginController extends AbstractController {
         $button->setAttrib('class', 'btn btn-primary  btn-cons m-t-10');
         $form->addElement($button);
 
-        $element = new Ui_Element_Hidden('id');
-        $element->setValue($post->id);
-        $form->addElement($element);
-
         $form->setDataSession('formNewuser');
 
         $view = Zend_Registry::get('view');
+
+        $view->assign('background',BASE_URL.'Public/Images/signup/3.jpg' );
 
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
@@ -707,16 +700,9 @@ class LoginController extends AbstractController {
 
     }
 
- public function btnskip3clickAction($enviar = false) {
-        $post = Zend_Registry::get('post');
-        $session = Zend_Registry::get('session');
-
+    public function btnskip3clickAction($enviar = false) {
         $br = new Browser_Control();
-
-        $lObj = Usuario::getInstance('newUser');
-        $lObj->setDataFromRequest($post);
-
-        $br->setBrowserUrl(BASE_URL . 'login/newuser4/id/' . $lObj->getID());
+        $br->setBrowserUrl(BASE_URL . 'login/newuser4');
         $br->send();
     }
 
@@ -727,19 +713,15 @@ class LoginController extends AbstractController {
 
         $br = new Browser_Control();
 
-        // validating user
-        $form = Session_Control::getDataSession('formNewuser');
-
-        //Validations:
-        $valid = $form->processAjax($_POST);
-        if ($valid != 'true') {
-            $br->validaForm($valid);
+        $id = Usuario::getIDUsuarioLogado();
+        if (($id == '')||($id == NULL)) {
+            $br->setBrowserUrl(BASE_URL . 'login/');
             $br->send();
-            return;
+            exit;
         }
 
         $lObj = new Usuario();
-        $lObj->read($post->id);
+        $lObj->read($id);
         $lObj->setliveincity($post->liveincity);
         $lObj->setliveincountry($post->liveincountry);
 
@@ -753,12 +735,17 @@ class LoginController extends AbstractController {
             die();
         }
 
-        $br->setBrowserUrl(BASE_URL . 'login/newuser4/id/' . $lObj->getID());
+        $br->setBrowserUrl(BASE_URL . 'login/newuser4');
         $br->send();
     }
 
 
     public function newuser4Action() {
+        $id = Usuario::getIDUsuarioLogado();
+        if (($id == '')||($id == NULL)) {
+            $this->_redirect('./login');
+            exit;
+        }
         $post = Zend_Registry::get('post');
 
         $form = new Ui_Form();
@@ -768,10 +755,8 @@ class LoginController extends AbstractController {
         $form->setAttrib('role', 'form');
 
         $obj = new Usuario;
-        if (isset($post->id)) {
-            $obj->read($post->id);
-            $form->setDataForm($obj);
-        }
+        $obj->read($id);
+        $form->setDataForm($obj);
         $obj->setInstance('newUser');
 
         $element = new Ui_Element_Textarea('traveledto');
@@ -793,14 +778,11 @@ class LoginController extends AbstractController {
         $button->setAttrib('class', 'btn btn-primary  btn-cons m-t-10');
         $form->addElement($button);
 
-        $element = new Ui_Element_Hidden('id');
-        $element->setValue($post->id);
-        $form->addElement($element);
-
         $form->setDataSession('formNewuser');
 
         $view = Zend_Registry::get('view');
 
+        $view->assign('background',BASE_URL.'Public/Images/signup/4.jpg' );
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'New user');
@@ -811,15 +793,8 @@ class LoginController extends AbstractController {
     }
 
     public function btnskip4clickAction($enviar = false) {
-        $post = Zend_Registry::get('post');
-        $session = Zend_Registry::get('session');
-
         $br = new Browser_Control();
-
-        $lObj = Usuario::getInstance('newUser');
-        $lObj->setDataFromRequest($post);
-
-        $br->setBrowserUrl(BASE_URL . 'login/newuser5/id/' . $lObj->getID());
+        $br->setBrowserUrl(BASE_URL . 'login/newuser5');
         $br->send();
     }
 
@@ -829,20 +804,15 @@ class LoginController extends AbstractController {
         $session = Zend_Registry::get('session');
 
         $br = new Browser_Control();
-
-        // validating user
-        $form = Session_Control::getDataSession('formNewuser');
-
-        //Validations:
-        $valid = $form->processAjax($_POST);
-        if ($valid != 'true') {
-            $br->validaForm($valid);
+        $id = Usuario::getIDUsuarioLogado();
+        if (($id == '')||($id == NULL)) {
+            $br->setBrowserUrl(BASE_URL . 'login/');
             $br->send();
-            return;
+            exit;
         }
 
         $lObj = new Usuario();
-        $lObj->read($post->id);
+        $lObj->read($id);
         $lObj->settraveledto($post->traveledto);
 
         //saving the user data
@@ -855,12 +825,18 @@ class LoginController extends AbstractController {
             die();
         }
 
-        $br->setBrowserUrl(BASE_URL . 'login/newuser5/id/' . $lObj->getID());
+        $br->setBrowserUrl(BASE_URL . 'login/newuser5');
         $br->send();
     }
 
 
     public function newuser5Action() {
+        $id = Usuario::getIDUsuarioLogado();
+        if (($id == '')||($id == NULL)) {
+            $this->_redirect('./login');
+            exit;
+        }
+
         $post = Zend_Registry::get('post');
 
         $form = new Ui_Form();
@@ -870,10 +846,8 @@ class LoginController extends AbstractController {
         $form->setAttrib('role', 'form');
 
         $obj = new Usuario;
-        if (isset($post->id)) {
-            $obj->read($post->id);
-            $form->setDataForm($obj);
-        }
+        $obj->read($id);
+        $form->setDataForm($obj);
         $obj->setInstance('newUser');
 
         $element = new Ui_Element_Textarea('bio');
@@ -907,14 +881,11 @@ class LoginController extends AbstractController {
         $button->setAttrib('class', 'btn btn-primary  btn-cons m-t-10');
         $form->addElement($button);
 
-        $element = new Ui_Element_Hidden('id');
-        $element->setValue($post->id);
-        $form->addElement($element);
-
         $form->setDataSession('formNewuser');
 
         $view = Zend_Registry::get('view');
 
+        $view->assign('background',BASE_URL.'Public/Images/signup/5.jpg' );
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'New user');
@@ -925,38 +896,26 @@ class LoginController extends AbstractController {
     }
 
     public function btnskip5clickAction($enviar = false) {
-        $post = Zend_Registry::get('post');
-        $session = Zend_Registry::get('session');
-
         $br = new Browser_Control();
-
-        $lObj = Usuario::getInstance('newUser');
-        $lObj->setDataFromRequest($post);
-
-        $br->setBrowserUrl(BASE_URL . 'login/newuser6/id/' . $lObj->getID());
+        $br->setBrowserUrl(BASE_URL . 'login/newuser6');
         $br->send();
     }
 
     public function btncontinue5clickAction($enviar = false) {
+        $id = Usuario::getIDUsuarioLogado();
+        if (($id == '')||($id == NULL)) {
+            $br->setBrowserUrl(BASE_URL . 'login/');
+            $br->send();
+            exit;
+        }
 
         $post = Zend_Registry::get('post');
         $session = Zend_Registry::get('session');
 
         $br = new Browser_Control();
 
-        // validating user
-        $form = Session_Control::getDataSession('formNewuser');
-
-        //Validations:
-        $valid = $form->processAjax($_POST);
-        if ($valid != 'true') {
-            $br->validaForm($valid);
-            $br->send();
-            return;
-        }
-
         $lObj = new Usuario();
-        $lObj->read($post->id);
+        $lObj->read($id);
         $lObj->setbio($post->bio);
         $lObj->setoccupation($post->occupation);
         $lObj->setdreamjob($post->dreamjob);
@@ -971,11 +930,17 @@ class LoginController extends AbstractController {
             die();
         }
 
-        $br->setBrowserUrl(BASE_URL . 'login/newuser6/id/' . $lObj->getID());
+        $br->setBrowserUrl(BASE_URL . 'login/newuser6/');
         $br->send();
     }
 
     public function newuser6Action() {
+        $id = Usuario::getIDUsuarioLogado();
+        if (($id == '')||($id == NULL)) {
+            $this->_redirect('./login');
+            exit;
+        }
+
         $post = Zend_Registry::get('post');
 
         $form = new Ui_Form();
@@ -985,10 +950,8 @@ class LoginController extends AbstractController {
         $form->setAttrib('role', 'form');
 
         $obj = new Usuario;
-        if (isset($post->id)) {
-            $obj->read($post->id);
-            $form->setDataForm($obj);
-        }
+        $obj->read($id);
+        $form->setDataForm($obj);
         $obj->setInstance('newUser');
 
         $element = new Ui_Element_Text('instagram');
@@ -1022,14 +985,11 @@ class LoginController extends AbstractController {
         $button->setAttrib('class', 'btn btn-primary  btn-cons m-t-10');
         $form->addElement($button);
 
-        $element = new Ui_Element_Hidden('id');
-        $element->setValue($post->id);
-        $form->addElement($element);
-
         $form->setDataSession('formNewuser');
 
         $view = Zend_Registry::get('view');
 
+        $view->assign('background',BASE_URL.'Public/Images/signup/6.jpg' );
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'New user');
@@ -1040,14 +1000,7 @@ class LoginController extends AbstractController {
     }
 
     public function btnskip6clickAction($enviar = false) {
-        $post = Zend_Registry::get('post');
-        $session = Zend_Registry::get('session');
-
         $br = new Browser_Control();
-
-        $lObj = Usuario::getInstance('newUser');
-        $lObj->setDataFromRequest($post);
-
         $br->setBrowserUrl(BASE_URL . 'index');
         $br->send();
     }
@@ -1058,20 +1011,16 @@ class LoginController extends AbstractController {
         $session = Zend_Registry::get('session');
 
         $br = new Browser_Control();
-
-        // validating user
-        $form = Session_Control::getDataSession('formNewuser');
-
-        //Validations:
-        $valid = $form->processAjax($_POST);
-        if ($valid != 'true') {
-            $br->validaForm($valid);
+        $id = Usuario::getIDUsuarioLogado();
+        if (($id == '')||($id == NULL)) {
+            $br->setBrowserUrl(BASE_URL . 'login/');
             $br->send();
-            return;
+            exit;
         }
 
+
         $lObj = new Usuario();
-        $lObj->read($post->id);
+        $lObj->read($id);
         $lObj->setinstagram($post->instagram);
         $lObj->settwitter($post->twitter);
         $lObj->setfacebook($post->facebook);

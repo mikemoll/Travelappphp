@@ -1,6 +1,6 @@
 <h1 class="light">Tumbleweed</h1>
 <h3 class="light">Stay connnected</h3>
-<h3 class="light">Social Media links</h3>
+<p class="light">Social Media links</p>
 
 <div class="form-group form-group-default col-md-12">
 
