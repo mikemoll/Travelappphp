@@ -33,10 +33,12 @@ class AbstractController extends Zend_Controller_Action {
             include_once './Application/Controllers/IndexController.php';
             $view->assign('menu', IndexController::getMenu());
             $view->assign('NomeSistema', cNOME_SISTEMA);
-            $view->assign('usuarioLogado', Session_Control::getPropertyUserLogado('nomecompleto'));
-            $view->assign('nomeUsuario', Session_Control::getPropertyUserLogado('nomecompleto'));
+            $view->assign('usuarioLogado',      Session_Control::getPropertyUserLogado('nomecompleto'));
+            $view->assign('nomeUsuario',        Session_Control::getPropertyUserLogado('nomecompleto'));
+            $view->assign('loggeduserlastname', Session_Control::getPropertyUserLogado('lastname'));
+            $view->assign('loggeduserPhoto',    Session_Control::getUserLogadoPhotoPath());
             $view->assign('ano', date('Y'));
-            $view->assign('permissoesLst', Session_Control::getPropertyUserLogado('permissoesLst'));
+            $view->assign('permissoesLst',      Session_Control::getPropertyUserLogado('permissoesLst'));
 //    $view->assign('ListaAcaoTopo', RncAcao::getListaRncAcaoTopo($view));
         }
 // ==========================================================

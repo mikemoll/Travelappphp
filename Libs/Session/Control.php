@@ -31,4 +31,15 @@ class Session_Control{
         $session = Zend_Registry::get('session');
         return unserialize($session->$nome);
 	}
+
+	public static function getUserLogadoPhotoPath() {
+		$session = Zend_Registry::get('session');
+
+		if(isset($session->usuario)){
+			return $session->usuario->getPhotoPath();
+		}else{
+			return '';
+		}
+	}
+
 }
