@@ -1095,27 +1095,29 @@ class UsuarioController extends AbstractController {
         $br->send();
     }
 
-    public function friendslistloadAction() {
-        $br = new Browser_Control();
-        $view = Zend_Registry::get('view');
-
-
-        $view->assign('friends',Friend::getFriendsLst(Usuario::getIDUsuarioLogado()));
-
-        $br->setHtml('chat',$view->fetch('Usuario/friendsList.tpl'));
-        $br->send();
-    }
-
-    public function loadprofileclickAction() {
+    public function viewprofileAction() {
         $br = new Browser_Control();
         $view = Zend_Registry::get('view');
 
         $post = Zend_Registry::get('post');
-
         $id = $post->id;
+
+        //Validates if this friend is my friend or is mine
+        $myprofile=false;
+        if ($id == Usuario::getIdUsuarioLogado()) {
+            $myprofile=true;
+
+        // If it is not my friend just loads my profile ( no crackers wanted! )
+        } if (!Usuario::IsMyFriend($id)) {
+            $myprofile=true;
+            $id=Usuario::getIdUsuarioLogado();
+        }
+
         $user = new Usuario();
         $user->read($id);
 
+        $view->assign('id', $id);
+        $view->assign('myprofile', $myprofile);
         $view->assign('interests', $user->getInterestsIcons());
         $view->assign('travelertypes', $user->getTravelertypeIcons());
         $view->assign('name', htmlentities( $user->getnomecompleto().' '.$user->getlastname() ));
@@ -1132,7 +1134,23 @@ class UsuarioController extends AbstractController {
         $view->assign('instagram', $user->getinstagram());
         $view->assign('occupation', $user->getoccupation());
 
-        $br->setHtml('chat',$view->fetch('Usuario/viewProfile.tpl'));
+
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
+        $view->assign('titulo', 'My profile');
+        $view->assign('TituloPagina', 'My profile');
+        $view->assign('body', $view->fetch('Usuario/viewProfile.tpl'));
+        $view->output('index.tpl');
+    }
+
+    public function friendslistloadAction() {
+        $br = new Browser_Control();
+        $view = Zend_Registry::get('view');
+
+
+        $view->assign('friends',Friend::getFriendsLst(Usuario::getIDUsuarioLogado()));
+
+        $br->setHtml('chat',$view->fetch('Usuario/friendsList.tpl'));
         $br->send();
     }
 

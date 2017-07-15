@@ -73,7 +73,7 @@ class IndexController extends AbstractController {
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 
-        $menu = new Ui_Element_MenuItem('Profile', 'Profile', HTTP_REFERER . 'usuario/profileedit', '', 'head');
+        $menu = new Ui_Element_MenuItem('Profile', 'Profile', HTTP_REFERER . 'usuario/viewprofile/id/'.Usuario::getIDUsuarioLogado(), '', 'head');
         $mainMenu->addMenuItem($menu);
 //
 //        $menu2 = new Ui_Element_MenuItem('events', 'Indexs2', HTTP_REFERER . 'events', '', 'calendar');

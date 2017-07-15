@@ -514,7 +514,7 @@ class LoginController extends AbstractController {
         }
 
         //Login the user
-
+        $user->read($user->getID());
 //        if ($post->remember) {
         $cookie_name = "userName";
         $cookie_value = $user->getusername;

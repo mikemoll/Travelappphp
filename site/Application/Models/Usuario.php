@@ -653,4 +653,11 @@ class Usuario extends Db_Table {
         return $lLst->countItens() > 0;
     }
 
+    public static function isMyFriend($id) {
+        $lLst = new Friend;
+        $lLst->where('friend.id_usuario', Usuario::getIdUsuarioLogado());
+        $lLst->where('id_friend', $id);
+        $lLst->readLst();
+        return $lLst->countItens() > 0;
+    }
 }

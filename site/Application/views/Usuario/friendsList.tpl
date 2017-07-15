@@ -27,7 +27,7 @@
                                         {foreach from=$friends_lst key=id_friend item=friend}
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a id="loadProfile" name="loadProfile" url="Usuario" {if $friend.isfriend eq 'S'} event="click" params="id={$id_friend}" {/if}>
+                                            <a {if $friend.isfriend eq 'S'} href="{$baseUrl}usuario/viewprofile/id/{$id_friend}"{else} href="#"{/if}>
                                                 <span class="col-xs-height col-middle">
                                                     <span class="thumbnail-wrapper d32 circular bg-success">
                                                         <img width="34" height="34" alt="" data-src-retina="{$friend.Photo}" data-src="{$friend.Photo}" src="{$friend.Photo}" class="col-top">
