@@ -642,3 +642,4 @@ class Usuario extends Db_Table {
         $lLst->readLst();
         return $lLst->countItens() > 0;
     }
+}
