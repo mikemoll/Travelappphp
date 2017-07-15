@@ -309,16 +309,16 @@ $(document).ready(function (p) {
     /**
      * cancela todos os submits dos fomulario
      */
-// $('body').on('submit','form', function(){
-//	 return false;
-// });
-//    $('body').on("submit","form", function (event) {
-//        event.preventDefault();
-//    });
+    $('body').on('submit', 'form', function () {
+        return false;
+    });
+    $('body').on("submit", "form", function (event) {
+        event.preventDefault();
+    });
 
-//    $('form').bind('submit', function (e) {
-//        e.preventDefault();
-//    });
+    $('form').bind('submit', function (e) {
+        e.preventDefault();
+    });
 //    $("select[select2]").select2({width: '100%', selectOnClose: true});
 
 
