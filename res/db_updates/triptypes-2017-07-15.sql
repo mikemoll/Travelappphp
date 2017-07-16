@@ -12,13 +12,20 @@ CREATE TABLE `triptriptype` (
   KEY `ix_triptriptype_triptype_idx` (`id_triptype`)
 )  ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
-ALTER TABLE `tripcity` 
-ADD COLUMN `stayingaddress` VARCHAR(100) NULL AFTER `country`;
+ALTER TABLE `tripcity`
+ADD COLUMN `stayingaddress` VARCHAR(100) NULL;
 
-ALTER TABLE `tripcity` 
-ADD COLUMN `transportationinfo` VARCHAR(100) NULL AFTER `stayingaddress`;
+ALTER TABLE `tripcity`
+ADD COLUMN `transportationinfo` VARCHAR(100) NULL;
 
-ALTER TABLE `tripcity` 
+ALTER TABLE `tripcity`
 DROP COLUMN `country`,
 DROP COLUMN `city`,
-ADD COLUMN `placename` VARCHAR(100) NULL AFTER `transportationinfo`;
+ADD COLUMN `id_place`bigint(20) unsigned NOT NULL AFTER `transportationinfo`;
+
+
+ALTER TABLE `tripcity`
+CHANGE COLUMN `id_trip` `id_trip` BIGINT(20) NOT NULL ,
+CHANGE COLUMN `id_place` `id_place` BIGINT(20) NOT NULL ,
+ADD INDEX `fk_tripplace_place_idx` (`id_place` ASC), 
+RENAME TO  `tripplace` ;
