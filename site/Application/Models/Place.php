@@ -91,28 +91,38 @@ class Place extends Db_Table {
             }
         }
         // ---- GOOGLE ----------
-
+//        $type = 'geocode';
+//        $type = '(regions)';
         if ($q != '') {
             $ret = $this->callGoogleAPI(array('query' => $q, 'type' => $type));  // commneted to stop making requests
 //        $ret->results = array();
 //            print'<pre>';
 //            die(print_r($ret));
             foreach ($ret->results as $value) {
+                $placeLst = new Place();
+                $placeLst->where('google_place_id', $value->place_id);
+                $placeLst->readLst();
+                if ($placeLst->countItens() > 0) {
+                    continue;
+                }
                 $place = new Place();
                 $place->setgoogle_place_id($value->place_id);
                 $place->setformatted_address($value->formatted_address);
                 $place->setname($value->name);
                 $place->setrating($value->rating);
+                $place->setSearchQuery($q);
                 $place->setgoogletypes(json_encode($value->types));
                 foreach ($value->photos as $photo) {
-                    $url = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=' . $photo->photo_reference . '&key=' . $this->google_api_key;
+                    $url = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=' . $photo->photo_reference . '&key=' . $this->google_api_key;
                     break;
                 }
                 $place->save();
-                $img = RAIZ_DIRETORY . 'site/Public/Images/Place/' . $place->getID() . '_' . md5($photo->photo_reference) . '.jpg';
-                copy($url, $img);
-                $place->setPhoto(md5($photo->photo_reference) . '.jpg');
-                $place->save();
+                if ($url != '') {
+                    $img = RAIZ_DIRETORY . 'site/Public/Images/Place/' . $place->getID() . '_' . md5($photo->photo_reference) . '.jpg';
+                    copy($url, $img);
+                    $place->setPhoto(md5($photo->photo_reference) . '.jpg');
+                    $place->save();
+                }
             }
 //        print'<pre>';
 //        die(print_r($places));

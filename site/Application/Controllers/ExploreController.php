@@ -66,8 +66,9 @@ class ExploreController extends AbstractController {
 
         // ------- PLACES   - --------------
         $ActivityLst = new Place();
-        $ActivityLst->where('name', $q, 'like', 'or', 'q');
-//        $ActivityLst->where('location', $q, 'like', 'or', 'q');
+        $ActivityLst->where('place.name', $q, 'like', 'or', 'q');
+        $ActivityLst->where('place.country', $q, 'like', 'or', 'q');
+        $ActivityLst->where('searchquery', $q, 'like', 'or', 'q');
 //        $ActivityLst->where('description', $q, 'like', 'or', 'q');
         $ActivityLst->readLst();
         $view->assign('placeLst', $ActivityLst->getItens());

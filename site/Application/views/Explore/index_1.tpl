@@ -364,14 +364,15 @@
     </div>
 </div>
 <!-- END DIALOG -->
+<!-- Start FILTERS-->
 <div class="quickview-wrapper" id="filters">
     <div class="padding-40 ">
         <a class="builder-close quickview-toggle pg-close" data-toggle="quickview" data-toggle-element="#filters" href="#"></a>
         <form class="" role="form">
             <h5 class="all-caps font-montserrat fs-12 m-b-20">Advance filters</h5>
             <div class="form-group form-group-default ">
-                <label>Project</label>
-                <input type="email" class="form-control" placeholder="Type of select a label">
+                <label>Place, activity or event</label>
+                <input type="email" class="form-control" placeholder="Where to go?">
             </div>
             <h5 class="all-caps font-montserrat fs-12 m-b-20 m-t-25">Advance filters</h5>
             <div class="radio radio-danger">
