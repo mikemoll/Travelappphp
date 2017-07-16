@@ -62,166 +62,157 @@
 {/literal}
 
 
-<div class="col-md-4 col-xlg-4  " >
-    {section name=i loop=$placeLst}
 
-        {literal}
-            <style>
-                .place-{/literal}{$placeLst[i]->getID()}{literal}:after{
-                    background-image: url({/literal}{$placeLst[i]->getPhotoPath()}{literal}) !important;
-                }
-            </style>
-        {/literal}
-        <div class="row" >
-            <div class="col-md-12 col-xlg-12 box-item" >
-                <div class="ar-1-1">
-                    <!-- START WIDGET widget_imageWidgetBasic-->
-                    <div class="widget-2 panel no-border bg-primary widget widget-loader-circle-lg no-margin place-{$placeLst[i]->getID()}">
-                        <div class="panel-heading">
-                            <div class="panel-controls">
-                                <ul>
-                                    <li>
-                                        <a class="widget-3-fav no-decoration" style="{if $placeLst[i]->getFavorite()!=''}display: none;{/if}" href="#" id="btnadddream"
-                                           name="btnadddream"  event="click" url="explore"
-                                           params="id_place={$placeLst[i]->getID()}">
-                                            <i class="fa fa-heart-o fa-2x" style="color: red"></i>
-                                        </a>
-                                        <a class="widget-3-fav no-decoration" style="{if $placeLst[i]->getFavorite()==''}display: none;{/if}" href="#" id="btnremovedream"
-                                           name="btnremovedream"  event="click" url="explore"
-                                           params="id_place={$placeLst[i]->getID()}">
-                                            <i class="fa fa-heart fa-2x" style="color: red"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="panel-body gallery-item2" data-id="{$placeLst[i]->getID()}"  event="click" name="galeryItem" url='explore'   params="id_place={$placeLst[i]->getID()}&google_place_id={$placeLst[i]->getgoogle_place_id()}">
-                            <div class="pull-bottom bottom-left bottom-right padding-15">
-                                <span class="label font-montserrat fs-11">Place</span>
-                                <br>
-                                <h3 class="text-white">{$placeLst[i]->getName()}</h3>
-                                {if $placeLst[i]->getFormatted_Address()!=''}
-                                    <p class="text-white hint-text hidden-md">{$placeLst[i]->getFormatted_Address()}</p>
-                                {/if}
-                                {*                        <p class="text-white hint-text hidden-md">${$placeLst[i]->getPrice()}</p>*}
-                            </div>
-                        </div>
+{section name=i loop=$placeLst}
+
+    {literal}
+        <style>
+            .place-{/literal}{$placeLst[i]->getID()}{literal}:after{
+                background-image: url({/literal}{$placeLst[i]->getPhotoPath()}{literal}) !important;
+            }
+        </style>
+    {/literal}
+    <div class="col-md-4 col-xlg-4 box-item" >
+        <div class="ar-1-1">
+            <!-- START WIDGET widget_imageWidgetBasic-->
+            <div class="widget-2 panel no-border bg-primary widget widget-loader-circle-lg no-margin place-{$placeLst[i]->getID()}">
+                <div class="panel-heading">
+                    <div class="panel-controls">
+                        <ul>
+                            <li>
+                                <a class="widget-3-fav no-decoration" style="{if $placeLst[i]->getFavorite()!=''}display: none;{/if}" href="#" id="btnadddream"
+                                   name="btnadddream"  event="click" url="explore"
+                                   params="id_place={$placeLst[i]->getID()}">
+                                    <i class="fa fa-heart-o fa-2x" style="color: red"></i>
+                                </a>
+                                <a class="widget-3-fav no-decoration" style="{if $placeLst[i]->getFavorite()==''}display: none;{/if}" href="#" id="btnremovedream"
+                                   name="btnremovedream"  event="click" url="explore"
+                                   params="id_place={$placeLst[i]->getID()}">
+                                    <i class="fa fa-heart fa-2x" style="color: red"></i>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    <!-- END WIDGET -->
                 </div>
-
-            </div>
-        </div>
-    {/section}
-</div>
-
-<div class="col-md-4 col-xlg-4  " >
-    {section name=i loop=$activityLst}
-
-        {literal}
-            <style>
-                .activity-{/literal}{$activityLst[i]->getID()}{literal}:after{
-                    background-image: url({/literal}{$activityLst[i]->getPhotoPath()}{literal}) !important;
-                }
-            </style>
-        {/literal}
-        <div class="row" >
-            <div class="col-md-12 col-xlg-12 box-item" >
-                <div class="ar-1-1">
-                    <!-- START WIDGET widget_imageWidgetBasic-->
-                    <div class="widget-2 panel no-border bg-primary widget widget-loader-circle-lg no-margin activity-{$activityLst[i]->getID()}">
-                        <div class="panel-heading">
-                            <div class="panel-controls">
-                                <ul>
-                                    <li>
-                                        <a class="widget-3-fav no-decoration" style="{if $activityLst[i]->getFavorite()!=''}display: none;{/if}" href="#" id="btnadddream"
-                                           name="btnadddream"  event="click" url="explore"
-                                           params="id_activity={$activityLst[i]->getID()}">
-                                            <i class="fa fa-heart-o fa-2x" style="color: red"></i>
-                                        </a>
-                                        <a class="widget-3-fav no-decoration" style="{if $activityLst[i]->getFavorite()==''}display: none;{/if}" href="#" id="btnremovedream"
-                                           name="btnremovedream"  event="click" url="explore"
-                                           params="id_activity={$activityLst[i]->getID()}">
-                                            <i class="fa fa-heart fa-2x" style="color: red"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="panel-body gallery-item2" data-id="{$activityLst[i]->getID()}"  event="click" name="galeryItem" url='explore'   params="id_activity={$activityLst[i]->getID()}">
-                            <div class="pull-bottom bottom-left bottom-right padding-15">
-                                <span class="label font-montserrat fs-11">Activity</span>
-                                <br>
-                                <h3 class="text-white">{$activityLst[i]->getActivityName()}</h3>
-                                {if $activityLst[i]->getCity()!=''}
-                                    <p class="text-white hint-text hidden-md">{$activityLst[i]->getCity()}, {$activityLst[i]->getCountry()}</p>
-                                {/if}
-                                <p class="text-white hint-text hidden-md">${$activityLst[i]->getPrice()}</p>
-                            </div>
-                        </div>
+                <div class="panel-body gallery-item2" data-id="{$placeLst[i]->getID()}"  event="click" name="galeryItem" url='explore'   params="id_place={$placeLst[i]->getID()}&google_place_id={$placeLst[i]->getgoogle_place_id()}">
+                    <div class="pull-bottom bottom-left bottom-right padding-15">
+                        <span class="label font-montserrat fs-11">Place</span>
+                        <br>
+                        <h3 class="text-white">{$placeLst[i]->getName()}</h3>
+                        {if $placeLst[i]->getFormatted_Address()!=''}
+                            <p class="text-white hint-text hidden-md">{$placeLst[i]->getFormatted_Address()}</p>
+                        {/if}
+                        {*                        <p class="text-white hint-text hidden-md">${$placeLst[i]->getPrice()}</p>*}
                     </div>
-                    <!-- END WIDGET -->
                 </div>
-
             </div>
+            <!-- END WIDGET -->
         </div>
-    {/section}
-</div>
 
-<div class="col-md-4 col-xlg-4  " >
-    <!-- START ROW -->
-    {section name=i loop=$eventLst}
+    </div>
+{/section}
 
-        {literal}
-            <style>
-                .event-{/literal}{$eventLst[i]->getID()}{literal}:after{
-                    background-image: url({/literal}{$eventLst[i]->getPhotoPath()}{literal}) !important;
-                }
-            </style>
-        {/literal}
 
-        <div class="row" >
-            <div class="col-md-12 col-xlg-12 box-item">
-                <div class="ar-1-1">
-                    <!-- START WIDGET widget_imageWidgetBasic-->
-                    <div class="widget-2 panel no-border bg-primary widget widget-loader-circle-lg no-margin event-{$eventLst[i]->getID()}">
-                        <div class="panel-heading">
-                            <div class="panel-controls">
-                                <ul>
-                                    <li>
-                                        <a class="widget-3-fav no-decoration" style="{if $eventLst[i]->getFavorite()!=''}display: none;{/if}" href="#" id="btnadddream"
-                                           name="btnadddream"  event="click" url="explore"
-                                           params="id_event={$eventLst[i]->getID()}">
-                                            <i class="fa fa-heart-o fa-2x" style="color: red"></i>
-                                        </a>
-                                        <a class="widget-3-fav no-decoration" style="{if $eventLst[i]->getFavorite()==''}display: none;{/if}" href="#" id="btnremovedream"
-                                           name="btnremovedream"  event="click" url="explore"
-                                           params="id_event={$eventLst[i]->getID()}">
-                                            <i class="fa fa-heart fa-2x" style="color: red"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="panel-body gallery-item2" data-id="{$eventLst[i]->getID()}"  event="click" name="galeryItem" url='explore'   params="id_event={$eventLst[i]->getID()}">
-                            <div class="pull-bottom bottom-left bottom-right padding-15">
-                                <span class="label font-montserrat fs-11">Event</span>
-                                <br>
-                                <h3 class="text-white">{$eventLst[i]->getEventName()}</h3>
-                                {if $eventLst[i]->getCity()!=''}
-                                    <p class="text-white hint-text hidden-md">{$eventLst[i]->getCity()}, {$eventLst[i]->getCountry()}</p>
-                                {/if}
-                                <p class="text-white hint-text hidden-md">${$eventLst[i]->getPrice()}</p>
-                            </div>
-                        </div>
+{section name=i loop=$activityLst}
+
+    {literal}
+        <style>
+            .activity-{/literal}{$activityLst[i]->getID()}{literal}:after{
+                background-image: url({/literal}{$activityLst[i]->getPhotoPath()}{literal}) !important;
+            }
+        </style>
+    {/literal}
+    <div class="col-md-4 col-xlg-4 box-item" >
+        <div class="ar-1-1">
+            <!-- START WIDGET widget_imageWidgetBasic-->
+            <div class="widget-2 panel no-border bg-primary widget widget-loader-circle-lg no-margin activity-{$activityLst[i]->getID()}">
+                <div class="panel-heading">
+                    <div class="panel-controls">
+                        <ul>
+                            <li>
+                                <a class="widget-3-fav no-decoration" style="{if $activityLst[i]->getFavorite()!=''}display: none;{/if}" href="#" id="btnadddream"
+                                   name="btnadddream"  event="click" url="explore"
+                                   params="id_activity={$activityLst[i]->getID()}">
+                                    <i class="fa fa-heart-o fa-2x" style="color: red"></i>
+                                </a>
+                                <a class="widget-3-fav no-decoration" style="{if $activityLst[i]->getFavorite()==''}display: none;{/if}" href="#" id="btnremovedream"
+                                   name="btnremovedream"  event="click" url="explore"
+                                   params="id_activity={$activityLst[i]->getID()}">
+                                    <i class="fa fa-heart fa-2x" style="color: red"></i>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    <!-- END WIDGET -->
                 </div>
-
+                <div class="panel-body gallery-item2" data-id="{$activityLst[i]->getID()}"  event="click" name="galeryItem" url='explore'   params="id_activity={$activityLst[i]->getID()}">
+                    <div class="pull-bottom bottom-left bottom-right padding-15">
+                        <span class="label font-montserrat fs-11">Activity</span>
+                        <br>
+                        <h3 class="text-white">{$activityLst[i]->getActivityName()}</h3>
+                        {if $activityLst[i]->getCity()!=''}
+                            <p class="text-white hint-text hidden-md">{$activityLst[i]->getCity()}, {$activityLst[i]->getCountry()}</p>
+                        {/if}
+                        <p class="text-white hint-text hidden-md">${$activityLst[i]->getPrice()}</p>
+                    </div>
+                </div>
             </div>
+            <!-- END WIDGET -->
         </div>
-    {/section}
-</div>
+
+    </div>
+{/section}
+
+
+<!-- START ROW -->
+{section name=i loop=$eventLst}
+
+    {literal}
+        <style>
+            .event-{/literal}{$eventLst[i]->getID()}{literal}:after{
+                background-image: url({/literal}{$eventLst[i]->getPhotoPath()}{literal}) !important;
+            }
+        </style>
+    {/literal}
+
+    <div class="col-md-4 col-xlg-4 box-item">
+        <div class="ar-1-1">
+            <!-- START WIDGET widget_imageWidgetBasic-->
+            <div class="widget-2 panel no-border bg-primary widget widget-loader-circle-lg no-margin event-{$eventLst[i]->getID()}">
+                <div class="panel-heading">
+                    <div class="panel-controls">
+                        <ul>
+                            <li>
+                                <a class="widget-3-fav no-decoration" style="{if $eventLst[i]->getFavorite()!=''}display: none;{/if}" href="#" id="btnadddream"
+                                   name="btnadddream"  event="click" url="explore"
+                                   params="id_event={$eventLst[i]->getID()}">
+                                    <i class="fa fa-heart-o fa-2x" style="color: red"></i>
+                                </a>
+                                <a class="widget-3-fav no-decoration" style="{if $eventLst[i]->getFavorite()==''}display: none;{/if}" href="#" id="btnremovedream"
+                                   name="btnremovedream"  event="click" url="explore"
+                                   params="id_event={$eventLst[i]->getID()}">
+                                    <i class="fa fa-heart fa-2x" style="color: red"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-body gallery-item2" data-id="{$eventLst[i]->getID()}"  event="click" name="galeryItem" url='explore'   params="id_event={$eventLst[i]->getID()}">
+                    <div class="pull-bottom bottom-left bottom-right padding-15">
+                        <span class="label font-montserrat fs-11">Event</span>
+                        <br>
+                        <h3 class="text-white">{$eventLst[i]->getEventName()}</h3>
+                        {if $eventLst[i]->getCity()!=''}
+                            <p class="text-white hint-text hidden-md">{$eventLst[i]->getCity()}, {$eventLst[i]->getCountry()}</p>
+                        {/if}
+                        <p class="text-white hint-text hidden-md">${$eventLst[i]->getPrice()}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- END WIDGET -->
+        </div>
+
+    </div>
+{/section}
 
 
 <!-- START DIALOG -->
@@ -232,7 +223,7 @@
             <div class="row dialog__overview">
                 <div class="col-sm-7 no-padding item-slideshow-wrapper full-height">
                     <div class="item-slideshow full-height itemGalery" id="itemDetailGalery">
-                       {* <div class="slide" data-image="{$baseUrl}Public/assets/img/gallery/item-square.jpg">
+                        {* <div class="slide" data-image="{$baseUrl}Public/assets/img/gallery/item-square.jpg">
                         </div>*}
                     </div>
                 </div>
