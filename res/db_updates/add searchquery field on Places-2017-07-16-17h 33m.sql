@@ -1,0 +1,1 @@
+ALTER TABLE `place` ADD `searchquery` VARCHAR(150) NULL AFTER `googletypes`;
