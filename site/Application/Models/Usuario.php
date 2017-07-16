@@ -18,17 +18,17 @@ class Usuario extends Db_Table {
     protected $_log_text = 'User';
     protected $_log_info = 'a_nomecompleto';
 
-//    const RELATIONSHIPS = array('s' => 'single',
-//        'm' => 'married',
-//        'ir' => 'in a relationship',
-//        'e' => 'engaged',
-//        'cu' => 'in a civil union',
-//        'dp' => 'in a domestic partnership',
-//        'or' => 'in an open relationship',
-//        'ic' => 'it is complicated',
-//        'sp' => 'separated',
-//        'd' => 'divorced',
-//        'w' => 'widowed');
+   public static $RELATIONSHIPS = array('s' => 'single',
+       'm' => 'married',
+       'ir' => 'in a relationship',
+       'e' => 'engaged',
+       'cu' => 'in a civil union',
+       'dp' => 'in a domestic partnership',
+       'or' => 'in an open relationship',
+       'ic' => 'it is complicated',
+       'sp' => 'separated',
+       'd' => 'divorced',
+       'w' => 'widowed');
 
     public static function getNomeUsuarioLogado() {
         $session = Zend_Registry::get('session');
