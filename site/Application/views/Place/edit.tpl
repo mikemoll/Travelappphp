@@ -19,73 +19,42 @@
             </div>
 
         </div>
-    </div>
-    <div class="col-lg-9">
 
-        <div class="col-lg-6">
-            {$activityname}
-        </div>
-        <div class="col-lg-3">
-            {$id_activitytype}
-        </div>
         <div class="row">
-            <div class="col-lg-6">
-                {$start_at}
-            </div>
-            <div class="col-lg-6">
-                {$end_at}
+            <div class="col-lg-12 text-center">
+                {$btnSave} {$btnCancel}
             </div>
         </div>
+    </div>
+    <div class="col-lg-5">
+
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
+                {$name}
+            </div>
+            <div class="col-lg-12">
+                {$country}
+            </div>
+            <div class="col-lg-12">
+                {$formatted_address}
+            </div>
+            <div class="col-lg-12">
+                {$google_place_id}
+            </div>
+            <div class="col-lg-12">
+                {$rating}
+            </div>
+            <div class="col-lg-12">
+                {$googletypes}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="row">
+            <div class="col-lg-12">
                 {$description}
             </div>
-            <div class="col-lg-6">
-                {$activitysupply}
-            </div>
         </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-6">
-        {$id_currency}
-    </div>
-    <div class="col-lg-6">
-        {$price}
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-4">
-        {$address}
-    </div>
-    <div class="col-lg-4">
-        {$city}
-    </div>
-    <div class="col-lg-4">
-        {$country}
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-12">
-        {$dresscode}
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-3">
-        {$lat}
-    </div>
-    <div class="col-lg-3">
-        {$lng}
-    </div>
-    <div class="col-lg-3">
-        {$geoloc}
-    </div>
-</div>
-
-
-<div class="row">
-    <div class="col-lg-12 text-center">
-        {$btnSalvar} {$btnCancel}
-    </div>
-</div>

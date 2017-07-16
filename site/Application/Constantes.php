@@ -3,7 +3,7 @@
 //######## Constantes dos Logs ########
 
 define('cLOG_ATIVA', FALSE);
-define('cNOME_SISTEMA', "Travel Track");
+define('cNOME_SISTEMA', "Tumbleweed");
 define('cIMG_UPLOAD_MAX_W', 800);
 define('cIMG_UPLOAD_MAX_H', 800);
 

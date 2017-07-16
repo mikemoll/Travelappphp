@@ -46,7 +46,7 @@
             <link href="{$baseUrl}Public/assets/plugins/nvd3/nv.d3.min.css" rel="stylesheet" type="text/css" media="screen" />
             <link href="{$baseUrl}Public/assets/plugins/mapplic/css/mapplic.css" rel="stylesheet" type="text/css" />
             <link href="{$baseUrl}Public/assets/plugins/rickshaw/rickshaw.min.css" rel="stylesheet" type="text/css" />
-{*            <link href="{$baseUrl}Public/assets/plugins/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" type="text/css" media="screen">*}
+            {*            <link href="{$baseUrl}Public/assets/plugins/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" type="text/css" media="screen">*}
             <link href="{$baseUrl}Public/assets/plugins/jquery-metrojs/MetroJs.css" rel="stylesheet" type="text/css" media="screen" />
             <link href="{$baseUrl}Public/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
             <link class="main-stylesheet" href="{$baseUrl}Public/pages/css/pages.css" rel="stylesheet" type="text/css" />
@@ -84,7 +84,9 @@
             <!-- END SIDEBAR MENU TOP TRAY CONTENT-->
             <!-- BEGIN SIDEBAR MENU HEADER-->
             <div class="sidebar-header">
-                <img src="{$baseUrl}Public/assets/img/logo_white.png" alt="logo" class="brand" data-src="{$baseUrl}Public/assets/img/logo_white.png" data-src-retina="assets/img/logo_white_2x.png" width="78" height="22">
+
+                <span class="h5" style="color: white; "  >{$NomeSistema}</span>
+                {*                                <img src="{$baseUrl}Public/assets/img/logo_white.png" alt="logo" class="brand" data-src="{$baseUrl}Public/assets/img/logo_white.png" data-src-retina="assets/img/logo_white_2x.png" width="78" height="22">*}
                 <div class="sidebar-header-controls">
                     <button type="button" class="btn btn-xs sidebar-slide-toggle btn-link m-l-20" data-pages-toggle="#appMenu"><i class="fa fa-angle-down fs-16"></i>
                     </button>
@@ -144,7 +146,8 @@
                 <div class=" pull-left sm-table hidden-xs hidden-sm">
                     <div class="header-inner">
                         <div class="brand inline">
-                            <img src="{$baseUrl}Public/assets/img/logo.png" alt="logo" data-src="{$baseUrl}Public/assets/img/logo.png" data-src-retina="assets/img/logo_2x.png" width="78" height="22">
+                            <h4>{$NomeSistema}</h4>
+                            {*                            <img src="{$baseUrl}Public/assets/img/logo.png" alt="logo" data-src="{$baseUrl}Public/assets/img/logo.png" data-src-retina="assets/img/logo_2x.png" width="78" height="22">*}
                         </div>
                     </div>
                 </div>
@@ -704,7 +707,7 @@
         <script src="{$baseUrl}Public/assets/plugins/switchery/js/switchery.min.js" type="text/javascript"></script>
         <!-- end of default js -->
         <!-- From here down, is the dashbord js (I think so!) -->
-{*
+        {*
         <script src="{$baseUrl}Public/assets/plugins/nvd3/lib/d3.v3.js" type="text/javascript"></script>
         <script src="{$baseUrl}Public/assets/plugins/nvd3/nv.d3.min.js" type="text/javascript"></script>
         <script src="{$baseUrl}Public/assets/plugins/nvd3/src/utils.js" type="text/javascript"></script>
@@ -731,8 +734,8 @@
         <script src="{$baseUrl}Public/pages/js/pages.min.js"></script>
         <!-- END CORE TEMPLATE JS -->
         <!-- BEGIN PAGE LEVEL JS -->
-{*        <script src="{$baseUrl}Public/assets/js/dashboard.js" type="text/javascript"></script>*}
-{*        <script src="{$baseUrl}Public/assets/js/scripts.js" type="text/javascript"></script>*}
+        {*        <script src="{$baseUrl}Public/assets/js/dashboard.js" type="text/javascript"></script>*}
+        {*        <script src="{$baseUrl}Public/assets/js/scripts.js" type="text/javascript"></script>*}
         <!-- END PAGE LEVEL JS -->
     </body>
 </html>

@@ -73,7 +73,7 @@ class IndexController extends AbstractController {
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 
-        $menu = new Ui_Element_MenuItem('Profile', 'Profile', HTTP_REFERER . 'usuario/viewprofile/id/'.Usuario::getIDUsuarioLogado(), '', 'head');
+        $menu = new Ui_Element_MenuItem('Profile', 'Profile', HTTP_REFERER . 'usuario/viewprofile/id/' . Usuario::getIDUsuarioLogado(), '', 'head');
         $mainMenu->addMenuItem($menu);
 //
 //        $menu2 = new Ui_Element_MenuItem('events', 'Indexs2', HTTP_REFERER . 'events', '', 'calendar');
@@ -85,6 +85,7 @@ class IndexController extends AbstractController {
         $mainMenu->addMenuItem($menu);
 
         if (true) {
+
 
             $menu2 = new Ui_Element_MenuItem('activities', 'Activities', HTTP_REFERER . 'activity', '', '', '3 new Activities created!');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
@@ -100,6 +101,10 @@ class IndexController extends AbstractController {
 
             $menu2 = new Ui_Element_MenuItem('Eventtype', 'Event Type', HTTP_REFERER . 'eventtype', '', '');
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
+            $menu->addSubMenu($menu2);
+
+            $menu2 = new Ui_Element_MenuItem('places', 'Places', HTTP_REFERER . 'place', '', '', '3 new Places created!');
+//        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
 
             $menu2 = new Ui_Element_MenuItem('trips2', 'Trips', HTTP_REFERER . 'trip', '', '', '10 new Trips');

@@ -104,17 +104,17 @@ class LoginController extends AbstractController {
 
     public function btnloginclickAction() {
         $form = Session_Control::getDataSession('formLogin');
+        $br = new Browser_Control();
 
         $limpaSession = false;
 
-        $valid = $form->processAjax($_POST);
-
-        $br = new Browser_Control();
-        if ($valid != 'true') {
-            $br->validaForm($valid);
-            $br->send();
-            exit;
-        }
+//        $valid = $form->processAjax($_POST);
+//
+//        if ($valid != 'true') {
+//            $br->validaForm($valid);
+//            $br->send();
+//            exit;
+//        }
 
         $post = Zend_Registry::get('post');
 

@@ -150,7 +150,7 @@ class DbupdateController extends AbstractController {
         $form->setName($this->ItemEditFormName);
 
         $element = new Ui_Element_Text('filename', "File Name");
-        $element->setAttrib('maxlength', 30);
+        $element->setAttrib('maxlength', 100);
         $element->setValue($obj->filename);
         $element->setReadOnly($obj->filename != '');
         $form->addElement($element);

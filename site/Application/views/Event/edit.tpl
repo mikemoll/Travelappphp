@@ -102,7 +102,7 @@
 
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-12 text-center">
         {$btnSave} {$btnCancel}
     </div>
 </div>

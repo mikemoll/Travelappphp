@@ -87,7 +87,7 @@ $form->addElement($element);
 </div>
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-12 text-center">
         {$btnSalvar} {$btnCancel}
     </div>
 </div>

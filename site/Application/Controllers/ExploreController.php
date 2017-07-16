@@ -31,6 +31,7 @@ class ExploreController extends AbstractController {
         $post = Zend_Registry::get('post');
 
         $q = $post->q;
+        $type = $post->type;
 
 
 
@@ -48,64 +49,28 @@ class ExploreController extends AbstractController {
         $form->addElement($element);
 
         $button = new Ui_Element_Btn('btnSearch');
-        $button->setDisplay('', 'search');
+        $button->setDisplay('Search', '');
 //        $button->setType('success');
         $button->setSendFormFiends();
 //        $button->setAttrib('validaObrig', '1');
-        $button->setAttrib('onclick', 'return false;');
+        $form->addElement($button);
+
+        $button = new Ui_Element_Btn('btnFeelingLucky');
+        $button->setDisplay('Feeling lucky', '');
+//        $button->setType('success');
+        $button->setSendFormFiends();
+//        $button->setAttrib('validaObrig', '1');
         $form->addElement($button);
 
         $form->setDataSession();
 
-        // ---- GOOGLE ----------
-        $type = $post->type != '' ? $post->type : '(regions)';
-
-        if ($q != '') {
-            $ret = $this->callAPI(array('query' => $q, 'type' => $type));  // commneted to stop making requests
-//        $ret->results = array();
-//        print'<pre>';die(print_r( $ret ));
-            foreach ($ret->results as $value) {
-                $place['place_id'] = $value->place_id;
-                $place['formatted_address'] = $value->formatted_address;
-                $place['name'] = $value->name;
-                $place['rating'] = $value->rating;
-                $place['types'] = $value->types;
-                foreach ($value->photos as $photo) {
-                    $photo2['src'] = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=' . $photo->photo_reference . '&key=AIzaSyDsL2HI8bxi78DT4oHVw1XTOT4qKjksPi0';
-                    $place['photos'][] = $photo2;
-                }
-                $places[] = $place;
-                $place = array();
-            }
-            if (count($places) == 0) {
-                $place['place_id'] = '21212';
-                $place['formatted_address'] = 'Paris, France';
-                $place['name'] = 'Paris';
-                $place['rating'] = 4.5;
-//            $place['types'] = $value->types;
-                $photo2['src'] = 'http://www.ladyhattan.com/wp-content/uploads/2014/03/Eiffel-Tower-Paris-France.jpg';
-                $place['photos'][] = $photo2;
-                $places[] = $place;
-                $place = array();
-            }
-//        print'<pre>';
-//        die(print_r($places));
-//        dr($places);
-            $view->assign('places', $places);
-            Db_Table::setSession('places', $places);
-        }
-//        $ActivityLst = new Activity();
-//        $ActivityLst->where('activityname', $q, 'like', 'or', 'q');
-////        $ActivityLst->where('location', $q, 'like', 'or', 'q');
+        // ------- PLACES   - --------------
+        $ActivityLst = new Place();
+        $ActivityLst->where('name', $q, 'like', 'or', 'q');
+//        $ActivityLst->where('location', $q, 'like', 'or', 'q');
 //        $ActivityLst->where('description', $q, 'like', 'or', 'q');
-//        $ActivityLst->readLst();
-//
-//        for ($i = 0; $i < $ActivityLst->countItens(); $i++) {
-//            $Activity = $ActivityLst->getItem($i);
-//
-//            $view->assign('item', $Activity);
-//            $activityHtml .= $view->fetch('Explore/activityCard.tpl');
-//        }
+        $ActivityLst->readLst();
+        $view->assign('placeLst', $ActivityLst->getItens());
         // ---- Activities ----------
         $ActivityLst = new Activity();
 //        $ActivityLst->where('activityname', $q, 'like', 'or', 'q');
@@ -136,37 +101,14 @@ class ExploreController extends AbstractController {
         $view->output('index.tpl');
     }
 
-    /**
-     * Method: POST, PUT, GET etc
-     * Data: array("param" => "value") ==> index.php?param=value
-     *
-     * @param type $method
-     * @param type $url
-     * @param type $data
-     * @return type
-     */
-    function callAPI($data = false) {
-//        https://maps.googleapis.com/maps/api/place/textsearch/json?query=paris&key=AIzaSyDsL2HI8bxi78DT4oHVw1XTOT4qKjksPi0
-        $url = 'https://maps.googleapis.com/maps/api/place/textsearch/json';
-        $data['key'] = 'AIzaSyDsL2HI8bxi78DT4oHVw1XTOT4qKjksPi0';
-        $url = sprintf("%s?%s", $url, http_build_query($data));
-
-
-        $result = file_get_contents($url);
-
-
-        $result = json_decode($result);
-        return $result;
-    }
-
     public function galeryitemclickAction() {
         $br = new Browser_Control();
         $post = Zend_Registry::get('post');
 
-        if ($post->place_id) {
+        if ($post->gplace_id) {
             $places = Db_Table::getSession('places');
             foreach ($places as $value) {
-                if ($value['place_id'] == $post->place_id) {
+                if ($value['place_id'] == $post->gplace_id) {
                     break;
                 }
             }
@@ -189,18 +131,37 @@ class ExploreController extends AbstractController {
                 $Item = new Event();
                 $id = $post->id_event;
                 $idName = 'id_event';
+            } else
+            if ($post->id_place) {
+                $Item = new Place();
+                $id = $post->id_place;
+                $idName = 'id_place';
             }
 
             $Item->read($id);
 
-            if ($Item->getActivityName() == '') {
-                $br->setHtml('itemTitle', $Item->getEventName());
-            } else {
+            if ($Item->getActivityName() != '') {
                 $br->setHtml('itemTitle', $Item->getActivityName());
+            } elseif ($Item->getName() != '') {
+                $br->setHtml('itemTitle', $Item->getName());
+            } else {
+                $br->setHtml('itemTitle', $Item->getEventName());
             }
             $br->setHtml('itemCountry', $Item->getCountry());
+            if ($Item->getFormatted_Address() != '') {
+                $br->setHtml('itemFormattedAddress', $Item->getFormatted_Address());
+            } else {
+                $br->setHtml('itemFormattedAddress', $Item->getCountry());
+            }
+            $br->setHtml('itemRating', $Item->getRatingHtml());
             $br->setHtml('itemDescription', $Item->getDescription());
-            $br->setHtmlByClass('itemPrice', '$' . $Item->getPrice());
+            if ($Item->getPrice() != '') {
+                $br->setShow('itemPriceLine');
+                $br->setHtmlByClass('itemPrice', '$' . $Item->getPrice());
+            } else {
+                $br->setHtmlByClass('itemPrice', '');
+                $br->setHide('itemPriceLine');
+            }
             $br->setAttrib('btnAddDream', 'params', $idName . '=' . $Item->getID());
 
             $lP = $Item->getPicsLst();
@@ -242,14 +203,14 @@ class ExploreController extends AbstractController {
         $dreamLts->where('dreamboard.id_usuario', Usuario::getIdUsuarioLogado());
         $dreamLts->where('dreamboard.id_activity', $post->id_activity, '=', 'or', 'id');
         $dreamLts->where('dreamboard.id_event', $post->id_event, '=', 'or', 'id');
-        $dreamLts->where('dreamboard.place_id', $post->place_id, '=', 'or', 'id');
+        $dreamLts->where('dreamboard.id_place', $post->id_place, '=', 'or', 'id');
         $dreamLts->readLst();
         if ($dreamLts->countItens() == 0) {
             $dream = new Dreamboard();
             $dream->setID_Usuario(Usuario::getIdUsuarioLogado());
-            $dream->setID_activity($post->id_activity);
+            $dream->setID_activity($post->isd_activity);
             $dream->setID_event($post->id_event);
-            $dream->setplace_id($post->place_id);
+            $dream->setid_place($post->id_place);
             $dream->save();
             $br->setMsgAlert('Done!', 'Your dream is saved!');
         } else {
@@ -269,7 +230,7 @@ class ExploreController extends AbstractController {
         $dreamLts->where('dreamboard.id_usuario', Usuario::getIdUsuarioLogado());
         $dreamLts->where('dreamboard.id_activity', $post->id_activity, '=', 'or', 'id');
         $dreamLts->where('dreamboard.id_event', $post->id_event, '=', 'or', 'id');
-        $dreamLts->where('dreamboard.place_id', $post->place_id, '=', 'or', 'id');
+        $dreamLts->where('dreamboard.id_place', $post->id_place, '=', 'or', 'id');
         $dreamLts->readLst();
         if ($dreamLts->countItens() > 0) {
             $dreamLts->getItem(0)->setDeleted()->save();
