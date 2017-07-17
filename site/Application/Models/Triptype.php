@@ -26,4 +26,26 @@ class Triptype extends Db_Table {
         $this->setTriptypename($post->triptypename);
     }
 
+    public static function getTripTypeIcon($id) {
+        return BASE_URL . 'Public/Images/triptype/' . $id .'.png';
+    }
+
+    public static function getAllTripTypesLst() {
+
+        $triptypes = new Triptype();
+        $triptypes->readLst();
+        $list = array();
+        if ($triptypes->countItens() > 0) {
+            for ($i = 0; $i < $triptypes->countItens(); $i++) {
+                $tt = $triptypes->getItem($i);
+                $id = $tt->getid_triptype();
+                $ttdata = array();
+                $ttdata['description'] = $tt->gettriptypename();
+                $ttdata['icon'] = Triptype::getTripTypeIcon($id);
+                $list[$id] = $ttdata;
+            }
+        }
+        return $list;
+    }
+
 }

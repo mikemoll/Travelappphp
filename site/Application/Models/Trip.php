@@ -32,4 +32,82 @@ class Trip extends Db_Table {
         $this->setenddate($post->getUnescaped('enddate'));
     }
 
+
+    public function getTripTriptypesLst() {
+        if ($this->TripTriptypesLst == null) {
+            $this->TripTriptypesLst = new TripTriptype();
+        }
+        return $this->TripTriptypesLst;
+    }
+
+    public function getTripUserLst() {
+        if ($this->TripUserLst == null) {
+            $this->TripUserLst = new TripUser();
+        }
+        return $this->TripUserLst;
+    }
+
+
+    public function save() {
+
+        //print_r($this);die('<br><br>\n\n' . ' Linha: ' . __LINE__ . ' Arquivo: ' . __FILE__);
+
+        switch ($this->getState()) {
+
+            case cDELETE:
+
+
+                $lLst = $this->getTripTriptypesLst();
+                if ($lLst->countItens() > 0) {
+                    for ($i = 0; $i < $lLst->countItens(); $i++) {
+                        $Item = $lLst->getItem($i);
+                        $Item->setDeleted();
+                    }
+                    $lLst->save();
+                }
+
+                $lLst = $this->getTripUserLst();
+                if ($lLst->countItens() > 0) {
+                    for ($i = 0; $i < $lLst->countItens(); $i++) {
+                        $Item = $lLst->getItem($i);
+                        $Item->setDeleted();
+                    }
+                    $lLst->save();
+                }
+
+
+                parent::save();
+                break;
+
+            case cCREATE:
+            case cUPDATE:
+
+                //  print_r($this);die('<br><br>\n\n' . ' Linha: ' . __LINE__ . ' Arquivo: ' . __FILE__);
+
+                parent::save();
+
+                $lLst = $this->getTripTriptypesLst();
+
+                if ($lLst->countItens() > 0) {
+                    for ($i = 0; $i < $lLst->countItens(); $i++) {
+                        $Item = $lLst->getItem($i);
+                        $Item->setid_trip($this->getID());
+                        $Item->save();
+                    }
+                }
+
+                $lLst = $this->getTripUserLst();
+
+                if ($lLst->countItens() > 0) {
+                    for ($i = 0; $i < $lLst->countItens(); $i++) {
+                        $Item = $lLst->getItem($i);
+                        $Item->setid_trip($this->getID());
+                        $Item->save();
+                    }
+                }
+
+                break;
+        }
+    }
+
 }

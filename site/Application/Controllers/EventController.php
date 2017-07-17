@@ -219,8 +219,8 @@ class EventController extends AbstractController {
         $element = new Ui_Element_Select('friends', 'event type');
         $friends = new Friend();
         $friends->where('friend.id_usuario', Usuario::getIdUsuarioLogado());
-        $friends->join('eventuser', 'eventuser.id_usuario != friend.id_friend', 'eventuser.id_usuario', 'left');
-        $element->addMultiOptions(Db_Table::getOptionList2('id_friend', 'nomecompleto', 'nomecompleto', $friends, false));
+        $friends->join('eventuser', 'eventuser.id_usuario != friend.id_usuario_friend', 'eventuser.id_usuario', 'left');
+        $element->addMultiOptions(Db_Table::getOptionList2('id_usuario_friend', 'nomecompleto', 'nomecompleto', $friends, false));
         $element->setMultiSelect();
         $form->addElement($element);
 
@@ -461,9 +461,9 @@ class EventController extends AbstractController {
 //        $br->setRemoveWindow('EditInvite');
         $friends = new Friend();
         $friends->where('friend.id_usuario', Usuario::getIdUsuarioLogado());
-        $friends->join('eventuser', 'eventuser.id_usuario != friend.id_friend', 'eventuser.id_usuario');
+        $friends->join('eventuser', 'eventuser.id_usuario != friend.id_usuario_friend', 'eventuser.id_usuario');
         $br->addFieldValue('friends', array(), 'select');
-        $br->addFieldValue('friends', Db_Table::getOptionList2('id_friend', 'nomecompleto', 'nomecompleto', $friends, false), 'select');
+        $br->addFieldValue('friends', Db_Table::getOptionList2('id_usuario_friend', 'nomecompleto', 'nomecompleto', $friends, false), 'select');
         $br->setDataForm();
         $br->setUpdateDataTables('gridUser');
         $br->send();
