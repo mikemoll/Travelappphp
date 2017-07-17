@@ -1,10 +1,9 @@
-<h1 class="light">Welcome to<br>Tumbleweed</h1>
-<h3 class="light">Explore.<br/>
-Dream board.<br/>
-Plan.<br/>
-Then Travel your greatest memories</h3>
 
-
+<h1 class="light">{$firstname}, Welcome to<br>Tumbleweed</h1>
+<h3 class="light">We’re going to help you create your greatest travel memories.</h3>
+<h5>Lets set up your profile first.</h5>
+<h1>Step 1 of 4</h1>
+<h5>Where is home base?</h5>
 <div class="form-group form-group-default col-md-12">
     <div class="col-md-6 no-padding">
         <label>Home Town</label>
@@ -12,7 +11,6 @@ Then Travel your greatest memories</h3>
             {$hometowncity}
         </div>
     </div>
-
 </div>
 <div class="form-group form-group-default col-md-12">
     <div class=" no-padding">

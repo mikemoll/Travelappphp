@@ -1,31 +1,34 @@
-<h1 class="light">Tumbleweed</h1>
-<h3 class="light">Let us a bit about yourself. <br>
-Have some fun. </h3>
+<h1>Step 4 of 4</h1>
+<h3 class="light">You’re almost ready to explore…</h3>
+<h5>Let us a bit about the traveller in you?</h5>
 
 <div class="form-group form-group-default col-md-12">
-
-    <label>Lets fill out your bio </label>
+    <label>Let's fill out your Travel bio</label>
     <div class="controls">
         {$bio}
     </div>
-
 </div>
+
 <div class="form-group form-group-default col-md-12">
-
-    <label>Occupation</label>
+    <label>Facebook</label>
     <div class="controls">
-        {$occupation}
+        {$facebook}
     </div>
-
 </div>
+
 <div class="form-group form-group-default col-md-12">
-
-    <label>Dream Job</label>
+    <label>Instagram</label>
     <div class="controls">
-        {$dreamjob}
+        {$instagram}
     </div>
-
 </div>
 
-{$btnSkip5}
+<div class="form-group form-group-default col-md-12">
+    <label>Twitter</label>
+    <div class="controls">
+        {$twitter}
+    </div>
+</div>
+
+{$btnFinish}
 {$btnContinue5}

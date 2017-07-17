@@ -1,4 +1,4 @@
-<h1 class="light">Tumbleweed</h1>
+<h1>Step 3 of 4</h1>
 <h3 class="light">Where have you traveled to so far?</h3>
 
 <p>This will help us recommend new exciting place for you to explore. We’re also building a global leaderboard… Can you go everywhere?</p>

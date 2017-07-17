@@ -1,5 +1,5 @@
-<h1 class="light">Tumbleweed</h1>
-<h3 class="light">Where are you living now?</h3>
+<h1>Step 2 of 4</h1>
+<h3 class="light" style="padding-bottom: 50px;">Ok {$nomecompleto}, Where are you living/visiting now?</h3>
 
 <div class="form-group form-group-default col-md-12">
     <div class="col-md-6 no-padding">

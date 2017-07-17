@@ -592,6 +592,7 @@ class LoginController extends AbstractController {
 
         $view = Zend_Registry::get('view');
 
+        $view->assign('firstname',$obj->getnomecompleto() );
         $view->assign('background',BASE_URL.'Public/Images/signup/2.jpg' );
 
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
@@ -739,7 +740,6 @@ class LoginController extends AbstractController {
         $br->send();
     }
 
-
     public function newuser4Action() {
         $id = Usuario::getIDUsuarioLogado();
         if (($id == '')||($id == NULL)) {
@@ -762,7 +762,7 @@ class LoginController extends AbstractController {
         $element = new Ui_Element_Textarea('traveledto');
         $element->setAttrib('rows', 8);
         $element->setAttrib('maxlength', 255);
-        $element->setAttrib('placeholder', 'Let your friends know the awesome places you traveled to!');
+        $element->setAttrib('placeholder', 'E.g. China, Paris, Rome...');
         $form->addElement($element);
 
         $button = new Ui_Element_Btn('btnSkip4');
@@ -853,19 +853,25 @@ class LoginController extends AbstractController {
         $element = new Ui_Element_Textarea('bio');
         $element->setAttrib('rows', 4);
         $element->setAttrib('maxlength', 140);
-        $element->setAttrib('placeholder', 'Tell us how awesome you are, your favourite quote etc.');
+        $element->setAttrib('placeholder', 'E.g. 30 countries and counting lover of world cultures, languages, souls, food and oceans...');
         $form->addElement($element);
 
-        $element = new Ui_Element_Text('occupation');
-        $element->setAttrib('maxlength', 60);
+        $element = new Ui_Element_Text('instagram');
+        $element->setAttrib('maxlength', 45);
         $element->setHideRemainingCharacters();
-        $element->setAttrib('placeholder', 'We all got bills to pay');
+        $element->setAttrib('placeholder', 'your_instagram_username');
         $form->addElement($element);
 
-        $element = new Ui_Element_Text('dreamjob');
-        $element->setAttrib('maxlength', 60);
+        $element = new Ui_Element_Text('twitter');
+        $element->setAttrib('maxlength', 45);
         $element->setHideRemainingCharacters();
-        $element->setAttrib('placeholder', 'bungee jumping instuctor, panda cuddler, self-made millionaire');
+        $element->setAttrib('placeholder', 'your_twitter_username');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('facebook');
+        $element->setAttrib('maxlength', 45);
+        $element->setHideRemainingCharacters();
+        $element->setAttrib('placeholder', 'your.facebook.profile');
         $form->addElement($element);
 
         $button = new Ui_Element_Btn('btnSkip5');
@@ -897,7 +903,7 @@ class LoginController extends AbstractController {
 
     public function btnskip5clickAction($enviar = false) {
         $br = new Browser_Control();
-        $br->setBrowserUrl(BASE_URL . 'login/newuser6');
+        $br->setBrowserUrl(BASE_URL . 'index');
         $br->send();
     }
 
@@ -917,8 +923,11 @@ class LoginController extends AbstractController {
         $lObj = new Usuario();
         $lObj->read($id);
         $lObj->setbio($post->bio);
-        $lObj->setoccupation($post->occupation);
-        $lObj->setdreamjob($post->dreamjob);
+        // $lObj->setoccupation($post->occupation);
+        // $lObj->setdreamjob($post->dreamjob);
+        $lObj->setinstagram($post->instagram);
+        $lObj->settwitter($post->twitter);
+        $lObj->setfacebook($post->facebook);
 
         //saving the user data
         try {
@@ -930,7 +939,7 @@ class LoginController extends AbstractController {
             die();
         }
 
-        $br->setBrowserUrl(BASE_URL . 'login/newuser6/');
+        $br->setBrowserUrl(BASE_URL . 'index');
         $br->send();
     }
 
