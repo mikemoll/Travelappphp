@@ -1,6 +1,24 @@
 
 {*<link class="main-stylesheet" href="{$baseUrl}Public/pages/css/themes/simple.css" rel="stylesheet" type="text/css" />*}
 
+{literal}
+    <style>
+
+        .social-wrapper,
+        .social {
+            height: 100%;
+            width: 100%;
+        }
+        .cover-img-container .cover-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            min-width: 100%;
+            min-height: 100%;
+        }
+    </style>
+{/literal}
 <div class="social-wrapper">
     <div class="social " data-pages="social">
         <!-- START JUMBOTRON -->

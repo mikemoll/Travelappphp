@@ -36,18 +36,33 @@ class DreamboardController extends AbstractController {
         $form->setName($this->ItemEditFormName);
 
 
-        $element = new Ui_Element_Text('search2');
-        $element->setPlaceholder('Search for places, activities or events');
-        $element->setAttrib('hotkeys', 'enter, btnSearch, click');
-        $element->setValue($q);
-        $form->addElement($element);
+        $view->assign('title1', 'Welcome to your dream board, ' . Usuario::getNomeUsuarioLogado());
+        $view->assign('title2', 'We hope you get to experience as many of your travel dreams as possible');
 
-        $button = new Ui_Element_Btn('btnSearch');
-        $button->setDisplay('', 'search');
-//        $button->setType('success');
-        $button->setSendFormFiends();
-//        $button->setAttrib('validaObrig', '1');
-        $button->setAttrib('onclick', 'return false;');
+
+//        $element = new Ui_Element_Text('search2');
+//        $element->setPlaceholder('Search for places, activities or events');
+//        $element->setAttrib('hotkeys', 'enter, btnSearch, click');
+//        $element->setValue($q);
+//        $form->addElement($element);
+//        $button = new Ui_Element_Btn('btnSearch');
+//        $button->setDisplay('', 'search');
+////        $button->setType('success');
+//        $button->setSendFormFiends();
+////        $button->setAttrib('validaObrig', '1');
+//        $button->setAttrib('onclick', 'return false;');
+//        $form->addElement($button);
+
+        $button = new Ui_Element_Btn('btnDiscover');
+        $button->setDisplay('Discover More', '');
+        $button->setHref(HTTP_HOST . BASE_URL . 'explore');
+//        $button->setHref('#none');
+        $form->addElement($button);
+
+        $button = new Ui_Element_Btn('btnCreateTrip');
+        $button->setDisplay('Create a trip', '');
+//        $button->setHref(HTTP_HOST . BASE_URL . 'trip/index/q/' . $post->search2);
+        $button->setHref('#none');
         $form->addElement($button);
 
         $form->setDataSession();

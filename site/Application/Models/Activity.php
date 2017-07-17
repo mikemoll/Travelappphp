@@ -42,6 +42,7 @@ class Activity extends Db_Table {
 
     function readLst($modo = 'obj') {
         $this->join('dreamboard', 'dreamboard.id_activity = activity.id_activity and id_usuario = ' . Usuario::getIdUsuarioLogado(), 'id_activity as favorite', 'left');
+        $this->join('activitytype', 'activitytype.id_activitytype = activity.id_activitytype', 'activitytypename', 'left');
         parent::readLst($modo);
     }
 

@@ -44,6 +44,7 @@ class Event extends Db_Table {
 
     function readLst($modo = 'obj') {
         $this->join('dreamboard', 'dreamboard.id_event = event.id_event and id_usuario = ' . Usuario::getIdUsuarioLogado(), 'id_event as favorite', 'left');
+        $this->join('eventtype', 'eventtype.id_eventtype = event.id_eventtype', 'description as eventtypename', 'left');
         parent::readLst($modo);
     }
 

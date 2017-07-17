@@ -29,3 +29,5 @@ CHANGE COLUMN `id_trip` `id_trip` BIGINT(20) NOT NULL ,
 CHANGE COLUMN `id_place` `id_place` BIGINT(20) NOT NULL ,
 ADD INDEX `fk_tripplace_place_idx` (`id_place` ASC), 
 RENAME TO  `tripplace` ;
+
+ALTER TABLE `tripplace` CHANGE `id_tripcity` `id_tripplace` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT;

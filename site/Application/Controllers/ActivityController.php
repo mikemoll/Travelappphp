@@ -254,14 +254,7 @@ class ActivityController extends AbstractController {
         }
 //        print'<pre>';die(print_r( $photo ));
         //Put the uploaded file in the proper folder
-        if ($photo['name'] != '') {
-            $path = RAIZ_DIRETORY . 'site/Public/Images/Activity';
-            if (!file_exists($path)) {
-                mkdir($path, 0777, true);
-            }
-            move_uploaded_file($photo['tmp_name'], $path . '/' . $lObj->getID() . '_' . $lObj->getPhoto());
-            $br->setAttrib('PhotoPath', 'src', $lObj->getPhotoPath());
-        }
+
 
         $lObj->setDataFromRequest($post);
         try {
@@ -272,6 +265,17 @@ class ActivityController extends AbstractController {
             $br->send();
             die();
         }
+
+        if ($photo['name'] != '') {
+            $path = RAIZ_DIRETORY . 'site/Public/Images/Activity';
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+            move_uploaded_file($photo['tmp_name'], $path . '/' . $lObj->getID() . '_' . $lObj->getPhoto());
+            $br->setAttrib('PhotoPath', 'src', $lObj->getPhotoPath());
+        }
+
+
         $msg = '';
         $br->setMsgAlert('Saved!', $msg);
         $br->setBrowserUrl(BASE_URL . $this->Action);

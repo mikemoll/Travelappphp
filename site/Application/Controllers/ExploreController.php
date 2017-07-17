@@ -34,6 +34,8 @@ class ExploreController extends AbstractController {
         $type = $post->type;
 
 
+        $view->assign('title1', 'Tumbleweed');
+        $view->assign('title2', 'go everywhere');
 
         $form = new Ui_Form();
         $form->setAction($this->Action);
@@ -200,6 +202,7 @@ class ExploreController extends AbstractController {
     }
 
     public function btnadddreamclickAction() {
+        $view = Zend_Registry::get('view');
         $post = Zend_Registry::get('post');
         $br = new Browser_Control();
 
@@ -212,14 +215,17 @@ class ExploreController extends AbstractController {
         if ($dreamLts->countItens() == 0) {
             $dream = new Dreamboard();
             $dream->setID_Usuario(Usuario::getIdUsuarioLogado());
-            $dream->setID_activity($post->isd_activity);
+            $dream->setID_activity($post->id_activity);
             $dream->setID_event($post->id_event);
             $dream->setid_place($post->id_place);
+//            print'<pre>';die(print_r( $dream ));
             $dream->save();
-            $br->setMsgAlert('Done!', 'Your dream is saved!');
+            $view->assign('cardName', $post->cardname);
+            $br->setAlert('Great Choice ' . Usuario::getNomeUsuarioLogado(), $view->fetch('Explore/msg_add_dream.tpl'));
         } else {
-
-            $br->setMsgAlert('Done!', 'This place was already saved!');
+            $view->assign('cardName', $post->cardname);
+            $br->setAlert('Great Choice ' . Usuario::getNomeUsuarioLogado(), $view->fetch('Explore/msg_add_dream.tpl'));
+//            $br->setMsgAlert('Done!', 'This place was already saved!');
         }
 
         $br->setClass("itemDetails", "dialog item-details dialog");
