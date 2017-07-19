@@ -110,84 +110,6 @@ class TripController extends AbstractController {
         $view->output('index.tpl');
     }
 
-    public function searchcityclickAction() {
-        $br = new Browser_Control();
-        $view = Zend_Registry::get('view');
-        $post = Zend_Registry::get('post');
-
-        $q = $post->q;
-
-        // ---- GOOGLE ----------
-        $places = array();
-        if ($q != '') {
-            $ret = $this->callAPI(array('query' => $q, 'type' => '(regions)'));  // commneted to stop making requests
-
-            $res = $ret->results;
-            foreach ($res as $value) {
-                var_dump($value); die();
-                $place['place_id'] = $value->place_id;
-                $place['formatted_address'] = $value->formatted_address;
-                $place['name'] = $value->name;
-                $place['rating'] = $value->rating;
-                $place['types'] = $value->types;
-
-                $ph = $value->photos;
-                if (is_array($ph)) {
-                    foreach ($ph as $photo) {
-                        $photo2['src'] = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=500&photoreference=' . $photo->photo_reference . '&key=AIzaSyDsL2HI8bxi78DT4oHVw1XTOT4qKjksPi0';
-                        $place['photos'][] = $photo2;
-                    }
-                } else {
-                    $place['photos'] = array();
-                }
-                $places[] = $place;
-                $place = array();
-            }
-//             if (count($places) == 0) {
-//                 $place['place_id'] = '21212';
-//                 $place['formatted_address'] = 'Paris, France';
-//                 $place['name'] = 'Paris';
-//                 $place['rating'] = 4.5;
-// //            $place['types'] = $value->types;
-//                 $photo2['src'] = 'http://www.ladyhattan.com/wp-content/uploads/2014/03/Eiffel-Tower-Paris-France.jpg';
-//                 $place['photos'][] = $photo2;
-//                 $places[] = $place;
-//                 $place = array();
-//             }
-        }
-
-        $view->assign('places', $places);
-        Db_Table::setSession('places', $places);
-
-
-        $br->setHtml('placesdiv',$view->fetch('Trip/app/searchCity.tpl'));
-        $br->send();
-    }
-
-    /**
-     * Method: POST, PUT, GET etc
-     * Data: array("param" => "value") ==> index.php?param=value
-     *
-     * @param type $method
-     * @param type $url
-     * @param type $data
-     * @return type
-     */
-    function callAPI($data = false) {
-//        https://maps.googleapis.com/maps/api/place/textsearch/json?query=paris&key=AIzaSyDsL2HI8bxi78DT4oHVw1XTOT4qKjksPi0
-        $url = 'https://maps.googleapis.com/maps/api/place/textsearch/json';
-        $data['key'] = 'AIzaSyDsL2HI8bxi78DT4oHVw1XTOT4qKjksPi0';
-        $url = sprintf("%s?%s", $url, http_build_query($data));
-
-
-        $result = file_get_contents($url);
-
-
-        $result = json_decode($result);
-        return $result;
-    }
-
-
     public function editAction() {
         $br = new Browser_Control();
         $post = Zend_Registry::get('post');
@@ -565,10 +487,10 @@ class TripController extends AbstractController {
 
         // ----------------------
         /* @var $lObj Trip */
-        $lObj = Trip::getInstance('newTrip');
+        $lObj = new Trip();
+        $lObj->read($post->id_trip);
 
         // save the trip types
-
         $destLst = $lObj->getTripTriptypesLst();
 
         // for ($i = 0; $i < $destLst->countItens(); $i++) { // mark all to delete
@@ -602,7 +524,8 @@ class TripController extends AbstractController {
             }
         // }
 
-        $lObj->setDataFromRequest($post);
+        //$lObj->setDataFromRequest($post);
+
         try {
             $lObj->save();
             $lObj->setInstance('newTrip');
@@ -628,11 +551,13 @@ class TripController extends AbstractController {
         $form->setAttrib('role', 'form');
 
 
-        $form->setDataForm($obj);
         $obj = new Trip;
-        //$obj->read($id);
-        $form->setDataForm($obj);
+        $obj->read($post->id);
         $obj->setInstance('newTrip');
+
+        $element = new Ui_Element_Hidden('id_trip');
+        $element->setValue($post->id);
+        $form->addElement($element);
 
         $element = new Ui_Element_Text('friendname1');
         $element->setAttrib('maxlength', 35);
@@ -705,6 +630,7 @@ class TripController extends AbstractController {
 
         $view = Zend_Registry::get('view');
 
+        $view->assign('tripname', $obj->gettripname());
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'New trip');
@@ -730,7 +656,8 @@ class TripController extends AbstractController {
 
         // ----------------------
         /* @var $lObj Trip */
-        $lObj = Trip::getInstance('newTrip');
+        $lObj = new Trip();
+        $lObj->read($post->id_trip);
 
         // save the trip types
 
@@ -770,10 +697,10 @@ class TripController extends AbstractController {
                 }
         }
         // }
-        
+
         // for a while I'm not saving the name/ e-mail
 
-        $lObj->setDataFromRequest($post);
+        //$lObj->setDataFromRequest($post);
         try {
             $lObj->save();
             $lObj->setInstance('newTrip');
@@ -798,29 +725,49 @@ class TripController extends AbstractController {
         $form->setAttrib('class', 'form-signin');
         $form->setAttrib('role', 'form');
 
-
-        $form->setDataForm($obj);
         $obj = new Trip;
         $obj->read($post->id);
-        $form->setDataForm($obj);
         $obj->setInstance('newTrip');
 
         $element = new Ui_Element_Hidden('id_trip');
         $element->setValue($post->id);
         $form->addElement($element);
 
-        $button = new Ui_Element_Btn('btnNext4');
-        $button->setDisplay('Next');
-        $button->setAttrib('sendFormFields', '1');
-        $button->setAttrib('validaObrig', '1');
-        $button->setAttrib('class', 'btn btn-primary  btn-cons m-t-10');
+        $element = new Ui_Element_Text('search2');
+        $element->setPlaceholder("Search for places and click on the place that you're going to");
+        $element->setAttrib('hotkeys', 'enter, btnSearch, click');
+        $element->setValue($q);
+        $form->addElement($element);
+
+        $button = new Ui_Element_Btn('btnSearch');
+        $button->setDisplay('Search', '');
+//        $button->setType('success');
+        $button->setSendFormFiends();
+//        $button->setAttrib('validaObrig', '1');
         $form->addElement($button);
+
+        $button = new Ui_Element_Btn('btnFeelingLucky');
+        $button->setDisplay('Feeling lucky', '');
+//        $button->setType('success');
+        $button->setSendFormFiends();
+//        $button->setAttrib('validaObrig', '1');
+        $form->addElement($button);
+
+        $form->setDataSession();
+
+        // $button = new Ui_Element_Btn('btnNext4');
+        // $button->setDisplay('Next');
+        // $button->setAttrib('sendFormFields', '1');
+        // $button->setAttrib('validaObrig', '1');
+        // $button->setAttrib('class', 'btn btn-primary  btn-cons m-t-10');
+        // $form->addElement($button);
 
         $form->setDataSession('formNewtrip');
 
         $view = Zend_Registry::get('view');
 
         $view->assign('tripname', $obj->gettripname());
+        $view->assign('id_trip', $post->id);
 
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
@@ -829,4 +776,269 @@ class TripController extends AbstractController {
         $view->assign('body', $html);
         $view->output('index.tpl');
     }
+
+    function defaultplacesloadAction() {
+        $br = new Browser_Control();
+        $view = Zend_Registry::get('view');
+        $post = Zend_Registry::get('post');
+
+        $q = $post->search2;
+
+        // ------- PLACES   - --------------
+        $PlacesList = new Place();
+        $PlacesList->where('place.name', $q, 'like', 'or', 'q');
+        $PlacesList->where('place.country', $q, 'like', 'or', 'q');
+        $PlacesList->where('searchquery', $q, 'like', 'or', 'q');
+//        $PlacesList->where('description', $q, 'like', 'or', 'q');
+        $PlacesList->readLst();
+        $view->assign('placeLst', $PlacesList->getItens());
+        $view->assign('id_trip', $post->id_trip);
+
+        Db_Table::setSession('places', $places);
+        $br->setHtml('placesdiv',$view->fetch('Trip/app/searchPlaces.tpl'));
+        $br->send();
+    } 
+
+    public function btnsearchclickAction() {
+        $this->defaultplacesloadAction();
+        // $post = Zend_Registry::get('post');
+        // $br = new Browser_Control();
+        // $br->setBrowserUrl(HTTP_HOST . BASE_URL . 'explore/index/q/' . $post->search2);
+        // $br->send();
+    }
+
+    public function newtripcityclickAction() {
+        $post = Zend_Registry::get('post');
+        $br = new Browser_Control();
+        $url = BASE_URL . 'trip/newtrip5/id_trip/'.$post->id_trip."/id_place/".$post->id_place;
+        $br->setBrowserUrl($url);
+        $br->send();
+    }
+     public function newtrip5Action() {
+
+        $view = Zend_Registry::get('view');
+        $post = Zend_Registry::get('post');
+
+        $form = new Ui_Form();
+        $form->setName('formNewTripPlace');
+        $form->setAction('trip');
+        $form->setAttrib('class', 'form-signin');
+        $form->setAttrib('role', 'form');
+
+        $trip = new Trip;
+        $trip->read($post->id_trip);
+
+        $place = new Place;
+        $place->read($post->id_place);
+
+        $element = new Ui_Element_Hidden('id_trip');
+        $element->setValue($post->id_trip);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Hidden('id_place');
+        $element->setValue($post->id_place);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Date('startdate');
+        //$element->setRequired();
+        $form->addElement($element);
+
+        $element = new Ui_Element_Date('enddate');
+        //$element->setRequired();
+        $form->addElement($element);
+
+        $button = new Ui_Element_Btn('btnNext5');
+        $button->setDisplay('Next');
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('validaObrig', '1');
+        $button->setAttrib('class', 'btn btn-primary  btn-cons m-t-10');
+        $form->addElement($button);
+
+        $form->setDataSession('formNewTripPlace');
+
+        $view = Zend_Registry::get('view');
+
+        $view->assign('tripname', $trip->gettripname());
+        $view->assign('placename', $place->getname());
+        $view->assign('formatted_address', $place->getformatted_address());
+        $view->assign('placephotopath', $place->getPhotoPath());
+
+
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
+        $view->assign('TituloPagina', 'New trip');
+        $html = $form->displayTpl($view, 'Trip/app/newtrip5.tpl');
+        $view->assign('body', $html);
+        $view->output('index.tpl');
+    }
+
+
+    public function btnnext5clickAction() {
+        $post = Zend_Registry::get('post');
+        $session = Zend_Registry::get('session');
+//        $usuario = $session->usuario;
+        $br = new Browser_Control();
+        // ----------------------
+
+        $form = Session_Control::getDataSession('formNewTripPlace');
+
+        $valid = $form->processAjax($_POST);
+
+        $br = new Browser_Control();
+        if ($valid != 'true') {
+            $br->validaForm($valid);
+            $br->send();
+            exit;
+        }
+
+        // ----------------------
+        /* @var $trip Trip */
+        $tripplace = new TripPlace();
+        $tripplace->setDataFromRequest1($post);
+
+        try {
+            $tripplace->save();
+            $tripplace->setInstance('newTripPlace');
+        } catch (Exception $exc) {
+            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+        $msg = '';
+
+        $br->setBrowserUrl(BASE_URL . 'trip/newtrip6/id_trip/'.$post->id_trip.'/id_tripplace/'.$tripplace->getID());
+        $br->send();
+    }
+
+     public function newtrip6Action() {
+
+        $view = Zend_Registry::get('view');
+        $post = Zend_Registry::get('post');
+
+        $form = new Ui_Form();
+        $form->setName('formNewTripPlace');
+        $form->setAction('trip');
+        $form->setAttrib('class', 'form-signin');
+        $form->setAttrib('role', 'form');
+
+        $trip = new Trip;
+        $trip->read($post->id_trip);
+
+        $tripplace = new TripPlace;
+        $tripplace->read($post->id_tripplace);
+
+        $place = new Place;
+        $place->read($tripplace->getid_place());
+
+
+        $element = new Ui_Element_Hidden('id_trip');
+        $element->setValue($post->id_trip);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Hidden('id_tripplace');
+        $element->setValue($post->id_tripplace);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('accomodation');
+        $element->setAttrib('maxlength', '100');
+        $element->setAttrib('placeholder', 'Know where are you staying?');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Checkbox('accomodationnotsure');
+        $element->setAttrib('label', 'Not sure yet!');
+        $element->setChecked(cFALSE);
+        $element->setCheckedValue("Y");
+        $element->setUncheckedValue("N");
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('budget');
+        $element->setAttrib('maxlength', '100');
+        $element->setAttrib('placeholder', 'What will be the costs?');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Checkbox('budgetnotsure');
+        $element->setAttrib('label', 'Not sure yet!');
+        $element->setChecked(cFALSE);
+        $element->setCheckedValue("Y");
+        $element->setUncheckedValue("N");
+        $form->addElement($element);
+
+        $button = new Ui_Element_Btn('btnFinish');
+        $button->setDisplay('Finish');
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('validaObrig', '1');
+        $button->setAttrib('class', 'btn btn-primary  btn-cons m-t-10');
+        $form->addElement($button);
+
+        $button = new Ui_Element_Btn('btnAddMorePlaces');
+        $button->setDisplay('Add more places');
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('validaObrig', '1');
+        $button->setAttrib('class', 'btn btn-success  btn-cons m-t-10');
+        $form->addElement($button);
+
+        $form->setDataSession('formNewtripCity');
+
+        $view = Zend_Registry::get('view');
+
+        $view->assign('tripname', $trip->gettripname());
+        $view->assign('placename', $place->getname());
+        $view->assign('formatted_address', $place->getformatted_address());
+        $view->assign('placephotopath', $place->getPhotoPath());
+
+
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
+        $view->assign('TituloPagina', 'New trip');
+        $html = $form->displayTpl($view, 'Trip/app/newtrip6.tpl');
+        $view->assign('body', $html);
+        $view->output('index.tpl');
+    }
+
+
+    public function btnfinishclickAction($addMorePlaces = false) {
+        $post = Zend_Registry::get('post');
+        $session = Zend_Registry::get('session');
+        $br = new Browser_Control();
+
+        $form = Session_Control::getDataSession('formNewTripPlace');
+
+        $valid = $form->processAjax($_POST);
+
+        $br = new Browser_Control();
+        if ($valid != 'true') {
+            $br->validaForm($valid);
+            $br->send();
+            exit;
+        }
+
+        // ----------------------
+        /* @var $trip Trip */
+        $tripplace = new TripPlace();
+        $tripplace->read($post->id_tripplace);
+        $tripplace->setDataFromRequest2($post);
+
+        try {
+            $tripplace->save();
+            $tripplace->setInstance('newTripPlace');
+        } catch (Exception $exc) {
+            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+        $msg = '';
+
+        if ($addMorePlaces) {
+            $br->setBrowserUrl(BASE_URL . 'trip/newtrip4/id/'.$post->id_trip);
+        } else {
+            $br->setBrowserUrl(BASE_URL . 'trip/dashboard');
+        }
+        $br->send();
+    }
+
+    public function btnaddmoreplacesclickAction() {
+
+        $this->btnfinishclickAction(true);
+    }
+
 }

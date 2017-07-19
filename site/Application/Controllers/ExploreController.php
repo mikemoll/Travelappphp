@@ -182,6 +182,9 @@ class ExploreController extends AbstractController {
                             })
                         });");
         $br->setAttrib('itemDetailGalery', 'class', 'item-slideshow full-height itemGalery');
+
+        $br->setAttrib('btnAddToTrip', 'params', 'id_trip='.$post->id_trip.'&id_place='.$id);
+
 //        $br->setCommand('
 //            alert("sdav" );
 //                         $("#itemDetailGalery").owlCarousel({

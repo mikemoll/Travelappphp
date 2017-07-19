@@ -1,38 +1,17 @@
-
-
-
-<h1>Add a trip</h1>
+<h1>Adding {$tripname}</h1>
 <h3>Ok, {$usuarioLogado}, where are you going to?</h3>
+<p>(Multi city trip? don’t worry you can add another city/country later)</p>
 
- <p>(Multi city trip? don’t worry you can add another city/country later)</p>
-
- <!--    <div class="form-group form-group-default col-md-8">
-
-        <div class=" no-padding">
-            <label>City</label>
-            <div class="controls">
-                {$city}
-            </div>
-        </div>
-    </div>
-
-    <div class="form-group form-group-default col-md-8">
-
-        <div class=" no-padding">
-            <label>Country</label>
-            <div class="controls">
-                {$country}
-            </div>
-        </div>
-    </div>
-
-<div class="row">
-    <div class="col-md-8">
-        {$btnNext1}
-    </div>
+<div class="row text-center">
+    {$search2}<br>
+    {$btnSearch}
+    {$btnFeelingLucky}
+    
 </div>
-<h3 style="padding-top: 30px;">Need some inspiration?</h3> -->
-<div class="  p-t-20 p-b-10">
+<p> </p>
+
+
+<!-- <div class="  p-t-20 p-b-10">
     <ul class="list-inline text-right">
         <li class="col-md-6 col-sm-12">
 
@@ -60,4 +39,8 @@
         </li>
     </ul>
 </div>
-<div id="placesdiv" class="col-md-12"></div>
+ -->
+<div id="placesdiv" class="col-md-12" name="defaultplaces" url="Trip" event="load" params='id_trip={$id_trip}'></div>
+
+
+

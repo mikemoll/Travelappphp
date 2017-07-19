@@ -1,7 +1,8 @@
-<h1>{$tripname}</h2>
+<h1>Adding {$tripname}</h1>
 <h3>Ok, {$usuarioLogado}, what sort of trip are you planning?</h3>
 
 <div class="col-xs-12">
+    {$id_trip}
     {$btnNext2}
 </div>
 {foreach from=$triptypes key=id_triptype item=tt}

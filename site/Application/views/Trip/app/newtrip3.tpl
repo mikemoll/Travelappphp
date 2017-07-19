@@ -1,4 +1,4 @@
-<h1>Add the trip {$tripname}</h2>
+<h1>Adding {$tripname}</h1>
 <h3>Ok, {$usuarioLogado}, who is going with you?</h3>
 
 
@@ -103,6 +103,7 @@
                     </div>
                 </div>
             </div>
+            {$id_trip}
             {$btnNext3}
         </div>
     </div>
