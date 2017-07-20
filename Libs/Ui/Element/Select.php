@@ -69,6 +69,7 @@ class Ui_Element_Select extends Zend_Form_Element_Select {
     public function setSelect2($val = true) {
         if ($val) {
             $this->setAttrib('select2', 'select2');
+            $this->setAttrib('data-init-plugin', 'select2');
         }
     }
 

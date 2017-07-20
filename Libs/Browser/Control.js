@@ -268,7 +268,7 @@ $(document).ready(function (p) {
         }
     });
 
-    $("body").delegate("change", "[data-alternative-field]", function () {
+    $("body").on("change", "[data-alternative-field]", function () {
         aternativeField = $(this).attr('data-alternative-field');
         valor = $(this).val( );
         $('#' + aternativeField).datepicker('update', valor);

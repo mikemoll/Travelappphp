@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Zend Framework
  *
@@ -19,13 +20,10 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id: FormSelect.php 25187 2013-01-08 08:21:00Z frosch $
  */
-
-
 /**
  * Abstract class for extension
  */
 require_once 'Zend/View/Helper/FormElement.php';
-
 
 /**
  * Helper to generate "select" list of options
@@ -36,8 +34,8 @@ require_once 'Zend/View/Helper/FormElement.php';
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_View_Helper_FormSelect extends Zend_View_Helper_FormElement
-{
+class Zend_View_Helper_FormSelect extends Zend_View_Helper_FormElement {
+
     /**
      * Generates 'select' list of options.
      *
@@ -64,12 +62,9 @@ class Zend_View_Helper_FormSelect extends Zend_View_Helper_FormElement
      *
      * @return string The select tag and options XHTML.
      */
-    public function formSelect($name, $value = null, $attribs = null,
-        $options = null, $listsep = "<br />\n")
-    {
+    public function formSelect($name, $value = null, $attribs = null, $options = null, $listsep = "<br />\n") {
         $info = $this->_getInfo($name, $value, $attribs, $options, $listsep);
         extract($info); // name, id, value, attribs, options, listsep, disable
-
         // force $value to array so we can compare multiple values to multiple
         // options; also ensure it's a string for comparison purposes.
         $value = array_map('strval', (array) $value);
@@ -105,21 +100,24 @@ class Zend_View_Helper_FormSelect extends Zend_View_Helper_FormElement
             $optionClasses = $attribs['optionClasses'];
             unset($attribs['optionClasses']);
         }
-        
+        if (isset($attribs['select2'])) {
+            $classSelect2 = "form-group-default-select2";
+        }
+
         // now start building the XHTML.
         $disabled = '';
         if (true === $disable) {
             $disabled = ' disabled="disabled"';
         }
-        
+
         $label = $attribs['label'];
         if ($label != '') {
-            $xhtml .= '<div class="form-group form-group-default form-group-default-select2" >';
+            $xhtml .= '<div class="form-group form-group-default ' . $classSelect2 . '" >';
 
-            $xhtml .='<label>' . $label . '</label>';
+            $xhtml .= '<label>' . $label . '</label>';
         }
         // Build the surrounding select element first.
-        $xhtml .= '<select data-init-plugin="select2" '
+        $xhtml .= '<select '
                 . ' name="' . $this->view->escape($name) . '"'
                 . ' id="' . $this->view->escape($id) . '"'
                 . ' type="select-one"'
@@ -129,7 +127,7 @@ class Zend_View_Helper_FormSelect extends Zend_View_Helper_FormElement
                 . ">\n    ";
 
         // build the list of options
-        $list       = array();
+        $list = array();
         $translator = $this->getTranslator();
         foreach ((array) $options as $opt_value => $opt_label) {
             if (is_array($opt_label)) {
@@ -145,7 +143,7 @@ class Zend_View_Helper_FormSelect extends Zend_View_Helper_FormElement
                 $list[] = '<optgroup'
                         . $opt_disable
                         . $opt_id
-                        . ' label="' . $this->view->escape($opt_value) .'">';
+                        . ' label="' . $this->view->escape($opt_value) . '">';
                 foreach ($opt_label as $val => $lab) {
                     $list[] = $this->_build($val, $lab, $value, $disable, $optionClasses);
                 }
@@ -174,8 +172,7 @@ class Zend_View_Helper_FormSelect extends Zend_View_Helper_FormElement
      * @param array $optionClasses The classes to associate with each option value
      * @return string Option Tag XHTML
      */
-    protected function _build($value, $label, $selected, $disable, $optionClasses = array())
-    {
+    protected function _build($value, $label, $selected, $disable, $optionClasses = array()) {
         if (is_bool($disable)) {
             $disable = array();
         }
@@ -187,11 +184,11 @@ class Zend_View_Helper_FormSelect extends Zend_View_Helper_FormElement
 
 
         $opt = '<option'
-             . ' value="' . $this->view->escape($value) . '"';
+                . ' value="' . $this->view->escape($value) . '"';
 
-             if ($class) {
-             $opt .= ' class="' . $class . '"';
-         }
+        if ($class) {
+            $opt .= ' class="' . $class . '"';
+        }
         // selected?
         if (in_array((string) $value, $selected)) {
             $opt .= ' selected="selected"';
