@@ -18,9 +18,13 @@ class TripActivity extends Db_Table {
         parent::__construct($config, $definition);
     }
 
+    public function getPhotoPath() {
+        return Activity::makephotoPath($this->getid_activity(), $this->a_photo);
+    }
+
     function readLst($modo = 'obj') {
         $this->join('trip', 'trip.id_trip = tripactivity.id_trip', 'id_trip,tripname');
-        $this->join('activity', 'activity.id_activity = tripactivity.id_activity', 'id_activity, activityname');
+        $this->join('activity', 'activity.id_activity = tripactivity.id_activity', 'id_activity, activityname,photo');
         $this->join('usuario', 'usuario.id_usuario = tripactivity.id_usuario', ' id_usuario,nomecompleto,email');
         parent::readLst($modo);
     }

@@ -18,8 +18,62 @@ class Trip extends Db_Table {
         parent::__construct($config, $definition);
     }
 
+    public function getDaysTo() {
+        return DataHora::daysBetween(date('Y-m-d'), DataHora::inverteDataIngles($this->getstartdate()), 'yyyy-mm-dd', 'yyyy-mm-dd');
+    }
+
     public function getShortDescription() {
         return $this->getDescription();
+    }
+
+    public function getTripActivityLst() {
+        if ($this->TripActivityLst == null) {
+            $this->TripActivityLst = new TripActivity();
+        }
+        return $this->TripActivityLst;
+    }
+
+    public function setTripActivityLst($val) {
+        $this->TripActivityLst = $val;
+    }
+
+    public function getTripplaceLst() {
+        if ($this->TripplaceLst == null) {
+            $this->TripplaceLst = new Tripplace();
+        }
+        return $this->TripplaceLst;
+    }
+
+    public function setTripplaceLst($val) {
+        $this->TripplaceLst = $val;
+    }
+
+    public function getPicsLst() {
+        $TripplaceLst = $this->getTripplaceLst();
+        for ($i = 0; $i < $TripplaceLst->countItens(); $i++) {
+            $Item = $TripplaceLst->getItem($i);
+            $pics[]['src'] = $Item->getPhotoPath();
+        }
+        return $pics;
+    }
+
+    public function getFirstPhoto() {
+        $pics = $this->getPicsLst();
+        return $pics[0]['src'];
+    }
+
+    public function read($id = NULL, $modo = 'obj') {
+        parent::read($id, $modo);
+
+        $TripPlaceLst = $this->getTripplaceLst();
+        $TripPlaceLst->where('id_trip', $this->getID());
+        $TripPlaceLst->readLst();
+        $this->setTripplaceLst($TripPlaceLst);
+
+        $TripPlaceLst = $this->getTripActivityLst();
+        $TripPlaceLst->where('tripactivity.id_trip', $this->getID());
+        $TripPlaceLst->readLst();
+        $this->setTripActivityLst($TripPlaceLst);
     }
 
     public function setDataFromRequest($post) {

@@ -102,6 +102,19 @@ class TripController extends AbstractController {
 //        $post = Zend_Registry::get('post');
 //        $br = new Browser_Control();
 
+        $TripLst = new Trip();
+        $TripLst->where('startdate', date('Y-m-d'), '>=');
+        $TripLst->readLst();
+
+        for ($i = 0; $i < $TripLst->countItens(); $i++) {
+            $Item = $TripLst->getItem($i);
+            $TripPlaceLst = new Tripplace();
+            $TripPlaceLst->where('id_trip', $Item->getID());
+            $TripPlaceLst->readLst();
+            $Item->setTripplaceLst($TripPlaceLst);
+        }
+        $view->assign('tripLst', $TripLst->getItens());
+
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('titulo', $this->TituloLista);

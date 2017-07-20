@@ -1089,12 +1089,12 @@ class DataHora {
     }
 
     /**
-     *  inverte a data de entrada.
+     *  inverte a data de entrada que vem no padrao Americano mm/dd/yyyy
      *
-     * Se entra 2010-09-07 saida 07/09/2010
-     * Se entra 07/09/2010 saida 2010-09-07
+     * Se entra 2010-09-30 saida 09/30/2010
+     * Se entra 09/30/2010 saida 2010-09-30
      *
-     * @param string $pData
+     * @param string $pData no padrao americano ou no padrao DB
      * @return string
      */
     static function inverteDataIngles($pData) {

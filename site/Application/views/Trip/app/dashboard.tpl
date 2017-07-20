@@ -8,10 +8,31 @@
         }
     </style>
 {/literal}
+
+{literal}
+    <style>
+        .gallery-item2{
+            cursor:pointer;
+        }
+        .box-item{
+            margin-bottom: 20px;
+        }
+        #itemDescription{
+            height: 300px;
+            overflow-y: auto;
+            width: 314px;
+        }
+        .item-details .dialog__content .dialog__footer .recommended li img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            overflow: hidden;
+        }
+    </style>
+{/literal}
 <!-- START ROW -->
-<div class="row">
-    <div class="col-sm-4 m-b-3">
-        <div class="ar-2-1">
+    <div class="col-sm-3 m-b-4">
+        <div class="ar-1-1">
             <!-- START WIDGET widget_plainWidget-->
             <div class="panel no-border bg-master widget widget-0 widget-loader-circle-lg no-margin">
                 <div class="panel-heading">
@@ -36,58 +57,83 @@
             <!-- END WIDGET -->
         </div>
     </div>
-    <div class="col-md-6 col-xlg-5">
-        <div class="row">
-            <div class="col-md-12 m-b-10">
-                <div class="ar-3-2 widget-1-wrapper">
-                    <!-- START WIDGET widget_imageWidget-->
-                    <div class="widget-1 panel no-border bg-complete no-margin widget-loader-circle-lg">
-                        <div class="panel-heading top-right ">
-                            <div class="panel-controls">
-                                <ul>
-                                    <li><a data-toggle="refresh" class="portlet-refresh text-black" href="#"><i
-                                                class="portlet-icon portlet-icon-refresh-lg-master"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
+
+
+    {section name=i loop=$tripLst}
+
+        {literal}
+            <style>
+                .trip-{/literal}{$tripLst[i]->getID()}{literal}:after{
+                    background-image: url({/literal}{$tripLst[i]->getFirstPhoto()}{literal}) !important;
+                }
+            </style>
+        {/literal}
+        <div class="col-md-4 col-xlg-4 box-item" >
+            <div class="ar-1-1">
+
+                <!-- START WIDGET widget_imageWidgetBasic-->
+                <div class="widget-2 panel no-border bg-primary widget widget-loader-circle-lg no-margin trip-{$tripLst[i]->getID()}">
+                    <div class="panel-heading">
+                        <div class="panel-controls">
+                            <ul>
+                                <li><a href="edit/id/{$tripLst[i]->getID()}/{$tripLst[i]->getTripName()}" title="Open this trip!" class="label">edit</a></li>
+                                <li>
+                                    {* <a class="widget-3-fav no-decoration" style="{if $tripLst[i]->getFavorite()!=''}display: none;{/if}" href="#" id="btnadddream"
+                                    name="btnadddream"  event="click" url="explore"
+                                    params="id_trip={$tripLst[i]->getID()}">
+                                    <i class="fa fa-heart-o fa-2x" style="color: red"></i>
+                                    </a>
+                                    <a class="widget-3-fav no-decoration" style="{if $tripLst[i]->getFavorite()==''}display: none;{/if}" href="#" id="btnremovedream"
+                                    name="btnremovedream"  event="click" url="explore"
+                                    params="id_trip={$tripLst[i]->getID()}">
+                                    <i class="fa fa-heart fa-2x" style="color: red"></i>
+                                    </a>*}
+                                </li>
+                            </ul>
                         </div>
-                        <div class="panel-body">
-                            <div class="pull-bottom bottom-left bottom-right ">
-                                <span class="label font-montserrat fs-11">My TRIP!</span>
+                    </div>
+                    <div class="panel-body gallery-item2" data-id="{$tripLst[i]->getID()}" params="id_trip={$tripLst[i]->getID()}&google_trip_id={$tripLst[i]->getgoogle_trip_id()}">
+
+                        <a href="detail/id/{$tripLst[i]->getID()}/{$tripLst[i]->getTripName()}" title="Open this trip!">
+                            <div class="pull-bottom bottom-left bottom-right padding-15">
+                                <span class="label font-montserrat fs-11">Trip</span>
                                 <br>
-                                <h2 class="text-white">My trip to Paris</h2>
-                                <p class="text-white hint-text">Mom's gonna LOVE this</p>
+                                <h3 class="text-white">{$tripLst[i]->getTripName()}</h3>
+                                {if $tripLst[i]->gettravelmethod()!=''}
+                                    <p class="text-white hint-text hidden-md">Traveling by {$tripLst[i]->gettravelmethod()}</p>
+                                {/if}
+                                {*                            <p class="text-white hint-text hidden-md">${$tripLst[i]->getPrice()}</p>*}
                                 <div class="row stock-rates m-t-15">
                                     <div class="company col-xs-4">
                                         <div>
-                                            <p class="font-montserrat text-success no-margin fs-16">
-                                                <i class="fa fa-caret-up"></i> 09/28/17
-                                                {*                                                    <span class="font-arial text-white fs-12 hint-text m-l-5">546.45</span>*}
-                                            </p>
                                             <p class="bold text-white no-margin fs-11 font-montserrat lh-normal">
                                                 Check In
+                                            </p>
+                                            <p class="font-montserrat text-success no-margin fs-16">
+                                                <i class="fa fa-caret-up"></i> {$tripLst[i]->getstartdate()}<br><small>in {$tripLst[i]->getDaysTo()} days!</small>
+                                                {*                                                    <span class="font-arial text-white fs-12 hint-text m-l-5">546.45</span>*}
                                             </p>
                                         </div>
                                     </div>
                                     <div class="company col-xs-4">
                                         <div>
-                                            <p class="font-montserrat text-danger no-margin fs-16">
-                                                <i class="fa fa-caret-down"></i> 10/11/17
-                                                {*                                                    <span class="font-arial text-white fs-12 hint-text m-l-5">345.34</span>*}
-                                            </p>
                                             <p class="bold text-white no-margin fs-11 font-montserrat lh-normal">
                                                 Check Out
+                                            </p>
+                                            <p class="font-montserrat text-danger no-margin fs-16">
+                                                <i class="fa fa-caret-down"></i> {$tripLst[i]->getenddate()}
+                                                {*                                                    <span class="font-arial text-white fs-12 hint-text m-l-5">345.34</span>*}
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
-                    <!-- END WIDGET -->
                 </div>
+                <!-- END WIDGET -->
             </div>
+
         </div>
-         
-    </div>
-</div>
+    {/section}
+
