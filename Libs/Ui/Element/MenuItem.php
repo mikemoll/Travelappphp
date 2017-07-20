@@ -46,7 +46,7 @@ class Ui_Element_MenuItem {
         $this->subMenu[] = $menu;
     }
 
-    public function setVisible($processo, $acao) {
+    public function setVisible($processo, $acao= 'ver') {
         $this->visible = Usuario::verificaAcesso($processo, $acao);
     }
 
