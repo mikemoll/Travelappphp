@@ -61,8 +61,8 @@ class DreamboardController extends AbstractController {
 
         $button = new Ui_Element_Btn('btnCreateTrip');
         $button->setDisplay('Create a trip', '');
-//        $button->setHref(HTTP_HOST . BASE_URL . 'trip/index/q/' . $post->search2);
-        $button->setHref('#none');
+        $button->setHref(HTTP_HOST . BASE_URL . 'trip/newtrip');
+//        $button->setHref('#none');
         $form->addElement($button);
 
         $form->setDataSession();
@@ -72,26 +72,29 @@ class DreamboardController extends AbstractController {
         $dreamLts = new Dreamboard;
         $dreamLts->where('dreamboard.id_usuario', Usuario::getIdUsuarioLogado());
         $dreamLts->readLst();
+        if ($dreamLts->countItens() > 0) {
+
 //        print'<pre>';
 //        die(print_r($dreamLts));
-        $ActivityLst = new Activity();
-        $EventLst = new Event();
-        $PlaceLst = new Place();
-        for ($i = 0; $i < $dreamLts->countItens(); $i++) {
-            $dream = $dreamLts->getItem($i);
-            // ---- Activities ----------
-            $ActivityLst->where('activity.id_activity', $dream->getId_Activity(), '=', 'or', 'id');
-            // ---- Events ----------
-            $EventLst->where('event.id_event', $dream->getId_Event(), '=', 'or', 'id');
-            // ---- Place ----------
-            $PlaceLst->where('place.id_place', $dream->getId_place(), '=', 'or', 'id');
+            $ActivityLst = new Activity();
+            $EventLst = new Event();
+            $PlaceLst = new Place();
+            for ($i = 0; $i < $dreamLts->countItens(); $i++) {
+                $dream = $dreamLts->getItem($i);
+                // ---- Activities ----------
+                $ActivityLst->where('activity.id_activity', $dream->getId_Activity(), '=', 'or', 'id');
+                // ---- Events ----------
+                $EventLst->where('event.id_event', $dream->getId_Event(), '=', 'or', 'id');
+                // ---- Place ----------
+                $PlaceLst->where('place.id_place', $dream->getId_place(), '=', 'or', 'id');
+            }
+            $PlaceLst->readLst();
+            $view->assign('placeLst', $PlaceLst->getItens());
+            $ActivityLst->readLst();
+            $view->assign('activityLst', $ActivityLst->getItens());
+            $EventLst->readLst();
+            $view->assign('eventLst', $EventLst->getItens());
         }
-        $PlaceLst->readLst();
-        $view->assign('placeLst', $PlaceLst->getItens());
-        $ActivityLst->readLst();
-        $view->assign('activityLst', $ActivityLst->getItens());
-        $EventLst->readLst();
-        $view->assign('eventLst', $EventLst->getItens());
 
 //        $view->assign('url', $this->Action);
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
