@@ -22,4 +22,24 @@ class Interest extends Db_Table {
         $this->setDescription($post->description);
     }
 
+
+    public static function makeimagelocalPath($id) {
+        $path = RAIZ_DIRETORY . 'site/Public/Images/interests';
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+        return $path .'/'. $id . '.png';
+    }
+
+    public static function makeimagePath($id) {
+        $path = 'Public/Images/interests/' . $id . '.png';
+        if (!file_exists(Interest::makeimagelocalPath($id))) {
+            return HTTP_REFERER . 'Public/Images/interest.png';
+        }
+        return HTTP_REFERER . $path; //default image
+    }
+
+    public function getImagePath() {
+        return Interest::makeimagePath($this->getID());
+    }
 }

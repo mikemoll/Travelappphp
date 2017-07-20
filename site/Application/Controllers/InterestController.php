@@ -51,7 +51,6 @@ class InterestController extends AbstractController {
         $grid->addButton($button);
 
 
-
         $column = new Ui_Element_DataTables_Column_Date('Interest Name', 'description');
         $column->setWidth('10');
         $grid->addColumn($column);
@@ -101,6 +100,7 @@ class InterestController extends AbstractController {
         $form = new Ui_Form();
         $form->setAction($this->Action);
         $form->setName($this->ItemEditFormName);
+        $form->setAttrib('enctype', 'multipart/form-data');
 
 
 
@@ -138,6 +138,7 @@ class InterestController extends AbstractController {
 
         $form->setDataSession();
 
+        $view->assign('imgPath', $obj->getImagePath());
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('titulo', $this->TituloEdicao);
@@ -164,6 +165,14 @@ class InterestController extends AbstractController {
             $br->send();
             die();
         }
+        //image:
+        $image = $post->image;
+        //Put the uploaded file in the proper folder
+        if ($image['tmp_name'] != '') {
+            $dest = Interest::makeimagelocalPath($lObj->GetID());
+            move_uploaded_file($image['tmp_name'], $dest );
+        }
+
         $msg = 'Saved!';
         $br->setMsgAlert('Success!', $msg);
 

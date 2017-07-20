@@ -1,6 +1,6 @@
 ALTER TABLE `tripplace` 
-CHANGE COLUMN `id_place` `id_place` BIGINT(20) NOT NULL AFTER `id_trip`,
-CHANGE COLUMN `id_tripcity` `id_tripplace` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT ;
+CHANGE COLUMN `id_place` `id_place` BIGINT(20) NOT NULL AFTER `id_trip`; -- ,
+-- CHANGE COLUMN `id_tripcity` `id_tripplace` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT ;
 
 
 ALTER TABLE `tripplace` 
