@@ -30,7 +30,7 @@ class Place extends Db_Table {
         if ($photo) {
             return HTTP_REFERER . 'Public/Images/Place/' . $id . '_' . $photo;
         } else {
-            return HTTP_REFERER . 'Public/Images/people.png'; //default image
+//            return HTTP_REFERER . 'Public/Images/place.png'; //default image
         }
     }
 
@@ -109,7 +109,7 @@ class Place extends Db_Table {
                 $place->setgoogle_place_id($value->place_id);
                 $place->setformatted_address($value->formatted_address);
                 $place->setname($value->name);
-                //$place->setrating($value->rating);
+                $place->setrating($value->rating);
                 $place->setSearchQuery($q);
                 $place->setgoogletypes(json_encode($value->types));
                 foreach ($value->photos as $photo) {

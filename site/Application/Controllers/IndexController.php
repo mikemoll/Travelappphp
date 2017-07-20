@@ -73,7 +73,7 @@ class IndexController extends AbstractController {
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 
-        $menu = new Ui_Element_MenuItem('Profile', 'Profile', HTTP_REFERER . 'usuario/viewprofile/id/' . Usuario::getIDUsuarioLogado(), '', 'head');
+        $menu = new Ui_Element_MenuItem('Profile', 'My Profile', HTTP_REFERER . 'usuario/viewprofile/id/' . Usuario::getIDUsuarioLogado(), '', 'head');
         $mainMenu->addMenuItem($menu);
 //
 //        $menu2 = new Ui_Element_MenuItem('events', 'Indexs2', HTTP_REFERER . 'events', '', 'calendar');
@@ -82,6 +82,7 @@ class IndexController extends AbstractController {
         // -----------------------------------------------------------
         $menu = new Ui_Element_MenuItem('adm', 'Admin', HTTP_REFERER . '', '', 'settings');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
+//        $menu->setVisible(Usuario::getIdUsuarioLogado() == 1);
         $mainMenu->addMenuItem($menu);
 
         if (true) {
@@ -131,6 +132,7 @@ class IndexController extends AbstractController {
             // -----------------------------------------------------------
         }
         $menu2 = new Ui_Element_MenuItem('Development', 'Development', '', '', '');
+//        $menu2->setVisible(Usuario::getIdUsuarioLogado() == 1);
         $mainMenu->addMenuItem($menu2);
         if (true) {
             $menu3 = new Ui_Element_MenuItem('Users', 'Users', HTTP_REFERER . 'usuario/users', '', '');

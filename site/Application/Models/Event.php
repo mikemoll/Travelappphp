@@ -42,6 +42,13 @@ class Event extends Db_Table {
         return $this->getDescription();
     }
 
+    public function getFormattedDate() {
+        $d = new DateTime(DataHora::inverteDataIngles($this->getstart_at()));
+//        print'<pre>';
+//        die(print_r($d));
+        return $d->format("D, M dS Y");
+    }
+
     function readLst($modo = 'obj') {
         $this->join('dreamboard', 'dreamboard.id_event = event.id_event and id_usuario = ' . Usuario::getIdUsuarioLogado(), 'id_event as favorite', 'left');
         $this->join('eventtype', 'eventtype.id_eventtype = event.id_eventtype', 'description as eventtypename', 'left');

@@ -20,10 +20,23 @@ class ExploreController extends AbstractController {
         $this->TituloEdicao = "Explore";
         $this->ItemEditInstanceName = 'ExploreEdit';
         $this->ItemEditFormName = 'formExploreItemEdit';
+        $this->ItemEditFormName2 = 'formExploreItemEdit2';
         $this->Model = 'Explore';
         $this->IdWindowEdit = 'EditExplore';
         $this->TplExplore = 'Explore/index.tpl';
         $this->TplEdit = 'Explore/edit.tpl';
+    }
+
+    public function getLink($list, $not) {
+        foreach ($list as $key => $value) {
+            if ($key != $not) {
+                $ret[] = "$key/$value";
+            }
+        }
+        if ($ret != '') {
+            return implode('/', $ret);
+        }
+        return '';
     }
 
     public function indexAction() {
@@ -31,18 +44,59 @@ class ExploreController extends AbstractController {
         $post = Zend_Registry::get('post');
 
         $q = $post->q;
-        $type = $post->type;
+//        $type = $post->type;
+
+        $appliedFilters['q'] = $post->q;
+        $appliedFilters['daterange'] = $post->daterange;
+        list($etid, $etn) = explode('_', $post->eventtype);
+        $appliedFilters['eventtype'] = $post->eventtype;
+        list($atid, $atn) = explode('_', $post->activitytype);
+        $appliedFilters['activitytype'] = $post->activitytype;
+        $appliedFilters['rating'] = $post->rating;
+
+//        print'<pre>';die(print_r( $appliedFilters ));
+
+        foreach ($appliedFilters as $key => $value) {
+            if ($value != '') {
+                $appliedFilters2[$key] = $value;
+            }
+        }
+        if (count($appliedFilters2) > 0) {
+            foreach ($appliedFilters2 as $key => $value) {
+                $links[$key] = $this->getLink($appliedFilters2, $key);
+            }
+            $links['base'] = $this->getLink($appliedFilters2, '');
+            foreach ($appliedFilters2 as $key => $value) {
+                if ($key == 'q') {
+                    $names[$key] = $value;
+                } elseif ($key == 'eventtype') {
+                    $names[$key] = $etn;
+                } elseif ($key == 'activitytype') {
+                    $names[$key] = $atn;
+                } elseif ($key == 'rating') {
+                    $names[$key] = "$value stars";
+                } else {
+                    $names[$key] = $value;
+                }
+            }
+        }
+//        print'<pre>';
+//        die(print_r($names));
+//        print'<pre>';
+//        die(print_r($appliedFilters2));
+        $view->assign('appliedFilters', $appliedFilters2);
+        $view->assign('links', $links);
+        $view->assign('names', $names);
+
 
 
         $view->assign('title1', 'Tumbleweed');
         $view->assign('title2', 'go everywhere');
 
+        // ================== form Search =====================
         $form = new Ui_Form();
         $form->setAction($this->Action);
         $form->setName($this->ItemEditFormName);
-        $form->setAttrib('onsubmit', 'return false;');
-
-
 
         $element = new Ui_Element_Text('search2');
         $element->setPlaceholder('Search for places, activities or events');
@@ -50,8 +104,29 @@ class ExploreController extends AbstractController {
         $element->setValue($q);
         $form->addElement($element);
 
+        list($StartDate, $EndDate) = explode('_', $post->daterange);
+        $element = new Ui_Element_Date('startdate');
+        $element->setAlternativeField('enddate');
+        $element->setValue(DataHora::inverteDataIngles($StartDate));
+
+        $form->addElement($element);
+
+        $element = new Ui_Element_Date('enddate');
+        $element->setValue(DataHora::inverteDataIngles($EndDate));
+        $form->addElement($element);
+
+
+        $view->assign('EventtypeLst', Db_Table::getOptionList2('id_eventtype', 'description', 'description', 'Eventtype', false));
+        $view->assign('ActivitytypeLst', Db_Table::getOptionList2('id_activitytype', 'activitytypename', 'activitytypename', 'Activitytype', false));
+
+        $view->assign('EventtypeSelected', $post->eventtype);
+        $view->assign('ActivitytypeSelected', $post->activitytype);
+
+        $view->assign('ratingSelected', $post->rating);
+
         $button = new Ui_Element_Btn('btnSearch');
         $button->setDisplay('Search', '');
+        $button->setAttrib('class', 'btn btn-primary btn-animated from-left fa fa-search');
 //        $button->setType('success');
         $button->setSendFormFiends();
 //        $button->setAttrib('validaObrig', '1');
@@ -64,33 +139,76 @@ class ExploreController extends AbstractController {
 //        $button->setAttrib('validaObrig', '1');
         $form->addElement($button);
 
-        $form->setDataSession();
+        $button = new Ui_Element_Btn('btnApplyDate');
+        $button->setDisplay('Apply', '');
+//        $button->setType('success');
+        $button->setAttrib('params', $links['base']);
+        $button->setSendFormFiends();
+//        $button->setAttrib('validaObrig', '1');
+        $form->addElement($button);
 
-        // ------- PLACES   - --------------
-        $ActivityLst = new Place();
-        $ActivityLst->where('place.name', $q, 'like', 'or', 'q');
-        $ActivityLst->where('place.country', $q, 'like', 'or', 'q');
-        $ActivityLst->where('searchquery', $q, 'like', 'or', 'q');
-//        $ActivityLst->where('description', $q, 'like', 'or', 'q');
-        $ActivityLst->readLst();
-        $view->assign('placeLst', $ActivityLst->getItens());
-        // ---- Activities ----------
-        $ActivityLst = new Activity();
-//        $ActivityLst->where('activityname', $q, 'like', 'or', 'q');
+        $form->setDataSession();
+        // ================== END form Search =====================
+        // ---------------------- PLACES   - --------------
+        // ---------------------- PLACES   - --------------
+        // ---------------------- PLACES   - --------------
+//        if ($post->activitytype == '' and $post->eventtype == '') {
+            $ActivityLst = new Place();
+            if ($q != '') {
+                $ActivityLst->where('place.name', $q, 'like', 'or', 'q');
+                $ActivityLst->where('place.country', $q, 'like', 'or', 'q');
+                $ActivityLst->where('searchquery', $q, 'like', 'or', 'q');
+            }
+            if ($post->rating != '') {
+                $ActivityLst->where('rating', $post->rating, '>=', 'or', 'q');
+            }
+            $ActivityLst->readLst();
+//            print'<pre>';die(print_r( $ActivityLst ));
+            $view->assign('placeLst', $ActivityLst->getItens());
+//        }
+        // -------------------- Activities ----------
+        // -------------------- Activities ----------
+        // -------------------- Activities ----------
+        if ($post->eventtype == '' or $post->activitytype != '') {
+            $ActivityLst = new Activity();
+            if ($q != '') {
+                $ActivityLst->where('activityname', $q, 'like', 'or', 'q');
+            }
 ////        $ActivityLst->where('location', $q, 'like', 'or', 'q');
-//        $ActivityLst->where('description', $q, 'like', 'or', 'q');
-        $ActivityLst->readLst();
-        $view->assign('activityLst', $ActivityLst->getItens());
+//        if ($post->rating != '') {
+//            $ActivityLst->where('rating', $post->rating, '>', 'or', 'q');
+//        }
+            if ($post->activitytype != '') {
+                $ActivityLst->where('activity.id_activitytype', $atid, '=', 'or', 'q');
+            }
+            $ActivityLst->readLst();
+            $view->assign('activityLst', $ActivityLst->getItens());
+        }
 
 
         // ---- Events ----------
-        $ActivityLst = new Event();
-//        $ActivityLst->where('eventname', $q, 'like', 'or', 'q');
-////        $ActivityLst->where('location', $q, 'like', 'or', 'q');
-//        $ActivityLst->where('description', $q, 'like', 'or', 'q');
-        $ActivityLst->readLst();
-        $view->assign('eventLst', $ActivityLst->getItens());
+        if ($post->activitytype == '' or $post->eventtype != '') {
+            $ActivityLst = new Event();
+            if ($q != '') {
+                $ActivityLst->where('eventname', $q, 'like', 'or', 'q');
+            }
 
+            if ($StartDate != '') {
+//                print'<pre>';die(print_r(  $post->startdate));
+                $ActivityLst->where('start_at', $EndDate, '<=', 'and', 'date');
+                $ActivityLst->where('end_at', $StartDate, '>=', 'and', 'date');
+            }
+////        $ActivityLst->where('location', $q, 'like', 'or', 'q');
+//        if ($post->rating != '') {
+//            $ActivityLst->where('rating', $post->rating, '>', 'or', 'q');
+//        }
+            if ($post->eventtype != '') {
+                $ActivityLst->where('event.id_eventtype', $etid, '=', 'or', 'q');
+            }
+            $ActivityLst->readLst();
+//            print'<pre>';die(print_r(  $ActivityLst   ));
+            $view->assign('eventLst', $ActivityLst->getItens());
+        }
 
 
 //        $view->assign('url', $this->Action);
@@ -185,7 +303,7 @@ class ExploreController extends AbstractController {
                         });");
         $br->setAttrib('itemDetailGalery', 'class', 'item-slideshow full-height itemGalery');
 
-        $br->setAttrib('btnAddToTrip', 'params', 'id_trip='.$post->id_trip.'&id_place='.$id);
+        $br->setAttrib('btnAddToTrip', 'params', 'id_trip=' . $post->id_trip . '&id_place=' . $id);
 
 //        $br->setCommand('
 //            alert("sdav" );
@@ -255,6 +373,13 @@ class ExploreController extends AbstractController {
         $post = Zend_Registry::get('post');
         $br = new Browser_Control();
         $br->setBrowserUrl(HTTP_HOST . BASE_URL . 'explore/index/q/' . $post->search2);
+        $br->send();
+    }
+
+    public function btnapplydateclickAction() {
+        $post = Zend_Registry::get('post');
+        $br = new Browser_Control();
+        $br->setBrowserUrl(HTTP_HOST . BASE_URL . 'explore/index/daterange/' . DataHora::inverteDataIngles($post->startdate) . '_' . DataHora::inverteDataIngles($post->enddate));
         $br->send();
     }
 

@@ -52,7 +52,7 @@ class TripController extends AbstractController {
 
 
 
-        $column = new Ui_Element_DataTables_Column_Date('Trip Name', 'tripname');
+        $column = new Ui_Element_DataTables_Column_Text('Trip Name', 'tripname');
         $column->setWidth('4');
         $grid->addColumn($column);
 
@@ -60,11 +60,11 @@ class TripController extends AbstractController {
         $column->setWidth('4');
         $grid->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Start', 'startdate');
+        $column = new Ui_Element_DataTables_Column_Date('Start', 'startdate');
         $column->setWidth('1');
         $grid->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('End', 'enddate');
+        $column = new Ui_Element_DataTables_Column_Date('End', 'enddate');
         $column->setWidth('1');
         $grid->addColumn($column);
 
@@ -123,6 +123,26 @@ class TripController extends AbstractController {
         $view->output('index.tpl');
     }
 
+    public function detailAction() {
+        $view = Zend_Registry::get('view');
+        $post = Zend_Registry::get('post');
+//        $br = new Browser_Control();
+
+        $Trip = new Trip();
+        $Trip->read($post->id);
+
+        $view->assign('trip', $Trip);
+        $view->assign('TripActivityLst', $Trip->getTripActivityLst()->getItens());
+        $view->assign('TripplaceLst', $Trip->getTripplaceLst()->getItens());
+
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
+        $view->assign('titulo', $this->TituloLista);
+        $view->assign('TituloPagina', $this->TituloLista);
+        $view->assign('body', $view->fetch('Trip/app/trip-detail.tpl'));
+        $view->output('index.tpl');
+    }
+    
     public function editAction() {
         $br = new Browser_Control();
         $post = Zend_Registry::get('post');
