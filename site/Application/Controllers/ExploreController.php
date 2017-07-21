@@ -153,18 +153,18 @@ class ExploreController extends AbstractController {
         // ---------------------- PLACES   - --------------
         // ---------------------- PLACES   - --------------
 //        if ($post->activitytype == '' and $post->eventtype == '') {
-            $ActivityLst = new Place();
-            if ($q != '') {
-                $ActivityLst->where('place.name', $q, 'like', 'or', 'q');
-                $ActivityLst->where('place.country', $q, 'like', 'or', 'q');
-                $ActivityLst->where('searchquery', $q, 'like', 'or', 'q');
-            }
-            if ($post->rating != '') {
-                $ActivityLst->where('rating', $post->rating, '>=', 'or', 'q');
-            }
-            $ActivityLst->readLst();
+        $ActivityLst = new Place();
+        if ($q != '') {
+            $ActivityLst->where('place.name', $q, 'like', 'or', 'q');
+            $ActivityLst->where('place.country', $q, 'like', 'or', 'q');
+            $ActivityLst->where('searchquery', $q, 'like', 'or', 'q');
+        }
+        if ($post->rating != '') {
+            $ActivityLst->where('rating', $post->rating, '>=', 'or', 'q');
+        }
+        $ActivityLst->readLst();
 //            print'<pre>';die(print_r( $ActivityLst ));
-            $view->assign('placeLst', $ActivityLst->getItens());
+        $view->assign('placeLst', $ActivityLst->getItens());
 //        }
         // -------------------- Activities ----------
         // -------------------- Activities ----------
@@ -319,7 +319,6 @@ class ExploreController extends AbstractController {
         $br->send();
     }
 
-
     public function btnaddtotripclickAction() {
         $br = new Browser_Control();
         $post = Zend_Registry::get('post');
@@ -330,23 +329,22 @@ class ExploreController extends AbstractController {
         $Item->read($id);
 
         // set titles
-        $br->setHtml('itemTitleNewTrip', 'Add '. $Item->getName().' to the trip:');
+        $br->setHtml('itemTitleNewTrip', 'Add ' . $Item->getName() . ' to the trip:');
         // if ($Item->getFormatted_Address() != '') {
         //     $br->setHtml('itemFormattedAddressNewTrip', $Item->getFormatted_Address());
         // } else {
         //     $br->setHtml('itemFormattedAddressNewTrip', $Item->getCountry());
         // }
-
         // set trips list
         $TripLst = new Trip();
-        $TripLst->join('tripuser','tripuser.id_trip = trip.id_trip','');
+        $TripLst->join('tripuser', 'tripuser.id_trip = trip.id_trip', '');
         $TripLst->where('tripuser.id_usuario', Usuario::getIdUsuarioLogado());
-        $TripLst->where('trip.enddate', date('Y-m-d'),'>=');
+        $TripLst->where('trip.enddate', date('Y-m-d'), '>=');
         $TripLst->readLst();
         $tripTable = '';
         for ($i = 0; $i < $TripLst->countItens(); $i++) {
             $trip = $TripLst->getItem($i);
-            $tripTable .= '<tr><td class="font-montserrat all-caps fs-12 col-lg-6" name="btnaddtospecifictrip" event="click" params="id_place='.$id.'&id_trip='.$trip->getID().'">'.$trip->gettripname().'</td></tr>';
+            $tripTable .= '<tr><td class="font-montserrat all-caps fs-12 col-lg-6" name="btnaddtospecifictrip" event="click" params="id_place=' . $id . '&id_trip=' . $trip->getID() . '">' . $trip->gettripname() . '</td></tr>';
         }
         $br->setHtml('tripTable', $tripTable);
 
@@ -372,7 +370,7 @@ class ExploreController extends AbstractController {
 
         //dafine the add to new trip action
         $br->setAttrib('btnAddToNewTrip', 'params', 'id_place=' . $id);
-        
+
         $br->setAttrib('itemDetails', 'class', 'dialog item-details');
         $br->setAttrib('addToTripDialog', 'class', 'dialog item-details dialog dialog--open');
 
@@ -383,14 +381,14 @@ class ExploreController extends AbstractController {
     public function btnaddtonewtripclickAction() {
         $post = Zend_Registry::get('post');
         $br = new Browser_Control();
-        $br->setBrowserUrl(HTTP_HOST . BASE_URL . 'trip/newtrip/id_place/'.$post->id_place);
+        $br->setBrowserUrl(HTTP_HOST . BASE_URL . 'trip/newtrip/id_place/' . $post->id_place);
         $br->send();
     }
 
     public function btnaddtospecifictripclickAction() {
         $post = Zend_Registry::get('post');
         $br = new Browser_Control();
-        $br->setBrowserUrl(HTTP_HOST . BASE_URL . 'trip/newtrip5/id_trip/'.$post->id_trip.'/id_place/'.$post->id_place);
+        $br->setBrowserUrl(HTTP_HOST . BASE_URL . 'trip/newtrip5/id_trip/' . $post->id_trip . '/id_place/' . $post->id_place);
         $br->send();
     }
 
@@ -413,15 +411,19 @@ class ExploreController extends AbstractController {
             $dream->setid_place($post->id_place);
 //            print'<pre>';die(print_r( $dream ));
             $dream->save();
-            $view->assign('cardName', $post->cardname);
-            $br->setAlert('Great Choice ' . Usuario::getNomeUsuarioLogado(), $view->fetch('Explore/msg_add_dream.tpl'));
         } else {
-            $view->assign('cardName', $post->cardname);
-            $br->setAlert('Great Choice ' . Usuario::getNomeUsuarioLogado(), $view->fetch('Explore/msg_add_dream.tpl'));
 //            $br->setMsgAlert('Done!', 'This place was already saved!');
         }
+        $view->assign('cardName', $post->cardname);
+        $br->setAlert('Great Choice ' . Usuario::getNomeUsuarioLogado(), $view->fetch('Explore/msg_add_dream.tpl'));
 
-        $br->setClass("itemDetails", "dialog item-details dialog");
+        $br->setClass("itemDetails", "dialog item-details");
+        $br->send();
+    }
+
+    public function btncolsesecclickAction() {
+        $br = new Browser_Control();
+        $br->setClass("addToTripDialog", "dialog item-details");
         $br->send();
     }
 
@@ -457,7 +459,6 @@ class ExploreController extends AbstractController {
         $br->setBrowserUrl(HTTP_HOST . BASE_URL . 'explore/index/daterange/' . DataHora::inverteDataIngles($post->startdate) . '_' . DataHora::inverteDataIngles($post->enddate));
         $br->send();
     }
-
 
     public function loadAction() {
         

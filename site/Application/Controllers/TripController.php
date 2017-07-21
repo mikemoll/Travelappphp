@@ -103,15 +103,15 @@ class TripController extends AbstractController {
 
         $oldtrip = $post->oldtrip == 'show';
         $TripLst = new Trip();
-        $TripLst->join('tripuser','tripuser.id_trip = trip.id_trip','');
+        $TripLst->join('tripuser', 'tripuser.id_trip = trip.id_trip', '');
         $TripLst->where('tripuser.id_usuario', Usuario::getIdUsuarioLogado());
         if ($oldtrip) {
-            $view->assign('btnOldTripHref',HTTP_REFERER .'trip/dashboard/oldtrip/hide');
-            $view->assign('btnOldTripText','Hide old trips');
+            $view->assign('btnOldTripHref', HTTP_REFERER . 'trip/dashboard/oldtrip/hide');
+            $view->assign('btnOldTripText', 'Hide old trips');
         } else {
-            $view->assign('btnOldTripHref',HTTP_REFERER .'trip/dashboard/oldtrip/show');
-            $view->assign('btnOldTripText','Show old trips');
-            $TripLst->where('trip.enddate', date('Y-m-d'),'>=');
+            $view->assign('btnOldTripHref', HTTP_REFERER . 'trip/dashboard/oldtrip/show');
+            $view->assign('btnOldTripText', 'Show old trips');
+            $TripLst->where('trip.enddate', date('Y-m-d'), '>=');
         }
 
         $TripLst->readLst();
@@ -152,7 +152,7 @@ class TripController extends AbstractController {
         $view->assign('body', $view->fetch('Trip/app/trip-detail.tpl'));
         $view->output('index.tpl');
     }
-    
+
     public function editAction() {
         $br = new Browser_Control();
         $post = Zend_Registry::get('post');
@@ -430,12 +430,12 @@ class TripController extends AbstractController {
     }
 
     public function btnnextoneclickAction() {
-        $post    = Zend_Registry::get('post');
+        $post = Zend_Registry::get('post');
         $session = Zend_Registry::get('session');
-        $br      = new Browser_Control();
-        $form    = Session_Control::getDataSession('formNewtrip');
+        $br = new Browser_Control();
+        $form = Session_Control::getDataSession('formNewtrip');
 
-        $valid   = $form->processAjax($_POST);
+        $valid = $form->processAjax($_POST);
         $br = new Browser_Control();
         if ($valid != 'true') {
             $br->validaForm($valid);
@@ -464,11 +464,11 @@ class TripController extends AbstractController {
         }
         $msg = '';
 
-        $br->setBrowserUrl(BASE_URL . 'trip/newtrip2/id/'.$lObj->getID());
+        $br->setBrowserUrl(BASE_URL . 'trip/newtrip2/id/' . $lObj->getID());
         $br->send();
     }
 
-   public function newtrip2Action() {
+    public function newtrip2Action() {
 
         $view = Zend_Registry::get('view');
         $post = Zend_Registry::get('post');
@@ -544,32 +544,30 @@ class TripController extends AbstractController {
         //     $Item->setState(cDELETE);
         // }
         // if (count($list) > 0) {
-            foreach ($list as $idTriptype) { //for each item selected by the trip
-        //         if ($idTriptype == '') {
-        //             continue;
-        //         }
-        //         $tt = '';
-        //         for ($i = 0; $i < $destLst->countItens(); $i++) { // find the tt on the trip type on database
-        //             $Item = $destLst->getItem($i);
-        //             if ($Item->getid_triptype() == $idTriptype) {
-        //                 $tt = $Item;
-        //                 break;
-        //             } else {
-        //                 $tt = '';
-        //             }
-        //         }
-
-        //        if ($tt == '') { // if the tt doesn't exist on trip type, add it.
-                    $n = new TripTriptype();
-                    $n->setid_triptype($idTriptype);
-                    $n->setid_trip($lObj->getID());
-                    $destLst->addItem($n);
-        //        } else {
-        //            $tt->setState(cUPDATE); //else update it
-        //        }
-            }
+        foreach ($list as $idTriptype) { //for each item selected by the trip
+            //         if ($idTriptype == '') {
+            //             continue;
+            //         }
+            //         $tt = '';
+            //         for ($i = 0; $i < $destLst->countItens(); $i++) { // find the tt on the trip type on database
+            //             $Item = $destLst->getItem($i);
+            //             if ($Item->getid_triptype() == $idTriptype) {
+            //                 $tt = $Item;
+            //                 break;
+            //             } else {
+            //                 $tt = '';
+            //             }
+            //         }
+            //        if ($tt == '') { // if the tt doesn't exist on trip type, add it.
+            $n = new TripTriptype();
+            $n->setid_triptype($idTriptype);
+            $n->setid_trip($lObj->getID());
+            $destLst->addItem($n);
+            //        } else {
+            //            $tt->setState(cUPDATE); //else update it
+            //        }
+        }
         // }
-
         //$lObj->setDataFromRequest($post);
 
         try {
@@ -581,7 +579,7 @@ class TripController extends AbstractController {
             die();
         }
         $msg = '';
-        $br->setBrowserUrl(BASE_URL . 'trip/newtrip3/id/'.$lObj->getID());
+        $br->setBrowserUrl(BASE_URL . 'trip/newtrip3/id/' . $lObj->getID());
         $br->send();
     }
 
@@ -716,36 +714,33 @@ class TripController extends AbstractController {
             //     $Item->setState(cDELETE);
             // }
             // if (count($list) > 0) {
-                foreach ($list as $id_usuario) { //for each item selected by the trip
-            //         if ($idTriptype == '') {
-            //             continue;
-            //         }
-            //         $tt = '';
-            //         for ($i = 0; $i < $destLst->countItens(); $i++) { // find the tt on the trip type on database
-            //             $Item = $destLst->getItem($i);
-            //             if ($Item->getid_triptype() == $idTriptype) {
-            //                 $tt = $Item;
-            //                 break;
-            //             } else {
-            //                 $tt = '';
-            //             }
-            //         }
-
-            //        if ($tt == '') { // if the tt doesn't exist on trip type, add it.
-                        $n = new TripUser();
-                        $n->setid_trip($lObj->getID());
-                        $n->setid_usuario($id_usuario);
-                        $n->setstatus('i');
-                        $destLst->addItem($n);
-            //        } else {
-            //            $tt->setState(cUPDATE); //else update it
-            //        }
-                }
+            foreach ($list as $id_usuario) { //for each item selected by the trip
+                //         if ($idTriptype == '') {
+                //             continue;
+                //         }
+                //         $tt = '';
+                //         for ($i = 0; $i < $destLst->countItens(); $i++) { // find the tt on the trip type on database
+                //             $Item = $destLst->getItem($i);
+                //             if ($Item->getid_triptype() == $idTriptype) {
+                //                 $tt = $Item;
+                //                 break;
+                //             } else {
+                //                 $tt = '';
+                //             }
+                //         }
+                //        if ($tt == '') { // if the tt doesn't exist on trip type, add it.
+                $n = new TripUser();
+                $n->setid_trip($lObj->getID());
+                $n->setid_usuario($id_usuario);
+                $n->setstatus('i');
+                $destLst->addItem($n);
+                //        } else {
+                //            $tt->setState(cUPDATE); //else update it
+                //        }
+            }
         }
         // }
-
         // for a while I'm not saving the name/ e-mail
-
         //$lObj->setDataFromRequest($post);
         try {
             $lObj->save();
@@ -756,7 +751,7 @@ class TripController extends AbstractController {
             die();
         }
         $msg = '';
-        $br->setBrowserUrl(BASE_URL . 'trip/newtrip4/id/'.$lObj->getID());
+        $br->setBrowserUrl(BASE_URL . 'trip/newtrip4/id/' . $lObj->getID());
         $br->send();
     }
 
@@ -841,9 +836,9 @@ class TripController extends AbstractController {
         $view->assign('id_trip', $post->id_trip);
 
         Db_Table::setSession('places', $places);
-        $br->setHtml('placesdiv',$view->fetch('Trip/app/searchPlaces.tpl'));
+        $br->setHtml('placesdiv', $view->fetch('Trip/app/searchPlaces.tpl'));
         $br->send();
-    } 
+    }
 
     public function btnsearchclickAction() {
         $this->defaultplacesloadAction();
@@ -856,11 +851,12 @@ class TripController extends AbstractController {
     public function newtripcityclickAction() {
         $post = Zend_Registry::get('post');
         $br = new Browser_Control();
-        $url = BASE_URL . 'trip/newtrip5/id_trip/'.$post->id_trip."/id_place/".$post->id_place;
+        $url = BASE_URL . 'trip/newtrip5/id_trip/' . $post->id_trip . "/id_place/" . $post->id_place;
         $br->setBrowserUrl($url);
         $br->send();
     }
-     public function newtrip5Action() {
+
+    public function newtrip5Action() {
 
         $view = Zend_Registry::get('view');
         $post = Zend_Registry::get('post');
@@ -885,11 +881,12 @@ class TripController extends AbstractController {
         $element->setValue($post->id_place);
         $form->addElement($element);
 
-        $element = new Ui_Element_Date('startdate');
+        $element = new Ui_Element_Date('startdate', 'ARRIVAL');
         $element->setRequired();
+        $element->setAlternativeField('enddate');
         $form->addElement($element);
 
-        $element = new Ui_Element_Date('enddate');
+        $element = new Ui_Element_Date('enddate', 'DEPARTURE');
         $element->setRequired();
         $form->addElement($element);
 
@@ -918,7 +915,6 @@ class TripController extends AbstractController {
         $view->output('index.tpl');
     }
 
-
     public function btnnext5clickAction() {
         $post = Zend_Registry::get('post');
         $session = Zend_Registry::get('session');
@@ -935,7 +931,7 @@ class TripController extends AbstractController {
             $br->validaForm($valid);
             $br->send();
             exit;
-        // Date must be in the future
+            // Date must be in the future
         } else if (DataHora::compareDateYYYYMMDD(DataHora::inverteDataIngles($post->startdate), '<', date('Y-m-d'))) {
             $br->setAlert("Warning!", "Start date cannot be in the past!");
             $br->send();
@@ -944,7 +940,7 @@ class TripController extends AbstractController {
             $br->setAlert("Warning!", "End date cannot be in the past!");
             $br->send();
             exit;
-        // startDate must be less than end date
+            // startDate must be less than end date
         } else if (DataHora::compareDateYYYYMMDD(DataHora::inverteDataIngles($post->enddate), '<', DataHora::inverteDataIngles($post->startdate))) {
             $br->setAlert("Warning!", "End date cannot de before the start date!");
             $br->send();
@@ -974,11 +970,11 @@ class TripController extends AbstractController {
         }
         $msg = '';
 
-        $br->setBrowserUrl(BASE_URL . 'trip/newtrip6/id_trip/'.$post->id_trip.'/id_tripplace/'.$tripplace->getID());
+        $br->setBrowserUrl(BASE_URL . 'trip/newtrip6/id_trip/' . $post->id_trip . '/id_tripplace/' . $tripplace->getID());
         $br->send();
     }
 
-     public function newtrip6Action() {
+    public function newtrip6Action() {
 
         $view = Zend_Registry::get('view');
         $post = Zend_Registry::get('post');
@@ -1063,7 +1059,6 @@ class TripController extends AbstractController {
         $view->output('index.tpl');
     }
 
-
     public function btnfinishclickAction($addMorePlaces = false) {
         $post = Zend_Registry::get('post');
         $session = Zend_Registry::get('session');
@@ -1097,7 +1092,7 @@ class TripController extends AbstractController {
         $msg = '';
 
         if ($addMorePlaces) {
-            $br->setBrowserUrl(BASE_URL . 'trip/newtrip4/id/'.$post->id_trip);
+            $br->setBrowserUrl(BASE_URL . 'trip/newtrip4/id/' . $post->id_trip);
         } else {
             $br->setBrowserUrl(BASE_URL . 'trip/dashboard');
         }
