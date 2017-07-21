@@ -74,7 +74,6 @@ class TripController extends AbstractController {
 
 
 
-
         // =========================================================================
 //
         $button = new Ui_Element_Btn('btnEditar');
@@ -99,11 +98,22 @@ class TripController extends AbstractController {
 
     public function dashboardAction() {
         $view = Zend_Registry::get('view');
-//        $post = Zend_Registry::get('post');
+        $post = Zend_Registry::get('post');
 //        $br = new Browser_Control();
 
+        $oldtrip = $post->oldtrip == 'show';
         $TripLst = new Trip();
-        $TripLst->where('startdate', date('Y-m-d'), '>=');
+        $TripLst->join('tripuser','tripuser.id_trip = trip.id_trip');
+        $TripLst->where('tripuser.id_usuario', Usuario::getIdUsuarioLogado());
+        if ($oldtrip) {
+            $view->assign('btnOldTripHref',HTTP_REFERER .'trip/dashboard/oldtrip/hide');
+            $view->assign('btnOldTripText','Hide old trips');
+        } else {
+            $view->assign('btnOldTripHref',HTTP_REFERER .'trip/dashboard/oldtrip/show');
+            $view->assign('btnOldTripText','Show old trips');
+            $TripLst->where('trip.enddate', date('Y-m-d'),'>=');
+        }
+
         $TripLst->readLst();
 
         for ($i = 0; $i < $TripLst->countItens(); $i++) {
@@ -420,16 +430,12 @@ class TripController extends AbstractController {
     }
 
     public function btnnextoneclickAction() {
-        $post = Zend_Registry::get('post');
+        $post    = Zend_Registry::get('post');
         $session = Zend_Registry::get('session');
-//        $usuario = $session->usuario;
-        $br = new Browser_Control();
-        // ----------------------
+        $br      = new Browser_Control();
+        $form    = Session_Control::getDataSession('formNewtrip');
 
-        $form = Session_Control::getDataSession('formNewtrip');
-
-        $valid = $form->processAjax($_POST);
-
+        $valid   = $form->processAjax($_POST);
         $br = new Browser_Control();
         if ($valid != 'true') {
             $br->validaForm($valid);
@@ -439,8 +445,15 @@ class TripController extends AbstractController {
         // ----------------------
         /* @var $lObj Trip */
         $lObj = Trip::getInstance('newTrip');
-
         $lObj->setDataFromRequest($post);
+
+        // add trip owner
+        $tripuser = new TripUser();
+        $tripuser->setid_usuario(Usuario::getIdUsuarioLogado());
+        $tripuser->setstatus('o');
+        $tripuser->setjoined_at(date('m/d/Y'));
+        $users = $lObj->getTripUserLst();
+        $users->addItem($tripuser);
         try {
             $lObj->save();
             $lObj->setInstance('newTrip');
@@ -721,7 +734,7 @@ class TripController extends AbstractController {
             //        if ($tt == '') { // if the tt doesn't exist on trip type, add it.
                         $n = new TripUser();
                         $n->setid_trip($lObj->getID());
-                        $n->setid_usuario($idTriptype);
+                        $n->setid_usuario($id_usuario);
                         $n->setstatus('i');
                         $destLst->addItem($n);
             //        } else {
@@ -873,11 +886,11 @@ class TripController extends AbstractController {
         $form->addElement($element);
 
         $element = new Ui_Element_Date('startdate');
-        //$element->setRequired();
+        $element->setRequired();
         $form->addElement($element);
 
         $element = new Ui_Element_Date('enddate');
-        //$element->setRequired();
+        $element->setRequired();
         $form->addElement($element);
 
         $button = new Ui_Element_Btn('btnNext5');
@@ -922,15 +935,37 @@ class TripController extends AbstractController {
             $br->validaForm($valid);
             $br->send();
             exit;
+        // Date must be in the future
+        } else if (DataHora::compareDateYYYYMMDD(DataHora::inverteDataIngles($post->startdate), '<', date('Y-m-d'))) {
+            $br->setAlert("Warning!", "Start date cannot be in the past!");
+            $br->send();
+            exit;
+        } else if (DataHora::compareDateYYYYMMDD(DataHora::inverteDataIngles($post->enddate), '<', date('Y-m-d'))) {
+            $br->setAlert("Warning!", "End date cannot be in the past!");
+            $br->send();
+            exit;
+        // startDate must be less than end date
+        } else if (DataHora::compareDateYYYYMMDD(DataHora::inverteDataIngles($post->enddate), '<', DataHora::inverteDataIngles($post->startdate))) {
+            $br->setAlert("Warning!", "End date cannot de before the start date!");
+            $br->send();
+            exit;
         }
 
-        // ----------------------
-        /* @var $trip Trip */
+
         $tripplace = new TripPlace();
         $tripplace->setDataFromRequest1($post);
 
+        $trip = new Trip();
+        $trip->read($post->id_trip);
+        if (($trip->getstartdate() == NULL) || (DataHora::compareDateYYYYMMDD(DataHora::inverteDataIngles($tripplace->getstartdate()), '<', DataHora::inverteDataIngles($trip->getstartdate())))) {
+            $trip->setstartdate($tripplace->getstartdate());
+        }
+        if (($trip->getenddate() == NULL) || (DataHora::compareDateYYYYMMDD(DataHora::inverteDataIngles($tripplace->getenddate()), '>', DataHora::inverteDataIngles($trip->getenddate())))) {
+            $trip->setenddate($tripplace->getenddate());
+        }
         try {
             $tripplace->save();
+            $trip->save();
             $tripplace->setInstance('newTripPlace');
         } catch (Exception $exc) {
             $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
