@@ -3,19 +3,15 @@
 
 {literal}
     <style>
-
-        .social-wrapper,
-        .social {
-            height: 100%;
-            width: 100%;
+        .container-fluid{
+            padding-right: 0px !important;
+            padding-left: 0px!important;
         }
-        .cover-img-container .cover-img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            display: block;
-            min-width: 100%;
-            min-height: 100%;
+        .container .jumbotron, .container-fluid .jumbotron{
+            border-radius: 0px !important;
+        }
+        .padding-25 {
+            padding: 0px !important;
         }
     </style>
 {/literal}

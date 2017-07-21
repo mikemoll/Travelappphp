@@ -35,7 +35,7 @@
     <section class="applied-filters clearfix">
 
         <ul class="list-unstyled ">
-            <li class="hint-text">Applied Filters: </li>
+            <li class="hint-text">Applied Filters: <a href="{$HTTP_REFERER}{$BASE}explore/index/" class=""><i class="fa fa-close"></i> remove all filters</a></li>
             <li>
                 {foreach key=key from=$appliedFilters item=item }
                     <a href="{$HTTP_REFERER}{$BASE}explore/index/{$links[$key]}" class="btn btn-sm  ">{$names[$key]} <i class="fa fa-close"></i></a>

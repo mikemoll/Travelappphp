@@ -854,7 +854,7 @@ class UsuarioController extends AbstractController {
 
         $element = new Ui_Element_Select('relationship');
         $element->addMultiOption('', '- Select -');
-        foreach( Usuario::$RELATIONSHIPS as $key => $description) {
+        foreach (Usuario::$RELATIONSHIPS as $key => $description) {
             $element->addMultiOption($key, $description);
         }
         $form->addElement($element);
@@ -1103,14 +1103,14 @@ class UsuarioController extends AbstractController {
         $id = $post->id;
 
         //Validates if this friend is my friend or is mine
-        $myprofile=false;
+        $myprofile = false;
         if ($id == Usuario::getIdUsuarioLogado()) {
-            $myprofile=true;
-
+            $myprofile = true;
+        }
         // If it is not my friend just loads my profile ( no crackers wanted! )
-        } if (!Usuario::IsMyFriend($id)) {
-            $myprofile=true;
-            $id=Usuario::getIdUsuarioLogado();
+        if (!Usuario::IsMyFriend($id)) {
+            $myprofile = true;
+            $id = Usuario::getIdUsuarioLogado();
         }
 
         $user = new Usuario();
@@ -1120,19 +1120,35 @@ class UsuarioController extends AbstractController {
         $view->assign('myprofile', $myprofile);
         $view->assign('interests', $user->getInterestsIcons());
         $view->assign('travelertypes', $user->getTravelertypeIcons());
-        $view->assign('name', htmlentities( $user->getnomecompleto().' '.$user->getlastname() ));
-        $view->assign('livein', htmlentities( $user->getliveincity().', '.$user->getliveincountry()));
+        $view->assign('name', htmlentities($user->getnomecompleto() . ' ' . $user->getlastname()));
+        $view->assign('livein', htmlentities($user->getliveincity() . ', ' . $user->getliveincountry()));
         $view->assign('Photo', htmlentities($user->getPhotoPath()));
-        $view->assign('bio', nl2br(htmlentities( $user->getbio())));
-        $view->assign('traveledto', nl2br(htmlentities( utf8_encode($user->gettraveledto()))));
-        $view->assign('hometown', htmlentities( $user->gethometowncity().', '.$user->gethometowncountry()));
-        $view->assign('relationship', htmlentities( Usuario::$RELATIONSHIPS[$user->getrelationship()]));
-        $view->assign('education', htmlentities( $user->geteducation()));
-        $view->assign('dreamjob', htmlentities( $user->getdreamjob()));
+        $view->assign('bio', nl2br(htmlentities($user->getbio())));
+        $view->assign('traveledto', nl2br(htmlentities(utf8_encode($user->gettraveledto()))));
+        $view->assign('hometown', htmlentities($user->gethometowncity() . ', ' . $user->gethometowncountry()));
+        $view->assign('relationship', htmlentities(Usuario::$RELATIONSHIPS[$user->getrelationship()]));
+        $view->assign('education', htmlentities($user->geteducation()));
+        $view->assign('dreamjob', htmlentities($user->getdreamjob()));
         $view->assign('facebook', $user->getfacebook());
         $view->assign('twitter', $user->gettwitter());
         $view->assign('instagram', $user->getinstagram());
         $view->assign('occupation', $user->getoccupation());
+
+
+        $Lst = new Dreamboard;
+        $Lst->where('dreamboard.id_usuario', $id);
+        $Lst->readLst();
+        $view->assign('dreams', $Lst->getItens());
+
+        $Lst = new Trip;
+        $Lst->join('tripuser', "tripuser.id_usuario = $id", 'id_tripuser');
+//        $Lst->where('tripuser.id_usuario', $id);
+        $Lst->readLst();
+        for ($i = 0; $i < $Lst->countItens(); $i++) {
+            $Item = $Lst->getItem($i);
+            $Item->read();
+        }
+        $view->assign('tripLst', $Lst->getItens());
 
 
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
@@ -1148,9 +1164,9 @@ class UsuarioController extends AbstractController {
         $view = Zend_Registry::get('view');
 
 
-        $view->assign('friends',Friend::getFriendsLst(Usuario::getIDUsuarioLogado()));
+        $view->assign('friends', Friend::getFriendsLst(Usuario::getIDUsuarioLogado()));
 
-        $br->setHtml('chat',$view->fetch('Usuario/friendsList.tpl'));
+        $br->setHtml('chat', $view->fetch('Usuario/friendsList.tpl'));
         $br->send();
     }
 
@@ -1159,9 +1175,9 @@ class UsuarioController extends AbstractController {
         $view = Zend_Registry::get('view');
 
 
-        $view->assign('friends',Friend::getFriendsLst(Usuario::getIDUsuarioLogado(),true));
+        $view->assign('friends', Friend::getFriendsLst(Usuario::getIDUsuarioLogado(), true));
 
-        $br->setHtml('tripfriendslist',$view->fetch('Usuario/selectFriendsList.tpl'));
+        $br->setHtml('tripfriendslist', $view->fetch('Usuario/selectFriendsList.tpl'));
         $br->send();
     }
 
@@ -1173,7 +1189,8 @@ class UsuarioController extends AbstractController {
         $br = new Browser_Control();
         $view = Zend_Registry::get('view');
 
-        $br->setHtml('chat',$view->fetch('Usuario/addFriend.tpl'));
+        $br->setHtml('chat', $view->fetch('Usuario/addFriend.tpl'));
         $br->send();
     }
+
 }
