@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <a href="newtrip">
+                    <a href="{$baseUrl}trip/newtrip">
                         <div class="pull-bottom bottom-left bottom-right padding-25">
                             <h1 class="text-white semi-bold">New Trip!</h1>
                             <span class="label font-montserrat fs-11">Click here to start!</span>
