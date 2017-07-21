@@ -22,6 +22,18 @@ class Trip extends Db_Table {
         return DataHora::daysBetween(date('Y-m-d'), DataHora::inverteDataIngles($this->getstartdate()), 'yyyy-mm-dd', 'yyyy-mm-dd');
     }
 
+    public function getDaysToText() {
+        $days = $this->getDaysTo();
+        if (substr($days, 0,1) == '-') {
+            if (DataHora::compareDateYYYYMMDD(DataHora::inverteDataIngles($post->enddate), '<', date('Y-m-d'))) {
+                return 'in progress!';
+            } else {
+                return 'done!';
+            }
+        }
+        return 'in '.$days.' days!';
+    }
+
     public function getShortDescription() {
         return $this->getDescription();
     }
@@ -31,6 +43,14 @@ class Trip extends Db_Table {
             $this->TripActivityLst = new TripActivity();
         }
         return $this->TripActivityLst;
+    }
+
+    public function getformatedstartdate() {
+        return substr($this->getstartdate(),0,10);
+    }
+
+    public function getformatedenddate() {
+        return substr($this->getenddate(),0,10);
     }
 
     public function setTripActivityLst($val) {
