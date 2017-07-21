@@ -303,7 +303,7 @@ class ExploreController extends AbstractController {
                         });");
         $br->setAttrib('itemDetailGalery', 'class', 'item-slideshow full-height itemGalery');
 
-        $br->setAttrib('btnAddToTrip', 'params', 'id_trip=' . $post->id_trip . '&id_place=' . $id);
+        $br->setAttrib('btnAddToTrip', 'params', 'id_place=' . $id);
 
 //        $br->setCommand('
 //            alert("sdav" );
@@ -316,6 +316,81 @@ class ExploreController extends AbstractController {
 
 
 
+        $br->send();
+    }
+
+
+    public function btnaddtotripclickAction() {
+        $br = new Browser_Control();
+        $post = Zend_Registry::get('post');
+
+        $Item = new Place();
+        $id = $post->id_place;
+
+        $Item->read($id);
+
+        // set titles
+        $br->setHtml('itemTitleNewTrip', 'Add '. $Item->getName().' to the trip:');
+        // if ($Item->getFormatted_Address() != '') {
+        //     $br->setHtml('itemFormattedAddressNewTrip', $Item->getFormatted_Address());
+        // } else {
+        //     $br->setHtml('itemFormattedAddressNewTrip', $Item->getCountry());
+        // }
+
+        // set trips list
+        $TripLst = new Trip();
+        $TripLst->join('tripuser','tripuser.id_trip = trip.id_trip','');
+        $TripLst->where('tripuser.id_usuario', Usuario::getIdUsuarioLogado());
+        $TripLst->where('trip.enddate', date('Y-m-d'),'>=');
+        $TripLst->readLst();
+        $tripTable = '';
+        for ($i = 0; $i < $TripLst->countItens(); $i++) {
+            $trip = $TripLst->getItem($i);
+            $tripTable .= '<tr><td class="font-montserrat all-caps fs-12 col-lg-6" name="btnaddtospecifictrip" event="click" params="id_place='.$id.'&id_trip='.$trip->getID().'">'.$trip->gettripname().'</td></tr>';
+        }
+        $br->setHtml('tripTable', $tripTable);
+
+
+
+        // loading the place photo
+        $lP = $Item->getPicsLst();
+        foreach ($lP as $value) {
+            $itemGaleryImage .= '<div class="slide" data-image="' . $value['src'] . '" ></div>';
+            break;
+        }
+        $br->setHtmlByClass('itemGaleryNewTrip', $itemGaleryImage);
+        $br->setCommand("
+                        $('.item-slideshow > div').each(function () {
+                            var img = $(this).data('image');
+                            $(this).css({
+                                'background-image': 'url(' + img + ')',
+                                'background-size': 'cover'
+                            })
+                        });");
+        $br->setAttrib('itemDetailGaleryNewtrip', 'class', 'item-slideshow full-height itemGaleryNewTrip');
+
+
+        //dafine the add to new trip action
+        $br->setAttrib('btnAddToNewTrip', 'params', 'id_place=' . $id);
+        
+        $br->setAttrib('itemDetails', 'class', 'dialog item-details');
+        $br->setAttrib('addToTripDialog', 'class', 'dialog item-details dialog dialog--open');
+
+
+        $br->send();
+    }
+
+    public function btnaddtonewtripclickAction() {
+        $post = Zend_Registry::get('post');
+        $br = new Browser_Control();
+        $br->setBrowserUrl(HTTP_HOST . BASE_URL . 'trip/newtrip/id_place/'.$post->id_place);
+        $br->send();
+    }
+
+    public function btnaddtospecifictripclickAction() {
+        $post = Zend_Registry::get('post');
+        $br = new Browser_Control();
+        $br->setBrowserUrl(HTTP_HOST . BASE_URL . 'trip/newtrip5/id_trip/'.$post->id_trip.'/id_place/'.$post->id_place);
         $br->send();
     }
 
@@ -383,12 +458,6 @@ class ExploreController extends AbstractController {
         $br->send();
     }
 
-    public function btnaddtotripclickAction() {
-        $post = Zend_Registry::get('post');
-        $br = new Browser_Control();
-        $br->setBrowserUrl(HTTP_HOST . BASE_URL . 'trip/newtrip');
-        $br->send();
-    }
 
     public function loadAction() {
         

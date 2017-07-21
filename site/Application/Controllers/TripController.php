@@ -103,7 +103,7 @@ class TripController extends AbstractController {
 
         $oldtrip = $post->oldtrip == 'show';
         $TripLst = new Trip();
-        $TripLst->join('tripuser','tripuser.id_trip = trip.id_trip');
+        $TripLst->join('tripuser','tripuser.id_trip = trip.id_trip','');
         $TripLst->where('tripuser.id_usuario', Usuario::getIdUsuarioLogado());
         if ($oldtrip) {
             $view->assign('btnOldTripHref',HTTP_REFERER .'trip/dashboard/oldtrip/hide');

@@ -369,7 +369,8 @@ console.log(start.toISOString(), end.toISOString(), label);
                         <a href="#none" class="btn btn-primary" id="btnAddDream" name="btnAddDream" event="click"><i class="fa fa-heart-o  "></i> Add to my dream board</a>
                         <br>
                         <br>
-                        <a href="#none" class="btn btn-success " id="btnAddToTrip" name="btnAddToTrip" event="click"><i class="fa fa-plus  "></i> Add to a trip</a>
+                        <a href="#none" class="btn btn-success " id="btnAddToTrip" name="btnAddToTrip" event="click" url='explore' ><i class="fa fa-plus  "></i> Add to a trip</a>
+
                     </div>
 
                 </div>
@@ -406,6 +407,76 @@ console.log(start.toISOString(), end.toISOString(), label);
     </div>
 </div>
             -->
+
+        </div>
+        <a href="#none" class="close action top-right" data-dialog-close><i class="pg-close fs-14"></i>
+        </a>
+    </div>
+</div>
+<!-- END DIALOG -->
+
+
+<!-- START ADD TO TRIP DIALOG -->
+<div id="addToTripDialog" class="dialog item-details">
+    <div class="dialog__overlay"></div>
+    <div class="dialog__content">
+        <div class="container-fluid">
+            <div class="row dialog__overview">
+                <div class="col-sm-7 no-padding item-slideshow-wrapper full-height">
+                    <div class="item-slideshow full-height itemGaleryNewTrip" id="itemDetailGaleryNewtrip">
+                         <div class="slide" data-image="{$baseUrl}Public/assets/img/gallery/item-square.jpg">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5 p-r-35 p-t-35 p-l-35 full-height item-description">
+
+
+
+<div class="widget-11-2 panel no-border panel-condensed no-margin widget-loader-circle">
+<div class="padding-25">
+<div class="pull-left">
+                    <h4 class="text-success no-margin font-montserrat " id="itemTitleNewTrip">Place Title</h4>
+                    <!-- <span class="semi-bold no-margin font-montserrat" id="itemFormattedAddressNewTrip">Place full address</span> -->
+                    <!-- <h4 class="semi-bold no-margin font-montserrat ">Trip to add this place</h4> -->
+<!-- <p class="no-margin">Trip to add this place</p> -->
+</div>
+
+<div class="clearfix"></div>
+</div>
+<div class="auto-overflow widget-11-2-table">
+<table class="table table-condensed table-hover">
+<tbody id="tripTable">
+    
+    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
+    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
+    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
+    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
+    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
+    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
+    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
+    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
+    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
+    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
+</tbody>
+</table>
+</div>
+<div class="padding-25">
+<p class="small no-margin">
+                        <a href="#none" class="btn btn-success " id="btnAddToNewTrip" name="btnAddToNewTrip" event="click"><i class="fa fa-plus  "></i> Add to a new trip</a>
+
+<!-- <a href="#"><i class="fa fs-16 fa-arrow-circle-o-down text-success m-r-10"></i></a>
+<span class="hint-text ">Show more details of APPLE . INC</span>
+ --></p>
+</div>
+
+</div>
+
+<!-- 
+                    <div class="item-buttons" style="float: right;position: absolute;bottom: 5px;width: 100%;">
+                        <a href="#none" class="btn btn-success " id="btnAddToNewTrip" name="btnAddToNewTrip" event="click"><i class="fa fa-plus  "></i> Add to a new trip</a>
+                    </div>
+ -->                </div>
+            </div>
 
         </div>
         <a href="#none" class="close action top-right" data-dialog-close><i class="pg-close fs-14"></i>
