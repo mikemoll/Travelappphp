@@ -131,7 +131,7 @@
                                         }
                                     </style>
                                 {/literal}
-                                <div class="col-md-4 col-xlg-4 box-item" >
+                                <div class="col-md-4 col-xlg-4 m-b-10" >
                                     <div class="ar-1-1">
 
                                         <!-- START WIDGET widget_imageWidgetBasic-->
@@ -159,8 +159,8 @@
 
                                                 <a href="{$HTTP_REFERER}trip/detail/id/{$tripLst[i]->getID()}/{$tripLst[i]->getTripName()}" title="Open this trip!">
                                                     <div class="pull-bottom bottom-left bottom-right padding-15">
-{*                                                        <span class="label font-montserrat fs-11">Trip</span>*}
-{*                                                        <br>*}
+                                                        {*                                                        <span class="label font-montserrat fs-11">Trip</span>*}
+                                                        {*                                                        <br>*}
                                                         <h3 class="text-white">{$tripLst[i]->getTripName()}</h3>
                                                         {if $tripLst[i]->gettravelmethod()!=''}
                                                             <p class="text-white hint-text hidden-md">Traveling by {$tripLst[i]->gettravelmethod()}</p>

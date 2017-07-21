@@ -28,8 +28,21 @@
             display: block;
             overflow: hidden;
         }
+        .old-trip {
+            display: block;
+            float: right;
+        }
     </style>
 {/literal}
+<div class="row">
+    <div class="col-sm-6">
+        <h1>My Trips</h1>
+    </div>
+    <div class="col-sm-6" align="right">
+        <a href="{$btnOldTripHref}" target="_self" class="btn btn-success btn-cons">{$btnOldTripText}</a>
+    </div>
+</div>
+
 <!-- START ROW -->
     <div class="col-sm-3 m-b-4">
         <div class="ar-1-1">
@@ -76,7 +89,7 @@
                     <div class="panel-heading">
                         <div class="panel-controls">
                             <ul>
-                                <li><a href="edit/id/{$tripLst[i]->getID()}/{$tripLst[i]->getTripName()}" title="Open this trip!" class="label">edit</a></li>
+                                <li><a href="detail/id/{$tripLst[i]->getID()}/{$tripLst[i]->getTripName()}" title="Open this trip!" class="label">edit</a></li>
                                 <li>
                                     {* <a class="widget-3-fav no-decoration" style="{if $tripLst[i]->getFavorite()!=''}display: none;{/if}" href="#" id="btnadddream"
                                     name="btnadddream"  event="click" url="explore"
@@ -110,7 +123,7 @@
                                                 Check In
                                             </p>
                                             <p class="font-montserrat text-success no-margin fs-16">
-                                                <i class="fa fa-caret-up"></i> {$tripLst[i]->getstartdate()}<br><small>in {$tripLst[i]->getDaysTo()} days!</small>
+                                                <i class="fa fa-caret-up"></i> {$tripLst[i]->getformatedstartdate()}<br><small>{$tripLst[i]->getDaysToText()}</small>
                                                 {*                                                    <span class="font-arial text-white fs-12 hint-text m-l-5">546.45</span>*}
                                             </p>
                                         </div>
@@ -121,7 +134,7 @@
                                                 Check Out
                                             </p>
                                             <p class="font-montserrat text-danger no-margin fs-16">
-                                                <i class="fa fa-caret-down"></i> {$tripLst[i]->getenddate()}
+                                                <i class="fa fa-caret-down"></i> {$tripLst[i]->getformatedenddate()}
                                                 {*                                                    <span class="font-arial text-white fs-12 hint-text m-l-5">345.34</span>*}
                                             </p>
                                         </div>
