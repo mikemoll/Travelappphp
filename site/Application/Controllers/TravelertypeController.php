@@ -25,6 +25,7 @@ class TravelertypeController extends AbstractController {
         $form->setName($this->FormName);
         $form->setAction($this->Action);
 
+
         ////-------- Grid   --------------------------------------------------------------
         $form = new Ui_Form();
         $form->setName($this->FormName);
@@ -92,6 +93,7 @@ class TravelertypeController extends AbstractController {
         $form = new Ui_Form();
         $form->setAction($this->Action);
         $form->setName($this->ItemEditFormName);
+        $form->setAttrib('enctype', 'multipart/form-data');
 
         $element = new Ui_Element_Text('description', "Traveler type description");
         $element->setAttrib('maxlength', 45);
@@ -123,6 +125,7 @@ class TravelertypeController extends AbstractController {
 
         $form->setDataSession();
 
+        $view->assign('imgPath', $obj->getImagePath());
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('titulo', $this->TituloEdicao);
@@ -155,6 +158,14 @@ class TravelertypeController extends AbstractController {
             $br->send();
             die();
         }
+
+        $image = $post->image;
+        //Put the uploaded file in the proper folder
+        if ($image['tmp_name'] != '') {
+            $dest = Travelertype::makeimagelocalPath($lObj->GetID());
+            move_uploaded_file($image['tmp_name'], $dest );
+        }
+
         $msg = 'Changes saved!';
         $br->setMsgAlert('Saved!', $msg);
         $br->setBrowserUrl(BASE_URL . 'travelertype');
