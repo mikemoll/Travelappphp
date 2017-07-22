@@ -10,8 +10,12 @@ class UserInterests extends Db_Table {
     }
 
 
-    function readLst($modo = 'obj') {
+    public function readLst($modo = 'obj') {
         $this->join('interests', 'interests.id_interests = userinterests.id_interest', 'description');
         parent::readLst($modo);
+    }
+
+    public function getImagePath() {
+        return Interest::makeimagePath($this->getid_interest());
     }
 }

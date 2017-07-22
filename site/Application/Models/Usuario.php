@@ -550,7 +550,7 @@ class Usuario extends Db_Table {
             for ($i = 0; $i < $lLst->countItens(); $i++) {
                 $item = $lLst->getItem($i);
                 $list[] = array('name' => $item->getdescription(),
-                    'icon' => HTTP_REFERER . 'Public/Images/interests/' . $item->getid_interest() . '.png');
+                    'icon' => $item->getImagePath());
             }
         }
         return $list;
@@ -563,7 +563,7 @@ class Usuario extends Db_Table {
             for ($i = 0; $i < $lLst->countItens(); $i++) {
                 $item = $lLst->getItem($i);
                 $list[] = array('name' => $item->getdescription(),
-                    'icon' => HTTP_REFERER . 'Public/Images/interests/' . $item->getid_travelertype() . '.png');
+                    'icon' => $item->getImagePath());
             }
         }
         return $list;

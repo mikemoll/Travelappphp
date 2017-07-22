@@ -14,4 +14,9 @@ class UserTravelertype extends Db_Table {
         parent::readLst($modo);
     }
 
+    public function getImagePath() {
+        return Travelertype::makeimagePath($this->getid_travelertype());
+    }
+
+
 }

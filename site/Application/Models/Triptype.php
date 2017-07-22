@@ -26,10 +26,6 @@ class Triptype extends Db_Table {
         $this->setTriptypename($post->triptypename);
     }
 
-    public static function getTripTypeIcon($id) {
-        return BASE_URL . 'Public/Images/triptype/' . $id .'.png';
-    }
-
     public static function getAllTripTypesLst() {
 
         $triptypes = new Triptype();
@@ -41,11 +37,30 @@ class Triptype extends Db_Table {
                 $id = $tt->getid_triptype();
                 $ttdata = array();
                 $ttdata['description'] = $tt->gettriptypename();
-                $ttdata['icon'] = Triptype::getTripTypeIcon($id);
+                $ttdata['icon'] = $tt->getImagePath($id);
                 $list[$id] = $ttdata;
             }
         }
         return $list;
     }
 
+    public static function makeimagelocalPath($id) {
+        $path = RAIZ_DIRETORY . 'site/Public/Images/triptypes';
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+        return $path .'/'. $id . '.png';
+    }
+
+    public static function makeimagePath($id) {
+        $path = 'Public/Images/triptypes/' . $id . '.png';
+        if (!file_exists(Triptype::makeimagelocalPath($id))) {
+            return HTTP_REFERER . 'Public/Images/interest.png';
+        }
+        return HTTP_REFERER . $path; //default image
+    }
+
+    public function getImagePath() {
+        return Triptype::makeimagePath($this->getID());
+    }
 }
