@@ -67,18 +67,101 @@
 
                 <div class="tab-content">
                     <div class="tab-pane active " id="home">
-                        <div class="row column-seperation">
-                            <div class="full-width col-middle text-center">
-                                <h1 >Go Everywhere</h1>
-                                <p align="center">Keep track of all the places you have been</p>
-                                <p align="center">Set a goal and challenge yourself</p>
-                                <p align="center">Compete with your friends and travel buddies</p>
-                                <p align="center">Can you make it to the top of the global leader board?</p>
-                            </div>
-                            <div class="full-width col-middle">
-                                <img src="{$HTTP_REFERER}Public/Images/Profile/world_map.jpeg">
+                        {*                        <div class="row column-seperation">*}
+                        {* <div class="full-width col-middle text-center">
+                        <h1 >Go Everywhere</h1>
+                        <p align="center">Keep track of all the places you have been</p>
+                        <p align="center">Set a goal and challenge yourself</p>
+                        <p align="center">Compete with your friends and travel buddies</p>
+                        <p align="center">Can you make it to the top of the global leader board?</p>
+                        </div>*}
+
+
+
+
+
+
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no" />
+
+                        <link href="{$baseUrl}Public/assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" />
+                        <link href="{$baseUrl}Public/assets/plugins/bootstrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+                        <link href="{$baseUrl}Public/assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+                        <link href="{$baseUrl}Public/assets/plugins/jquery-scrollbar/jquery.scrollbar.css" rel="stylesheet" type="text/css" media="screen" />
+                        <link href="{$baseUrl}Public/assets/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" media="screen" />
+                        <link href="{$baseUrl}Public/assets/plugins/switchery/css/switchery.min.css" rel="stylesheet" type="text/css" media="screen" />
+                        <link href="{$baseUrl}Public/assets/plugins/mapplic/css/mapplic.css" rel="stylesheet" type="text/css" />
+                        <link href="{$baseUrl}Public/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
+                        <link class="main-stylesheet" href="{$baseUrl}Public/pages/css/pages.css" rel="stylesheet" type="text/css" />
+                        <!--[if lte IE 9]>
+                            <link href="{$baseUrl}Public/assets/plugins/codrops-dialogFx/dialog.ie.css" rel="stylesheet" type="text/css" media="screen" />
+                            <![endif]-->
+                        <!-- BEGIN SIDEBPANEL-->
+
+                        <!-- END SIDEBAR -->
+                        <!-- END SIDEBPANEL-->
+                        <!-- START PAGE-CONTAINER -->
+                        <div class="" style="height: 500px">
+                            <!-- START HEADER -->
+                            <div class="map-container full-width full-height relative">
+                                <div class="map-controls">
+                                    <div class="pull-left">
+                                        <div class="btn-group btn-group-vertical" data-toggle="buttons-radio">
+                                            <button class="btn btn-xs"><i class="fa fa-plus"></i>
+                                            </button>
+                                            <button class="btn btn-xs"><i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                        <br>
+                                        <a href="#" class="btn btn-xs m-t-10 clear-map">
+                                            <i class="fa fa-arrows"></i>
+                                        </a>
+                                    </div>
+                                   {* <div class="pull-left m-l-15">
+                                        <form role="form">
+                                            <div class="form-group form-group-default form-group-default-select2">
+                                                <label>Country</label>
+                                                <select id="country-list" data-placeholder="Search by locationg, tag, ID" data-init-plugin="select2">
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>*}
+                                </div>
+                                <div id="mapplic"></div>
                             </div>
                         </div>
+                        <!-- END PAGE CONTAINER -->
+                        <!--START QUICKVIEW -->
+
+                        <!-- END OVERLAY -->
+                        <!-- BEGIN VENDOR JS -->
+                        <script src="{$baseUrl}Public/assets/plugins/pace/pace.min.js" type="text/javascript"></script>
+                        <script src="{$baseUrl}Public/assets/plugins/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
+                        <script src="{$baseUrl}Public/assets/plugins/modernizr.custom.js" type="text/javascript"></script>
+                        <script src="{$baseUrl}Public/assets/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+                        <script src="{$baseUrl}Public/assets/plugins/bootstrapv3/js/bootstrap.min.js" type="text/javascript"></script>
+                        <script src="{$baseUrl}Public/assets/plugins/jquery/jquery-easy.js" type="text/javascript"></script>
+                        <script src="{$baseUrl}Public/assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
+                        <script src="{$baseUrl}Public/assets/plugins/jquery-bez/jquery.bez.min.js"></script>
+                        <script src="{$baseUrl}Public/assets/plugins/jquery-ios-list/jquery.ioslist.min.js" type="text/javascript"></script>
+                        <script src="{$baseUrl}Public/assets/plugins/jquery-actual/jquery.actual.min.js"></script>
+                        <script src="{$baseUrl}Public/assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+                        <script type="text/javascript" src="{$baseUrl}Public/assets/plugins/select2/js/select2.full.min.js"></script>
+                        <script type="text/javascript" src="{$baseUrl}Public/assets/plugins/classie/classie.js"></script>
+                        <script src="{$baseUrl}Public/assets/plugins/switchery/js/switchery.min.js" type="text/javascript"></script>
+                        <script src="{$baseUrl}Public/assets/plugins/mapplic/js/hammer.js"></script>
+                        <script src="{$baseUrl}Public/assets/plugins/mapplic/js/jquery.mousewheel.js"></script>
+                        <script src="{$baseUrl}Public/assets/plugins/mapplic/js/mapplic.js"></script>
+                        <!-- END VENDOR JS -->
+                        <!-- BEGIN CORE TEMPLATE JS -->
+                        <script src="{$baseUrl}Public/pages/js/pages.min.js"></script>
+                        <!-- END CORE TEMPLATE JS -->
+                        <!-- BEGIN PAGE LEVEL JS -->
+                        <script src="{$baseUrl}Public/assets/js/vector_map.js" type="text/javascript"></script>
+                        <script src="{$baseUrl}Public/assets/js/scripts.js" type="text/javascript"></script>
+                        <!-- END PAGE LEVEL JS -->
+
+
+
                     </div>
                     <div class="tab-pane  fade" id="profile">
                         <div class="row">

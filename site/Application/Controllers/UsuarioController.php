@@ -1098,8 +1098,8 @@ class UsuarioController extends AbstractController {
     public function viewprofileAction() {
         $br = new Browser_Control();
         $view = Zend_Registry::get('view');
-
         $post = Zend_Registry::get('post');
+
         $id = $post->id;
 
         //Validates if this friend is my friend or is mine
@@ -1157,6 +1157,266 @@ class UsuarioController extends AbstractController {
         $view->assign('TituloPagina', 'My profile');
         $view->assign('body', $view->fetch('Usuario/viewProfile.tpl'));
         $view->output('index.tpl');
+    }
+
+    public function loadvisitedcountriesAction() {
+        $post = Zend_Registry::get('post');
+//        $br = new Browser_Control();
+//        $view = Zend_Registry::get('view');
+//print'<pre>';die(print_r( $post->w));
+        $ret['mapwidth'] = $post->w;
+        $ret['mapheight'] = $post->h;
+        $ret['categories'] = array();
+
+        $level['id'] = 'countries';
+        $level['title'] = 'Countries';
+        $level['map'] = 'http://revox.io/json/maps/pages-map.svg';
+        $level['minimap'] = 'assets/img/maps/us-small.jpg';
+        // crete a location
+        $location['id'] = 'au';
+        $location['title'] = 'Australia';
+        $location['description'] = '<stronga>AU</satrong> Australia';
+        $location['action'] = 'tooltip';
+        $location['pin'] = 'marker green';
+        $location['x'] = '0.84330813';
+        $location['y'] = '0.744442';
+        //add a location
+        $locations[] = $location;
+        //add locations
+        $level['locations'] = $locations;
+        //add a level
+        $levels[] = $level;
+        //add levels
+        $ret['levels'] = $levels;
+        $ret['minimap'] = 'true';
+        $ret['zoomlimit'] = '4';
+        echo json_encode($ret);
+//        {
+//            "mapwidth":"1600",
+//            "mapheight":"1000",
+//            "categories":[
+//            ],
+//            "levels":[
+//            {
+//            "id":"countries",
+//            "title":"Countries",
+//            "map":"http://revox.io/json/maps/pages-map.svg",
+//            "minimap":"assets/img/maps/us-small.jpg",
+//            "locations":[
+//            {
+//            "id":"au",
+//            "title":"Australia",
+//            "description":"<strong>AU</strong> Australia",
+//            "action": "tooltip",
+//            "pin": "marker green",
+//            "x":"0.84330813",
+//            "y":"0.744442"
+//            }
+//            ]
+//            }
+//            ],
+//            "minimap":"true",
+//            "sidebar":"true",
+//            "zoomlimit":"4"
+//        }
+
+//     =============================================== GOOGLE MAPS STYLES ========================
+//     =============================================== GOOGLE MAPS STYLES ========================
+//     =============================================== GOOGLE MAPS STYLES ========================
+//        [
+//    {
+//        "featureType": "administrative",
+//        "elementType": "geometry.fill",
+//        "stylers": [
+//            {
+//                "color": "#7f2200"
+//            },
+//            {
+//                "visibility": "off"
+//            }
+//        ]
+//    },
+//    {
+//        "featureType": "administrative",
+//        "elementType": "geometry.stroke",
+//        "stylers": [
+//            {
+//                "visibility": "on"
+//            },
+//            {
+//                "color": "#87ae79"
+//            }
+//        ]
+//    },
+//    {
+//        "featureType": "administrative",
+//        "elementType": "labels.text.fill",
+//        "stylers": [
+//            {
+//                "color": "#495421"
+//            }
+//        ]
+//    },
+//    {
+//        "featureType": "administrative",
+//        "elementType": "labels.text.stroke",
+//        "stylers": [
+//            {
+//                "color": "#ffffff"
+//            },
+//            {
+//                "visibility": "on"
+//            },
+//            {
+//                "weight": 4.1
+//            }
+//        ]
+//    },
+//    {
+//        "featureType": "administrative.neighborhood",
+//        "elementType": "labels",
+//        "stylers": [
+//            {
+//                "visibility": "off"
+//            }
+//        ]
+//    },
+//    {
+//        "featureType": "landscape",
+//        "elementType": "geometry.fill",
+//        "stylers": [
+//            {
+//                "color": "#abce83"
+//            }
+//        ]
+//    },
+//    {
+//        "featureType": "poi",
+//        "elementType": "geometry.fill",
+//        "stylers": [
+//            {
+//                "color": "#769E72"
+//            }
+//        ]
+//    },
+//    {
+//        "featureType": "poi",
+//        "elementType": "labels.text.fill",
+//        "stylers": [
+//            {
+//                "color": "#7B8758"
+//            }
+//        ]
+//    },
+//    {
+//        "featureType": "poi",
+//        "elementType": "labels.text.stroke",
+//        "stylers": [
+//            {
+//                "color": "#EBF4A4"
+//            }
+//        ]
+//    },
+//    {
+//        "featureType": "poi.park",
+//        "elementType": "geometry",
+//        "stylers": [
+//            {
+//                "visibility": "simplified"
+//            },
+//            {
+//                "color": "#8dab68"
+//            }
+//        ]
+//    },
+//    {
+//        "featureType": "road",
+//        "elementType": "geometry.fill",
+//        "stylers": [
+//            {
+//                "visibility": "simplified"
+//            }
+//        ]
+//    },
+//    {
+//        "featureType": "road",
+//        "elementType": "labels.text.fill",
+//        "stylers": [
+//            {
+//                "color": "#5B5B3F"
+//            }
+//        ]
+//    },
+//    {
+//        "featureType": "road",
+//        "elementType": "labels.text.stroke",
+//        "stylers": [
+//            {
+//                "color": "#ABCE83"
+//            }
+//        ]
+//    },
+//    {
+//        "featureType": "road",
+//        "elementType": "labels.icon",
+//        "stylers": [
+//            {
+//                "visibility": "off"
+//            }
+//        ]
+//    },
+//    {
+//        "featureType": "road.highway",
+//        "elementType": "geometry",
+//        "stylers": [
+//            {
+//                "color": "#EBF4A4"
+//            },
+//            {
+//                "visibility": "off"
+//            }
+//        ]
+//    },
+//    {
+//        "featureType": "road.arterial",
+//        "elementType": "geometry",
+//        "stylers": [
+//            {
+//                "color": "#9BBF72"
+//            }
+//        ]
+//    },
+//    {
+//        "featureType": "road.local",
+//        "elementType": "geometry",
+//        "stylers": [
+//            {
+//                "color": "#A4C67D"
+//            }
+//        ]
+//    },
+//    {
+//        "featureType": "transit",
+//        "elementType": "all",
+//        "stylers": [
+//            {
+//                "visibility": "off"
+//            }
+//        ]
+//    },
+//    {
+//        "featureType": "water",
+//        "elementType": "geometry",
+//        "stylers": [
+//            {
+//                "visibility": "on"
+//            },
+//            {
+//                "color": "#aee2e0"
+//            }
+//        ]
+//    }
+//]
     }
 
     public function friendslistloadAction() {
