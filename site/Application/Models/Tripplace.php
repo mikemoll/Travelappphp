@@ -18,6 +18,12 @@ class Tripplace extends Db_Table {
         parent::__construct($config, $definition);
     }
 
+    public function getNomeUsuario() {
+        if ($this->getid_usuario() != '0') {
+            return Usuario::getUsuarioList($this->getid_usuario());
+        }
+    }
+
     public function getPhotoPath() {
         return Place::makephotoPath($this->getid_place(), $this->a_photo);
     }
@@ -27,8 +33,34 @@ class Tripplace extends Db_Table {
         parent::readLst($modo);
     }
 
-    public function setDataFromRequest($post) {
+   public function setDataFromRequest($post) {
+        $this->setid_trip($post->id_trip);
+        $this->setid_place($post->id_place);
 
+        $this->setstartdate($post->startdate);
+        $this->setenddate   ($post->enddate);
+        $this->setaccomodation($post->accomodation);
+        $this->setbudget($post->budget);
+        $this->setaccomodationnotsure($post->accomodationnotsure);
+        $this->setbudgetnotsure($post->budgetnotsure);
+        $this->settransportationinfo($post->transportationinfo);
+
+    }
+
+    public function setDataFromRequest1($post) {
+        $this->setid_trip($post->id_trip);
+        $this->setid_place($post->id_place);
+
+        $this->setstartdate($post->startdate);
+        $this->setenddate($post->enddate);
+    }
+
+    public function setDataFromRequest2($post) {
+        $this->setaccomodation($post->accomodation);
+        $this->setbudget($post->budget);
+        $this->setaccomodationnotsure($post->accomodationnotsure);
+        $this->setbudgetnotsure($post->budgetnotsure);
+        $this->settransportationinfo($post->transportationinfo);
     }
 
 }

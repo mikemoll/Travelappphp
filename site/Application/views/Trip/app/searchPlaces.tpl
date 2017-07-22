@@ -98,8 +98,8 @@
             <div class="row dialog__overview">
                 <div class="col-sm-7 no-padding item-slideshow-wrapper full-height">
                     <div class="item-slideshow full-height itemGalery" id="itemDetailGalery">
-                        {* <div class="slide" data-image="{$baseUrl}Public/assets/img/gallery/item-square.jpg">
-                        </div>*}
+                        <div class="slide" data-image="{$baseUrl}Public/Images/loading.gif">
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-12 visible-xs bg-info-dark">

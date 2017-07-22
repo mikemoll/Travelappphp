@@ -394,13 +394,8 @@ class TripController extends AbstractController {
         $form = new Ui_Form();
         $form->setName('formNewtrip');
         $form->setAction('trip');
-        //$form->setAttrib('role', 'form');
 
-
-        $form->setDataForm($obj);
         $obj = new Trip;
-        //$obj->read($id);
-        $form->setDataForm($obj);
         $obj->setInstance('newTrip');
 
         $element = new Ui_Element_Text('tripname');
@@ -416,6 +411,14 @@ class TripController extends AbstractController {
         $button->setAttrib('validaObrig', '1');
         $button->setAttrib('class', 'btn btn-primary  btn-cons m-t-10');
         $form->addElement($button);
+
+        if ($post->placename && $post->id_place) {
+            $obj->settripname($post->placename);
+            $form->setDataForm($obj);
+            $element = new Ui_Element_Hidden('id_place');
+            $element->setValue($post->id_place);
+            $form->addElement($element);
+        }
 
         $form->setDataSession('formNewtrip');
 
@@ -464,7 +467,12 @@ class TripController extends AbstractController {
         }
         $msg = '';
 
-        $br->setBrowserUrl(BASE_URL . 'trip/newtrip2/id/' . $lObj->getID());
+        $params = '';
+        if ($post->id_place) {
+            $params = '/id_place/' . $post->id_place;
+        }
+
+        $br->setBrowserUrl(BASE_URL . 'trip/newtrip2/id/' . $lObj->getID() . $params);
         $br->send();
     }
 
@@ -489,6 +497,13 @@ class TripController extends AbstractController {
         $element = new Ui_Element_Hidden('id_trip');
         $element->setValue($post->id);
         $form->addElement($element);
+
+        if ($post->id_place) {
+            $element = new Ui_Element_Hidden('id_place');
+            $element->setValue($post->id_place);
+            $form->addElement($element);
+
+        }
 
         $button = new Ui_Element_Btn('btnNext2');
         $button->setDisplay('Next');
@@ -579,7 +594,12 @@ class TripController extends AbstractController {
             die();
         }
         $msg = '';
-        $br->setBrowserUrl(BASE_URL . 'trip/newtrip3/id/' . $lObj->getID());
+
+        $params = '';
+        if ($post->id_place) {
+            $params = '/id_place/' . $post->id_place;
+        }
+        $br->setBrowserUrl(BASE_URL . 'trip/newtrip3/id/' . $lObj->getID() . $params);
         $br->send();
     }
 
@@ -602,6 +622,12 @@ class TripController extends AbstractController {
         $element = new Ui_Element_Hidden('id_trip');
         $element->setValue($post->id);
         $form->addElement($element);
+
+        if ($post->id_place) {
+            $element = new Ui_Element_Hidden('id_place');
+            $element->setValue($post->id_place);
+            $form->addElement($element);
+        }
 
         $element = new Ui_Element_Text('friendname1');
         $element->setAttrib('maxlength', 35);
@@ -751,7 +777,14 @@ class TripController extends AbstractController {
             die();
         }
         $msg = '';
-        $br->setBrowserUrl(BASE_URL . 'trip/newtrip4/id/' . $lObj->getID());
+
+        $params = '';
+        if ($post->id_place) {
+            $br->setBrowserUrl(BASE_URL . 'trip/newtrip5/id_trip/' . $lObj->getID() . '/id_place/' . $post->id_place);
+        } else {
+            $br->setBrowserUrl(BASE_URL . 'trip/newtrip4/id/' . $lObj->getID());
+        }
+
         $br->send();
     }
 
@@ -948,7 +981,7 @@ class TripController extends AbstractController {
         }
 
 
-        $tripplace = new TripPlace();
+        $tripplace = new Tripplace();
         $tripplace->setDataFromRequest1($post);
 
         $trip = new Trip();
@@ -988,7 +1021,7 @@ class TripController extends AbstractController {
         $trip = new Trip;
         $trip->read($post->id_trip);
 
-        $tripplace = new TripPlace;
+        $tripplace = new Tripplace();
         $tripplace->read($post->id_tripplace);
 
         $place = new Place;
@@ -1010,7 +1043,7 @@ class TripController extends AbstractController {
 
         $element = new Ui_Element_Checkbox('accomodationnotsure');
         $element->setAttrib('label', 'Not sure yet!');
-        $element->setChecked(cFALSE);
+        $element->setValue("N");
         $element->setCheckedValue("Y");
         $element->setUncheckedValue("N");
         $form->addElement($element);
@@ -1022,7 +1055,7 @@ class TripController extends AbstractController {
 
         $element = new Ui_Element_Checkbox('budgetnotsure');
         $element->setAttrib('label', 'Not sure yet!');
-        $element->setChecked(cFALSE);
+        $element->setValue("N");
         $element->setCheckedValue("Y");
         $element->setUncheckedValue("N");
         $form->addElement($element);
@@ -1077,7 +1110,7 @@ class TripController extends AbstractController {
 
         // ----------------------
         /* @var $trip Trip */
-        $tripplace = new TripPlace();
+        $tripplace = new Tripplace();
         $tripplace->read($post->id_tripplace);
         $tripplace->setDataFromRequest2($post);
 

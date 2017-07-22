@@ -321,8 +321,8 @@ console.log(start.toISOString(), end.toISOString(), label);
             <div class="row dialog__overview">
                 <div class="col-sm-7 no-padding item-slideshow-wrapper full-height">
                     <div class="item-slideshow full-height itemGalery" id="itemDetailGalery">
-                        {* <div class="slide" data-image="{$baseUrl}Public/assets/img/gallery/item-square.jpg">
-                        </div>*}
+                        <div class="slide" data-image="{$baseUrl}Public/Images/loading.gif">
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-12 visible-xs bg-info-dark">
@@ -338,20 +338,20 @@ console.log(start.toISOString(), end.toISOString(), label);
                                 </div>
                             </div>
                             <div class="col-xs-4 col-xs-height col-middle text-right  no-padding">
-                                <h2 class="bold text-white price font-montserrat itemPrice">$20.00</h2>
+                                <h2 class="bold text-white price font-montserrat itemPrice"></h2>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-5 p-r-35 p-t-35 p-l-35 full-height item-description">
-                    <h2 class="semi-bold no-margin font-montserrat " id="itemTitle">Happy Ninja</h2>
+                    <h2 class="semi-bold no-margin font-montserrat " id="itemTitle"></h2>
                     <span class="semi-bold no-margin font-montserrat" id="itemFormattedAddress"></span>
                     <p class="rating fs-12 m-t-5" id="itemRating">
                     </p>
                     <div class="row m-b-5 m-t-5 h3 " id="itemPriceLine">
-                        <div class="col-xs-6"><span class="font-montserrat all-caps fs-11">Price</span>
+                        <div class="col-xs-6"><span class="font-montserrat all-caps fs-11"></span>
                         </div>
-                        <div class="col-xs-6 text-right itemPrice"  >$20.00 - $40.00</div>
+                        <div class="col-xs-6 text-right itemPrice"  ></div>
                     </div>
                     {* Tittle
                     Date  H5
@@ -359,8 +359,7 @@ console.log(start.toISOString(), end.toISOString(), label);
                     Description
                     buttons
                     More filters*}
-                    <p class="fs-13" id="itemDescription">When it comes to digital design, the lines between functionality, aesthetics, and psychology are inseparably blurred. Without the constraints of the physical world, there’s no natural form to fall back on, and every bit of constraint and affordance must be introduced intentionally. Good design makes a product useful.
-                    </p>
+                    <p class="fs-13" id="itemDescription"></p>
                     {*                    <div class="row m-t-20 m-b-10">*}
                     {*                    <div class="col-xs-6"><span class="font-montserrat all-caps fs-11">Paint sizes</span>*}
                     {*                    </div>*}
@@ -422,13 +421,13 @@ console.log(start.toISOString(), end.toISOString(), label);
 
 <!-- START ADD TO TRIP DIALOG -->
 <div id="addToTripDialog" class="dialog item-details">
-    <div class="dialog__overlay"></div>
+    <div class="dialog__overlay" name="btncloseaddtrip" event="click" url='explore'></div>
     <div class="dialog__content">
         <div class="container-fluid">
             <div class="row dialog__overview">
                 <div class="col-sm-7 no-padding item-slideshow-wrapper full-height">
                     <div class="item-slideshow full-height itemGaleryNewTrip" id="itemDetailGaleryNewtrip">
-                        <div class="slide" data-image="{$baseUrl}Public/assets/img/gallery/item-square.jpg">
+                        <div class="slide" data-image="{$baseUrl}Public/Images/loading.gif">
                         </div>
                     </div>
                 </div>
@@ -437,9 +436,10 @@ console.log(start.toISOString(), end.toISOString(), label);
 
 
                     <div class="widget-11-2 panel no-border panel-condensed no-margin widget-loader-circle">
-                        <div class="padding-25">
+                        <div class="padding-5">
                             <div class="pull-left">
-                                <h4 class="text-success no-margin font-montserrat " id="itemTitleNewTrip">Place Title</h4>
+                                <h2 class="semi-bold no-margin font-montserrat " id="itemTitleNewTrip"></h2>
+                                <!-- <h4 class="text-success no-margin font-montserrat " id="itemTitleNewTrip">Place Title</h4> -->
                                 <!-- <span class="semi-bold no-margin font-montserrat" id="itemFormattedAddressNewTrip">Place full address</span> -->
                                 <!-- <h4 class="semi-bold no-margin font-montserrat ">Trip to add this place</h4> -->
                                 <!-- <p class="no-margin">Trip to add this place</p> -->
@@ -451,22 +451,12 @@ console.log(start.toISOString(), end.toISOString(), label);
                             <table class="table table-condensed table-hover">
                                 <tbody id="tripTable">
 
-                                    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
-                                    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
-                                    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
-                                    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
-                                    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
-                                    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
-                                    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
-                                    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
-                                    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
-                                    <tr><td class="font-montserrat all-caps fs-12 col-lg-6">Purchase CODE #2345</td></tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="padding-25">
                             <p class="small no-margin">
-                                <a href="#none" class="btn btn-success " id="btnAddToNewTrip" name="btnAddToNewTrip" event="click"><i class="fa fa-plus  "></i> Add to a new trip</a>
+                                <a href="#none" class="btn btn-success " id="btnAddToNewTrip" name="btnAddToNewTrip" event="click"><i class="fa fa-plus"></i> Add to a new trip</a>
 
                                 <!-- <a href="#"><i class="fa fs-16 fa-arrow-circle-o-down text-success m-r-10"></i></a>
                                 <span class="hint-text ">Show more details of APPLE . INC</span>
@@ -483,7 +473,7 @@ console.log(start.toISOString(), end.toISOString(), label);
             </div>
 
         </div>
-        <a href="#none" class="close action top-right" id="btnColseAddTrip" name="btnColseAddTrip"  event="click" url='explore' data-dialog-close><i class="pg-close fs-14"></i>
+        <a href="#none" class="close action top-right" id="btncloseaddtrip" name="btncloseaddtrip"  event="click" url='explore' data-dialog-close><i class="pg-close fs-14"></i>
         </a>
     </div>
 </div>

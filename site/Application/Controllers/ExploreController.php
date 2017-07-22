@@ -303,7 +303,7 @@ class ExploreController extends AbstractController {
                         });");
         $br->setAttrib('itemDetailGalery', 'class', 'item-slideshow full-height itemGalery');
 
-        $br->setAttrib('btnAddToTrip', 'params', 'id_place=' . $id);
+        $br->setAttrib('btnAddToTrip', 'params', 'id_place=' . $id . '&id_trip=' . $post->id_trip);
 
 //        $br->setCommand('
 //            alert("sdav" );
@@ -369,7 +369,7 @@ class ExploreController extends AbstractController {
 
 
         //dafine the add to new trip action
-        $br->setAttrib('btnAddToNewTrip', 'params', 'id_place=' . $id);
+        $br->setAttrib('btnAddToNewTrip', 'params', 'id_place=' . $id . '&placename=' . $Item->getName());
 
         $br->setAttrib('itemDetails', 'class', 'dialog item-details');
         $br->setAttrib('addToTripDialog', 'class', 'dialog item-details dialog dialog--open');
@@ -381,7 +381,7 @@ class ExploreController extends AbstractController {
     public function btnaddtonewtripclickAction() {
         $post = Zend_Registry::get('post');
         $br = new Browser_Control();
-        $br->setBrowserUrl(HTTP_HOST . BASE_URL . 'trip/newtrip/id_place/' . $post->id_place);
+        $br->setBrowserUrl(HTTP_HOST . BASE_URL . 'trip/newtrip/id_place/' . $post->id_place . '/placename/'.$post->placename);
         $br->send();
     }
 
@@ -421,7 +421,7 @@ class ExploreController extends AbstractController {
         $br->send();
     }
 
-    public function btncolsesecclickAction() {
+    public function btncloseaddtripclickAction() {
         $br = new Browser_Control();
         $br->setClass("addToTripDialog", "dialog item-details");
         $br->send();
