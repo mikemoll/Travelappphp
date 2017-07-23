@@ -23,6 +23,12 @@
 // ====  Configura��es iniciais do sistema =====
 switch ($_SERVER['HTTP_HOST']) {
 
+    case 'localhost:8888':
+        error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED | E_STRICT);
+        $dbconfig = 'local';
+        define('BASE', ""); 
+        break;
+
     case 'localhost':
 //        error_reporting(0);
         error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED | E_STRICT);
