@@ -39,7 +39,7 @@
 
 
 {section name=i loop=$placeLst}
-
+    {if $onlyDreamplaces==false || $placeLst[i]->getFavorite()!=''}
     {literal}
         <style>
             .place-{/literal}{$placeLst[i]->getID()}{literal}:after{
@@ -85,9 +85,9 @@
         </div>
 
     </div>
-
+    {/if}
 {sectionelse}
-<p> Nothing found... Try again!</p>
+<p> {$nothingfoundmsg}</p>
 {/section}
 
 <!-- START DIALOG -->

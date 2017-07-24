@@ -865,20 +865,35 @@ class TripController extends AbstractController {
         $PlacesList->where('searchquery', $q, 'like', 'or', 'q');
 //        $PlacesList->where('description', $q, 'like', 'or', 'q');
         $PlacesList->readLst();
-        $view->assign('placeLst', $PlacesList->getItens());
+
+        $items = $PlacesList->getItens();
+        $view->assign('placeLst', $items);
         $view->assign('id_trip', $post->id_trip);
 
-        Db_Table::setSession('places', $places);
+        // Dreamplaces view
+        $view->assign('onlyDreamplaces', True);
+        if ($q == '') {
+            $view->assign('nothingfoundmsg', "You didn't add any places to your dreamboard yet...");
+        } else  {
+            $view->assign('nothingfoundmsg', "No places found on your dreamboard with the term '$q'...");
+        }
+
+        $br->setHtml('dreamboarddiv', $view->fetch('Trip/app/searchPlaces.tpl'));
+
+        // Explore view
+        $view->assign('onlyDreamplaces', False);
+        $view->assign('nothingfoundmsg', "No places found with the term '$q'... try again!");
+
         $br->setHtml('placesdiv', $view->fetch('Trip/app/searchPlaces.tpl'));
+
         $br->send();
+
     }
+
 
     public function btnsearchclickAction() {
         $this->defaultplacesloadAction();
-        // $post = Zend_Registry::get('post');
-        // $br = new Browser_Control();
-        // $br->setBrowserUrl(HTTP_HOST . BASE_URL . 'explore/index/q/' . $post->search2);
-        // $br->send();
+
     }
 
     public function newtripcityclickAction() {

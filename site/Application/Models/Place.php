@@ -133,7 +133,7 @@ class Place extends Db_Table {
 
     function readLst($modo = 'obj') {
 // ---- first I read all the places using the query -------
-        $this->join('dreamboard', 'dreamboard.id_place = place.id_place and id_usuario = ' . Usuario::getIdUsuarioLogado(), 'id_place as favorite', 'left');
+        $this->join('dreamboard', 'dreamboard.id_place = place.id_place and dreamboard.id_usuario = ' . Usuario::getIdUsuarioLogado(), 'id_place as favorite', 'left');
         parent::readLst($modo);
 
         // if we got no results, We have to search on google and save on Places ;
