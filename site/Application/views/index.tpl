@@ -35,7 +35,8 @@
         <!-- This is the onli JS that has to be on the begining, cuz there are some components that need this before everithing else! (Leonardo )-->
         <script src="{$baseUrl}Public/assets/plugins/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
     </head>
-    <body class="fixed-header dashboard">
+{*    <body class="fixed-header dashboard menu-pin menu-behind">*}
+    <body class="fixed-header dashboard menu-pin ">
         <div>
             <link href="{$baseUrl}Public/assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" />
             <link href="{$baseUrl}Public/assets/plugins/bootstrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -46,7 +47,6 @@
             <link href="{$baseUrl}Public/assets/plugins/nvd3/nv.d3.min.css" rel="stylesheet" type="text/css" media="screen" />
             <link href="{$baseUrl}Public/assets/plugins/mapplic/css/mapplic.css" rel="stylesheet" type="text/css" />
             <link href="{$baseUrl}Public/assets/plugins/rickshaw/rickshaw.min.css" rel="stylesheet" type="text/css" />
-            {*            <link href="{$baseUrl}Public/assets/plugins/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" type="text/css" media="screen">*}
             <link href="{$baseUrl}Public/assets/plugins/jquery-metrojs/MetroJs.css" rel="stylesheet" type="text/css" media="screen" />
             <link href="{$baseUrl}Public/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
             <link class="main-stylesheet" href="{$baseUrl}Public/pages/css/pages.css" rel="stylesheet" type="text/css" />
@@ -96,9 +96,9 @@
             </div>
             <!-- END SIDEBAR MENU HEADER-->
             <!-- START SIDEBAR MENU -->
-            <div class="sidebar-menu">
+            <div class="sidebar-menu p-t-20">
                 <!-- BEGIN SIDEBAR MENU ITEMS-->
-                <ul class="menu-items">
+                <ul class="menu-items ">
                     {$menu}
                 </ul>
                 <div class="clearfix"></div>
