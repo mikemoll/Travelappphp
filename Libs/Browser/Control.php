@@ -61,6 +61,15 @@ class Browser_Control {
     }
 
     /**
+     *
+     * @param type $id
+     * @param type $speed
+     */
+    public function setScrollTo($id, $speed = 'slow') {
+        $this->addAction(array('action' => 'SCROLLTO', 'id' => $id, 'speed' => $speed));
+    }
+
+    /**
      * Executa um alert na tela do usuario
      * com alguma mensagem.
      *

@@ -94,6 +94,15 @@ function setAlert(title, text, w, h) {
     $('#alertModal').modal();
 }
 
+function scrollTo(obj) {
+    var top = 0;
+    if (obj.id !== '') {
+        var position = $("#" + obj.id).position();
+        top = position.top;
+    }
+    alert(top);
+    $("html, body").animate({scrollTop: top}, obj.speed);
+}
 function addToolTip(obj) {
     var pos = $('#' + obj.id).position();
     var html = '';
@@ -536,7 +545,9 @@ function returnRequest(data) {
         return false;
     }
     $.each(data.actions, function (i, obj) {
-        if (obj.action == 'ALERT') {
+        if (obj.action == 'SCROLLTO') {
+            scrollTo(obj);
+        } else if (obj.action == 'ALERT') {
             setAlert(obj.title, obj.msg, obj.width, obj.height);
         } else if (obj.action == 'COMMAND') {
             eval(obj.command);
