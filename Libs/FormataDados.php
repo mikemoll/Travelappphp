@@ -27,6 +27,9 @@ class FormataDados {
                 $replace = array('', '.');
                 $valor = str_replace($source, $replace, $valor); //remove os pontos e substitui a virgula pelo ponto
             }
+            if ($valor == '') {
+                $valor = NULL;
+            }
             return $valor;
         } else if (DataHora::isDate($valor, '/')) {
             return DataHora::inverteDataIngles($valor);
