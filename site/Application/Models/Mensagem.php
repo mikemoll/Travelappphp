@@ -5,8 +5,8 @@
  * @filesource
  * @author 		Leonardo Daneili
  * @copyright 	Leonardo Danieli
- * @package		sistema
- * @subpackage	sistema.apllication.models
+ * @package		 system
+ * @subpackage	system.application.models
  * @version		1.0
  */
 class Mensagem extends Db_Table {
@@ -158,7 +158,7 @@ class Mensagem extends Db_Table {
         if (count($emails) > 0) {
             $this->listaEmailDestinatarios = $emails;
             $message = $this->getMensagem();
-            $message .= '<p>Você pode acessar essa mensagem no sistema Sinigaglia através do link: ' . HTTP_REFERER . 'mensagem/view/id/' . $this->getID() . ' </p>';
+            $message .= '<p>Você pode acessar essa mensagem no system Sinigaglia através do link: ' . HTTP_REFERER . 'mensagem/view/id/' . $this->getID() . ' </p>';
             $subject = $this->getAssunto();
             $enviaEmail = new SendEmail();
 

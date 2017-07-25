@@ -5,8 +5,8 @@
  * @filesource
  * @author 		Leonardo Daneili
  * @copyright 	Leonardo Danieli
- * @package		sistema
- * @subpackage	sistema.apllication.models
+ * @package		 system
+ * @subpackage	system.application.models
  * @version		1.0
  */
 class Trip extends Db_Table {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Classe para inserção dos logs do sistema na base de dados
+ * Classe para inserção dos logs do system na base de dados
  *
  */
 class Log extends Db_Table {

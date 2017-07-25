@@ -5,7 +5,7 @@
  * @filesource
  * @author      Loenardo
  * @copyright   Leonardo
- * @package     sistema
+ * @package     system
  * @subpackage  site.apllication.models
  * @version     1.0
  */

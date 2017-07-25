@@ -5,8 +5,8 @@
  * @filesource
  * @author      Leonardo
  * @copyright   Leonardo
- * @package     sistema
- * @subpackage  sistema.apllication.models
+ * @package     system
+ * @subpackage  system.application.models
  * @version     1.0
  */
 class TripUser extends Db_Table {

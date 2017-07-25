@@ -4,8 +4,8 @@
  * @filesource
  * @author 		Leonardo Danieli
  * @copyright 	Leonardo Danieli
- * @package		sistema
- * @subpackage	sistema.apllication.models
+ * @package		 system
+ * @subpackage	system.application.models
  * @version		1.0
  */
 class Album extends Db_Table {

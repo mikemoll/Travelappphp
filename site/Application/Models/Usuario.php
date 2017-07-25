@@ -5,8 +5,8 @@
  * @filesource
  * @author 		Leonardo Danieli
  * @copyright 	Leonardo Danieli
- * @package		sistema
- * @subpackage	sistema.apllication.models
+ * @package		 system
+ * @subpackage	system.application.models
  * @version		1.0
  */
 class Usuario extends Db_Table {
@@ -17,18 +17,17 @@ class Usuario extends Db_Table {
     protected $_log_ativo = false;
     protected $_log_text = 'User';
     protected $_log_info = 'a_nomecompleto';
-
-   public static $RELATIONSHIPS = array('s' => 'single',
-       'm' => 'married',
-       'ir' => 'in a relationship',
-       'e' => 'engaged',
-       'cu' => 'in a civil union',
-       'dp' => 'in a domestic partnership',
-       'or' => 'in an open relationship',
-       'ic' => 'it is complicated',
-       'sp' => 'separated',
-       'd' => 'divorced',
-       'w' => 'widowed');
+    public static $RELATIONSHIPS = array('s' => 'single',
+        'm' => 'married',
+        'ir' => 'in a relationship',
+        'e' => 'engaged',
+        'cu' => 'in a civil union',
+        'dp' => 'in a domestic partnership',
+        'or' => 'in an open relationship',
+        'ic' => 'it is complicated',
+        'sp' => 'separated',
+        'd' => 'divorced',
+        'w' => 'widowed');
 
     public static function getNomeUsuarioLogado() {
         $session = Zend_Registry::get('session');
@@ -111,7 +110,7 @@ class Usuario extends Db_Table {
     }
 
     /**
-     * Retorna a lista de Tecnicos do sistema de OS
+     * Retorna a lista de Tecnicos do system de OS
      *
      * @return array
      */
@@ -299,7 +298,7 @@ class Usuario extends Db_Table {
     }
 
     /**
-     * Verifica se o usuario pode acessar uma determinada area do sistema ou executar uma determinada ação.
+     * Verifica se o usuario pode acessar uma determinada area do system ou executar uma determinada ação.
      *
      * @param $controlador or $processo
      * @param $acao ['ver'|'inserir'|'excluir'|'editar']
@@ -642,4 +641,13 @@ class Usuario extends Db_Table {
         $lLst->readLst();
         return $lLst->countItens() > 0;
     }
+
+    public static function readFriendsLst() {
+        $lLst = new Usuario;
+        $lLst->join('friend', 'friend.id_usuario = usuario.id_usuario', 'friend.accepted_at');
+        $lLst->where('friend.id_usuario', Usuario::getIdUsuarioLogado());
+        $lLst->readLst();
+        return $lLst;
+    }
+
 }
