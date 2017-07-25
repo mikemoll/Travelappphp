@@ -379,20 +379,23 @@ class Db_Table extends Zend_Db_Table {
      * @return array
      * @throws Zend_Db_Table_Exception
      */
-    public static function getOptionList2($keyName, $valueName, $orderName, $class, $firstEmpty = true) {
+    public static function getOptionList2($keyName, $valueName, $orderName, $class, $firstEmpty = true, $readMethod = '') {
         $return = array();
         if ($firstEmpty) {
 //            $return[] = array('key' => '', 'value' => '---');
             $return[] = '---';
         }
+        if ($readMethod == '') {
+            $readMethod = 'readLst';
+        }
 
         if (is_object($class)) {
-            $class->readLst();
+            $class->$readMethod();
             $lista = $class;
         } else if ($class != '') {
             $item = new $class;
             $item->sortOrder($orderName);
-            $lista = $item->readLst();
+            $lista = $item->$readMethod();
         } else {
             throw new Zend_Db_Table_Exception('Deve ser passado um objeto ou um nome de modelo');
         }
