@@ -32,7 +32,8 @@ class Zend_View_Helper_FormTabMain extends Zend_View_Helper_FormElement {
     public function formTabMain($name, $value = null, $attribs = null) {
         $view = Zend_Registry::get('view');
         $active = 'active';
-        $tabs = '<div id="' . $attribs['id'] . '" class="tabs"><ul id="tabs" class="nav nav-tabs" data-tabs="tabs">';
+        $tabs = '<div id="' . $attribs['id'] . '" class="tabs">'
+                . '<ul id="tabs" class="nav nav-tabs nav-tabs-linetriangle hidden-sm hidden-xs"  data-init-reponsive-tabs="dropdownfx" data-tabs="tabs">';
         foreach ($attribs['tabs'] as $val) {
             if ($val->visible) {
                 if ($val) {
@@ -53,7 +54,7 @@ class Zend_View_Helper_FormTabMain extends Zend_View_Helper_FormElement {
         $tabs .= '</ul>';
         $tabs .= '<div id="my-tab-content" class="tab-content">';
 
-        $active = 'active';
+        $active = 'active in';
         foreach ($attribs['tabs'] as $val) {
             if ($val->visible) {
                 if ($val->fields) {
@@ -66,9 +67,9 @@ class Zend_View_Helper_FormTabMain extends Zend_View_Helper_FormElement {
                     }
                 }
                 if ($val->template)
-                    $tabs .= '<div class="tab-pane ' . $active . '" id="' . $val->getName() . '">' . $view->fetch($val->template) . '</div>';
+                    $tabs .= '<div class="tab-pane fade ' . $active . '" id="' . $val->getName() . '">' . $view->fetch($val->template) . '</div>';
                 else
-                    $tabs .= '<div class="tab-pane ' . $active . '" id="' . $val->getName() . '">' . $view->fetch('abas/' . $val->getName() . '.tpl') . '</div>';
+                    $tabs .= '<div class="tab-pane fade ' . $active . '" id="' . $val->getName() . '">' . $view->fetch('abas/' . $val->getName() . '.tpl') . '</div>';
                 $active = '';
             }
         }
