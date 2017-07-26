@@ -1,0 +1,1 @@
+ALTER TABLE `tripexpense` CHANGE `splittype` `split` CHAR(1) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
