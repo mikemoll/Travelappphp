@@ -99,14 +99,14 @@
     </div>
 
 </div>
-<div class="form-group form-group-default col-md-3">
+<!-- <div class="form-group form-group-default col-md-3">
     <div class=" no-padding">
         <label>Home Country</label>
         <div class="controls">
             {$hometowncountry}
         </div>
     </div>
-</div>
+</div> -->
 
 <div class="form-group form-group-default col-md-3">
     <div class=" no-padding">
@@ -117,14 +117,14 @@
     </div>
 </div>
 
-<div class="form-group form-group-default col-md-3">
+<!-- <div class="form-group form-group-default col-md-3">
     <div class=" no-padding">
         <label>Live in country</label>
         <div class="controls">
             {$liveincountry}
         </div>
     </div>
-</div>
+</div> -->
 <div class="form-group form-group-default col-md-6">
 
     <label>Education</label>

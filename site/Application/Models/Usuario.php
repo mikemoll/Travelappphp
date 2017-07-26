@@ -186,12 +186,12 @@ class Usuario extends Db_Table {
         $this->setGender($post->gender);
         $this->setEducation($post->education);
         $this->setHometowncity($post->hometowncity);
-        $this->setHometowncountry($post->hometowncountry);
+//        $this->setHometowncountry($post->hometowncountry);
 
         $this->setActualcity($post->actualcity);
-        $this->setActualcountry($post->actualcountry);
+  //      $this->setActualcountry($post->actualcountry);
         $this->setLiveincity($post->liveincity);
-        $this->setLiveincountry($post->liveincountry);
+    //    $this->setLiveincountry($post->liveincountry);
         $this->setRelationship($post->relationship);
         $this->setBio($post->bio);
         $this->setInstagram($post->instagram);
@@ -458,12 +458,12 @@ class Usuario extends Db_Table {
         $this->setGender($post->gender);
         $this->setEducation($post->education);
         $this->setHometowncity($post->hometowncity);
-        $this->setHometowncountry($post->hometowncountry);
+        //$this->setHometowncountry($post->hometowncountry);
 
         $this->setActualcity($post->actualcity);
-        $this->setActualcountry($post->actualcountry);
+        //$this->setActualcountry($post->actualcountry);
         $this->setLiveincity($post->liveincity);
-        $this->setLiveincountry($post->liveincountry);
+        //$this->setLiveincountry($post->liveincountry);
         $this->setRelationship($post->relationship);
         $this->setBio($post->bio);
         $this->setInstagram($post->instagram);

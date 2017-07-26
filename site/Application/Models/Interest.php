@@ -42,4 +42,23 @@ class Interest extends Db_Table {
     public function getImagePath() {
         return Interest::makeimagePath($this->getID());
     }
+
+    public static function getAllInterestsLst() {
+
+        $interests = new Interest();
+        $interests->readLst();
+        $list = array();
+        if ($interests->countItens() > 0) {
+            for ($i = 0; $i < $interests->countItens(); $i++) {
+                $item = $interests->getItem($i);
+                $id = $item->getid_interests();
+                $itemdata = array();
+                $itemdata['description'] = $item->getdescription();
+                $itemdata['icon'] = $item->getImagePath($id);
+                $list[$id] = $itemdata;
+            }
+        }
+        return $list;
+    }
+
 }

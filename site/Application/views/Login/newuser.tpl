@@ -24,6 +24,13 @@
 </div>
 <div class="form-group form-group-default col-md-12">
 
+    <label>Email</label>
+    <div class="controls">
+        {$email}
+    </div>
+</div>
+<div class="form-group form-group-default col-md-12">
+
     <label>User name</label>
     <div class="controls">
         {$loginUser}
