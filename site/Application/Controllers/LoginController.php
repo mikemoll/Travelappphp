@@ -350,7 +350,7 @@ class LoginController extends AbstractController {
         $element->setAttrib('maxlength', '35');
         $element->setRequired();
         $element->setHideRemainingCharacters();
-        $element->setAttrib('placeholder', 'First name');
+        //$element->setAttrib('placeholder', 'First name');
         $element->setAttrib('autofocus', '');
         $form->addElement($element);
 
@@ -359,7 +359,7 @@ class LoginController extends AbstractController {
         $element->setAttrib('maxlength', '35');
         $element->setRequired();
         $element->setHideRemainingCharacters();
-        $element->setAttrib('placeholder', 'Last name');
+        //$element->setAttrib('placeholder', 'Last name');
         $form->addElement($element);
 
 
@@ -367,14 +367,22 @@ class LoginController extends AbstractController {
         $element->setAttrib('maxlength', '30');
         $element->setHideRemainingCharacters();
         $element->setRequired();
-        $element->setAttrib('placeholder', 'User name');
+        $element->setAttrib('placeholder', 'your unique name on tumbleweed');
+        // $element->setAttrib('hotkeys', 'enter, btnLogin, click');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('email');
+        $element->setAttrib('maxlength', '255');
+        $element->setHideRemainingCharacters();
+        $element->setRequired();
+        $element->setAttrib('placeholder', 'your@email.com');
         // $element->setAttrib('hotkeys', 'enter, btnLogin, click');
         $form->addElement($element);
 
         $element = new Ui_Element_Password('senha');
         $element->setAttrib('maxlength', '30');
         $element->setAttrib('cript', '1');
-        $element->setAttrib('placeholder', 'Password');
+        //$element->setAttrib('placeholder', 'Password');
         $element->setRequired();
         //$element->setAttrib('hotkeys', 'enter, btnLogin, click');
         $form->addElement($element);
@@ -382,7 +390,7 @@ class LoginController extends AbstractController {
         $element = new Ui_Element_Password('confirmpassword');
         $element->setAttrib('maxlength', '30');
         $element->setAttrib('cript', '1');
-        $element->setAttrib('placeholder', 'Confirm password');
+        //$element->setAttrib('placeholder', 'Confirm password');
         $element->setRequired();
         //$element->setAttrib('hotkeys', 'enter, btnLogin, click');
         $form->addElement($element);
@@ -452,12 +460,12 @@ class LoginController extends AbstractController {
             $br->setAlert("Error", "The password must contain at least 6 characters.");
             $br->send();
             return;
-            // } else if (!filter_var($post->email, FILTER_VALIDATE_EMAIL)) {
-            //     $br->setAlert("Error","The email informed is not valid.");
-            //     $br->send();
-            //     return;
-        } else if (Usuario::usernameExists($post->loginUser)) {
-            $br->setAlert("Error", "This username has already being choosen. Please choose another.");
+        } else if (!filter_var($post->email, FILTER_VALIDATE_EMAIL)) {
+            $br->setAlert("Error","The email informed is not valid.");
+            $br->send();
+            return;
+        } else if ( Usuario::usernameExists($post->loginUser) ) {
+            $br->setAlert("Error","This username has already being choosen. Please choose another.");
             $br->send();
             return;
             // } else if (!$this->validDate($post->birthdate)) {
@@ -561,16 +569,16 @@ class LoginController extends AbstractController {
         $obj->setInstance('newUser');
 
         $element = new Ui_Element_Text('hometowncity');
-        $element->setAttrib('maxlength', '50');
+        $element->setAttrib('maxlength', '120');
         $element->setHideRemainingCharacters();
         $element->setAttrib('placeholder', 'The city you were raised');
         $form->addElement($element);
 
-        $element = new Ui_Element_Text('hometowncountry');
-        $element->setAttrib('maxlength', '50');
-        $element->setHideRemainingCharacters();
-        $element->setAttrib('placeholder', 'The country you were raised');
-        $form->addElement($element);
+        // $element = new Ui_Element_Text('hometowncountry');
+        // $element->setAttrib('maxlength', '50');
+        // $element->setHideRemainingCharacters();
+        // $element->setAttrib('placeholder', 'The country you were raised');
+        // $form->addElement($element);
 
         $button = new Ui_Element_Btn('btnSkip2');
         $button->setDisplay('Skip');
@@ -621,7 +629,7 @@ class LoginController extends AbstractController {
         $lObj = new Usuario();
         $lObj->read($id);
         $lObj->sethometowncity($post->hometowncity);
-        $lObj->sethometowncountry($post->hometowncountry);
+        //$lObj->sethometowncountry($post->hometowncountry);
 
         //saving the user data
         try {
@@ -657,19 +665,6 @@ class LoginController extends AbstractController {
         $form->setDataForm($obj);
         $obj->setInstance('newUser');
 
-
-        $element = new Ui_Element_Text('liveincity');
-        $element->setAttrib('maxlength', '50');
-        $element->setHideRemainingCharacters();
-        $element->setAttrib('placeholder', "City where you're currently living");
-        $form->addElement($element);
-
-        $element = new Ui_Element_Text('liveincountry');
-        $element->setAttrib('maxlength', '50');
-        $element->setHideRemainingCharacters();
-        $element->setAttrib('placeholder', "City where you're currently living");
-        $form->addElement($element);
-
         $button = new Ui_Element_Btn('btnSkip3');
         $button->setDisplay('Skip');
         $button->setAttrib('sendFormFields', '1');
@@ -689,6 +684,8 @@ class LoginController extends AbstractController {
 
         $view->assign('background', BASE_URL . 'Public/Images/signup/3.jpg');
 
+        $view->assign('interests', Interest::getAllInterestsLst());
+
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'New user');
@@ -699,7 +696,7 @@ class LoginController extends AbstractController {
 
     public function btnskip3clickAction($enviar = false) {
         $br = new Browser_Control();
-        $br->setBrowserUrl(BASE_URL . 'login/newuser4');
+        $br->setBrowserUrl(BASE_URL . 'explore/index/welcome/true');
         $br->send();
     }
 
@@ -719,8 +716,23 @@ class LoginController extends AbstractController {
 
         $lObj = new Usuario();
         $lObj->read($id);
-        $lObj->setliveincity($post->liveincity);
-        $lObj->setliveincountry($post->liveincountry);
+
+        $list = $post->interests;
+        $br = new Browser_Control();
+        //validate
+        if ((!is_array($list)) || (count($list) == 0)) {
+            $br->setAlert("Please,", "Select at least one interest.");
+            $br->send();
+            exit;
+        }
+        $destLst = $lObj->getUserInterestsLst();
+
+        foreach ($list as $idInterest) { //for each item selected by the trip
+            $n = new UserInterests();
+            $n->setid_interest($idInterest);
+            $n->setid_usuario($id);
+            $destLst->addItem($n);
+        }
 
         //saving the user data
         try {
@@ -732,7 +744,7 @@ class LoginController extends AbstractController {
             die();
         }
 
-        $br->setBrowserUrl(BASE_URL . 'login/newuser4');
+        $br->setBrowserUrl(BASE_URL . 'explore/index/welcome/true');
         $br->send();
     }
 

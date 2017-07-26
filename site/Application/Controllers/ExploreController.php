@@ -211,6 +211,9 @@ class ExploreController extends AbstractController {
         }
 
 
+        //Modal:
+        $view->assign('welcomemodal',$post->welcome);
+
 //        $view->assign('url', $this->Action);
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());

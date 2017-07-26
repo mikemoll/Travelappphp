@@ -807,11 +807,11 @@ class UsuarioController extends AbstractController {
         $element->setAttrib('placeholder', 'City where you were raised');
         $form->addElement($element);
 
-        $element = new Ui_Element_Text('hometowncountry');
-        $element->setAttrib('maxlength', 50);
-        $element->setHideRemainingCharacters();
-        $element->setAttrib('placeholder', 'Country where you were raised');
-        $form->addElement($element);
+        // $element = new Ui_Element_Text('hometowncountry');
+        // $element->setAttrib('maxlength', 50);
+        // $element->setHideRemainingCharacters();
+        // $element->setAttrib('placeholder', 'Country where you were raised');
+        // $form->addElement($element);
 
 
         $element = new Ui_Element_Text('loginUser');
@@ -840,11 +840,11 @@ class UsuarioController extends AbstractController {
         $element->setAttrib('placeholder', "Don't miss out on local events and when friends are in town");
         $form->addElement($element);
 
-        $element = new Ui_Element_Text('liveincountry');
-        $element->setAttrib('maxlength', 50);
-        $element->setHideRemainingCharacters();
-        $element->setAttrib('placeholder', 'The country you currently live in');
-        $form->addElement($element);
+        // $element = new Ui_Element_Text('liveincountry');
+        // $element->setAttrib('maxlength', 50);
+        // $element->setHideRemainingCharacters();
+        // $element->setAttrib('placeholder', 'The country you currently live in');
+        // $form->addElement($element);
 
         $element = new Ui_Element_Text('telephone');
         $element->setAttrib('maxlength', 25);
@@ -1121,11 +1121,11 @@ class UsuarioController extends AbstractController {
         $view->assign('interests', $user->getInterestsIcons());
         $view->assign('travelertypes', $user->getTravelertypeIcons());
         $view->assign('name', htmlentities($user->getnomecompleto() . ' ' . $user->getlastname()));
-        $view->assign('livein', htmlentities($user->getliveincity() . ', ' . $user->getliveincountry()));
+        $view->assign('livein', htmlentities($user->getliveincity()));// . ', ' . $user->getliveincountry()));
         $view->assign('Photo', htmlentities($user->getPhotoPath()));
         $view->assign('bio', nl2br(htmlentities($user->getbio())));
         $view->assign('traveledto', nl2br(htmlentities(utf8_encode($user->gettraveledto()))));
-        $view->assign('hometown', htmlentities($user->gethometowncity() . ', ' . $user->gethometowncountry()));
+        $view->assign('hometown', htmlentities($user->gethometowncity()));// . ', ' . $user->gethometowncountry()));
         $view->assign('relationship', htmlentities(Usuario::$RELATIONSHIPS[$user->getrelationship()]));
         $view->assign('education', htmlentities($user->geteducation()));
         $view->assign('dreamjob', htmlentities($user->getdreamjob()));

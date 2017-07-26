@@ -515,6 +515,37 @@ console.log(start.toISOString(), end.toISOString(), label);
 </div>
 <!-- END FILTERS -->
 
+<div id="welcomemodal">
+    <div class="modal fade fill-in" id="modalFillIn" tabindex="-1" role="dialog" aria-labelledby="modalFillInLabel" aria-hidden="true">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+        <i class="pg-close"></i>
+    </button>
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1>Welcome to Tumbleweed</h1>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 text-center p-t-30">
+                        <button type="button" class="btn btn-success btn-lg btn-large fs-15">How to use</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center p-t-20">
+                        <button type="button" class="btn btn-primary btn-lg btn-large fs-15" data-dismiss="modal">Start Exploring</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+    </div>
+</div>
 
 <!-- JS -->
 <script src="{$baseUrl}Public/assets/plugins/pace/pace.min.js" type="text/javascript"></script>
@@ -544,3 +575,14 @@ console.log(start.toISOString(), end.toISOString(), label);
 <script src="{$baseUrl}Public/assets/js/gallery.js" type="text/javascript"></script>
 <script src="{$baseUrl}Public/assets/js/scripts.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL JS -->
+
+
+{if $welcomemodal==true}
+    {literal}
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('#modalFillIn').modal('show');
+            });
+        </script>
+    {/literal}
+{/if}
