@@ -183,13 +183,15 @@ class Db_Table extends Zend_Db_Table {
             //            if (!property_exists($this, $var)) {
             //               die('Método--> set' . $var1 . '() não existe em ' . get_class($this));
             //            }else
-            if (!is_array($parametros[0])) {
-                $this->$var = Format_String::htmlToString(trim($parametros[0]));
-            } else {
+            if (is_array($parametros[0])) {
                 foreach ($parametros[0] as $key => $value) {
                     $parametros[0][$key] = Format_String::htmlToString(trim($value));
                 }
                 $this->$var = $parametros[0];
+            } else if (is_object($parametros[0])) {
+                $this->$var = $parametros[0];
+            } else {
+                $this->$var = Format_String::htmlToString(trim($parametros[0]));
             }
         }
         // se for get*, retorna o valor da propriedade

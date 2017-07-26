@@ -18,7 +18,7 @@
 </div>
 <div class="row text-center">
     <div class="col-md-12">
-        {$btnSaveTodo}
+        {$btnSaveTask}
         {$btnClose}
     </div>
 </div>

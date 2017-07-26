@@ -1,3 +1,3 @@
 {$btnEditExpense}
-<div id="formNewExpense"></div>
+<div id="totalBudget" class="label label-info">{$totalBudget}</div>
 {$gridExpense}

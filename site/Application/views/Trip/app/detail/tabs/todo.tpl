@@ -1,3 +1,2 @@
-{$btnEditTodo}
-<div id="formNewTodo"></div>
-{$gridTodo}
+{$btnEditTask}
+{$gridTask}

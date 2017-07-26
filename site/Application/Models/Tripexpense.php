@@ -27,7 +27,7 @@ class Tripexpense extends Db_Table {
     }
 
     function readLst($modo = 'obj') {
-        $this->join('usuario', 'usuario.id_usuario = tripexpense.id_usuario', 'nomecompleto ');
+//        $this->join('usuario', 'usuario.id_usuario = tripexpense.id_usuario', 'nomecompleto ');
         parent::readLst($modo);
     }
 
