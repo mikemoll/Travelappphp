@@ -205,20 +205,20 @@ class TripController extends AbstractController {
         $grid->addButton($button);
         // ---- Columns -----
         $column = new Ui_Element_DataTables_Column_Text('Task', 'description');
-        $column->setWidth('3');
-        $grid->addColumn($column);
-
-        $column = new Ui_Element_DataTables_Column_Text('Type', 'typedesc');
-        $column->setWidth('1');
+        $column->setWidth('8');
         $grid->addColumn($column);
 //
+//        $column = new Ui_Element_DataTables_Column_Text('Type', 'typedesc');
+//        $column->setWidth('1');
+//        $grid->addColumn($column);
+//
         $column = new Ui_Element_DataTables_Column_Text('Due Date', 'duedate');
-        $column->setWidth('1');
+        $column->setWidth('2');
         $grid->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Resp', 'responsable', 'center');
-        $column->setWidth('3');
-        $grid->addColumn($column);
+//        $column = new Ui_Element_DataTables_Column_Text('Resp', 'responsable', 'center');
+//        $column->setWidth('3');
+//        $grid->addColumn($column);
 
         // ---- add grid to the Form ----
         $tab->addElement($grid);
@@ -271,7 +271,7 @@ class TripController extends AbstractController {
         $button->setImg('edit');
         $button->setVisible('TRIP_BUDGET', 'editar');
         $grid->addButton($button);
-
+//
         $button = new Ui_Element_DataTables_Button('btnDelExpense', 'Delete');
         $button->setImg('trash-o');
         $button->setAttrib('msg', "Are you sure you want to delete this?");
@@ -282,7 +282,7 @@ class TripController extends AbstractController {
         $column->setWidth('3');
         $grid->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Amout', 'Amount');
+        $column = new Ui_Element_DataTables_Column_Text('Amount', 'Amount');
         $column->setWidth('1');
         $grid->addColumn($column);
 
@@ -360,7 +360,7 @@ class TripController extends AbstractController {
 //        $element->setMultiSelect();
         $form->addElement($element);
 
-        $element = new Ui_Element_Select('id_responsable', 'Responsable');
+        $element = new Ui_Element_Select('id_responsable', 'Responsible');
         $element->addMultiOptions($lObj->getTripUserList()); //@TODO get only the trip-mates
         $form->addElement($element);
 
@@ -840,9 +840,18 @@ class TripController extends AbstractController {
 
     public function btndelexpenseclickAction() {
         $br = new Browser_Control();
-        Grid_ControlDataTables::deleteDataGrid('Tripexpense', '', 'gridExpense', $br);
+//        Grid_ControlDataTables::deleteDataGrid('Tripexpense', '', 'gridExpense', $br);
 
-        $br->setMsgAlert('Deleted', 'Item deleted!');
+//        $br->setMsgAlert('Deleted', 'Item deleted!');
+        $br->setMsgAlert('Coming soon!', '');
+        $br->send();
+    }
+    public function btndeltaskclickAction() {
+        $br = new Browser_Control();
+//        Grid_ControlDataTables::deleteDataGrid('Tripexpense', '', 'gridExpense', $br);
+
+//        $br->setMsgAlert('Deleted', 'Item deleted!');
+        $br->setMsgAlert('Coming soon!', '');
         $br->send();
     }
 
