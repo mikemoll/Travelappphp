@@ -24,7 +24,4 @@ class Triptask extends Db_Table {
         parent::readLst($modo);
     }
 
-//    function readLst($modo = 'obj') {
-//        parent::readLst($modo);
-//    }
 }

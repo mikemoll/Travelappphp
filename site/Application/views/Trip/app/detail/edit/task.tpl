@@ -10,7 +10,7 @@
 </div>
 <div class="row">
     <div class="col-md-6">
-        {$type}
+        {$id_type}
     </div>
     <div class="col-md-6">
         {$id_responsable}

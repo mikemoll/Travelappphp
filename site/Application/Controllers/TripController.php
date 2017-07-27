@@ -349,7 +349,7 @@ class TripController extends AbstractController {
         $form->addElement($element);
 
 
-        $element = new Ui_Element_Select('type', 'Task Type');
+        $element = new Ui_Element_Select('id_type', 'Task Type');
         $element->addMultiOption('', '');
 //        Visa, Doctor, Personal, Item Purchase, other
         $element->addMultiOption(1, 'Visa');
