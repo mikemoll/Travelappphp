@@ -38,6 +38,13 @@ class Db_Table extends Zend_Db_Table {
     protected $_group = false;
 
     /**
+     *   Build this query:
+     *  SELECT DISTINCT p."product_name"
+     *   FROM "products" AS p
+     */
+    protected $_distinct = false;
+
+    /**
      * Lista de ordenação ASC/DESC
      */
     protected $_sortOrder;
@@ -150,6 +157,10 @@ class Db_Table extends Zend_Db_Table {
         $this->_removeJoin = true;
     }
 
+
+    public function setDistinct() {
+        $this->_distinct = true;
+    }
     public function setReadCount() {
         $this->_readCount = true;
     }
@@ -846,6 +857,9 @@ class Db_Table extends Zend_Db_Table {
         }
         if ($this->_limit != '' && $this->_offset >= 0) {
             $select->limitPage($this->_offset, $this->_limit);
+        }
+        if ($this->_distinct != '') {
+            $select->distinct();
         }
 
         return $select;
