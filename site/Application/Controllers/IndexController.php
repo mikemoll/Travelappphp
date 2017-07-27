@@ -82,7 +82,7 @@ class IndexController extends AbstractController {
         // -----------------------------------------------------------
         $menu = new Ui_Element_MenuItem('adm', 'Admin', HTTP_REFERER . '', '', 'settings');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
-//        $menu->setVisible(Usuario::getIdUsuarioLogado() == 1);
+        $menu->setVisible(Usuario::getIdUsuarioLogado() == 1);
         $mainMenu->addMenuItem($menu);
 
         if (true) {
@@ -132,7 +132,7 @@ class IndexController extends AbstractController {
             // -----------------------------------------------------------
         }
         $menu2 = new Ui_Element_MenuItem('Development', 'Development', '', '', '');
-//        $menu2->setVisible(Usuario::getIdUsuarioLogado() == 1);
+        $menu2->setVisible(Usuario::getIdUsuarioLogado() == 1);
         $mainMenu->addMenuItem($menu2);
         if (true) {
             $menu3 = new Ui_Element_MenuItem('Users', 'Users', HTTP_REFERER . 'usuario/users', '', '');

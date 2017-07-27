@@ -3,6 +3,7 @@
 class WebController extends Zend_Controller_Action {
 
     public function indexAction() {
+        $this->redirect('/index');
         $view = Zend_Registry::get('view');
 //
         $lPacotes = new Noticia();
