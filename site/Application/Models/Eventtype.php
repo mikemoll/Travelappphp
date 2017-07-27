@@ -22,4 +22,10 @@ class Eventtype extends Db_Table {
         return $this->getDescription();
     }
 
+    public function readLstWithEvent($modo = 'obj') {
+        $this->join('event', 'event.id_eventtype = eventtype.id_eventtype', 'id_eventtype');
+        $this->setDistinct();
+        return parent::readLst($modo);
+    }
+
 }

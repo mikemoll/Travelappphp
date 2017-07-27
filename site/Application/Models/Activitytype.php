@@ -26,4 +26,10 @@ class Activitytype extends Db_Table {
         $this->setActivitytypename($post->activitytypename);
     }
 
+
+    public function readLstWithActivity($modo = 'obj') {
+        $this->join('activity', 'activity.id_activitytype = activitytype.id_activitytype', 'id_activitytype');
+        $this->setDistinct();
+        return parent::readLst($modo);
+    }
 }

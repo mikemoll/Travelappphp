@@ -116,8 +116,10 @@ class ExploreController extends AbstractController {
         $form->addElement($element);
 
 
-        $view->assign('EventtypeLst', Db_Table::getOptionList2('id_eventtype', 'description', 'description', 'Eventtype', false));
-        $view->assign('ActivitytypeLst', Db_Table::getOptionList2('id_activitytype', 'activitytypename', 'activitytypename', 'Activitytype', false));
+        $view->assign('EventtypeLst', Db_Table::getOptionList2('id_eventtype', 'description', 'description', 'Eventtype', false,'readLstWithEvent'));
+//        $view->assign('EventtypeLst', Db_Table::getOptionList2('id_eventtype', 'description', 'description', 'Eventtype', false));
+//        $view->assign('ActivitytypeLst', Db_Table::getOptionList2('id_activitytype', 'activitytypename', 'activitytypename', 'Activitytype', false));
+        $view->assign('ActivitytypeLst', Db_Table::getOptionList2('id_activitytype', 'activitytypename', 'activitytypename', 'Activitytype', false,'readLstWithActivity'));
 
         $view->assign('EventtypeSelected', $post->eventtype);
         $view->assign('ActivitytypeSelected', $post->activitytype);
