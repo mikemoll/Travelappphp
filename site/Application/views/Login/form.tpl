@@ -42,10 +42,10 @@
 <!-- END Form Control-->
 {*<button class="btn btn-primary btn-cons m-t-10" type="submit">Sign in</button>*}
 {$btnLogin}
-<br/>
+{$btnLoginFacebook}
+
 <button class="btn btn-success btn-cons m-t-10" type="submit">Request invite</button>
 
-{* $btnLoginFacebook *}
 {* $btnEsqueci *}
 
 <p class="p-t-35">Not registered yet?</p>

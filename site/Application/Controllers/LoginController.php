@@ -71,9 +71,9 @@ class LoginController extends AbstractController {
         $form->addElement($button);
 
         $button = new Ui_Element_Btn('btnLoginFacebook');
-        $button->setDisplay('Login with FB');
-        $button->setHref(HTTP_REFERER . $this->Action . 'login/facebooklogin');
-        $button->setAttrib('class', 'btn btn-success btn-cons m-t-10');
+        $button->setDisplay('Login with FB', 'facebook');
+        $button->setHref(HTTP_REFERER . $this->Action . 'web/fblogin/next/' . base64_encode(HTTP_REFERER . 'index'));
+        $button->setAttrib('class', 'btn btn-facebook btn-cons m-t-10');
         $form->addElement($button);
 
         $button = new Ui_Element_Btn('btnCreate');
@@ -91,7 +91,7 @@ class LoginController extends AbstractController {
         $form->setDataSession('formLogin');
 
         $view = Zend_Registry::get('view');
-        $view->assign('background',BASE_URL.'Public/assets/img/demo/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg' );
+        $view->assign('background', BASE_URL . 'Public/assets/img/demo/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg');
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'Login');
@@ -410,7 +410,7 @@ class LoginController extends AbstractController {
 
         $view = Zend_Registry::get('view');
 
-        $view->assign('background',BASE_URL.'Public/Images/signup/1.jpg' );
+        $view->assign('background', BASE_URL . 'Public/Images/signup/1.jpg');
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'New user');
@@ -419,10 +419,9 @@ class LoginController extends AbstractController {
         $view->output('Login/index.tpl');
     }
 
-
     public function validDate($mdY) {
-        $d = explode('/',$mdY);
-        return (count($d) == 3) and checkdate($d[0],$d[1],$d[2]);
+        $d = explode('/', $mdY);
+        return (count($d) == 3) and checkdate($d[0], $d[1], $d[2]);
     }
 
     public function isFutureDate($mdY) {
@@ -446,31 +445,31 @@ class LoginController extends AbstractController {
             $br->send();
             return;
         } else if (($post->senha != '') && ($post->senha != $post->confirmpassword)) {
-            $br->setAlert("Error","The password doesn't match the confirm password.");
+            $br->setAlert("Error", "The password doesn't match the confirm password.");
             $br->send();
             return;
         } else if (strlen($post->senha) < 6) {
-            $br->setAlert("Error","The password must contain at least 6 characters.");
+            $br->setAlert("Error", "The password must contain at least 6 characters.");
             $br->send();
             return;
-        // } else if (!filter_var($post->email, FILTER_VALIDATE_EMAIL)) {
-        //     $br->setAlert("Error","The email informed is not valid.");
-        //     $br->send();
-        //     return;
-        } else if ( Usuario::usernameExists($post->loginUser) ) {
-            $br->setAlert("Error","This username has already being choosen. Please choose another.");
+            // } else if (!filter_var($post->email, FILTER_VALIDATE_EMAIL)) {
+            //     $br->setAlert("Error","The email informed is not valid.");
+            //     $br->send();
+            //     return;
+        } else if (Usuario::usernameExists($post->loginUser)) {
+            $br->setAlert("Error", "This username has already being choosen. Please choose another.");
             $br->send();
             return;
-        // } else if (!$this->validDate($post->birthdate)) {
-        //     $br->setAlert("Error","The bithdate must be a valid date in the format month/day/year.");
-        //     $br->send();
-        //     return;
-        // } else if ($this->isFutureDate($post->birthdate)) {
-        //     $br->setAlert("Error","The bithdate must not be in the future.");
-        //     $br->send();
-        //     return;
+            // } else if (!$this->validDate($post->birthdate)) {
+            //     $br->setAlert("Error","The bithdate must be a valid date in the format month/day/year.");
+            //     $br->send();
+            //     return;
+            // } else if ($this->isFutureDate($post->birthdate)) {
+            //     $br->setAlert("Error","The bithdate must not be in the future.");
+            //     $br->send();
+            //     return;
         } else if ($post->termsofuse != 'S') {
-            $br->setAlert("Error","You must agree with the term of use to proceed!");
+            $br->setAlert("Error", "You must agree with the term of use to proceed!");
             $br->send();
             return;
         }
@@ -502,7 +501,6 @@ class LoginController extends AbstractController {
         //                              dechex(rand(10003001,95964595)),16,'0',STR_PAD_LEFT),0,16));
         // $link = HTTP_REFERER . 'login/confirmaccount/id/' . $lObj->getconfirmurl().$lObj->getID();
         // $message ='<h1>Welcome to TravelTrack '.$lObj->getnomecompleto.'</h1><p>Confirm your account accessing the link: <a href="'.$link.'" target="_blank">'.$link.'</a></p>';
-
         //saving the user data
         try {
             $user->save();
@@ -535,7 +533,6 @@ class LoginController extends AbstractController {
         //$subject = 'Welcome to TravelTrack';
         //$enviaEmail = new SendEmail();
         //$enviaEmail->sendEmailComunicacaoInterna($message, $subject, $lObj->getemail()); //, $emailFrom, $nameFrom);
-
         //$msg = 'An e-mail was sent to you to confirm your account!';
         //$br->setMsgAlert('Please check your e-mail and confirm your registration to proceed!', $msg);
         $br->setBrowserUrl(BASE_URL . 'login/newuser2');
@@ -544,7 +541,7 @@ class LoginController extends AbstractController {
 
     public function newuser2Action() {
         $id = Usuario::getIDUsuarioLogado();
-        if (($id == '')||($id == NULL)) {
+        if (($id == '') || ($id == NULL)) {
             $this->_redirect('./login');
             exit;
         }
@@ -592,8 +589,8 @@ class LoginController extends AbstractController {
 
         $view = Zend_Registry::get('view');
 
-        $view->assign('firstname',$obj->getnomecompleto() );
-        $view->assign('background',BASE_URL.'Public/Images/signup/2.jpg' );
+        $view->assign('firstname', $obj->getnomecompleto());
+        $view->assign('background', BASE_URL . 'Public/Images/signup/2.jpg');
 
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
@@ -615,7 +612,7 @@ class LoginController extends AbstractController {
         $br = new Browser_Control();
 
         $id = Usuario::getIDUsuarioLogado();
-        if (($id == '')||($id == NULL)) {
+        if (($id == '') || ($id == NULL)) {
             $br->setBrowserUrl(BASE_URL . 'login/');
             $br->send();
             exit;
@@ -642,7 +639,7 @@ class LoginController extends AbstractController {
 
     public function newuser3Action() {
         $id = Usuario::getIDUsuarioLogado();
-        if (($id == '')||($id == NULL)) {
+        if (($id == '') || ($id == NULL)) {
             $this->_redirect('./login');
             exit;
         }
@@ -690,7 +687,7 @@ class LoginController extends AbstractController {
 
         $view = Zend_Registry::get('view');
 
-        $view->assign('background',BASE_URL.'Public/Images/signup/3.jpg' );
+        $view->assign('background', BASE_URL . 'Public/Images/signup/3.jpg');
 
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
@@ -698,7 +695,6 @@ class LoginController extends AbstractController {
         $html = $form->displayTpl($view, 'Login/newuser3.tpl');
         $view->assign('body', $html);
         $view->output('Login/index.tpl');
-
     }
 
     public function btnskip3clickAction($enviar = false) {
@@ -715,7 +711,7 @@ class LoginController extends AbstractController {
         $br = new Browser_Control();
 
         $id = Usuario::getIDUsuarioLogado();
-        if (($id == '')||($id == NULL)) {
+        if (($id == '') || ($id == NULL)) {
             $br->setBrowserUrl(BASE_URL . 'login/');
             $br->send();
             exit;
@@ -742,7 +738,7 @@ class LoginController extends AbstractController {
 
     public function newuser4Action() {
         $id = Usuario::getIDUsuarioLogado();
-        if (($id == '')||($id == NULL)) {
+        if (($id == '') || ($id == NULL)) {
             $this->_redirect('./login');
             exit;
         }
@@ -782,14 +778,13 @@ class LoginController extends AbstractController {
 
         $view = Zend_Registry::get('view');
 
-        $view->assign('background',BASE_URL.'Public/Images/signup/4.jpg' );
+        $view->assign('background', BASE_URL . 'Public/Images/signup/4.jpg');
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'New user');
         $html = $form->displayTpl($view, 'Login/newuser4.tpl');
         $view->assign('body', $html);
         $view->output('Login/index.tpl');
-
     }
 
     public function btnskip4clickAction($enviar = false) {
@@ -805,7 +800,7 @@ class LoginController extends AbstractController {
 
         $br = new Browser_Control();
         $id = Usuario::getIDUsuarioLogado();
-        if (($id == '')||($id == NULL)) {
+        if (($id == '') || ($id == NULL)) {
             $br->setBrowserUrl(BASE_URL . 'login/');
             $br->send();
             exit;
@@ -829,10 +824,9 @@ class LoginController extends AbstractController {
         $br->send();
     }
 
-
     public function newuser5Action() {
         $id = Usuario::getIDUsuarioLogado();
-        if (($id == '')||($id == NULL)) {
+        if (($id == '') || ($id == NULL)) {
             $this->_redirect('./login');
             exit;
         }
@@ -891,14 +885,13 @@ class LoginController extends AbstractController {
 
         $view = Zend_Registry::get('view');
 
-        $view->assign('background',BASE_URL.'Public/Images/signup/5.jpg' );
+        $view->assign('background', BASE_URL . 'Public/Images/signup/5.jpg');
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'New user');
         $html = $form->displayTpl($view, 'Login/newuser5.tpl');
         $view->assign('body', $html);
         $view->output('Login/index.tpl');
-
     }
 
     public function btnskip5clickAction($enviar = false) {
@@ -909,7 +902,7 @@ class LoginController extends AbstractController {
 
     public function btncontinue5clickAction($enviar = false) {
         $id = Usuario::getIDUsuarioLogado();
-        if (($id == '')||($id == NULL)) {
+        if (($id == '') || ($id == NULL)) {
             $br->setBrowserUrl(BASE_URL . 'login/');
             $br->send();
             exit;
@@ -945,7 +938,7 @@ class LoginController extends AbstractController {
 
     public function newuser6Action() {
         $id = Usuario::getIDUsuarioLogado();
-        if (($id == '')||($id == NULL)) {
+        if (($id == '') || ($id == NULL)) {
             $this->_redirect('./login');
             exit;
         }
@@ -998,14 +991,13 @@ class LoginController extends AbstractController {
 
         $view = Zend_Registry::get('view');
 
-        $view->assign('background',BASE_URL.'Public/Images/signup/6.jpg' );
+        $view->assign('background', BASE_URL . 'Public/Images/signup/6.jpg');
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'New user');
         $html = $form->displayTpl($view, 'Login/newuser6.tpl');
         $view->assign('body', $html);
         $view->output('Login/index.tpl');
-
     }
 
     public function btnskip6clickAction($enviar = false) {
@@ -1021,7 +1013,7 @@ class LoginController extends AbstractController {
 
         $br = new Browser_Control();
         $id = Usuario::getIDUsuarioLogado();
-        if (($id == '')||($id == NULL)) {
+        if (($id == '') || ($id == NULL)) {
             $br->setBrowserUrl(BASE_URL . 'login/');
             $br->send();
             exit;
@@ -1052,8 +1044,8 @@ class LoginController extends AbstractController {
         $get = Zend_Registry::get('post');
 
         $id = $get->id;
-        $id_usuario = substr($id,16);
-        $confirmurl = substr($id,0,16);
+        $id_usuario = substr($id, 16);
+        $confirmurl = substr($id, 0, 16);
 
         $user = new Usuario;
         $user->setid_usuario($id_usuario);
@@ -1066,7 +1058,7 @@ class LoginController extends AbstractController {
             $msg = 'This confirmation link has expired...';
         }
 
-        $this->_redirect('./login/index/msg/'.$msg);
+        $this->_redirect('./login/index/msg/' . $msg);
     }
 
 }
