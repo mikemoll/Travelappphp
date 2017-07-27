@@ -158,10 +158,17 @@ class Db_Table extends Zend_Db_Table {
         $campos = $post->getEscaped();
         $info = $this->info();
         foreach ($campos as $key => $value) {
-            if (array_key_exists($key, $info['metadata'])) {
+            if ($this->checkIfColumnExist($key)) {
                 $key = "a_$key";
                 $this->$key = $value;
             }
+        }
+    }
+
+    public function checkIfColumnExist($key) {
+        $info = $this->info();
+        if (array_key_exists($key, $info['metadata'])) {
+            return true;
         }
     }
 
@@ -1100,10 +1107,12 @@ class Db_Table extends Zend_Db_Table {
 
             // percorre todos os atributos da classe para gerar o array dada
             foreach ($atribs as $key => $value) {
-                $pos = strpos($key, 'a_');
-                if ($pos !== false) {
-                    $atrib = substr($key, 2);
-                    $data[$atrib] = FormataDados::formataDadosSave($this, $atrib);
+                if ($this->checkIfColumnExist(substr($key, 2))) {
+                    $pos = strpos($key, 'a_');
+                    if ($pos !== false) {
+                        $atrib = substr($key, 2);
+                        $data[$atrib] = FormataDados::formataDadosSave($this, $atrib);
+                    }
                 }
             }
             if (is_array($data)) {
