@@ -1,11 +1,23 @@
-
+{literal} 
+ 
+<style> 
+    #btnLogin, 
+    #btnCreate, 
+    #btnRequestInvite,
+    #btnLoginFacebook { 
+        width: 258px; 
+    } 
+    #btnLoginFacebook {
+        background-color: #4267B2;
+        color: white;
+    }
+</style> 
+{/literal} 
 <h1 class="light">Welcome to<br>Tumbleweed</h1>
 <h3 class="light">Discover, plan and enjoy your gratest travel adventures.</h3>
 
 <p id="msg">{$msg}</p>
 <p class="p-t-35">Sign into your Tumbleweed account</p>
-<!-- START Login Form -->
-<!-- START Form Control-->
 
 <div class="form-group form-group-default">
 
@@ -16,8 +28,6 @@
     </div>
 </div>
 
-<!-- END Form Control-->
-<!-- START Form Control-->
 <div class="form-group form-group-default">
     <label>Password</label>
     <div class="controls">
@@ -27,7 +37,6 @@
 </div>
 
 
-<!-- START Form Control-->
 <div class="row">
     <div class="col-md-6 no-padding">
         <div class="checkbox ">
@@ -39,16 +48,26 @@
         <a href="#" class="text-info small">Forgot my password</a>
     </div>
 </div>
-<!-- END Form Control-->
-{*<button class="btn btn-primary btn-cons m-t-10" type="submit">Sign in</button>*}
-{$btnLogin}
-{$btnLoginFacebook}
 
-<button class="btn btn-success btn-cons m-t-10" type="submit">Request invite</button>
 
-{* $btnEsqueci *}
-
-<p class="p-t-35">Not registered yet?</p>
-{$btnCreate}
-
-<!--END Login Form-->
+<div class="row"> 
+    <div class="col-md-12 no-padding text-center"> 
+        {$btnLogin} 
+    </div> 
+    <div class="col-md-12 no-padding text-center"> 
+        <p class="p-t-10">or</p> 
+    </div> 
+    <div class="col-md-12 no-padding text-center"> 
+        {$btnLoginFacebook}
+        <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div> 
+    </div> 
+    <div class="col-md-12 no-padding text-center"> 
+        <p class="p-t-35">Not registered yet?</p> 
+    </div> 
+    <div class="col-md-12 no-padding text-center"> 
+        {$btnCreate} 
+    </div> 
+    <div class="col-md-12 no-padding text-center"> 
+        <button id="btnRequestInvite" class="btn btn-success btn-cons m-t-10" type="submit">Request invite</button> 
+    </div> 
+</div> 

@@ -1,0 +1,13 @@
+{
+    "name": "tumbleweed/fblogin",
+    "description": "Tumbleweeb Facebook login module",
+    "authors": [
+        {
+            "name": "Rômulo Berri",
+            "email": "romuloberri@gmail.com"
+        }
+    ],
+    "require": {
+        "facebook/graph-sdk": "^5.6"
+    }
+}

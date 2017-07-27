@@ -71,8 +71,8 @@ class LoginController extends AbstractController {
         $form->addElement($button);
 
         $button = new Ui_Element_Btn('btnLoginFacebook');
-        $button->setDisplay('Login with FB', 'facebook');
-        $button->setHref(HTTP_REFERER . $this->Action . 'web/fblogin/next/' . base64_encode(HTTP_REFERER . 'index'));
+        $button->setDisplay('  Continue with Facebook', 'facebook');
+        $button->setHref(HTTP_REFERER . '../fb/login.php');
         $button->setAttrib('class', 'btn btn-facebook btn-cons m-t-10');
         $form->addElement($button);
 
@@ -346,6 +346,15 @@ class LoginController extends AbstractController {
         }
         $obj->setInstance('newUser');
 
+        $session = Zend_Registry::get('session');
+        $isfacebook = isset($session->fbuser);
+        $facebookphoto = '';
+        $facebookemail = '';
+        if ($isfacebook) {
+            $facebookphoto = $session->fbuser['photo'];
+            $facebookemail = $session->fbuser['email'];
+        }
+
         $element = new Ui_Element_Text('nomeCompleto');
         $element->setAttrib('maxlength', '35');
         $element->setRequired();
@@ -375,6 +384,7 @@ class LoginController extends AbstractController {
         $element->setAttrib('maxlength', '255');
         $element->setHideRemainingCharacters();
         $element->setRequired();
+        $element->setValue($facebookemail);
         $element->setAttrib('placeholder', 'your@email.com');
         // $element->setAttrib('hotkeys', 'enter, btnLogin, click');
         $form->addElement($element);
@@ -418,6 +428,9 @@ class LoginController extends AbstractController {
 
         $view = Zend_Registry::get('view');
 
+        $view->assign('isfacebook', $isfacebook);
+        $view->assign('facebookphoto', $facebookphoto);
+
         $view->assign('background', BASE_URL . 'Public/Images/signup/1.jpg');
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
@@ -439,8 +452,8 @@ class LoginController extends AbstractController {
     public function btnregisterclickAction($enviar = false) {
         $post = Zend_Registry::get('post');
         $session = Zend_Registry::get('session');
+        $isfacebook = isset($session->fbuser);
 
-//        $usuario = $session->usuario;
         $br = new Browser_Control();
 
         // validating user
@@ -452,11 +465,11 @@ class LoginController extends AbstractController {
             $br->validaForm($valid);
             $br->send();
             return;
-        } else if (($post->senha != '') && ($post->senha != $post->confirmpassword)) {
+        } else if ((!$isfacebook) && ($post->senha != '') && ($post->senha != $post->confirmpassword)) {
             $br->setAlert("Error", "The password doesn't match the confirm password.");
             $br->send();
             return;
-        } else if (strlen($post->senha) < 6) {
+        } else if ((!$isfacebook) && strlen($post->senha) < 6) {
             $br->setAlert("Error", "The password must contain at least 6 characters.");
             $br->send();
             return;
@@ -500,6 +513,14 @@ class LoginController extends AbstractController {
         //sets user homepage
         $user->setpaginainicial('index');
 
+        if ($isfacebook) {
+            $fb = $session->fbuser;
+            $user->setnomecompleto($fb['firstname']);
+            $user->setlastname($fb['lastname']);
+            $user->setfb_id($fb['id']);
+            $user->setphoto($fb['id'] . '.jpg');
+        }
+
 
         // generates the random number to confirm the account
         // WE WON'T NEED THIS CONFIRMATION ON FIRST VERSION....
@@ -513,6 +534,11 @@ class LoginController extends AbstractController {
         try {
             $user->save();
             $user->setInstance('newUser');
+            if ($isfacebook) {
+                $photo = file_get_contents($fb['photo']);
+                $photopath = RAIZ_DIRETORY . 'site/Public/Images/Profile/'. $user->getID() . '_'. $fb['id'] . '.jpg';
+                file_put_contents($photopath,$photo);
+            }
         } catch (Exception $exc) {
             $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
             $br->send();
@@ -546,6 +572,46 @@ class LoginController extends AbstractController {
         $br->setBrowserUrl(BASE_URL . 'login/newuser2');
         $br->send();
     }
+
+    public function facebookAction() {
+
+        $fbtoken = $_SESSION['fb_access_token'];
+        $fbuser  = $_SESSION['fb_tokenMetadata'];
+        $fb_id = $fbuser['id'];
+
+        $id_usuario = Usuario::id_usuariobyfb_id($fb_id);
+
+        if($id_usuario){
+
+            //Login the user
+            $user = new Usuario();
+            $user->read($id_usuario);
+    //        if ($post->remember) {
+            $cookie_name = "userName";
+            $cookie_value = $user->getusername;
+            setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
+    //        }
+
+            Log::createLogFile('The user ' . $user->getNomeCompleto() . ' Sign Up');
+
+            $session = Zend_Registry::get('session');
+            $session->usuario = $user;
+            Zend_Registry::set('session', $session);
+
+            $limpaSession = true;
+
+            $url = HTTP_REFERER . 'explore';
+        } else {
+
+            $session = Zend_Registry::get('session');
+            $session->fbuser = $fbuser;
+
+            $url = HTTP_REFERER . 'login/newuser';
+        }
+
+        header("Location: $url");
+    }
+
 
     public function newuser2Action() {
         $id = Usuario::getIDUsuarioLogado();
@@ -696,7 +762,7 @@ class LoginController extends AbstractController {
 
     public function btnskip3clickAction($enviar = false) {
         $br = new Browser_Control();
-        $br->setBrowserUrl(BASE_URL . 'explore/index/welcome/true');
+        $br->setBrowserUrl(BASE_URL . 'explore/index/');//welcome/true');
         $br->send();
     }
 

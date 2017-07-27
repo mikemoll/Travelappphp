@@ -1,6 +1,147 @@
 <?php
 
+//ini_set('display_errors', '1');
+//error_reporting(E_ALL);
+//
+$operatingSystem = stripos($_SERVER['SERVER_SOFTWARE'], 'win32') !== FALSE ? 'WINDOWS' : 'LINUX';
+$bar = $operatingSystem == 'WINDOWS' ? '\\' : '/';
+set_include_path(RAIZ_DIRETORY . 'Libs'.$bar.'Scripts'.$bar.'Facebook');
+//set_include_path(get_include_path() . PATH_SEPARATOR . RAIZ_DIRETORY . 'Libs/Scripts/Facebook');
+//var_dump(get_include_path() . PATH_SEPARATOR . RAIZ_DIRETORY . 'Libs/Scripts/Facebook'); die();
+//        print'<pre>';die(print_r( get_include_path()  ));
+//        print'<pre>';die(print_r( RAIZ_DIRETORY . 'Libs\Scripts\Facebook\autoload.php' ));
+include_once 'autoload.php';
+include_once 'Facebook.php';
+
+//        include_once RAIZ_DIRETORY . 'Libs/Scripts/Facebook/FacebookApp.php';
+//        include_once RAIZ_DIRETORY . 'Libs/Scripts/Facebook/FacebookClient.php';
+//        include_once RAIZ_DIRETORY . 'Libs/Scripts/Facebook/FacebookRequest.php';
+//        include_once RAIZ_DIRETORY . 'Libs/Scripts/Facebook/FacebookResponse.php';
+//        include_once RAIZ_DIRETORY . 'Libs/Scripts/Facebook/FacebookBatchRequest.php';
+//        include_once RAIZ_DIRETORY . 'Libs/Scripts/Facebook/FacebookBatchResponse.php';
+//        include_once RAIZ_DIRETORY . 'Libs/Scripts/Facebook/SignedRequest.php';
+
 class WebController extends Zend_Controller_Action {
+
+    public function fbloginAction() {
+        $post = Zend_Registry::get('post');
+        $fb = new Facebook\Facebook([
+            'app_id' => '259150917920223', // Replace {app-id} with your app id
+            'app_secret' => '44cee4dc7e3398728a3bdff897eac940',
+            'default_graph_version' => 'v2.2',
+        ]);
+
+        $helper = $fb->getRedirectLoginHelper();
+
+        $permissions = ['email']; // Optional permissions
+        $loginUrl = $helper->getLoginUrl(HTTP_REFERER . 'web/fbcallback/next/' . ($post->next), $permissions);
+
+
+        header('Location:' . $loginUrl);
+//        echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
+    }
+
+    public function fbcallbackAction() {
+        $post = Zend_Registry::get('post');
+        list($next) = explode('?', $post->next);
+        $next = base64_decode($next);
+        error_reporting(0);
+        $fb = new Facebook\Facebook([
+            'app_id' => '259150917920223', // Replace {app-id} with your app id
+            'app_secret' => '44cee4dc7e3398728a3bdff897eac940',
+            'default_graph_version' => 'v2.2',
+        ]);
+
+        $helper = $fb->getRedirectLoginHelper();
+
+        try {
+            $accessToken = $helper->getAccessToken();
+        } catch (Facebook\Exceptions\FacebookResponseException $e) {
+            // When Graph returns an error
+            echo 'Graph returned an error: ' . $e->getMessage();
+            echo __FILE__ . '(' . __LINE__ . ')';
+
+            exit;
+        } catch (Facebook\Exceptions\FacebookSDKException $e) {
+            // When validation fails or other local issues
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            echo __FILE__ . '(' . __LINE__ . ')';
+
+            exit;
+        }
+
+        if (!isset($accessToken)) {
+            if ($helper->getError()) {
+                header('HTTP/1.0 401 Unauthorized');
+                echo "Error: " . $helper->getError() . "\n";
+                echo "Error Code: " . $helper->getErrorCode() . "\n";
+                echo "Error Reason: " . $helper->getErrorReason() . "\n";
+                echo "Error Description: " . $helper->getErrorDescription() . "\n";
+                echo __FILE__ . '(' . __LINE__ . ')';
+            } else {
+                header('HTTP/1.0 400 Bad Request');
+                echo 'Bad request';
+                echo __FILE__ . '(' . __LINE__ . ')';
+            }
+            exit;
+        }
+
+
+
+// Logged in
+        // echo '<h3>Access Token</h3>';
+        // var_dump($accessToken->getValue());
+
+// The OAuth 2.0 client handler helps us manage access tokens
+        $oAuth2Client = $fb->getOAuth2Client();
+
+// Get the access token metadata from /debug_token
+        $tokenMetadata = $oAuth2Client->debugToken($accessToken);
+        // echo '<h3>Metadata</h3>';
+        // var_dump($tokenMetadata);
+
+// Validation (these will throw FacebookSDKException's when they fail)
+        $tokenMetadata->validateAppId('259150917920223'); // Replace {app-id} with your app id
+// If you know the user ID this access token belongs to, you can validate it here
+//$tokenMetadata->validateUserId('123');
+        $tokenMetadata->validateExpiration();
+
+        if (!$accessToken->isLongLived()) {
+            // Exchanges a short-lived access token for a long-lived one
+            try {
+                $accessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
+            } catch (Facebook\Exceptions\FacebookSDKException $e) {
+                echo "<p>Error getting long-lived access token: " . $helper->getMessage() . "</p>\n\n";
+                echo __FILE__ . '(' . __LINE__ . ')';
+                exit;
+            }
+
+            // echo '<h3>Long-lived</h3>';
+            // var_dump($accessToken->getValue());
+        }
+
+        $_SESSION['fb_access_token'] = (string) $accessToken;
+
+        // -------------------------------------------------------------------------
+
+        try {
+            // Returns a `Facebook\FacebookResponse` object
+            $response = $fb->get('/me?fields=id,name,email,hometown,first_name,middle_name,last_name,birthday,picture ', $accessToken->getValue());
+        } catch (Facebook\Exceptions\FacebookResponseException $e) {
+            echo 'Graph returned an error: ' . $e->getMessage();
+            exit;
+        } catch (Facebook\Exceptions\FacebookSDKException $e) {
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
+        }
+
+        $fbuser = $response->getGraphUser();
+
+            $session = Zend_Registry::get('session');
+            $session->fb_id = $fbuser;
+
+        header('Location: ' . HTTP_REFERER . 'login/facebooklogin');
+    }
 
     public function indexAction() {
         $view = Zend_Registry::get('view');

@@ -1,0 +1,2 @@
+ALTER TABLE `usuario` 
+ADD COLUMN `fb_id` VARCHAR(20) NULL DEFAULT NULL AFTER `confirmurl`;

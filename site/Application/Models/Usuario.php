@@ -66,6 +66,14 @@ class Usuario extends Db_Table {
         }
     }
 
+    // public function getLocalPhotoPath() {
+    //     if ($this->a_Photo) {
+    //         return RAIZ_DIRETORY . 'site/Public/Images/Profile/' . $this->getID() . '_' . $this->a_Photo;
+    //     } else {
+    //         return RAIZ_DIRETORY . 'site/Public/Images/people.png'; //default image
+    //     }
+    // }
+
     public function getPhotoPath() {
         return Usuario::makephotoPath($this->getID(), $this->a_Photo);
     }
@@ -650,4 +658,15 @@ class Usuario extends Db_Table {
         return $lLst;
     }
 
+    public static function id_usuariobyfb_id($fb_id) {
+        $lLst = new Usuario;
+        $lLst->where('fb_id', $fb_id);
+        $lLst->readLst();
+        if($lLst->countItens() == 1){
+            $user = $lLst->getItem(0);
+            return $user->getID();
+        } else {
+            return false;
+        }
+    }
 }

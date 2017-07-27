@@ -22,7 +22,7 @@
  *
  */
 namespace Facebook;
-//
+
 use Facebook\Authentication\AccessToken;
 use Facebook\Authentication\OAuth2Client;
 use Facebook\FileUpload\FacebookFile;
@@ -53,7 +53,7 @@ class Facebook
     /**
      * @const string Version number of the Facebook PHP SDK.
      */
-    const VERSION = '5.5.0';
+    const VERSION = '5.6.0';
 
     /**
      * @const string Default Graph API version for requests.
