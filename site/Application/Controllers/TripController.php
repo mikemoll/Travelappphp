@@ -216,7 +216,7 @@ class TripController extends AbstractController {
         $column->setWidth('1');
         $grid->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Resp', 'responsible', 'center');
+        $column = new Ui_Element_DataTables_Column_Text('Resp', 'responsable', 'center');
         $column->setWidth('3');
         $grid->addColumn($column);
 
@@ -351,10 +351,12 @@ class TripController extends AbstractController {
 
         $element = new Ui_Element_Select('type', 'Task Type');
         $element->addMultiOption('', '');
-        $element->addMultiOption(1, 'Grau 1');
-        $element->addMultiOption(2, 'Grau 2');
-        $element->addMultiOption(3, 'Grau 3');
-        $element->addMultiOption(4, 'Grau 4');
+//        Visa, Doctor, Personal, Item Purchase, other
+        $element->addMultiOption(1, 'Visa');
+        $element->addMultiOption(2, 'Doctor');
+        $element->addMultiOption(3, 'Personal');
+        $element->addMultiOption(4, 'Item Purchase');
+        $element->addMultiOption(5, 'Other');
 //        $element->setMultiSelect();
         $form->addElement($element);
 

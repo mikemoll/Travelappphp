@@ -114,6 +114,32 @@ class Trip extends Db_Table {
         return $pics[0]['src'];
     }
 
+
+    public function getTripTriptypesLst() {
+        if ($this->TripTriptypesLst == null) {
+            $this->TripTriptypesLst = new TripTriptype();
+        }
+        return $this->TripTriptypesLst;
+    }
+
+    public function getTripUserLst() {
+        if ($this->TripUserLst == null) {
+            $this->TripUserLst = new TripUser();
+        }
+        return $this->TripUserLst;
+    }
+
+    public function setTripUserLst($val) {
+        $this->TripUserLst = $val;
+    }
+
+    public function getTriptaskLst() {
+        if ($this->TriptaskLst == null) {
+            $this->TriptaskLst = new Triptask();
+        }
+        return $this->TriptaskLst;
+    }
+
     public function read($id = NULL, $modo = 'obj') {
         parent::read($id, $modo);
 
@@ -153,30 +179,6 @@ class Trip extends Db_Table {
         $this->setenddate($post->getUnescaped('enddate'));
     }
 
-    public function getTripTriptypesLst() {
-        if ($this->TripTriptypesLst == null) {
-            $this->TripTriptypesLst = new TripTriptype();
-        }
-        return $this->TripTriptypesLst;
-    }
-
-    public function getTripUserLst() {
-        if ($this->TripUserLst == null) {
-            $this->TripUserLst = new TripUser();
-        }
-        return $this->TripUserLst;
-    }
-
-    public function setTripUserLst($val) {
-        $this->TripUserLst = $val;
-    }
-
-    public function getTriptaskLst() {
-        if ($this->TriptaskLst == null) {
-            $this->TriptaskLst = new Triptask();
-        }
-        return $this->TriptaskLst;
-    }
 
     public function save() {
 

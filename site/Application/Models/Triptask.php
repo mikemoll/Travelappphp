@@ -18,6 +18,12 @@ class Triptask extends Db_Table {
         parent::__construct($config, $definition);
     }
 
+    function readLst($modo = 'obj') {
+        $this->join('tripuser', 'tripuser.id_tripuser = triptask.id_responsable', '');
+        $this->join('usuario', 'usuario.id_usuario = tripuser.id_usuario', 'nomecompleto as responsable', 'left');
+        parent::readLst($modo);
+    }
+
 //    function readLst($modo = 'obj') {
 //        parent::readLst($modo);
 //    }
