@@ -14,6 +14,9 @@
         .padding-25 {
             padding: 0px !important;
         }
+        .page-container .page-content-wrapper .content{
+             padding-top: 0px !important;
+        }
     </style>
 {/literal}
 <div class="social-wrapper">
