@@ -36,6 +36,8 @@ switch ($_SERVER['HTTP_HOST']) {
         define('BASE', "traveltrack"); // BASE the path to the site's root folder (Ex.: na locaweb e o "public_htm", mas o caminho fica sem o "public_html")
         break;
 
+    case 'romuloberri.com.br': // Production
+    case 'www.romuloberri.com.br': // Production
     case '4coffee.com.br': // Production
     case 'www.4coffee.com.br': // Production
 //        error_reporting(0);

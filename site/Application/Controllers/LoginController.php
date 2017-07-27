@@ -91,7 +91,7 @@ class LoginController extends AbstractController {
         $form->setDataSession('formLogin');
 
         $view = Zend_Registry::get('view');
-        $view->assign('background', BASE_URL . 'Public/assets/img/demo/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg');
+        $view->assign('background', BASE_URL . 'Public/Images/signup/4.jpg');
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'Login');
