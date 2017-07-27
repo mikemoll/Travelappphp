@@ -810,7 +810,7 @@ class LoginController extends AbstractController {
             die();
         }
 
-        $br->setBrowserUrl(BASE_URL . 'explore/index/welcome/true');
+        $br->setBrowserUrl(BASE_URL . 'explore/index');///welcome/true');
         $br->send();
     }
 

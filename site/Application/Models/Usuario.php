@@ -75,7 +75,7 @@ class Usuario extends Db_Table {
     // }
 
     public function getPhotoPath() {
-        return Usuario::makephotoPath($this->getID(), $this->a_Photo);
+        return Usuario::makephotoPath($this->getID(), $this->getPhoto());
     }
 
     public function getAvarageStarsNumber() {
