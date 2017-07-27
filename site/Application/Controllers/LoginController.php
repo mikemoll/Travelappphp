@@ -67,13 +67,15 @@ class LoginController extends AbstractController {
         $button = new Ui_Element_Btn('btnLogin');
         $button->setDisplay('Sign In');
         $button->setAttrib('sendFormFields', '1');
-        $button->setAttrib('class', 'btn btn-primary btn-cons m-t-10');
+//        $button->setAttrib('class', 'btn btn-primary btn-cons m-t-10');
+        $button->setAttrib('class', 'btn btn-primary ');
         $form->addElement($button);
 
         $button = new Ui_Element_Btn('btnLoginFacebook');
         $button->setDisplay('  Continue with Facebook', 'facebook');
         $button->setHref(HTTP_REFERER . '../fb/login.php');
-        $button->setAttrib('class', 'btn btn-facebook btn-cons m-t-10');
+//        $button->setAttrib('class', 'btn btn-facebook btn-cons m-t-10');
+        $button->setAttrib('class', 'btn btn-facebook ');
         $form->addElement($button);
 
         $button = new Ui_Element_Btn('btnCreate');

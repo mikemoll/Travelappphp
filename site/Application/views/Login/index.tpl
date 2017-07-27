@@ -83,7 +83,7 @@
             <!-- END Login Background Pic Wrapper-->
             <!-- START Login Right Container-->
             <div class="login-container bg-white">
-                <div class="p-l-50 m-l-20 p-r-50 m-r-20 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
+                <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-0 m-t-15 sm-p-l-15 sm-p-r-15 sm-p-t-40">
                     {* <img src="{$baseUrl}Public/assets/img/logo.png" alt="logo" data-src="{$baseUrl}Public/assets/img/logo.png" data-src-retina="assets/img/logo_2x.png" width="78" height="22"> *}
                     {$body}
                 </div>
