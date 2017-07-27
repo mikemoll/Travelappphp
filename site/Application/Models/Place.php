@@ -101,7 +101,7 @@ class Place extends Db_Table {
             foreach ($ret->results as $value) {
                 $placeLst = new Place();
                 $placeLst->where('google_place_id', $value->place_id);
-                $placeLst->readLst();
+                $placeLst->readLst2();
                 if ($placeLst->countItens() > 0) {
                     continue;
                 }
@@ -116,7 +116,7 @@ class Place extends Db_Table {
                     $url = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=' . $photo->photo_reference . '&key=' . $this->google_api_key;
                     break;
                 }
-                $place->save();
+
                 if ($url != '') {
                     $img = RAIZ_DIRETORY . 'site/Public/Images/Place/' . $place->getID() . '_' . md5($photo->photo_reference) . '.jpg';
                     copy($url, $img);
@@ -142,6 +142,10 @@ class Place extends Db_Table {
         }
 
         parent::readLst();
+    }
+
+    function readLst2($modo = 'obj') {
+        parent::readLst($modo);
     }
 
 }

@@ -186,19 +186,23 @@ class TripController extends AbstractController {
         // ---- Create Grid ----
         $grid = new Ui_Element_DataTables('gridTask');
         $grid->setParams('', BASE_URL . $this->Action . '/tasklist');
+        $grid->setShowInfo(false);
+        $grid->setShowLengthChange(false);
+        $grid->setShowPager(false);
+        $grid->setShowSearching(false);
 
         // ---- Buttons -----
-        $button = new Ui_Element_DataTables_Button('btnDelTask', 'Delete');
-        $button->setImg('trash-o');
-        $button->setAttrib('msg', "Are you sure you want to delete this?");
-        $button->setVisible('TRIP_TASK', 'excluir');
-        $grid->addButton($button);
 
         $button = new Ui_Element_DataTables_Button('btnEditTask', 'Edit');
         $button->setImg('edit');
         $button->setVisible('TRIP_TASK', 'editar');
         $grid->addButton($button);
 
+        $button = new Ui_Element_DataTables_Button('btnDelTask', 'Delete');
+        $button->setImg('trash-o');
+        $button->setAttrib('msg', "Are you sure you want to delete this?");
+        $button->setVisible('TRIP_TASK', 'excluir');
+        $grid->addButton($button);
         // ---- Columns -----
         $column = new Ui_Element_DataTables_Column_Text('Task', 'description');
         $column->setWidth('3');
@@ -256,19 +260,23 @@ class TripController extends AbstractController {
         // ---- Create Grid ----
         $grid = new Ui_Element_DataTables('gridExpense');
         $grid->setParams('', BASE_URL . $this->Action . '/expenselist');
+        $grid->setShowInfo(false);
+        $grid->setShowLengthChange(false);
+        $grid->setShowPager(false);
+        $grid->setShowSearching(false);
 
         // ---- Buttons -----
-        $button = new Ui_Element_DataTables_Button('btnDelExpense', 'Delete');
-        $button->setImg('trash-o');
-        $button->setAttrib('msg', "Are you sure you want to delete this?");
-        $button->setVisible('TRIP_BUDGET', 'excluir');
-        $grid->addButton($button);
 
         $button = new Ui_Element_DataTables_Button('btnEditExpense', 'Edit');
         $button->setImg('edit');
         $button->setVisible('TRIP_BUDGET', 'editar');
         $grid->addButton($button);
 
+        $button = new Ui_Element_DataTables_Button('btnDelExpense', 'Delete');
+        $button->setImg('trash-o');
+        $button->setAttrib('msg', "Are you sure you want to delete this?");
+        $button->setVisible('TRIP_BUDGET', 'excluir');
+        $grid->addButton($button);
         // ---- Columns -----
         $column = new Ui_Element_DataTables_Column_Text('Description', 'description');
         $column->setWidth('3');

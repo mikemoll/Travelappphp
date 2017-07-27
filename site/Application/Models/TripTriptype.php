@@ -4,7 +4,7 @@ class TripTriptype extends Db_Table {
     public $_primary = 'id_triptriptype';
 
     function readLst($modo = 'obj') {
-        $this->join('triptype', 'triptype.id_triptype = triptypename.id_triptype', 'triptypename');
+        $this->join('triptype', 'triptype.id_triptype = triptriptype.id_triptype', 'triptypename');
         parent::readLst($modo);
     }
 }
