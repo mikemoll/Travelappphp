@@ -1,0 +1,1 @@
+ALTER TABLE `triptask` ADD `done` CHAR(1) NULL AFTER `id_type`;
