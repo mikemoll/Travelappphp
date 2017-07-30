@@ -82,9 +82,16 @@ class Trip extends Db_Table {
     public function getTotalBudget() {
         for ($i = 0; $i < $this->getTripexpenseLst()->countItens(); $i++) {
             $Item = $this->getTripexpenseLst()->getItem($i);
-            $sum += $Item->getAmount();
+            if (!$Item->deleted()) {
+                if ($Item->getTotalorPerson() == 'P') {
+                    $times = $this->getTripUserLst()->countItens();
+                } else {
+                    $times = 1;
+                }
+                $sum += $Item->getAmount() * $times;
+            }
         }
-        return $sum;
+        return number_format($sum, 2);
     }
 
     public function getTripUserList() {
@@ -113,7 +120,6 @@ class Trip extends Db_Table {
         $pics = $this->getPicsLst();
         return $pics[0]['src'];
     }
-
 
     public function getTripTriptypesLst() {
         if ($this->TripTriptypesLst == null) {
@@ -179,7 +185,6 @@ class Trip extends Db_Table {
         $this->setenddate($post->getUnescaped('enddate'));
     }
 
-
     public function save() {
 
         //print_r($this);die('<br><br>\n\n' . ' Linha: ' . __LINE__ . ' Arquivo: ' . __FILE__);
@@ -214,6 +219,14 @@ class Trip extends Db_Table {
                     }
                     $lLst->save();
                 }
+                $lLst = $this->getTriptaskLst();
+                if ($lLst->countItens() > 0) {
+                    for ($i = 0; $i < $lLst->countItens(); $i++) {
+                        $Item = $lLst->getItem($i);
+                        $Item->setDeleted();
+                    }
+                    $lLst->save();
+                }
 
 
                 parent::save();
@@ -227,7 +240,6 @@ class Trip extends Db_Table {
                 parent::save();
 
                 $lLst = $this->getTripTriptypesLst();
-
                 if ($lLst->countItens() > 0) {
                     for ($i = 0; $i < $lLst->countItens(); $i++) {
                         $Item = $lLst->getItem($i);
@@ -246,6 +258,14 @@ class Trip extends Db_Table {
                 }
 
                 $lLst = $this->getTripexpenseLst();
+                if ($lLst->countItens() > 0) {
+                    for ($i = 0; $i < $lLst->countItens(); $i++) {
+                        $Item = $lLst->getItem($i);
+                        $Item->setid_trip($this->getID());
+                        $Item->save();
+                    }
+                }
+                $lLst = $this->getTriptaskLst();
                 if ($lLst->countItens() > 0) {
                     for ($i = 0; $i < $lLst->countItens(); $i++) {
                         $Item = $lLst->getItem($i);

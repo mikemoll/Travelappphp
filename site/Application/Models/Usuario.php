@@ -658,15 +658,26 @@ class Usuario extends Db_Table {
         return $lLst;
     }
 
+    public static function getFriendsList() {
+        $obj = self::readFriendsLst();
+        $ret[] = '';
+        for ($i = 0; $i < $obj->countItens(); $i++) {
+            $Item = $obj->getItem($i);
+            $ret[$Item->getid()] = $Item->getNomecompleto();
+        }
+        return $ret;
+    }
+
     public static function id_usuariobyfb_id($fb_id) {
         $lLst = new Usuario;
         $lLst->where('fb_id', $fb_id);
         $lLst->readLst();
-        if($lLst->countItens() == 1){
+        if ($lLst->countItens() == 1) {
             $user = $lLst->getItem(0);
             return $user->getID();
         } else {
             return false;
         }
     }
+
 }

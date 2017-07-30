@@ -17,6 +17,11 @@ class TripController extends AbstractController {
         $this->IdWindowEdit = 'EditTrip';
         $this->TplIndex = 'Trip/index.tpl';
         $this->TplEdit = 'Trip/edit.tpl';
+
+        // We need to add this here because when we open a new task or budget that need dates and mask working, the script needs to be loaded
+        Browser_Control::setScript('js', 'jquery.inputmask', '../../site/Public/assets/plugins/jquery-inputmask/jquery.inputmask.min.js');
+        Browser_Control::setScript('css', 'datepicker3', '../../site/Public/assets/plugins/bootstrap-datepicker/css/datepicker3.css');
+        Browser_Control::setScript('js', 'bootstrap-datepicker', '../../site/Public/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js');
     }
 
     public function indexAction() {
@@ -192,34 +197,50 @@ class TripController extends AbstractController {
         $grid->setShowSearching(false);
 
         // ---- Buttons -----
+        $button = new Ui_Element_DataTables_Button('btnDoneTask', 'Done');
+        $button->setImg('check');
+        $button->setAttrib('class', 'btn btn-sm btn-success');
+        $button->setVisible('TRIP_TASK', 'editar');
+        $grid->addButton($button);
 
         $button = new Ui_Element_DataTables_Button('btnEditTask', 'Edit');
         $button->setImg('edit');
+        $button->setAttrib('class', 'btn btn-sm btn-default');
         $button->setVisible('TRIP_TASK', 'editar');
         $grid->addButton($button);
+
 
         $button = new Ui_Element_DataTables_Button('btnDelTask', 'Delete');
         $button->setImg('trash-o');
         $button->setAttrib('msg', "Are you sure you want to delete this?");
+        $button->setAttrib('class', 'btn btn-sm btn-default');
         $button->setVisible('TRIP_TASK', 'excluir');
         $grid->addButton($button);
+
+
         // ---- Columns -----
+
         $column = new Ui_Element_DataTables_Column_Text('Task', 'description');
         $column->setWidth('8');
         $grid->addColumn($column);
-//
-//        $column = new Ui_Element_DataTables_Column_Text('Type', 'typedesc');
-//        $column->setWidth('1');
-//        $grid->addColumn($column);
-//
+
         $column = new Ui_Element_DataTables_Column_Text('Due Date', 'duedate');
         $column->setWidth('2');
         $grid->addColumn($column);
 
-//        $column = new Ui_Element_DataTables_Column_Text('Resp', 'responsable', 'center');
-//        $column->setWidth('3');
-//        $grid->addColumn($column);
+        $column = new Ui_Element_DataTables_Column_Text('Type', 'TypeDesc');
+        $column->setWidth('1');
+        $grid->addColumn($column);
 
+        $column = new Ui_Element_DataTables_Column_Text('Resp', 'responsable', 'center');
+        $column->setWidth('3');
+        $grid->addColumn($column);
+
+        $column = new Ui_Element_DataTables_Column_ImageCond('Done?', 'Done', 'center');
+        $column->setCondicao('S', 'done', '==');
+        $column->setImages('check', '');
+        $column->setWidth('1');
+        $grid->addColumn($column);
         // ---- add grid to the Form ----
         $tab->addElement($grid);
 
@@ -286,6 +307,16 @@ class TripController extends AbstractController {
         $column->setWidth('1');
         $grid->addColumn($column);
 
+        $column = new Ui_Element_DataTables_Column_ImageCond('Per Person', 'totalorperson');
+        $column->setCondicao('P', 'totalorperson', '==');
+        $column->setImages('check', 'times');
+        $column->setWidth('1');
+        $grid->addColumn($column);
+
+        $column = new Ui_Element_DataTables_Column_Text('Covered by', 'coveredby');
+        $column->setWidth('2');
+        $grid->addColumn($column);
+
         // ---- add grid to the Form ----
         $tab->addElement($grid);
 
@@ -296,6 +327,48 @@ class TripController extends AbstractController {
         $tab = new Ui_Element_Tab('tabContact');
         $tab->setTitle('Contact');
         $tab->setTemplate('Trip/app/detail/tabs/contact.tpl');
+
+        // -- Add tab to the main tab ---
+        $mainTab->addTab($tab);
+
+        // ====== NEW TAB ========================
+        $tab = new Ui_Element_Tab('tabTravelers');
+        $tab->setTitle('Travelers');
+        $tab->setTemplate('Trip/app/detail/tabs/travelers.tpl');
+
+        $button = new Ui_Element_Btn('btnEditTraveler');
+        $button->setDisplay('New Traveler', 'plus');
+        $button->setType('success');
+        $button->setVisible('TRIP_BUDGET', 'inserir');
+        $tab->addElement($button);
+
+        // ---- Create Grid ----
+        $grid = new Ui_Element_DataTables('gridTraveler');
+        $grid->setParams('', BASE_URL . $this->Action . '/travelerlist');
+        $grid->setShowInfo(false);
+        $grid->setShowLengthChange(false);
+        $grid->setShowPager(false);
+        $grid->setShowSearching(false);
+
+        // ---- Buttons -----
+//
+//        $button = new Ui_Element_DataTables_Button('btnEditTraveler', 'Edit');
+//        $button->setImg('edit');
+//        $button->setVisible('TRIP_BUDGET', 'editar');
+//        $grid->addButton($button);
+////
+        $button = new Ui_Element_DataTables_Button('btnDelTraveler', 'Delete');
+        $button->setImg('trash-o');
+        $button->setAttrib('msg', "Are you sure you want to delete this?");
+        $button->setVisible('TRIP_BUDGET', 'excluir');
+        $grid->addButton($button);
+        // ---- Columns -----
+        $column = new Ui_Element_DataTables_Column_Text('Name', 'username');
+        $column->setWidth('11');
+        $grid->addColumn($column);
+
+        // ---- add grid to the Form ----
+        $tab->addElement($grid);
 
         // -- Add tab to the main tab ---
         $mainTab->addTab($tab);
@@ -326,7 +399,8 @@ class TripController extends AbstractController {
     public function btnedittaskclickAction() {
         $br = new Browser_Control();
         $post = Zend_Registry::get('post');
-        $view = Zend_Registry::get('view'); /* @var $lObj Trip */
+        $view = Zend_Registry::get('view');
+        /* @var $lObj Trip */
         $lObj = Trip::getInstance($this->ItemEditInstanceName);
         if (isset($post->id)) {
             // if some field needs to be readonly on the item edition, use this variable;
@@ -338,26 +412,26 @@ class TripController extends AbstractController {
         $form->setAction($this->Action);
         $form->setName($this->ItemEditFormName);
 
-        $element = new Ui_Element_Textarea('description', "Description");
-        $element->setAttrib('rows', 2);
+        $element = new Ui_Element_Text('description', "Description");
+//        $element->setAttrib('rows', 2);
         $element->setAttrib('maxlength', 150);
-        $form->addElement($element);
-
-
-        $element = new Ui_Element_Date('duedate', "Due Date");
         $element->setRequired();
         $form->addElement($element);
 
 
+        $element = new Ui_Element_Checkbox('done', "Task Done!");
+        $element->setCheckedValue('S');
+        $element->setUncheckedValue('N');
+        $element->setAttrib('switchery', 'switchery');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Date('duedate', "Due Date");
+//        $element->setRequired();
+        $form->addElement($element);
+
+
         $element = new Ui_Element_Select('id_type', 'Task Type');
-        $element->addMultiOption('', '');
-//        Visa, Doctor, Personal, Item Purchase, other
-        $element->addMultiOption(1, 'Visa');
-        $element->addMultiOption(2, 'Doctor');
-        $element->addMultiOption(3, 'Personal');
-        $element->addMultiOption(4, 'Item Purchase');
-        $element->addMultiOption(5, 'Other');
-//        $element->setMultiSelect();
+        $element->addMultiOptions(Triptask::getTripTaskTipeList());
         $form->addElement($element);
 
         $element = new Ui_Element_Select('id_responsable', 'Responsible');
@@ -396,11 +470,66 @@ class TripController extends AbstractController {
         $w = new Ui_Window('EditTask', 'Editing', $form->displayTpl($view, 'Trip/app/detail/edit/task.tpl'));
         $w->setCloseOnEscape();
         $br->newWindow($w);
-//        $br->setCommand('$("#duedate").datepicker()');
-//        $br->setHtml('formNewTask', $form->displayTpl($view, 'Trip/app/detail/edit/task.tpl'));
-//        $br->setScrollTo($this->ItemEditFormName);
+        $br->send();
+    }
 
-        $br->setCommand('$(".datepicker").datepicker();');
+    public function btnedittravelerclickAction() {
+        $br = new Browser_Control();
+        $post = Zend_Registry::get('post');
+        $view = Zend_Registry::get('view');
+        /* @var $lObj Trip */
+        $lObj = Trip::getInstance($this->ItemEditInstanceName);
+        if (isset($post->id)) {
+            // if some field needs to be readonly on the item edition, use this variable;
+//            $readOnly = true;
+        }
+        $form = new Ui_Form();
+        $form->setAction($this->Action);
+        $form->setName($this->ItemEditFormName);
+
+        $element = new Ui_Element_Select('id_usuario', 'Select the Friend');
+        $element->addMultiOptions(Usuario::getFriendsList());
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('friendname', 'Friend Name');
+        $element->setReadOnly();
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('friendemail', 'Friend Email');
+        $element->setReadOnly();
+        $form->addElement($element);
+
+
+        $obj = new TripUser();
+        if (isset($post->id)) {
+            $lLst = $lObj->getTripUserLst();
+            $obj = $lLst->getItem($post->id);
+        }
+        $form->setDataForm($obj);
+        $obj->setInstance('TripUserEdit');
+
+        $button = new Ui_Element_Btn('btnSaveTraveler');
+        $button->setDisplay('Save', 'check');
+        $button->setType('success');
+        $button->setAttrib('click', '');
+        if (isset($post->id)) {
+            $button->setAttrib('params', 'id=' . $post->id);
+        }
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('validaObrig', '1');
+        $form->addElement($button);
+
+        $cancelar = new Ui_Element_Btn('btnClose');
+        $cancelar->setAttrib('params', 'IdWindowEdit=' . 'EditTraveler');
+        $cancelar->setDisplay('Cancel', 'times');
+//        $cancelar->setHref(BASE_URL . $this->Action);
+        $form->addElement($cancelar);
+
+        $form->setDataSession();
+
+        $w = new Ui_Window('EditTraveler', 'Editing', $form->displayTpl($view, 'Trip/app/detail/edit/traveler.tpl'));
+        $w->setCloseOnEscape();
+        $br->newWindow($w);
         $br->send();
     }
 
@@ -680,6 +809,12 @@ class TripController extends AbstractController {
         Grid_ControlDataTables::setDataGrid($lObj->getTripexpenseLst(), false, false);
     }
 
+    public function travelerlistAction() {
+        /* @var $lObj Trip */
+        $lObj = Trip::getInstance($this->ItemEditInstanceName);
+        Grid_ControlDataTables::setDataGrid($lObj->getTripUserLst(), false, false);
+    }
+
     public function listactivityAction() {
         /* @var $lObj Trip */
         $lObj = Trip::getInstance($this->ItemEditInstanceName);
@@ -779,6 +914,105 @@ class TripController extends AbstractController {
         $br->send();
     }
 
+    public function btndonetaskclickAction() {
+        $post = Zend_Registry::get('post');
+        $br = new Browser_Control();
+        // ----------------------
+
+        /* @var $lTrip Trip */
+        $lTrip = Trip::getInstance($this->ItemEditInstanceName);
+
+        // ----------------------
+        $lLst = $lTrip->getTriptaskLst();
+        $lObj = $lLst->getItem($post->id);
+        if ($lObj->getDone() == 'S') {
+            $lObj->setDone("N");
+        } else {
+            $lObj->setDone("S");
+        }
+
+        try {
+            $lTrip->save();
+        } catch (Exception $exc) {
+            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+        $lTrip->setInstance($this->ItemEditInstanceName);
+
+
+        $msg = '';
+        $br->setMsgAlert('Saved!', $msg);
+        $br->setUpdateDataTables('gridTask');
+        $br->send();
+    }
+
+    public function btnsavetravelerclickAction() {
+        $post = Zend_Registry::get('post');
+        $session = Zend_Registry::get('session');
+//        $usuario = $session->usuario;
+        $br = new Browser_Control();
+        // ----------------------
+
+        /* @var $lObj Trip */
+        $lTrip = Trip::getInstance($this->ItemEditInstanceName);
+        $form = Session_Control::getDataSession($this->ItemEditFormName);
+
+        $valid = $form->processAjax($_POST);
+
+        $br = new Browser_Control();
+        if ($valid != 'true') {
+            $br->validaForm($valid);
+            $br->send();
+            exit;
+        }
+        // ----------------------
+        $post = Zend_Registry::get('post');
+        if (isset($post->id)) {
+            /* @var $lObj TripUser */
+            $lObj = TripUser::getInstance('TripUserEdit');
+        } else {
+            /* @var $lObj TripUser */
+            $lObj = new TripUser();
+        }
+
+
+//        if ($post->id_usuario == '') {
+//
+//            $msg = 'Friend added to your trip';
+//            $br->setMsgAlert('Done', $msg);
+//            $br->setRemoveWindow('Edittraveler');
+//            $br->setUpdateDataTables('gridtraveler');
+//            $br->send();
+//        }
+
+
+
+        $lObj->setDataFromRequest($post);
+        $lObj->setid_trip($lTrip->getID());
+
+        try {
+            $lObj->save();
+        } catch (Exception $exc) {
+            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+
+
+        $lLst = $lTrip->getTripUserLst();
+
+        $lLst->addItem($lObj, $post->id);
+        $lTrip->setInstance($this->ItemEditInstanceName);
+
+
+        $msg = '';
+        $br->setMsgAlert('Saved!', $msg);
+        $br->setRemoveWindow('Edittraveler');
+        $br->setUpdateDataTables('gridtraveler');
+        $br->send();
+    }
+
     public function btnsaveexpenseclickAction() {
         $post = Zend_Registry::get('post');
 //        $session = Zend_Registry::get('session');
@@ -840,18 +1074,51 @@ class TripController extends AbstractController {
 
     public function btndelexpenseclickAction() {
         $br = new Browser_Control();
-//        Grid_ControlDataTables::deleteDataGrid('Tripexpense', '', 'gridExpense', $br);
+        /* @var $lObj Trip */
+        $lObj = Trip::getInstance($this->ItemEditInstanceName);
+        Grid_ControlDataTables::deleteDataGrid($this->ItemEditInstanceName, 'TripexpenseLst', 'gridExpense', $br);
 
-//        $br->setMsgAlert('Deleted', 'Item deleted!');
-        $br->setMsgAlert('Coming soon!', '');
+
+        // save the Trip to save the deletion of the Item
+        $lObj = Trip::getInstance($this->ItemEditInstanceName);
+        try {
+            $lObj->save();
+            $lObj->setInstance($this->ItemEditInstanceName);
+        } catch (Exception $exc) {
+            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+
+
+        $br->setHtml('totalBudget', $lObj->getTotalBudget());
+        $br->setMsgAlert('Deleted', 'Item deleted!');
+//        $br->setMsgAlert('Coming soon!', '');
         $br->send();
     }
+
     public function btndeltaskclickAction() {
         $br = new Browser_Control();
-//        Grid_ControlDataTables::deleteDataGrid('Tripexpense', '', 'gridExpense', $br);
+        /* @var $lObj Trip */
+        $lObj = Trip::getInstance($this->ItemEditInstanceName);
+        Grid_ControlDataTables::deleteDataGrid($this->ItemEditInstanceName, 'TriptaskLst', 'gridTask', $br);
 
-//        $br->setMsgAlert('Deleted', 'Item deleted!');
-        $br->setMsgAlert('Coming soon!', '');
+
+        // save the Trip to save the deletion of the Item
+        $lObj = Trip::getInstance($this->ItemEditInstanceName);
+        try {
+            $lObj->save();
+            $lObj->setInstance($this->ItemEditInstanceName);
+        } catch (Exception $exc) {
+            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+
+
+        $br->setHtml('totalBudget', $lObj->getTotalBudget());
+        $br->setMsgAlert('Deleted', 'Item deleted!');
+//        $br->setMsgAlert('Coming soon!', '');
         $br->send();
     }
 

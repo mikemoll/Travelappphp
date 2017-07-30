@@ -3,3 +3,6 @@
 * Override Pages default styles or create your own styles here
 
 */
+.dataTables_wrapper .btn{
+    padding-left: 10px;
+}

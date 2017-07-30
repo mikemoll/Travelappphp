@@ -2,6 +2,11 @@
 
 <div class="row">
     <div class="col-md-8">
+        {$done}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
         {$description}
     </div>
     <div class="col-md-4">
