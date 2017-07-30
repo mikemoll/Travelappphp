@@ -125,7 +125,7 @@ class Zend_View_Helper_FormTextMask extends Zend_View_Helper_FormElement {
         }
 
 //        $xhtml .= "<script type='text/javascript'>$('#" . $id . "').mask({" . $param . "})</script>";
-        $xhtml .= '<script type="text/javascript">$(document).ready(function(){$("#' . $id . '").mask(  "' . $mask . '" )});</script>';
+//        $xhtml .= '<script type="text/javascript">$(document).ready(function(){$("#' . $id . '").mask(  "' . $mask . '" )});</script>';
 
         return $xhtml;
     }

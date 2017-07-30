@@ -96,7 +96,7 @@ class Zend_View_Helper_FormDate extends Zend_View_Helper_FormElement {
         if ($label != '') {
             $xhtml .= '</div>';
         }
-        $xhtml .= '<script type="text/javascript">$(document).ready(function(){$("#' . $id . '").mask(  "' . $mask . '" )});</script>';
+//        $xhtml .= '<script type="text/javascript">$(document).ready(function(){$("#' . $id . '").mask(  "' . $mask . '" )});</script>';
 
         return $xhtml;
     }

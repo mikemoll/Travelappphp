@@ -115,6 +115,7 @@ class Zend_View_Helper_FormCheckbox extends Zend_View_Helper_FormElement {
         })
     </script>";
         } else {
+            // we just have to close the div if it isn't a "switchery"
             $xhtml .= '</div>';
         }
         return $xhtml;

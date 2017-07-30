@@ -72,6 +72,7 @@ class Ui_Element_TextMask extends Zend_Form_Element_Text {
      */
     public function setMask($mascara, $reverse = false, $defaultValue = '', $autoTab = 'false') {
         $this->mask = $mascara;
+        $this->setAttrib('data-mask-format', $mascara);
         $this->defaultValue = $defaultValue;
         $this->reverse = $reverse;
         $this->autoTab = $autoTab;

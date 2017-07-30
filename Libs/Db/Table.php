@@ -1328,7 +1328,7 @@ class Db_Table extends Zend_Db_Table {
         unset($this->_defaultSource);
         unset($this->_defaultValues);
         unset($this->_log_text);
-        unset($this->_state);
+//        unset($this->_state);
         unset($this->_formatData);
         unset($this->_text_log);
         unset($this->_readCount);

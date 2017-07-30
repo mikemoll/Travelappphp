@@ -34,9 +34,11 @@ class Ui_Element_DataTables_Column_ImageCond extends Ui_Element_DataTables_Colum
 //	}
 	public function render($oid, $row){
 		if($this->verificaCondicao($row)){
-			$html = "<img src='".$this->img1."' height='10' {$this->getAttribs()}>";
+                    $img = $this->img1;
+                $html = "<i class='fa fa-".$img." text-success'  {$this->getAttribs()}></i>";
 		}else{
-			$html = "<img src='".$this->img2."' height='10' {$this->getAttribs()}>";
+                    $img = $this->img2;
+                $html = "<i class='fa fa-".$img."'  {$this->getAttribs()}></i>";
 		}
 		return trim($html);
 	}

@@ -77,7 +77,8 @@ abstract class Ui_Element_DataTables_Column_Abstract {
      * @param Strind $value
      */
     public function setAttrib($key, $value) {
-        $this->attribs[] = array($key => $value);
+//        $this->attribs[] = array($key => $value);
+        $this->attribs[$key] = $value;
     }
 
     /**

@@ -276,6 +276,13 @@ $(document).ready(function (p) {
 
         }
     });
+    $("body").on("focusin", "[data-mask-format]", function () {
+        times = $(this).attr('data-times-mask-focused');
+        if (typeof times == 'undefined') {
+            $(this).mask($(this).attr('data-mask-format'));
+            $(this).attr('data-times-mask-focused', '1');
+        }
+    });
 
     $("body").on("change", "[data-alternative-field]", function () {
         aternativeField = $(this).attr('data-alternative-field');
