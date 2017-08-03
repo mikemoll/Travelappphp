@@ -32,14 +32,16 @@
 <script type="text/javascript">
 
     var defaultBounds = new google.maps.LatLngBounds(
-    new google.maps.LatLng(-33.8902, 151.1759),
-    new google.maps.LatLng(-33.8474, 151.2631));
+                                new google.maps.LatLng(-90, -180),
+                                new google.maps.LatLng(90, 180));
+    var options =   {
+                      bounds: defaultBounds,
+                      types: ['(cities)']
+                    };
 
     var input = document.getElementById('hometowncity');
 
-    var searchBox = new google.maps.places.SearchBox(input, {
-      bounds: defaultBounds
-    });
+    var searchBox = new google.maps.places.SearchBox(input,options);
 
 
 </script>

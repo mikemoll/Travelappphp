@@ -983,11 +983,11 @@ class UsuarioController extends AbstractController {
 
         $user = Usuario::getInstance('profileEdit');
 
+        $user->setDataFromProfileRequest($post);
+
         if ($photo['name'] != '') {
             $user->setPhoto($photo['name']);
         }
-
-        $user->setDataFromProfileRequest($post);
 
         //Put the uploaded file in the proper folder
         if ($photo['name'] != '') {
@@ -1122,7 +1122,7 @@ class UsuarioController extends AbstractController {
         $view->assign('travelertypes', $user->getTravelertypeIcons());
         $view->assign('name', htmlentities($user->getnomecompleto() . ' ' . $user->getlastname()));
         $view->assign('livein', htmlentities($user->getliveincity()));// . ', ' . $user->getliveincountry()));
-        $view->assign('Photo', htmlentities($user->getPhotoPath()));
+        $view->assign('Photo', $user->getPhotoPath());
         $view->assign('bio', nl2br(htmlentities($user->getbio())));
         $view->assign('traveledto', nl2br(htmlentities(utf8_encode($user->gettraveledto()))));
         $view->assign('hometown', htmlentities($user->gethometowncity()));// . ', ' . $user->gethometowncountry()));
