@@ -1474,34 +1474,13 @@ class TripController extends AbstractController {
 
             $destLst = $lObj->getTripUserLst();
 
-            // for ($i = 0; $i < $destLst->countItens(); $i++) { // mark all to delete
-            //     $Item = $destLst->getItem($i);
-            //     $Item->setState(cDELETE);
-            // }
-            // if (count($list) > 0) {
             foreach ($list as $id_usuario) { //for each item selected by the trip
-                //         if ($idTriptype == '') {
-                //             continue;
-                //         }
-                //         $tt = '';
-                //         for ($i = 0; $i < $destLst->countItens(); $i++) { // find the tt on the trip type on database
-                //             $Item = $destLst->getItem($i);
-                //             if ($Item->getid_triptype() == $idTriptype) {
-                //                 $tt = $Item;
-                //                 break;
-                //             } else {
-                //                 $tt = '';
-                //             }
-                //         }
-                //        if ($tt == '') { // if the tt doesn't exist on trip type, add it.
+
                 $n = new TripUser();
                 $n->setid_trip($lObj->getID());
                 $n->setid_usuario($id_usuario);
                 $n->setstatus('i');
                 $destLst->addItem($n);
-                //        } else {
-                //            $tt->setState(cUPDATE); //else update it
-                //        }
             }
         }
         // }
@@ -1527,9 +1506,51 @@ class TripController extends AbstractController {
         $br->send();
     }
 
+    public function doSearchPlaces($id_trip, $q, $ajax = true) {
+        $br = new Browser_Control();
+        $view = Zend_Registry::get('view');
+
+        // ------- PLACES   - --------------
+        $PlacesList = new Place();
+        $PlacesList->where('place.name', $q, 'like', 'or', 'q');
+        $PlacesList->where('place.country', $q, 'like', 'or', 'q');
+        $PlacesList->where('searchquery', $q, 'like', 'or', 'q');
+//        $PlacesList->where('description', $q, 'like', 'or', 'q');
+        $PlacesList->readLst();
+
+        $items = $PlacesList->getItens();
+        $view->assign('placeLst', $items);
+        $view->assign('id_trip', $id_trip);
+
+        // Dreamplaces view
+        $view->assign('onlyDreamplaces', True);
+        if ($q == '') {
+            $view->assign('nothingfoundmsg', "You didn't add any places to your dreamboard yet...");
+        } else {
+            $view->assign('nothingfoundmsg', "No places found on your dreamboard with the term '$q'...");
+        }
+
+        $dreamboard = $view->fetch('Trip/app/searchPlaces.tpl');
+        if ($ajax) {
+            $br->setHtml('dreamboarddiv', $dreamboard);
+        }
+
+        // Explore view
+        $view->assign('onlyDreamplaces', False);
+        $view->assign('nothingfoundmsg', "No places found with the term '$q'... try again!");
+
+        $places = $view->fetch('Trip/app/searchPlaces.tpl');
+        if ($ajax) {
+            $br->setHtml('placesdiv', $places);
+            $br->send();
+        } else {
+            return array('dreamboard'=>$dreamboard, 'places'=>$places);
+        }
+
+    }
+
     public function newtrip4Action() {
 
-        $view = Zend_Registry::get('view');
         $post = Zend_Registry::get('post');
 
         $form = new Ui_Form();
@@ -1568,16 +1589,12 @@ class TripController extends AbstractController {
 
         $form->setDataSession();
 
-        // $button = new Ui_Element_Btn('btnNext4');
-        // $button->setDisplay('Next');
-        // $button->setAttrib('sendFormFields', '1');
-        // $button->setAttrib('validaObrig', '1');
-        // $button->setAttrib('class', 'btn btn-primary  btn-cons m-t-10');
-        // $form->addElement($button);
-
         $form->setDataSession('formNewtrip');
 
         $view = Zend_Registry::get('view');
+        $tabs = $this->doSearchPlaces($post->id, $post->q, false);
+        $view->assign('dreamboarddiv', $tabs['dreamboard']);
+        $view->assign('placesdiv', $tabs['places']);
 
         $view->assign('tripname', $obj->gettripname());
         $view->assign('id_trip', $post->id);
@@ -1590,46 +1607,9 @@ class TripController extends AbstractController {
         $view->output('index.tpl');
     }
 
-    function defaultplacesloadAction() {
-        $br = new Browser_Control();
-        $view = Zend_Registry::get('view');
-        $post = Zend_Registry::get('post');
-
-        $q = $post->search2;
-
-        // ------- PLACES   - --------------
-        $PlacesList = new Place();
-        $PlacesList->where('place.name', $q, 'like', 'or', 'q');
-        $PlacesList->where('place.country', $q, 'like', 'or', 'q');
-        $PlacesList->where('searchquery', $q, 'like', 'or', 'q');
-//        $PlacesList->where('description', $q, 'like', 'or', 'q');
-        $PlacesList->readLst();
-
-        $items = $PlacesList->getItens();
-        $view->assign('placeLst', $items);
-        $view->assign('id_trip', $post->id_trip);
-
-        // Dreamplaces view
-        $view->assign('onlyDreamplaces', True);
-        if ($q == '') {
-            $view->assign('nothingfoundmsg', "You didn't add any places to your dreamboard yet...");
-        } else {
-            $view->assign('nothingfoundmsg', "No places found on your dreamboard with the term '$q'...");
-        }
-
-        $br->setHtml('dreamboarddiv', $view->fetch('Trip/app/searchPlaces.tpl'));
-
-        // Explore view
-        $view->assign('onlyDreamplaces', False);
-        $view->assign('nothingfoundmsg', "No places found with the term '$q'... try again!");
-
-        $br->setHtml('placesdiv', $view->fetch('Trip/app/searchPlaces.tpl'));
-
-        $br->send();
-    }
-
     public function btnsearchclickAction() {
-        $this->defaultplacesloadAction();
+        $post = Zend_Registry::get('post');
+        $this->doSearchPlaces($post->id_trip, $post->q);
     }
 
     public function newtripcityclickAction() {
