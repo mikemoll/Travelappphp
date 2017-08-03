@@ -1,2 +1,2 @@
-ALTER TABLE `travelappphp3`.`usuario` 
+ALTER TABLE `usuario` 
 CHANGE COLUMN `Photo` `photo` VARCHAR(200) NULL DEFAULT NULL ;

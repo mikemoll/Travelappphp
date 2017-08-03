@@ -17,18 +17,18 @@
 <div class="panel panel-transparent">
 
     <ul class="nav nav-tabs nav-tabs-linetriangle hidden-sm hidden-xs" data-init-reponsive-tabs="dropdownfx">
-        <li class="active">
+        <li {if !$dreamplacesempty} class="active"{/if} id="dreamboardtabcontrol">
             <a data-toggle="tab" href="#dreamboardtab"><span>Dreamboard</span></a>
         </li>
-        <li>
+        <li {if $dreamplacesempty} class="active"{/if} id="exploretabcontrol">
             <a data-toggle="tab" href="#exploretab"><span>Explore</span></a>
         </li>
     </ul>
     <div class="tab-content" name="defaultplaces">
-        <div class="tab-pane active " id="dreamboardtab">
+        <div class="tab-pane {if !$dreamplacesempty}active{/if}" id="dreamboardtab">
             <div id="dreamboarddiv" class="col-md-12">{$dreamboarddiv}</div>
         </div>
-        <div class="tab-pane" id="exploretab">
+        <div class="tab-pane {if $dreamplacesempty}active{/if}" id="exploretab">
             <div id="placesdiv" class="col-md-12">{$placesdiv}</div>
         </div>
     </div>

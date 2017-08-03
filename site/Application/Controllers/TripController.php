@@ -1522,6 +1522,15 @@ class TripController extends AbstractController {
         $view->assign('placeLst', $items);
         $view->assign('id_trip', $id_trip);
 
+        $dreamplacesempty = true;
+        foreach ($items as $item) {
+            if ($item->getFavorite() != '') {
+                $dreamplacesempty = false;
+                break;
+            }
+        }
+        $view->assign('dreamplacesempty', $dreamplacesempty);
+
         // Dreamplaces view
         $view->assign('onlyDreamplaces', True);
         if ($q == '') {
@@ -1532,6 +1541,13 @@ class TripController extends AbstractController {
 
         $dreamboard = $view->fetch('Trip/app/searchPlaces.tpl');
         if ($ajax) {
+            if ($dreamplacesempty) {
+                $br->setAttrib('dreamboardtabcontrol','class', '');
+                $br->setAttrib('exploretabcontrol','class', 'active');
+                $br->setAttrib('dreamboardtab','class', 'tab-pane ');
+                $br->setAttrib('exploretab','class', 'tab-pane active');
+            }
+
             $br->setHtml('dreamboarddiv', $dreamboard);
         }
 
@@ -1609,7 +1625,7 @@ class TripController extends AbstractController {
 
     public function btnsearchclickAction() {
         $post = Zend_Registry::get('post');
-        $this->doSearchPlaces($post->id_trip, $post->q);
+        $this->doSearchPlaces($post->id_trip, $post->search2);
     }
 
     public function newtripcityclickAction() {
