@@ -36,6 +36,11 @@ class Activity extends Db_Table {
         return self::makephotoPath($this->getID(), $this->a_photo);
     }
 
+    public function getFirstPhoto() {
+        $pics = $this->getPicsLst();
+        return $pics[0]['src'];
+    }
+
     public function getShortDescription() {
         return $this->getDescription();
     }

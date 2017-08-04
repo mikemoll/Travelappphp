@@ -175,6 +175,10 @@ class TripController extends AbstractController {
         $tab->setTitle('Itinerary');
         $tab->setTemplate('Trip/app/detail/tabs/itinerary.tpl');
 
+        $itinerary = $Trip->getTripItinerary();
+
+        $view->assign('itinerary', $itinerary);
+
         // -- Add tab to the main tab ---
         $mainTab->addTab($tab);
 
@@ -394,6 +398,109 @@ class TripController extends AbstractController {
         $view->assign('TituloPagina', $this->TituloLista);
         $view->assign('body', $form->displayTpl($view, 'Trip/app/detail/index.tpl'));
         $view->output('index.tpl');
+    }
+
+    public function btnaddactivityclickAction() {
+        $br = new Browser_Control();
+        $post = Zend_Registry::get('post');
+        $view = Zend_Registry::get('view');
+        /* @var $lObj Trip */
+        $lObj = Trip::getInstance($this->ItemEditInstanceName);
+        if (isset($post->id)) {
+            // if some field needs to be readonly on the item edition, use this variable;
+//            $readOnly = true;
+        }
+
+        $placeLst = $lObj->getTripplaceLst();
+        $place = $placeLst->getItemByID($post->id_place);
+
+        $form = new Ui_Form();
+        $form->setAction($this->Action);
+        $form->setName($this->ItemEditFormName);
+
+        $element = new Ui_Element_Text('activityname', "Activity Name");
+        $element->setAttrib('maxlength', 150);
+        $element->setRequired();
+        $form->addElement($element);
+
+        $element = new Ui_Element_Textarea('description', "Description");
+        $element->setAttrib('rows', 4);
+        $element->setAttrib('maxlength', 500);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Date('start_at', "Date");
+        $element->setRequired();
+        $element->setValue(substr($place->getStartDate(), 0, 10));
+        $form->addElement($element);
+
+
+        $element = new Ui_Element_Hidden('id_tripplace');
+        $element->setValue($post->id_place);
+        $form->addElement($element);
+
+// ------ list of Dreams ----------
+        $dreamLts = new Dreamboard;
+        $dreamLts->where('dreamboard.id_usuario', Usuario::getIdUsuarioLogado());
+        $dreamLts->readLst();
+        if ($dreamLts->countItens() > 0) {
+            $ActivityLst = new Activity();
+            for ($i = 0; $i < $dreamLts->countItens(); $i++) {
+                $dream = $dreamLts->getItem($i);
+                // ---- Activities ----------
+                $ActivityLst->where('activity.id_activity', $dream->getId_Activity(), '=', 'or', 'id');
+            }
+            $ActivityLst->readLst();
+            $view->assign('activityLst', $ActivityLst->getItens());
+            $view->assign('activityLstHtml', $view->fetch('Trip/app/detail/edit/add_activity_favorite_active_list.tpl'));
+        }
+
+
+
+        $obj = new TripActivity();
+//        if (isset($post->id)) {
+//            $lLst = $lObj->getTripActivityLst();
+//            $obj = $lLst->getItem($post->id);
+//        }
+//        $form->setDataForm($obj);
+        $obj->setInstance('TripActivityEdit');
+
+        $button = new Ui_Element_Btn('btnSaveTripActivity');
+        $button->setDisplay('Save', 'check');
+        $button->setType('success');
+        $button->setAttrib('click', '');
+        if (isset($post->id)) {
+            $button->setAttrib('params', 'id=' . $post->id);
+        }
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('validaObrig', '1');
+        $form->addElement($button);
+
+        $cancelar = new Ui_Element_Btn('btnClose');
+        $cancelar->setAttrib('params', 'IdWindowEdit=' . 'EditTask');
+        $cancelar->setDisplay('Cancel', 'times');
+//        $cancelar->setHref(BASE_URL . $this->Action);
+        $form->addElement($cancelar);
+
+        $form->setDataSession();
+
+        $w = new Ui_Window('EditTripActivity', 'Adding an Activity', $form->displayTpl($view, 'Trip/app/detail/edit/add_activity.tpl'));
+        $w->setDimension('lg');
+        $w->setCloseOnEscape();
+        $br->newWindow($w);
+        $br->send();
+    }
+
+    public function idtripplacechangeAction() {
+        $br = new Browser_Control();
+        $post = Zend_Registry::get('post');
+        /* @var $lObj Trip */
+        $lObj = Trip::getInstance($this->ItemEditInstanceName);
+        $placeLst = $lObj->getTripplaceLst();
+        $place = $placeLst->getItemByID($post->controlValue);
+
+        $br->addFieldValue('start_at', substr($place->getStartDate(), 0, 10));
+        $br->setDataForm();
+        $br->send();
     }
 
     public function btnedittaskclickAction() {
@@ -857,6 +964,60 @@ class TripController extends AbstractController {
         $msg = '';
         $br->setMsgAlert('Saved!', $msg);
         $br->setBrowserUrl(BASE_URL . $this->Action);
+        $br->send();
+    }
+
+    public function btnsavetripactivityclickAction() {
+        $post = Zend_Registry::get('post');
+        $session = Zend_Registry::get('session');
+//        $usuario = $session->usuario;
+        $br = new Browser_Control();
+        // ----------------------
+
+        /* @var $lObj Trip */
+        $lTrip = Trip::getInstance($this->ItemEditInstanceName);
+        $form = Session_Control::getDataSession($this->ItemEditFormName);
+
+        $valid = $form->processAjax($_POST);
+
+        $br = new Browser_Control();
+        if ($valid != 'true') {
+            $br->validaForm($valid);
+            $br->send();
+            exit;
+        }
+        // ----------------------
+        $post = Zend_Registry::get('post');
+        if (isset($post->id)) {
+            /* @var $lObj TripActivity */
+            $lObj = TripActivity::getInstance('TripActivityEdit');
+        } else {
+            /* @var $lObj TripActivity */
+            $lObj = new TripActivity();
+        }
+
+        $lObj->setDataFromRequest($post);
+        $lObj->setid_trip($lTrip->getID());
+        $lObj->setid_place($post->id_place);
+
+        try {
+            $lObj->save();
+        } catch (Exception $exc) {
+            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+
+print'<pre>';die(print_r( $lObj ));
+        $lLst = $lTrip->getTripActivityLst();
+
+        $lLst->addItem($lObj, $post->id);
+        $lTrip->setInstance($this->ItemEditInstanceName);
+
+
+        $br->setBrowserUrl('');
+
+
         $br->send();
     }
 
@@ -1475,7 +1636,6 @@ class TripController extends AbstractController {
             $destLst = $lObj->getTripUserLst();
 
             foreach ($list as $id_usuario) { //for each item selected by the trip
-
                 $n = new TripUser();
                 $n->setid_trip($lObj->getID());
                 $n->setid_usuario($id_usuario);
@@ -1542,10 +1702,10 @@ class TripController extends AbstractController {
         $dreamboard = $view->fetch('Trip/app/searchPlaces.tpl');
         if ($ajax) {
             if ($dreamplacesempty) {
-                $br->setAttrib('dreamboardtabcontrol','class', '');
-                $br->setAttrib('exploretabcontrol','class', 'active');
-                $br->setAttrib('dreamboardtab','class', 'tab-pane ');
-                $br->setAttrib('exploretab','class', 'tab-pane active');
+                $br->setAttrib('dreamboardtabcontrol', 'class', '');
+                $br->setAttrib('exploretabcontrol', 'class', 'active');
+                $br->setAttrib('dreamboardtab', 'class', 'tab-pane ');
+                $br->setAttrib('exploretab', 'class', 'tab-pane active');
             }
 
             $br->setHtml('dreamboarddiv', $dreamboard);
@@ -1560,9 +1720,8 @@ class TripController extends AbstractController {
             $br->setHtml('placesdiv', $places);
             $br->send();
         } else {
-            return array('dreamboard'=>$dreamboard, 'places'=>$places);
+            return array('dreamboard' => $dreamboard, 'places' => $places);
         }
-
     }
 
     public function newtrip4Action() {

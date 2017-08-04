@@ -26,6 +26,11 @@ class Event extends Db_Table {
         return $pics;
     }
 
+    public function getFirstPhoto() {
+        $pics = $this->getPicsLst();
+        return $pics[0]['src'];
+    }
+
     public static function makephotoPath($id, $photo) {
         if ($photo) {
             return HTTP_REFERER . 'Public/Images/Event/' . $id . '_' . $photo;

@@ -7,7 +7,7 @@ class Ui_Window {
     private $html;
     private $modal;
     private $position;
-    private $width;
+    private $width = 'md';
     private $height;
     private $autoOpen;
     private $resizable;
@@ -152,8 +152,8 @@ class Ui_Window {
 //                            ' . $this->html . '
 //        </div>
 //        </div>';
-        $html .= '<div class="modal fade" id="' . $this->id . '" tabindex="-1" role="dialog" aria-labelledby="' . $this->id . '" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
+        $html .= '<div class="modal fade " id="' . $this->id . '" tabindex="-1" role="dialog" aria-labelledby="' . $this->id . '" aria-hidden="true">
+                                        <div class="modal-dialog modal-' . $this->width . '" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLabel">' . $this->title . '</h5>
@@ -161,7 +161,7 @@ class Ui_Window {
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                <div class="modal-body">
+                                                <div class="modal-body ">
                                                 ' . $this->html . '
                                                 </div>
                                                  

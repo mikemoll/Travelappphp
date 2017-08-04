@@ -1,20 +1,25 @@
-<div class="container">
-    <div class="row">
-        <div class=" col-sm-1">
-        </div>
-        <div class="  col-xs-12   col-sm-10  ">
-            <ul class="event-list">
+
+<div class="row">
+    <div class=" col-sm-1">
+        {$btnAddActivity}
+    </div>
+    <div class="  col-xs-12   col-sm-10  ">
+        <ul class="event-list">
+            {foreach from=$itinerary item=place }
                 <li>
-                    <time datetime="2014-07-20">
-                        <span class="day">4</span>
-                        <span class="month">Jul</span>
+                    <time datetime="{$place.startdate}">
+                        <span class="day">{$place.day}</span>
+                        <span class="month">{$place.month}</span>
                         <span class="year">2017</span>
                         <span class="time">ALL DAY</span>
                     </time>
-                    <img alt="Arrival" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/p/5/005/0b8/3f7/047eea7.jpg" />
+                    {if $place.pic!=''}
+                        <img alt="Arrival" src="{$place.pic}" />
+                    {/if}
                     <div class="info">
-                        <h2 class="title">Arrival to .....</h2>
-                        <p class="desc">Go to the hotel </p>
+                        <h2 class="title">{$place.title}</h2>
+                        <p class="desc">{$place.desc} </p>
+                        <p class="btn-add-activities"><a name="btnAddActivity" id="btnAddActivity" params="id_place={$place.id_place}" href="#none"  link="#none" event="click" label="Activity" class=""><span>add activities in {$place.title}</span></a></p>
                     </div>
                     <div class="social">
                         <ul>
@@ -22,81 +27,107 @@
                             <li class="twitter" style="width:34%;"><a href="#twitter"><span class="fa fa-twitter"></span></a></li>
                             <li class="google-plus" style="width:33%;"><a href="#google-plus"><span class="fa fa-google-plus"></span></a></li>
                         </ul>
+                    </div>
+                    <div class="activities">
+                        {foreach from=$event.activities item=activity}
+                            {$activity.name}
+                        {/foreach}
                     </div>
                 </li>
 
-                <li>
-                    <time datetime="2014-07-20 0000">
-                        <span class="day">8</span>
-                        <span class="month">Jul</span>
-                        <span class="year">2017</span>
-                        <span class="time">12:00 AM</span>
-                    </time>
-                    <div class="info">
-                        <h2 class="title">One Piece Unlimited World Red</h2>
-                        <p class="desc">PS Vita</p>
-                        <ul>
-                            <li style="width:50%;"><a href="#website"><span class="fa fa-globe"></span> Website</a></li>
-                            <li style="width:50%;"><span class="fa fa-money"></span> $39.99</li>
-                        </ul>
-                    </div>
-                    <div class="social">
-                        <ul>
-                            <li class="facebook" style="width:33%;"><a href="#facebook"><span class="fa fa-facebook"></span></a></li>
-                            <li class="twitter" style="width:34%;"><a href="#twitter"><span class="fa fa-twitter"></span></a></li>
-                            <li class="google-plus" style="width:33%;"><a href="#google-plus"><span class="fa fa-google-plus"></span></a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li>
-                    <time datetime="2014-07-20 2000">
-                        <span class="day">10</span>
-                        <span class="month">Jul</span>
-                        <span class="year">2017</span>
-                        <span class="time">8:00 PM</span>
-                    </time>
-                    <img alt="My 24th Birthday!" src="https://farm5.staticflickr.com/4150/5045502202_1d867c8a41_q.jpg" />
-                    <div class="info">
-                        <h2 class="title">Mouse0270's 24th Birthday!</h2>
-                        <p class="desc">Bar Hopping in Erie, Pa.</p>
-                        <ul>
-                            <li style="width:33%;">1 <span class="glyphicon glyphicon-ok"></span></li>
-                            <li style="width:34%;">3 <span class="fa fa-question"></span></li>
-                            <li style="width:33%;">103 <span class="fa fa-envelope"></span></li>
-                        </ul>
-                    </div>
-                    <div class="social">
-                        <ul>
-                            <li class="facebook" style="width:33%;"><a href="#facebook"><span class="fa fa-facebook"></span></a></li>
-                            <li class="twitter" style="width:34%;"><a href="#twitter"><span class="fa fa-twitter"></span></a></li>
-                            <li class="google-plus" style="width:33%;"><a href="#google-plus"><span class="fa fa-google-plus"></span></a></li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li>
-                    <time datetime="2014-07-20">
-                        <span class="day">15</span>
-                        <span class="month">Jul</span>
-                        <span class="year">2017</span>
-                        <span class="time">ALL DAY</span>
-                    </time>
-                    <img alt="Departure" src="https://www.kcet.org/sites/kl/files/styles/kl_image_large/public/thumbnails/image/flight-departure.jpg?itok=RbmwaVZ0" />
-                    <div class="info">
-                        <h2 class="title">Departure </h2>
-                        <p class="desc">Time to say good bye!</p>
-                    </div>
-                    <div class="social">
-                        <ul>
-                            <li class="facebook" style="width:33%;"><a href="#facebook"><span class="fa fa-facebook"></span></a></li>
-                            <li class="twitter" style="width:34%;"><a href="#twitter"><span class="fa fa-twitter"></span></a></li>
-                            <li class="google-plus" style="width:33%;"><a href="#google-plus"><span class="fa fa-google-plus"></span></a></li>
-                        </ul>
-                    </div>
-                </li>
+            {/foreach}
+            {*<li>
+            <time datetime="2014-07-20">
+            <span class="day">4</span>
+            <span class="month">Jul</span>
+            <span class="year">2017</span>
+            <span class="time">ALL DAY</span>
+            </time>
+            <img alt="Arrival" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/p/5/005/0b8/3f7/047eea7.jpg" />
+            <div class="info">
+            <h2 class="title">Arrival to .....</h2>
+            <p class="desc">Go to the hotel </p>
+            </div>
+            <div class="social">
+            <ul>
+            <li class="facebook" style="width:33%;"><a href="#facebook"><span class="fa fa-facebook"></span></a></li>
+            <li class="twitter" style="width:34%;"><a href="#twitter"><span class="fa fa-twitter"></span></a></li>
+            <li class="google-plus" style="width:33%;"><a href="#google-plus"><span class="fa fa-google-plus"></span></a></li>
             </ul>
-        </div>
+            </div>
+            </li>
+
+            <li>
+            <time datetime="2014-07-20 0000">
+            <span class="day">8</span>
+            <span class="month">Jul</span>
+            <span class="year">2017</span>
+            <span class="time">12:00 AM</span>
+            </time>
+            <div class="info">
+            <h2 class="title">One Piece Unlimited World Red</h2>
+            <p class="desc">PS Vita</p>
+            <ul>
+            <li style="width:50%;"><a href="#website"><span class="fa fa-globe"></span> Website</a></li>
+            <li style="width:50%;"><span class="fa fa-money"></span> $39.99</li>
+            </ul>
+            </div>
+            <div class="social">
+            <ul>
+            <li class="facebook" style="width:33%;"><a href="#facebook"><span class="fa fa-facebook"></span></a></li>
+            <li class="twitter" style="width:34%;"><a href="#twitter"><span class="fa fa-twitter"></span></a></li>
+            <li class="google-plus" style="width:33%;"><a href="#google-plus"><span class="fa fa-google-plus"></span></a></li>
+            </ul>
+            </div>
+            </li>
+
+            <li>
+            <time datetime="2014-07-20 2000">
+            <span class="day">10</span>
+            <span class="month">Jul</span>
+            <span class="year">2017</span>
+            <span class="time">8:00 PM</span>
+            </time>
+            <img alt="My 24th Birthday!" src="https://farm5.staticflickr.com/4150/5045502202_1d867c8a41_q.jpg" />
+            <div class="info">
+            <h2 class="title">Mouse0270's 24th Birthday!</h2>
+            <p class="desc">Bar Hopping in Erie, Pa.</p>
+            <ul>
+            <li style="width:33%;">1 <span class="glyphicon glyphicon-ok"></span></li>
+            <li style="width:34%;">3 <span class="fa fa-question"></span></li>
+            <li style="width:33%;">103 <span class="fa fa-envelope"></span></li>
+            </ul>
+            </div>
+            <div class="social">
+            <ul>
+            <li class="facebook" style="width:33%;"><a href="#facebook"><span class="fa fa-facebook"></span></a></li>
+            <li class="twitter" style="width:34%;"><a href="#twitter"><span class="fa fa-twitter"></span></a></li>
+            <li class="google-plus" style="width:33%;"><a href="#google-plus"><span class="fa fa-google-plus"></span></a></li>
+            </ul>
+            </div>
+            </li>
+
+            <li>
+            <time datetime="2014-07-20">
+            <span class="day">15</span>
+            <span class="month">Jul</span>
+            <span class="year">2017</span>
+            <span class="time">ALL DAY</span>
+            </time>
+            <img alt="Departure" src="https://www.kcet.org/sites/kl/files/styles/kl_image_large/public/thumbnails/image/flight-departure.jpg?itok=RbmwaVZ0" />
+            <div class="info">
+            <h2 class="title">Departure </h2>
+            <p class="desc">Time to say good bye!</p>
+            </div>
+            <div class="social">
+            <ul>
+            <li class="facebook" style="width:33%;"><a href="#facebook"><span class="fa fa-facebook"></span></a></li>
+            <li class="twitter" style="width:34%;"><a href="#twitter"><span class="fa fa-twitter"></span></a></li>
+            <li class="google-plus" style="width:33%;"><a href="#google-plus"><span class="fa fa-google-plus"></span></a></li>
+            </ul>
+            </div>
+            </li>*}
+        </ul>
     </div>
 </div>
 
@@ -170,6 +201,14 @@
             font-size: 13pt;
             font-weight: 300;
             margin: 0px;
+        }
+        .event-list > li > .info > .btn-add-activities {
+            font-size: 12pt;
+            font-weight: 300;
+            font-style: italic;
+            position: absolute;
+            bottom: 0px;
+            padding-left: 20px;
         }
         .event-list > li > .info > ul,
         .event-list > li > .social > ul {

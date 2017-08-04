@@ -30,7 +30,9 @@ class TripActivity extends Db_Table {
     }
 
     public function setDataFromRequest($post) {
-
+        parent::setDataFromRequest($post);
+        print'<pre>';
+        die(print_r($this));
     }
 
 }
