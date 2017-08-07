@@ -1,0 +1,3 @@
+ALTER TABLE `tripactivity` ADD `activityname` VARCHAR(45) NULL AFTER `id_activity`, ADD `id_activitytype` BIGINT(20) NULL AFTER `activityname`, ADD `activitysupply` VARCHAR(500) NULL AFTER `id_activitytype`, ADD `start_at` DATETIME NULL AFTER `activitysupply`, ADD `end_at` DATETIME NULL AFTER `start_at`, ADD `id_currency` BIGINT(20) NULL AFTER `end_at`, ADD `price` DECIMAL(13,2) NULL AFTER `id_currency`, ADD `address` VARCHAR(150) NULL AFTER `price`, ADD `city` VARCHAR(50) NULL AFTER `address`, ADD `country` VARCHAR(50) NULL AFTER `city`, ADD `lat` DECIMAL(10,8) NULL AFTER `country`, ADD `lng` DECIMAL(11) NULL AFTER `lat`;
+
+ALTER TABLE `tripactivity` ADD `description` VARCHAR(500) NULL AFTER `activityname`, ADD `dresscode` VARCHAR(150) NULL AFTER `description`;
