@@ -5,8 +5,8 @@
     </div>
     <div class="  col-xs-12   col-sm-10  ">
         <ul class="event-list">
-            {foreach from=$itinerary item=place }
-                <li>
+            {foreach from=$itinerary key=key item=place }
+                <li class="{$place.type}">
                     <time datetime="{$place.startdate}">
                         <span class="day">{$place.day}</span>
                         <span class="month">{$place.month}</span>
@@ -17,9 +17,19 @@
                         <img alt="Arrival" src="{$place.pic}" />
                     {/if}
                     <div class="info">
+                        {if $place.type == 'activity'}
+                            <div  class="action-buttons pull-right" >
+
+                                <i class="fa fa-2x fa-pencil" url="trip" name="btnaddactivity" params="id={$place.id}" event="click"></i>
+                                <i class="fa fa-2x fa-trash-o m-l-20" msg="Do you really wanna delete this?" url="trip" name="btndelactivity" params="id={$place.id}" event="click"></i>
+                            </div>
+                        {/if}
                         <h2 class="title">{$place.title}</h2>
                         <p class="desc">{$place.desc} </p>
-                        <p class="btn-add-activities"><a name="btnAddActivity" id="btnAddActivity" params="id_place={$place.id_place}" href="#none"  link="#none" event="click" label="Activity" class=""><span>add activities in {$place.title}</span></a></p>
+                        {if $place.type != 'activity'}
+                            <p class="btn-add-activities"><a name="btnAddActivity" id="btnAddActivity" params="id_place={$place.id_place}" 
+                                                             href="#none"  link="#none" event="click" label="Activity" class=""><i class="fa fa-plus"></i> <span>add activities in {$place.title}</span></a></p>
+                            {/if}
                     </div>
                     <div class="social">
                         <ul>
@@ -28,11 +38,11 @@
                             <li class="google-plus" style="width:33%;"><a href="#google-plus"><span class="fa fa-google-plus"></span></a></li>
                         </ul>
                     </div>
-                    <div class="activities">
-                        {foreach from=$event.activities item=activity}
-                            {$activity.name}
-                        {/foreach}
-                    </div>
+                    {*<div class="activities">
+                    {foreach from=$event.activities item=activity}
+                    {$activity.name}
+                    {/foreach}
+                    </div>*}
                 </li>
 
             {/foreach}
@@ -138,8 +148,6 @@
 
 {literal}
     <style>
-        @import url("http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,400italic");
-        @import url("//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css");
         body {
             padding: 60px 0px;
             background-color: rgb(220, 220, 220);
@@ -157,6 +165,13 @@
             box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
             padding: 0px;
             margin: 0px 0px 20px;
+        }
+        .event-list > .activity {
+            margin-left: 25px;
+            margin-top: -19px;
+        }
+        .event-list > .activity > .btn-add-activities{
+            display: none !important;
         }
         .event-list > li > time {
             display: inline-block;
@@ -335,6 +350,18 @@
                 display: block;
                 width: 40px;
                 padding: 10px 0px 9px;
+            }
+
+
+            .action-buttons {
+                cursor: pointer;
+                opacity: 0;
+                -moz-transition: cubic-bezier(0.55, 0.09, 0.68, 0.53) 0.4s;
+                -webkit-transition: cubic-bezier(0.55, 0.09, 0.68, 0.53) 0.4s;
+                transition: cubic-bezier(0.55, 0.09, 0.68, 0.53) 0.4s;
+            }
+            li:hover > .info > .action-buttons {
+                opacity: 1;
             }
         }
     </style>

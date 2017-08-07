@@ -130,13 +130,14 @@ class Trip extends Db_Table {
 //        $event['month'] = $d->format("M");
 //        $event['startdate'] = $this->getStartDate();
 //
-//        $ret[$d->format("Ymd")] = $event;
+//        $ret[$d->format("Ymd"). count($ret)] = $event;
 
 
         $lst = $this->getTripplaceLst();
         for ($i = 0; $i < $lst->countItens(); $i++) {
             $Item = $lst->getItem($i);
             // ------ start place -----
+            $event['id'] = $Item->getID();
             $event['id_place'] = $Item->getID();
             $event['pic'] = $Item->getPhotoPath();
             $event['title'] = $Item->getName();
@@ -145,7 +146,7 @@ class Trip extends Db_Table {
             $event['day'] = $d->format("d");
             $event['month'] = $d->format("M");
             $event['startdate'] = $Item->getStartDate();
-            $ret[$d->format("Ymd")] = $event;
+            $ret[$d->format("Ymd") . count($ret)] = $event;
 //            // ------ end place -----
 //            $event['pic'] = $Item->getFistPhoto();
 //            $event['title'] = $Item->getName();
@@ -160,6 +161,8 @@ class Trip extends Db_Table {
         $lst = $this->getTripActivityLst();
         for ($i = 0; $i < $lst->countItens(); $i++) {
             $Item = $lst->getItem($i);
+            $event['id'] = $Item->getID();
+            $event['type'] = 'activity';
             $event['pic'] = $Item->getFistPhoto();
             $event['title'] = $Item->getActivityName();
             $event['desc'] = $Item->getDescription();
@@ -167,7 +170,7 @@ class Trip extends Db_Table {
             $event['day'] = $d->format("d");
             $event['month'] = $d->format("M");
             $event['startdate'] = $Item->getStart_at();
-            $ret[$d->format("Ymd")] = $event;
+            $ret[$d->format("Ymd") . count($ret)] = $event;
         }
 //        $event['pic'] = 'https://www.kcet.org/sites/kl/files/styles/kl_image_large/public/thumbnails/image/flight-departure.jpg?itok=RbmwaVZ0';
 //        $event['title'] = 'Bye Bye...';
@@ -176,7 +179,7 @@ class Trip extends Db_Table {
 //        $event['day'] = $d->format("d");
 //        $event['month'] = $d->format("M");
 //        $event['startdate'] = $this->getEndDate();
-//        $ret[$d->format("Ymd")] = $event;
+//        $ret[$d->format("Ymd"). count($ret)] = $event;
 
         ksort($ret);
         return $ret;
