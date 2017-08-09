@@ -1,0 +1,13 @@
+{
+    "name": "tumbleweed/googleapi",
+    "description": "Google APIs: e-mail push notification & email readind and imprtation",
+    "authors": [
+        {
+            "name": "Rômulo Berri",
+            "email": "romuloberri@gmail.com"
+        }
+    ],
+    "require": {
+        "google/apiclient": "^2.0"
+    }
+}

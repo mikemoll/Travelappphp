@@ -1699,7 +1699,7 @@ class TripController extends AbstractController {
         $post = Zend_Registry::get('post');
         $session = Zend_Registry::get('session');
 //        $usuario = $session->usuario;
-        $br = new Browser_Control();
+        
         // ----------------------
 
         $form = Session_Control::getDataSession('formNewTripPlace');

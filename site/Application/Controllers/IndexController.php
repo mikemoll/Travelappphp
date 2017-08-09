@@ -75,6 +75,10 @@ class IndexController extends AbstractController {
 
         $menu = new Ui_Element_MenuItem('Profile', 'My Profile', HTTP_REFERER . 'usuario/viewprofile/id/' . Usuario::getIDUsuarioLogado(), '', 'head');
         $mainMenu->addMenuItem($menu);
+
+        $menu = new Ui_Element_MenuItem('e-mail import', 'e-mail import (beta)', HTTP_REFERER . 'gmailapi/test', '', 'head');
+        $mainMenu->addMenuItem($menu);
+
 //
 //        $menu2 = new Ui_Element_MenuItem('events', 'Indexs2', HTTP_REFERER . 'events', '', 'calendar');
 ////        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
