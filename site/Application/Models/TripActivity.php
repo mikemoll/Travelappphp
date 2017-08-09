@@ -29,6 +29,17 @@ class TripActivity extends Db_Table {
         parent::readLst($modo);
     }
 
+    public function setCopyFromActivity($activity) {
+        $attrs = get_object_vars($activity);
+        foreach ($attrs as $key => $value) {
+            if (substr($key, 0, 2) == 'a_') {
+                $s = "set" . substr($key, 2);
+                $g = "get" . substr($key, 2);
+                $this->$s($activity->$g());
+            }
+        }
+    }
+
     public function setDataFromRequest($post) {
         parent::setDataFromRequest($post);
 //        print'<pre>';

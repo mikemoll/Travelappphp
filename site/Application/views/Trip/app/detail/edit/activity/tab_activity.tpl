@@ -62,27 +62,4 @@
             {$btnClose}
         </div>
     </div>
-    <div class="row">
-        <div class="h4 text-center">
-            OR
-            <br><br>
-            <a href="#dreamboard" data-toggle="collapse" data-target="#dreamboard,#general">Choose one from your DreamBoard</a>
-            {$btnShowDreamBoard}
-        </div>
-    </div>
-</div>
-<div id="dreamboard" class="row  m-t-15 collapse fade">
-    <div class="row">
-        <div class="h4 text-center">
-            Choose one of your dream activities
-        </div>
-    </div>
-    <div class="col-md-12">
-        {$activityLstHtml}
-    </div>
-    <div class="row">
-        <div class="h4 text-center">
-            <a href="#none" data-toggle="collapse" data-target="#dreamboard,#general">Add your own Activity</a>
-        </div>
-    </div>
 </div>

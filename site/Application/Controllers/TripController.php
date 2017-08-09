@@ -418,12 +418,20 @@ class TripController extends AbstractController {
             $place = $placeLst->getItemByID($post->id_place);
             $obj->setStart_at(substr($place->getStartDate(), 0, 10));
             $obj->setid_tripplace($post->id_place);
+            $view->assign('start_at', substr($place->getStartDate(), 0, 10));
         }
 
         $form = new Ui_Form();
         $form->setAction($this->Action);
         $form->setName($this->ItemEditFormName);
 
+        // ====== CREATE A TAB COMPONENT ========================
+        $mainTab = new Ui_Element_TabMain('tabsTripActivity');
+
+        // ====== NEW TAB ========================
+        $tab = new Ui_Element_Tab('tabAddActivity');
+        $tab->setTitle('Your Activity');
+        $tab->setTemplate('Trip/app/detail/edit/activity/tab_activity.tpl');
 
 
 
@@ -507,6 +515,14 @@ class TripController extends AbstractController {
 
 
 
+        // -- Add tab to the main tab ---
+        $mainTab->addTab($tab);
+
+// ====== NEW TAB ========================
+        $tab = new Ui_Element_Tab('tabDreamboard');
+        $tab->setTitle('Dreamboeard');
+        $tab->setVisible(!isset($post->id)); // shows only if it is a new activity, otherwise the tab is shown
+        $tab->setTemplate('Trip/app/detail/edit/activity/tab_dreamboard.tpl');
 
         if (!isset($post->id)) {
 //// ------ list of Dreams ----------
@@ -529,10 +545,18 @@ class TripController extends AbstractController {
                 }
                 $ActivityLst->readLst();
                 $view->assign('activityLst', $ActivityLst->getItens());
-                $view->assign('activityLstHtml', $view->fetch('Trip/app/detail/edit/add_activity_favorite_active_list.tpl'));
+                $view->assign('activityLstHtml', $view->fetch('Trip/app/detail/edit/activity/add_activity_favorite_active_list.tpl'));
             }
         }
 
+
+
+        // -- Add tab to the main tab ---
+        $mainTab->addTab($tab);
+
+
+        // --------- Add tab Component to the Form ---------
+        $form->addElement($mainTab);
 
         $form->setDataForm($obj);
         $obj->setInstance('TripActivityEdit');
@@ -556,7 +580,7 @@ class TripController extends AbstractController {
 
         $form->setDataSession();
 
-        $w = new Ui_Window('EditTripActivity', 'Adding an Activity', $form->displayTpl($view, 'Trip/app/detail/edit/add_activity.tpl'));
+        $w = new Ui_Window('EditTripActivity', 'Adding an Activity', $form->displayTpl($view, 'Trip/app/detail/edit/activity/index.tpl'));
         $w->setDimension('lg');
         $w->setCloseOnEscape();
         $br->newWindow($w);
@@ -1071,6 +1095,65 @@ class TripController extends AbstractController {
         $lObj->setDataFromRequest($post);
         $lObj->setid_trip($lTrip->getID());
         $lObj->setid_place($post->id_place);
+
+        try {
+            $lObj->save();
+        } catch (Exception $exc) {
+            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+
+        $lLst = $lTrip->getTripActivityLst();
+
+        $lLst->addItem($lObj, $post->id);
+        $lTrip->setInstance($this->ItemEditInstanceName);
+
+
+        $br->setBrowserUrl('');
+
+
+        $br->send();
+    }
+
+    public function addactivityclickAction() {
+        $post = Zend_Registry::get('post');
+//        print'<pre>';die(print_r( $post ));
+        $br = new Browser_Control();
+        /* @var $lObj Trip */
+        $lTrip = Trip::getInstance($this->ItemEditInstanceName);
+
+        // ---- FORM VALIDATION ------------------
+        $form = Session_Control::getDataSession($this->ItemEditFormName);
+
+        $valid = $form->processAjax($_POST);
+
+        $br = new Browser_Control();
+        if ($valid != 'true') {
+            $br->validaForm($valid);
+            $br->send();
+            exit;
+        }
+        // -----/end FORM VALIDATION -----------------
+
+
+        if (isset($post->id)) {
+            /* @var $lObj TripActivity */
+            $lObj = TripActivity::getInstance('TripActivityEdit');
+        } else {
+            /* @var $lObj TripActivity */
+            $lObj = new TripActivity();
+        }
+
+        $Activity = new Activity();
+        $Activity->read($post->id_activity);
+
+        $lObj->setCopyFromActivity($Activity);
+//        print'<pre>';die(print_r( $lObj ));
+        $lObj->setid_trip($lTrip->getID());
+        $lObj->setid_place($post->id_place);
+        $lObj->setstart_at($post->start_at);
+        $lObj->setend_at($post->start_at);
 
         try {
             $lObj->save();
