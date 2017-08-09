@@ -94,6 +94,18 @@ class Trip extends Db_Table {
         return number_format($sum, 2);
     }
 
+    public function getTripPlaceList($id = '') {
+        $ret = array();
+        for ($i = 0; $i < $this->getTripplaceLst()->countItens(); $i++) {
+            $Item = $this->getTripplaceLst()->getItem($i);
+            $ret[$Item->getID()] = $Item->getName();
+        }
+        if ($id != '') {
+            return $ret[$id];
+        }
+        return $ret;
+    }
+
     public function getTripUserList() {
         $ret = array();
         for ($i = 0; $i < $this->getTripUserLst()->countItens(); $i++) {
@@ -105,6 +117,72 @@ class Trip extends Db_Table {
 
     public function setTripplaceLst($val) {
         $this->TripplaceLst = $val;
+    }
+
+    public function getTripItinerary() {
+        $ret = array();
+
+//        $event['pic'] = 'https://media.licdn.com/mpr/mpr/shrinknp_800_800/p/5/005/0b8/3f7/047eea7.jpg';
+//        $event['title'] = 'Arriving';
+//        $event['desc'] = 'San Francisco(SFO) to Vancouver';
+//        $d = new DateTime(DataHora::inverteDataIngles($this->getStartDate()));
+//        $event['day'] = $d->format("d");
+//        $event['month'] = $d->format("M");
+//        $event['startdate'] = $this->getStartDate();
+//
+//        $ret[$d->format("Ymd"). count($ret)] = $event;
+
+
+        $lst = $this->getTripplaceLst();
+        for ($i = 0; $i < $lst->countItens(); $i++) {
+            $Item = $lst->getItem($i);
+            // ------ start place -----
+            $event['id'] = $Item->getID();
+            $event['id_place'] = $Item->getID();
+            $event['pic'] = $Item->getPhotoPath();
+            $event['title'] = $Item->getName();
+            $event['desc'] = $Item->getDescription();
+            $d = new DateTime(DataHora::inverteDataIngles($Item->getStartDate()));
+            $event['day'] = $d->format("d");
+            $event['month'] = $d->format("M");
+            $event['startdate'] = $Item->getStartDate();
+            $ret[$d->format("Ymd") . count($ret)] = $event;
+//            // ------ end place -----
+//            $event['pic'] = $Item->getFistPhoto();
+//            $event['title'] = $Item->getName();
+//            $event['desc'] = $Item->getDescription();
+//            $d = new DateTime(DataHora::inverteDataIngles($Item->getEndDate()));
+//            $event['day'] = $d->format("d");
+//            $event['month'] = $d->format("M");
+//            $event['startdate'] = $Item->getEndDate();
+//            $ret[$d->format("Ymd")] = $event;
+        }
+
+        $lst = $this->getTripActivityLst();
+        for ($i = 0; $i < $lst->countItens(); $i++) {
+            $Item = $lst->getItem($i);
+            $event['id'] = $Item->getID();
+            $event['type'] = 'activity';
+            $event['pic'] = $Item->getFistPhoto();
+            $event['title'] = $Item->getActivityName();
+            $event['desc'] = $Item->getDescription();
+            $d = new DateTime(DataHora::inverteDataIngles($Item->getStart_at()));
+            $event['day'] = $d->format("d");
+            $event['month'] = $d->format("M");
+            $event['startdate'] = $Item->getStart_at();
+            $ret[$d->format("Ymd") . count($ret)] = $event;
+        }
+//        $event['pic'] = 'https://www.kcet.org/sites/kl/files/styles/kl_image_large/public/thumbnails/image/flight-departure.jpg?itok=RbmwaVZ0';
+//        $event['title'] = 'Bye Bye...';
+//        $event['desc'] = 'Time to say Good Bye!';
+//        $d = new DateTime(DataHora::inverteDataIngles($this->getEndDate()));
+//        $event['day'] = $d->format("d");
+//        $event['month'] = $d->format("M");
+//        $event['startdate'] = $this->getEndDate();
+//        $ret[$d->format("Ymd"). count($ret)] = $event;
+
+        ksort($ret);
+        return $ret;
     }
 
     public function getPicsLst() {
