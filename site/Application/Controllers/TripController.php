@@ -258,6 +258,68 @@ class TripController extends AbstractController {
         $tab->setTitle('Packing List');
         $tab->setTemplate('Trip/app/detail/tabs/packing.tpl');
 
+
+
+        $button = new Ui_Element_Btn('btnEditPackingItem');
+        $button->setDisplay('New Item', 'plus');
+        $button->setType('success');
+        $tab->addElement($button);
+
+        // ---- Create Grid ----
+        $grid = new Ui_Element_DataTables('gridPacking');
+        $grid->setParams('', BASE_URL . $this->Action . '/packinglist');
+        $grid->setShowInfo(false);
+        $grid->setShowLengthChange(false);
+        $grid->setShowPager(false);
+        $grid->setShowSearching(false);
+
+        // ---- Buttons -----
+        $button = new Ui_Element_DataTables_Button('btnDonePackingItem', 'Done');
+        $button->setImg('check');
+        $button->setAttrib('class', 'btn btn-sm btn-success');
+        $button->setVisible('TRIP_TASK', 'editar');
+        $grid->addButton($button);
+
+        $button = new Ui_Element_DataTables_Button('btnEditPackingItem', 'Edit');
+        $button->setImg('edit');
+        $button->setAttrib('class', 'btn btn-sm btn-default');
+        $button->setVisible('TRIP_TASK', 'editar');
+        $grid->addButton($button);
+
+
+        $button = new Ui_Element_DataTables_Button('btnDelPackingItem', 'Delete');
+        $button->setImg('trash-o');
+        $button->setAttrib('msg', "Are you sure you want to delete this?");
+        $button->setAttrib('class', 'btn btn-sm btn-default');
+        $button->setVisible('TRIP_TASK', 'excluir');
+        $grid->addButton($button);
+
+
+        // ---- Columns -----
+
+        $column = new Ui_Element_DataTables_Column_Text('Type', 'TypeDesc');
+        $column->setWidth('2');
+        $grid->addColumn($column);
+
+
+        $column = new Ui_Element_DataTables_Column_Text('Item', 'description');
+        $column->setWidth('7');
+        $grid->addColumn($column);
+
+        $column = new Ui_Element_DataTables_Column_Text('Responsable', 'responsable', 'center');
+        $column->setWidth('1');
+        $grid->addColumn($column);
+
+        $column = new Ui_Element_DataTables_Column_ImageCond('Done?', 'Done', 'center');
+        $column->setWidth('1');
+        $column->setImages('check', '');
+        $column->setCondicao('S', 'done', '==');
+        $grid->addColumn($column);
+        // ---- add grid to the Form ----
+        $tab->addElement($grid);
+
+
+
         // -- Add tab to the main tab ---
         $mainTab->addTab($tab);
 
@@ -635,7 +697,7 @@ class TripController extends AbstractController {
 
 
         $element = new Ui_Element_Select('id_type', 'Task Type');
-        $element->addMultiOptions(Triptask::getTripTaskTipeList());
+        $element->addMultiOptions(Triptask::getTripTaskTypeList());
         $form->addElement($element);
 
         $element = new Ui_Element_Select('id_responsable', 'Responsible');
@@ -672,6 +734,79 @@ class TripController extends AbstractController {
         $form->setDataSession();
 
         $w = new Ui_Window('EditTask', 'Editing', $form->displayTpl($view, 'Trip/app/detail/edit/task.tpl'));
+        $w->setCloseOnEscape();
+        $br->newWindow($w);
+        $br->send();
+    }
+
+    public function btneditpackingitemclickAction() {
+        $br = new Browser_Control();
+        $post = Zend_Registry::get('post');
+        $view = Zend_Registry::get('view');
+        /* @var $lObj Trip */
+        $lObj = Trip::getInstance($this->ItemEditInstanceName);
+        if (isset($post->id)) {
+            // if some field needs to be readonly on the packingitem edition, use this variable;
+//            $readOnly = true;
+        }
+
+
+        $form = new Ui_Form();
+        $form->setAction($this->Action);
+        $form->setName($this->ItemEditFormName);
+
+        $element = new Ui_Element_Text('description', "Description");
+//        $element->setAttrib('rows', 2);
+        $element->setAttrib('maxlength', 150);
+        $element->setRequired();
+        $form->addElement($element);
+
+
+        $element = new Ui_Element_Checkbox('done', "Packed!");
+        $element->setCheckedValue('S');
+        $element->setUncheckedValue('N');
+        $element->setAttrib('switchery', 'switchery');
+        $form->addElement($element);
+
+
+        $element = new Ui_Element_Select('id_type', 'Category');
+        $element->addMultiOptions(Trippackingitem::getTripPackingItemTypeList());
+        $form->addElement($element);
+
+        $element = new Ui_Element_Select('id_responsable', 'Responsible');
+        $element->addMultiOptions($lObj->getTripUserList()); //@TODO get only the trip-mates
+        $form->addElement($element);
+
+
+
+        $obj = new Trippackingitem();
+        if (isset($post->id)) {
+            $lLst = $lObj->getTrippackingitemLst();
+            $obj = $lLst->getItem($post->id);
+        }
+        $form->setDataForm($obj);
+        $obj->setInstance('TrippackingitemEdit');
+
+        $button = new Ui_Element_Btn('btnSavePackingItem');
+        $button->setDisplay('Save', 'check');
+        $button->setType('success');
+        $button->setAttrib('click', '');
+        if (isset($post->id)) {
+            $button->setAttrib('params', 'id=' . $post->id);
+        }
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('validaObrig', '1');
+        $form->addElement($button);
+
+        $cancelar = new Ui_Element_Btn('btnClose');
+        $cancelar->setAttrib('params', 'IdWindowEdit=' . 'EditPackingItem');
+        $cancelar->setDisplay('Cancel', 'times');
+//        $cancelar->setHref(BASE_URL . $this->Action);
+        $form->addElement($cancelar);
+
+        $form->setDataSession();
+
+        $w = new Ui_Window('EditPackingItem', 'Editing', $form->displayTpl($view, 'Trip/app/detail/edit/packingitem.tpl'));
         $w->setCloseOnEscape();
         $br->newWindow($w);
         $br->send();
@@ -1007,6 +1142,13 @@ class TripController extends AbstractController {
         Grid_ControlDataTables::setDataGrid($lObj->getTriptaskLst(), false, false);
     }
 
+    public function packinglistAction() {
+//        $post = Zend_Registry::get('post');
+        /* @var $lObj Trip */
+        $lObj = Trip::getInstance($this->ItemEditInstanceName);
+        Grid_ControlDataTables::setDataGrid($lObj->getTrippackingitemLst(), false, false);
+    }
+
     public function expenselistAction() {
         /* @var $lObj Trip */
         $lObj = Trip::getInstance($this->ItemEditInstanceName);
@@ -1262,6 +1404,93 @@ class TripController extends AbstractController {
         $br->send();
     }
 
+    public function btnsavepackingitemclickAction() {
+        $post = Zend_Registry::get('post');
+        $session = Zend_Registry::get('session');
+//        $usuario = $session->usuario;
+        $br = new Browser_Control();
+        // ----------------------
+
+        /* @var $lObj Trip */
+        $lTrip = Trip::getInstance($this->ItemEditInstanceName);
+        $form = Session_Control::getDataSession($this->ItemEditFormName);
+
+        $valid = $form->processAjax($_POST);
+
+        $br = new Browser_Control();
+        if ($valid != 'true') {
+            $br->validaForm($valid);
+            $br->send();
+            exit;
+        }
+        // ----------------------
+        $post = Zend_Registry::get('post');
+        if (isset($post->id)) {
+            /* @var $lObj Trip */
+            $lObj = Trippackingitem::getInstance('TrippackingitemEdit');
+        } else {
+            /* @var $lObj Trip */
+            $lObj = new Trippackingitem();
+        }
+
+        $lObj->setDataFromRequest($post);
+        $lObj->setid_trip($lTrip->getID());
+
+        try {
+            $lObj->save();
+        } catch (Exception $exc) {
+            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+
+
+        $lLst = $lTrip->getTrippackingitemLst();
+
+        $lLst->addItem($lObj, $post->id);
+        $lTrip->setInstance($this->ItemEditInstanceName);
+
+
+        $msg = '';
+        $br->setMsgAlert('Saved!', $msg);
+        $br->setRemoveWindow('EditPackingItem');
+        $br->setUpdateDataTables('gridPacking');
+        $br->send();
+    }
+
+    public function btndonepackingitemclickAction() {
+        $post = Zend_Registry::get('post');
+        $br = new Browser_Control();
+        // ----------------------
+
+        /* @var $lTrip Trip */
+        $lTrip = Trip::getInstance($this->ItemEditInstanceName);
+
+        // ----------------------
+        $lLst = $lTrip->getTrippackingitemLst();
+        $lObj = $lLst->getItem($post->id);
+        if ($lObj->getDone() == 'S') {
+            $lObj->setDone("N");
+        } else {
+            $lObj->setDone("S");
+        }
+
+        try {
+            $lTrip->save();
+        } catch (Exception $exc) {
+            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+        $lTrip->setInstance($this->ItemEditInstanceName);
+
+
+        $msg = '';
+        $br->setMsgAlert('Saved!', $msg);
+        $br->setUpdateDataTables('gridPacking');
+        $br->send();
+    }
+
     public function btnsavetravelerclickAction() {
         $post = Zend_Registry::get('post');
         $session = Zend_Registry::get('session');
@@ -1417,6 +1646,31 @@ class TripController extends AbstractController {
         /* @var $lObj Trip */
         $lObj = Trip::getInstance($this->ItemEditInstanceName);
         Grid_ControlDataTables::deleteDataGrid($this->ItemEditInstanceName, 'TriptaskLst', 'gridTask', $br);
+
+
+        // save the Trip to save the deletion of the Item
+        $lObj = Trip::getInstance($this->ItemEditInstanceName);
+        try {
+            $lObj->save();
+            $lObj->setInstance($this->ItemEditInstanceName);
+        } catch (Exception $exc) {
+            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+
+
+        $br->setHtml('totalBudget', $lObj->getTotalBudget());
+        $br->setMsgAlert('Deleted', 'Item deleted!');
+//        $br->setMsgAlert('Coming soon!', '');
+        $br->send();
+    }
+
+    public function btndelpackingitemclickAction() {
+        $br = new Browser_Control();
+        /* @var $lObj Trip */
+        $lObj = Trip::getInstance($this->ItemEditInstanceName);
+        Grid_ControlDataTables::deleteDataGrid($this->ItemEditInstanceName, 'TrippackingitemLst', 'gridPacking', $br);
 
 
         // save the Trip to save the deletion of the Item

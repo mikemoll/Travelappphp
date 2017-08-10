@@ -4,7 +4,7 @@
             Choose one of your dream activities
         </div>
     </div>
-    <div class="col-md-12">
+    <div class="row">
         {$activityLstHtml}
     </div>
 

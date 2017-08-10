@@ -72,6 +72,10 @@ class Trip extends Db_Table {
         $this->TriptaskLst = $val;
     }
 
+    public function setTrippackingitemLst($val) {
+        $this->TrippackingitemLst = $val;
+    }
+
     public function getTripplaceLst() {
         if ($this->TripplaceLst == null) {
             $this->TripplaceLst = new Tripplace();
@@ -224,6 +228,13 @@ class Trip extends Db_Table {
         return $this->TriptaskLst;
     }
 
+    public function getTrippackingitemLst() {
+        if ($this->TrippackingitemLst == null) {
+            $this->TrippackingitemLst = new Trippackingitem();
+        }
+        return $this->TrippackingitemLst;
+    }
+
     public function read($id = NULL, $modo = 'obj') {
         parent::read($id, $modo);
 
@@ -251,6 +262,11 @@ class Trip extends Db_Table {
         $TripPlaceLst->where('triptask.id_trip', $this->getID());
         $TripPlaceLst->readLst();
         $this->setTriptaskLst($TripPlaceLst);
+
+        $TripPlaceLst = $this->getTrippackingitemLst();
+        $TripPlaceLst->where('trippackingitem.id_trip', $this->getID());
+        $TripPlaceLst->readLst();
+        $this->setTrippackingitemLst($TripPlaceLst);
     }
 
     public function setDataFromRequest($post) {
@@ -305,6 +321,14 @@ class Trip extends Db_Table {
                     }
                     $lLst->save();
                 }
+                $lLst = $this->getTrippackingitemLst();
+                if ($lLst->countItens() > 0) {
+                    for ($i = 0; $i < $lLst->countItens(); $i++) {
+                        $Item = $lLst->getItem($i);
+                        $Item->setDeleted();
+                    }
+                    $lLst->save();
+                }
 
 
                 parent::save();
@@ -343,7 +367,7 @@ class Trip extends Db_Table {
                         $Item->save();
                     }
                 }
-                $lLst = $this->getTriptaskLst();
+                $lLst = $this->getTrippackingitemLst();
                 if ($lLst->countItens() > 0) {
                     for ($i = 0; $i < $lLst->countItens(); $i++) {
                         $Item = $lLst->getItem($i);

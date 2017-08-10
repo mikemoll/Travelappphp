@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Model for the class Triptask
+ * Model for the class Trippackingitem
  * @filesource
  * @author      Leonardo
  * @copyright   Leonardo
@@ -9,17 +9,17 @@
  * @subpackage  system.application.models
  * @version     1.0
  */
-class Triptask extends Db_Table {
+class Trippackingitem extends Db_Table {
 
-    protected $_name = 'triptask';
-    public $_primary = 'id_triptask';
+    protected $_name = 'trippackingitem';
+    public $_primary = 'id_trippackingitem';
 
     function __construct($config = array(), $definition = null) {
         parent::__construct($config, $definition);
     }
 
     function getTypeDesc() {
-        return self::getTripTaskTypeList($this->getid_type());
+        return self::getTripPackingItemTypeList($this->getid_type());
     }
 
     function getresponsable() {
@@ -33,12 +33,14 @@ class Triptask extends Db_Table {
         return $this->a_responsable;
     }
 
-    public static function getTripTaskTypeList($i = '') {
-        $list['1'] = 'Doctor';
-        $list['2'] = 'Item Purchase';
-        $list['3'] = 'Personal';
-        $list['4'] = 'Visa';
-        $list['5'] = 'Other';
+    public static function getTripPackingItemTypeList($i = '') {
+        $list[''] = 'Select a category';
+        $list['1'] = 'Clothes';
+        $list['2'] = 'Toiletries';
+        $list['3'] = 'Electronics';
+        $list['4'] = 'Documents + Money';
+        $list['5'] = 'Medication + Health';
+        $list['6'] = 'Other';
         if ($i != '') {
             return $list[$i];
         }
@@ -46,7 +48,7 @@ class Triptask extends Db_Table {
     }
 
     function readLst($modo = 'obj') {
-        $this->join('tripuser', 'tripuser.id_tripuser = triptask.id_responsable', '');
+        $this->join('tripuser', 'tripuser.id_tripuser = trippackingitem.id_responsable', '');
         $this->join('usuario', 'usuario.id_usuario = tripuser.id_usuario', 'nomecompleto as responsable', 'left');
         parent::readLst($modo);
     }
