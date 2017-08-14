@@ -157,10 +157,10 @@ class Db_Table extends Zend_Db_Table {
         $this->_removeJoin = true;
     }
 
-
     public function setDistinct() {
         $this->_distinct = true;
     }
+
     public function setReadCount() {
         $this->_readCount = true;
     }
@@ -170,8 +170,7 @@ class Db_Table extends Zend_Db_Table {
         $info = $this->info();
         foreach ($campos as $key => $value) {
             if ($this->checkIfColumnExist($key)) {
-                $key = "a_$key";
-                $this->$key = $value;
+                self::setValueFromRequest($post, $this, $key);
             }
         }
     }
@@ -760,6 +759,18 @@ class Db_Table extends Zend_Db_Table {
     }
 
     /**
+     * Clear all parts of the query
+     */
+    function reset() {
+        $this->select()->reset();
+        $this->_columns = '';
+        $this->_joins = array();
+        $this->_whereSelect = array();
+        $this->_group = array();
+        return $this;
+    }
+
+    /**
      * Retorna todos os filtros para a consulta sql.
      * @return Zend_Db_Table_Select
      */
@@ -914,7 +925,7 @@ class Db_Table extends Zend_Db_Table {
         $class = get_class($this);
         $item = new $class;
         $item->columns('count(' . $col . ') as count');
-        $item->_joins = array();
+//        $item->_joins = array();
         $item->_whereSelect = $this->_whereSelect;
         $count = $item->fetchAll($item->getSelect())->toArray();
 
@@ -970,6 +981,8 @@ class Db_Table extends Zend_Db_Table {
                 if ($modo == 'array') {
                     $rows[$numLinha][$key] = $value;
                 } else {
+//                    $this->attributes[$key] = $value;
+                    $this->original[$key] = $value;
                     $key = 'a_' . $key;
                     $this->$key = $value;
                 }
@@ -1019,6 +1032,7 @@ class Db_Table extends Zend_Db_Table {
 //            eu já fiz... sim, é uma merda, mas....
 //            O ideal seria ir no codigo fonte inteiro e desfazer o tratamento para que tudo seja feito aqui.
 //            Um dia... hoje é 31/05/17, vamos ver até quando!
+//            
 //            ATIVADO EM 08/07/2017 para o projeto TravelTrack
             if ($this->_formatData) {
                 foreach ($rows as $numLinha => $row) {
@@ -1042,12 +1056,13 @@ class Db_Table extends Zend_Db_Table {
             $item = new $nome;
             $item->setState(cUPDATE);
             foreach ($row as $key => $value) {
-                $key = 'a_' . $key;
                 if ($this->_formatData) {
-                    $item->$key = FormataDados::formataDadosRead($value);
-                } else {
-                    $item->$key = $value;
+                    $value = FormataDados::formataDadosRead($value);
                 }
+//                $this->attributes[$key] = $value;
+                $this->original[$key] = $value;
+                $key = 'a_' . $key;
+                $item->$key = $value;
             }
             $key = $this->_log_info;
             $item->setTextLog($item->$key);
@@ -1358,6 +1373,35 @@ class Db_Table extends Zend_Db_Table {
             }
         }
         return $this;
+    }
+
+    static function setCheckBoxValueFromRequest($post, $obj, $fieldName, $valChecked = 'S', $valUnchecked = 'N') {
+        $s = "set$fieldName";
+        $v = $post->getUnescaped($fieldName);
+        if ($v == '') {
+            $v = $valUnchecked;
+        } else {
+            $v = $valChecked;
+        }
+        $obj->$s($v);
+    }
+
+    /**
+     *
+     * @param type $post
+     * @param type $obj
+     * @param type $fieldName
+     * @param type $ifNotEmpty
+     * @return type
+     */
+    static function setValueFromRequest($post, $obj, $fieldName, $ifNotEmpty = false) {
+        $s = "set$fieldName";
+        $v = $post->getUnescaped($fieldName);
+        if ($ifNotEmpty and $v == '') {
+            //if the value is empty the attr should not be filled;
+            return;
+        }
+        $obj->$s($v);
     }
 
 }
