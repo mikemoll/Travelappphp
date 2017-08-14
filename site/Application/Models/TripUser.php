@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Modelo da classe TripUser
+ * Model TripUser class
  * @filesource
  * @author      Leonardo
  * @copyright   Leonardo
@@ -19,12 +19,21 @@ class TripUser extends Db_Table {
     }
 
     function readLst($modo = 'obj') {
-        $this->join('usuario', 'usuario.id_usuario = tripuser.id_usuario', 'nomecompleto as username,email');
+        $this->join('usuario', 'usuario.id_usuario = tripuser.id_usuario', 'nomecompleto as username,email,birthdate,nationality,nationality2'
+                . ',passport,passport2,allergies,medicalissues,contactname,contactrelationship,'
+                . ',contactnumber,contactemail,doctorname,doctornumber,doctoremail');
         parent::readLst($modo);
     }
 
-    public function setDataFromRequest($post) {
-
+    function read($id = NULL, $modo = 'obj') {
+        $this->reset();
+        $this->join('usuario', 'usuario.id_usuario = tripuser.id_usuario', 'nomecompleto as username,email,birthdate,nationality,nationality2'
+                . ',passport,passport2,allergies,medicalissues,contactname,contactrelationship'
+                . ',contactnumber,contactemail,doctorname,doctornumber,doctoremail');
+        parent::read($id, $modo);
     }
 
+//    public function setDataFromRequest($post) {
+//
+//    }
 }

@@ -93,4 +93,13 @@ class Ui_Element_Text extends Zend_Form_Element_Text {
         }
     }
 
+    /**
+     *
+     * @param type $flag
+     * @param type $classCss
+     */
+    public function setMaxLength($val) {
+        $this->setAttrib('maxlength', $val);
+    }
+
 }

@@ -394,6 +394,41 @@ class TripController extends AbstractController {
         $tab->setTitle('Contact');
         $tab->setTemplate('Trip/app/detail/tabs/contact.tpl');
 
+        $button = new Ui_Element_Btn('btnEditContactInfo');
+        $button->setDisplay('New Contact Info', 'plus');
+        $button->setType('success');
+        $button->setVisible('TRIP_BUDGET', 'inserir');
+        $tab->addElement($button);
+
+        // ---- Create Grid ----
+        $grid = new Ui_Element_DataTables('gridContactInfo');
+        $grid->setParams('', BASE_URL . $this->Action . '/travelerlist');
+        $grid->setShowInfo(false);
+        $grid->setShowLengthChange(false);
+        $grid->setShowPager(false);
+        $grid->setShowSearching(false);
+
+        // ---- Buttons -----
+        $button = new Ui_Element_DataTables_Button('btnEditContactInfo', 'Edit');
+        $button->setImg('edit');
+        $button->setVisible('TRIP_BUDGET', 'editar');
+        $grid->addButton($button);
+
+        $button = new Ui_Element_DataTables_Button('btnDelContactInfo', 'Delete');
+        $button->setImg('trash-o');
+        $button->setAttrib('msg', "Are you sure you want to delete this?");
+        $button->setVisible('TRIP_BUDGET', 'excluir');
+        $grid->addButton($button);
+
+        // ---- Columns -----
+        $column = new Ui_Element_DataTables_Column_Text('Name', 'username');
+        $column->setWidth('11');
+        $grid->addColumn($column);
+
+        // ---- add grid to the Form ----
+        $tab->addElement($grid);
+
+
         // -- Add tab to the main tab ---
         $mainTab->addTab($tab);
 
@@ -812,7 +847,7 @@ class TripController extends AbstractController {
         $br->send();
     }
 
-    public function btnedittravelerclickAction() {
+    public function btneditcontactinfoclickAction() {
         $br = new Browser_Control();
         $post = Zend_Registry::get('post');
         $view = Zend_Registry::get('view');
@@ -828,6 +863,134 @@ class TripController extends AbstractController {
 
         $element = new Ui_Element_Select('id_usuario', 'Select the Friend');
         $element->addMultiOptions(Usuario::getFriendsList());
+        $element->setReadOnly($readOnly);
+        $form->addElement($element);
+//NAMe
+//D.O.B.:
+//NATIONALITY:
+//DUTCH PASSPORT:
+//CANADIAN PASSPORT:
+//ALLERGIES:
+//MEDICAL ISSUES:
+//CONTACTS:
+//NAME: RELATIONSHIP:
+//NUMBER: EMAIL:
+//NAME: RELATIONSHIP
+//NUMBER: EMAIL:
+//DOCTOR:
+//NAME: NUMBER:
+//EMAIL:
+//        $element = new Ui_Element_Text('username', ' Name');
+//        $element->setReadOnly(TRUE);
+//        $form->addElement($element);
+
+        $element = new Ui_Element_Date('birthdate', 'd.o.b');
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('nationality', 'NATIONALITY #1');
+        $element->setMaxLength(50);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('nationality2', 'NATIONALITY #2');
+        $element->setMaxLength(50);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('passport', 'PASSPORT  #1');
+        $element->setMaxLength(50);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('passport2', ' PASSPORT #2');
+        $element->setMaxLength(50);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('allergies', 'ALLERGIES');
+        $element->setMaxLength(100);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('medicalissues', 'MEDICAL ISSUES');
+        $element->setMaxLength(200);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('contactname', 'Contact NAME');
+        $element->setMaxLength(100);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('contactrelationship', 'Contact RELATIONSHIP');
+        $element->setMaxLength(50);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('contactnumber', 'Contact NUMBER');
+        $element->setMaxLength(20);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('contactemail', 'Contact EMAIL');
+        $element->setMaxLength(100);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('doctorname', "Doctor's Name");
+        $element->setMaxLength(100);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('doctornumber', "Doctor's NUMBER");
+        $element->setMaxLength(20);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('doctoremail', "Doctor's EMAIL");
+        $element->setMaxLength(100);
+        $form->addElement($element);
+
+
+
+        $obj = new TripUser();
+        if (isset($post->id)) {
+            $lLst = $lObj->getTripUserLst();
+            $obj = $lLst->getItem($post->id);
+        }
+        $form->setDataForm($obj);
+        $obj->setInstance('TripUserEdit');
+
+        $button = new Ui_Element_Btn('btnSaveContactInfo');
+        $button->setDisplay('Save', 'check');
+        $button->setType('success');
+        $button->setAttrib('click', '');
+        if (isset($post->id)) {
+            $button->setAttrib('params', 'id=' . $post->id);
+        }
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('validaObrig', '1');
+        $form->addElement($button);
+
+        $cancelar = new Ui_Element_Btn('btnClose');
+        $cancelar->setAttrib('params', 'IdWindowEdit=' . 'EditContactInfo');
+        $cancelar->setDisplay('Cancel', 'times');
+//        $cancelar->setHref(BASE_URL . $this->Action);
+        $form->addElement($cancelar);
+
+        $form->setDataSession();
+
+        $w = new Ui_Window('EditContactInfo', 'Add your Contact Info', $form->displayTpl($view, 'Trip/app/detail/edit/contact_info.tpl'));
+        $w->setCloseOnEscape();
+        $br->newWindow($w);
+        $br->send();
+    }
+
+    public function btnedittravelerclickAction() {
+        $br = new Browser_Control();
+        $post = Zend_Registry::get('post');
+        $view = Zend_Registry::get('view');
+        /* @var $lObj Trip */
+        $lObj = Trip::getInstance($this->ItemEditInstanceName);
+        if (isset($post->id)) {
+            // if some field needs to be readonly on the item edition, use this variable;
+            $readOnly = true;
+        }
+        $form = new Ui_Form();
+        $form->setAction($this->Action);
+        $form->setName($this->ItemEditFormName);
+
+        $element = new Ui_Element_Select('id_usuario', 'Select the Friend');
+        $element->addMultiOptions(Usuario::getFriendsList());
+        $element->setReadOnly($readOnly);
         $form->addElement($element);
 
         $element = new Ui_Element_Text('friendname', 'Friend Name');
@@ -1554,6 +1717,75 @@ class TripController extends AbstractController {
         $br->setMsgAlert('Saved!', $msg);
         $br->setRemoveWindow('Edittraveler');
         $br->setUpdateDataTables('gridtraveler');
+        $br->send();
+    }
+
+    public function btnsavecontactinfoclickAction() {
+        $post = Zend_Registry::get('post');
+        $session = Zend_Registry::get('session');
+//        $usuario = $session->usuario;
+        $br = new Browser_Control();
+        // ----------------------
+
+        /* @var $lObj Trip */
+        $lTrip = Trip::getInstance($this->ItemEditInstanceName);
+        $form = Session_Control::getDataSession($this->ItemEditFormName);
+
+        $valid = $form->processAjax($_POST);
+
+        $br = new Browser_Control();
+        if ($valid != 'true') {
+            $br->validaForm($valid);
+            $br->send();
+            exit;
+        }
+        // ----------------------
+        $post = Zend_Registry::get('post');
+        if (isset($post->id)) {
+            /* @var $lObj TripUser */
+            $lObj = TripUser::getInstance('TripUserEdit');
+        } else {
+            /* @var $lObj TripUser */
+            $lObj = new TripUser();
+        }
+
+
+//        if ($post->id_usuario == '') {
+//
+//            $msg = 'Friend added to your trip';
+//            $br->setMsgAlert('Done', $msg);
+//            $br->setRemoveWindow('Edittraveler');
+//            $br->setUpdateDataTables('gridtraveler');
+//            $br->send();
+//        }
+
+        $user = new Usuario();
+        $user->read($post->id_usuario);
+        $user->setDataFromRequestContactInfo($post);
+
+//        print'<pre>';die(print_r($user  ));
+
+        try {
+            $user->save();
+        } catch (Exception $exc) {
+            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+
+
+        $lLst = $lTrip->getTripUserLst();
+
+        $lObj->read();
+
+        $lLst->addItem($lObj, $post->id);
+        $lTrip->setInstance($this->ItemEditInstanceName);
+
+
+        $msg = '';
+        $br->setMsgAlert('Saved!', $msg);
+        $br->setRemoveWindow('EditContactInfo');
+        $br->setUpdateDataTables('gridContactInfo');
         $br->send();
     }
 
@@ -2293,7 +2525,6 @@ class TripController extends AbstractController {
         $post = Zend_Registry::get('post');
         $session = Zend_Registry::get('session');
 //        $usuario = $session->usuario;
-        
         // ----------------------
 
         $form = Session_Control::getDataSession('formNewTripPlace');

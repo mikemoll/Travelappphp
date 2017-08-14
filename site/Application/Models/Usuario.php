@@ -174,6 +174,10 @@ class Usuario extends Db_Table {
         $this->setDificuldade($post->dificuldade);
     }
 
+    public function setDataFromRequestContactInfo($post) {
+        parent::setDataFromRequest($post);
+    }
+
     public function setDataFromRequest($post) {
         $this->setDificuldade($post->dificuldade);
         $this->setNomeCompleto($post->nomeCompleto);
@@ -197,9 +201,9 @@ class Usuario extends Db_Table {
 //        $this->setHometowncountry($post->hometowncountry);
 
         $this->setActualcity($post->actualcity);
-  //      $this->setActualcountry($post->actualcountry);
+        //      $this->setActualcountry($post->actualcountry);
         $this->setLiveincity($post->liveincity);
-    //    $this->setLiveincountry($post->liveincountry);
+        //    $this->setLiveincountry($post->liveincountry);
         $this->setRelationship($post->relationship);
         $this->setBio($post->bio);
         $this->setInstagram($post->instagram);
