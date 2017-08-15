@@ -1,0 +1,19 @@
+{
+    "name": "mikemoll/tumbleweedapp",
+    "description": "Tumbleweed. Go everywhere.",
+    "authors": [
+        {
+            "name": "Rômulo Berri",
+            "email": "romuloberri@gmail.com"
+        },
+        {
+            "name": "Leonardo Andriolli Danieli",
+            "email": "leonardo.danieli@gmail.com"
+        },
+        {
+            "name": "Michael Moll",
+            "email": "mike.g.moll@gmail.com"
+        }
+    ],
+    "require": {}
+}
