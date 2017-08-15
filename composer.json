@@ -15,5 +15,8 @@
             "email": "mike.g.moll@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php": ">=5.5.17"
+    }
 }
+
