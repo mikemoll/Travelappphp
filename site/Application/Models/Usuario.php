@@ -406,6 +406,7 @@ class Usuario extends Db_Table {
                 break;
 
             case cCREATE:
+                $this->setCreated_at(date('Y-m-d H:i:s'));
             case cUPDATE:
 
                 //	print_r($this);die('<br><br>\n\n' . ' Linha: ' . __LINE__ . ' Arquivo: ' . __FILE__);
