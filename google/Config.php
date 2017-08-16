@@ -14,8 +14,9 @@ class Config
     public $client_secret_path;
     public $redirect_uri;
     public $result_uri;
+    public $scopes;
 
-    function __construct()
+    public function __construct()
     {
         if ($_SERVER['HTTP_HOST'] == 'localhost') {
             ini_set('display_errors',1);
@@ -30,5 +31,10 @@ class Config
         }
 
         $this->client_secret_path = __DIR__ . '/client_secret_oAuth.json';
+        $this->scopes = array( Google_Service_Gmail::MAIL_GOOGLE_COM,
+                                  'email',
+                                  'profile'
+                              );
+
     }
 }

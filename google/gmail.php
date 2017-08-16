@@ -16,25 +16,15 @@ $cfg = new Config();
 
 
 $client = new Google_Client();
-//$client->setApplicationName("Tumbleweed");
 $client->setAuthConfigFile($cfg->client_secret_path);
-$client->setRedirectUri($cfg->redirect_uri);
-$client->setAccessType("offline");
-$client->setIncludeGrantedScopes(true);
-//$client->addScope(Google_Service_Gmail::MAIL_GOOGLE_COM);
-$client->setScopes($cfg->scopes);
+//$client->setAccessType("offline");
+$client->addScope(Google_Service_Gmail::MAIL_GOOGLE_COM);
+
 
 
 // if authenticated, returns the e-mails
 if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
-  
-  /* Refresh token when expired */
   $client->setAccessToken($_SESSION['access_token']);
-  if ($client->isAccessTokenExpired()) {
-      // the new access token comes with a refresh token as well
-      $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-  }
-
   $gmail = new Google_Service_Gmail($client);
   //var_dump($gmail);
   $messages = listMessages($gmail,'me');
