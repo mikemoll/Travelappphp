@@ -153,6 +153,7 @@ $view->setEncoding('UTF-8');
 $view->setEscape('htmlentities');
 $view->addHelperPath('../Libs/View/Helpers');
 $view->assign('baseUrl', BASE_URL);
+//$view->cache_dir('/app/Libs/View/templates_c');
 
 /**
  * HTTP_REFERER eh o endereco web do site ou sistema mais a URL base que eh a pasta dentro do servidor em q se encontra os site ou sistema.

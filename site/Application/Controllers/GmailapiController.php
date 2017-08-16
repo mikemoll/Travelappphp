@@ -54,7 +54,7 @@ class GmailapiController extends AbstractController {
 
         $br = new Browser_Control();
         //$this->_redirect('../google/email_import.php?date='.$post->date);
-        file_get_contents('../google/email_import.php?date='.$post->date);
+        file_get_contents('http://' . $_SERVER['HTTP_HOST'] . '/traveltrack/google/email_import.php?date='.$post->date);
 
         $br->setBrowserUrl(BASE_URL . 'Gmailapi/testresult');
         $br->send();
