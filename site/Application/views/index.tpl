@@ -56,6 +56,18 @@
                 <link href="{$baseUrl}Public/assets/plugins/codrops-dialogFx/dialog.ie.css" rel="stylesheet" type="text/css" media="screen" />
                 <![endif]-->
             {$scriptsCss}
+            {literal}
+            <script>
+                window.intercomSettings = {
+                    app_id: "uypl4r9y",
+                    name: "{/literal}{$usuarioLogado}{literal}", // Full name
+                    email: "{/literal}{$userEmail}{literal}", // Email address
+                    created_at: {/literal}{$userCreatedAtUnixTimestamp}{literal} // Signup date as a Unix timestamp
+                };
+            </script>
+            <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic(&apos;reattach_activator&apos;ic(&apos;update&apos;,intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement(&apos;script&apos;s.type=&apos;text/javascript&apos;;s.async=true;s.src=&apos;<a href="https://widget.intercom.io/widget/uypl4r9y&apos;;var">https://widget.intercom.io/widget/uypl4r9y&apos;;var</a> x=d.getElementsByTagName(&apos;script&apos[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent(&apos;onload&apos;,l);}else{w.addEventListener(&apos;load&apos;,l,false);}}})()
+            </script>
+            {/literal}
         </div>
         <!-- BEGIN SIDEBPANEL-->
         <nav class="page-sidebar" data-pages="sidebar">

@@ -36,6 +36,9 @@ class AbstractController extends Zend_Controller_Action {
             $view->assign('NomeSistema', cNOME_SISTEMA);
             $view->assign('usuarioLogado', Session_Control::getPropertyUserLogado('nomecompleto'));
             $view->assign('nomeUsuario', Session_Control::getPropertyUserLogado('nomecompleto'));
+            $view->assign('userEmail', Session_Control::getPropertyUserLogado('email'));
+            $view->assign('userCreatedAtUnixTimestamp', date_timestamp_get(date_create( Session_Control::getPropertyUserLogado('created_at'))));
+            //$view->assign('userCreatedAtUnixTimestamp', time());
             $view->assign('loggeduserlastname', Session_Control::getPropertyUserLogado('lastname'));
             $view->assign('loggeduserPhoto', Session_Control::getUserLogadoPhotoPath());
             $view->assign('ano', date('Y'));
