@@ -422,7 +422,19 @@ class TripController extends AbstractController {
 
         // ---- Columns -----
         $column = new Ui_Element_DataTables_Column_Text('Name', 'username');
-        $column->setWidth('11');
+        $column->setWidth('7');
+        $grid->addColumn($column);
+
+        $column = new Ui_Element_DataTables_Column_Text('Passport', 'passport');
+        $column->setWidth('1');
+        $grid->addColumn($column);
+
+        $column = new Ui_Element_DataTables_Column_Text('Contact Name', 'contactname');
+        $column->setWidth('1');
+        $grid->addColumn($column);
+
+        $column = new Ui_Element_DataTables_Column_Text('Doctor Name', 'doctorname');
+        $column->setWidth('1');
         $grid->addColumn($column);
 
         // ---- add grid to the Form ----
@@ -865,24 +877,6 @@ class TripController extends AbstractController {
         $element->addMultiOptions(Usuario::getFriendsList());
         $element->setReadOnly($readOnly);
         $form->addElement($element);
-//NAMe
-//D.O.B.:
-//NATIONALITY:
-//DUTCH PASSPORT:
-//CANADIAN PASSPORT:
-//ALLERGIES:
-//MEDICAL ISSUES:
-//CONTACTS:
-//NAME: RELATIONSHIP:
-//NUMBER: EMAIL:
-//NAME: RELATIONSHIP
-//NUMBER: EMAIL:
-//DOCTOR:
-//NAME: NUMBER:
-//EMAIL:
-//        $element = new Ui_Element_Text('username', ' Name');
-//        $element->setReadOnly(TRUE);
-//        $form->addElement($element);
 
         $element = new Ui_Element_Date('birthdate', 'd.o.b');
         $form->addElement($element);
