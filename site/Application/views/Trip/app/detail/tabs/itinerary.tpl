@@ -31,13 +31,13 @@
                                                              href="#none"  link="#none" event="click" label="Activity" class=""><i class="fa fa-plus"></i> <span>add activities in {$place.title}</span></a></p>
                             {/if}
                     </div>
-                    <div class="social">
+                    {*<div class="social">
                         <ul>
                             <li class="facebook" style="width:33%;"><a href="#facebook"><span class="fa fa-facebook"></span></a></li>
                             <li class="twitter" style="width:34%;"><a href="#twitter"><span class="fa fa-twitter"></span></a></li>
                             <li class="google-plus" style="width:33%;"><a href="#google-plus"><span class="fa fa-google-plus"></span></a></li>
                         </ul>
-                    </div>
+                    </div>*}
                     {*<div class="activities">
                     {foreach from=$event.activities item=activity}
                     {$activity.name}
