@@ -1,9 +1,6 @@
 
 <div class="row">
-    <div class=" col-sm-1">
-        {$btnAddActivity}
-    </div>
-    <div class="  col-xs-12   col-sm-10  ">
+    <div class="  col-xs-12  col-sm-8  ">
         <ul class="event-list">
             {foreach from=$itinerary key=key item=place }
                 <li class="{$place.type}">
@@ -32,11 +29,11 @@
                             {/if}
                     </div>
                     {*<div class="social">
-                        <ul>
-                            <li class="facebook" style="width:33%;"><a href="#facebook"><span class="fa fa-facebook"></span></a></li>
-                            <li class="twitter" style="width:34%;"><a href="#twitter"><span class="fa fa-twitter"></span></a></li>
-                            <li class="google-plus" style="width:33%;"><a href="#google-plus"><span class="fa fa-google-plus"></span></a></li>
-                        </ul>
+                    <ul>
+                    <li class="facebook" style="width:33%;"><a href="#facebook"><span class="fa fa-facebook"></span></a></li>
+                    <li class="twitter" style="width:34%;"><a href="#twitter"><span class="fa fa-twitter"></span></a></li>
+                    <li class="google-plus" style="width:33%;"><a href="#google-plus"><span class="fa fa-google-plus"></span></a></li>
+                    </ul>
                     </div>*}
                     {*<div class="activities">
                     {foreach from=$event.activities item=activity}
@@ -46,98 +43,80 @@
                 </li>
 
             {/foreach}
-            {*<li>
-            <time datetime="2014-07-20">
-            <span class="day">4</span>
-            <span class="month">Jul</span>
-            <span class="year">2017</span>
-            <span class="time">ALL DAY</span>
-            </time>
-            <img alt="Arrival" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/p/5/005/0b8/3f7/047eea7.jpg" />
-            <div class="info">
-            <h2 class="title">Arrival to .....</h2>
-            <p class="desc">Go to the hotel </p>
-            </div>
-            <div class="social">
-            <ul>
-            <li class="facebook" style="width:33%;"><a href="#facebook"><span class="fa fa-facebook"></span></a></li>
-            <li class="twitter" style="width:34%;"><a href="#twitter"><span class="fa fa-twitter"></span></a></li>
-            <li class="google-plus" style="width:33%;"><a href="#google-plus"><span class="fa fa-google-plus"></span></a></li>
-            </ul>
-            </div>
-            </li>
 
-            <li>
-            <time datetime="2014-07-20 0000">
-            <span class="day">8</span>
-            <span class="month">Jul</span>
-            <span class="year">2017</span>
-            <span class="time">12:00 AM</span>
-            </time>
-            <div class="info">
-            <h2 class="title">One Piece Unlimited World Red</h2>
-            <p class="desc">PS Vita</p>
-            <ul>
-            <li style="width:50%;"><a href="#website"><span class="fa fa-globe"></span> Website</a></li>
-            <li style="width:50%;"><span class="fa fa-money"></span> $39.99</li>
-            </ul>
-            </div>
-            <div class="social">
-            <ul>
-            <li class="facebook" style="width:33%;"><a href="#facebook"><span class="fa fa-facebook"></span></a></li>
-            <li class="twitter" style="width:34%;"><a href="#twitter"><span class="fa fa-twitter"></span></a></li>
-            <li class="google-plus" style="width:33%;"><a href="#google-plus"><span class="fa fa-google-plus"></span></a></li>
-            </ul>
-            </div>
-            </li>
-
-            <li>
-            <time datetime="2014-07-20 2000">
-            <span class="day">10</span>
-            <span class="month">Jul</span>
-            <span class="year">2017</span>
-            <span class="time">8:00 PM</span>
-            </time>
-            <img alt="My 24th Birthday!" src="https://farm5.staticflickr.com/4150/5045502202_1d867c8a41_q.jpg" />
-            <div class="info">
-            <h2 class="title">Mouse0270's 24th Birthday!</h2>
-            <p class="desc">Bar Hopping in Erie, Pa.</p>
-            <ul>
-            <li style="width:33%;">1 <span class="glyphicon glyphicon-ok"></span></li>
-            <li style="width:34%;">3 <span class="fa fa-question"></span></li>
-            <li style="width:33%;">103 <span class="fa fa-envelope"></span></li>
-            </ul>
-            </div>
-            <div class="social">
-            <ul>
-            <li class="facebook" style="width:33%;"><a href="#facebook"><span class="fa fa-facebook"></span></a></li>
-            <li class="twitter" style="width:34%;"><a href="#twitter"><span class="fa fa-twitter"></span></a></li>
-            <li class="google-plus" style="width:33%;"><a href="#google-plus"><span class="fa fa-google-plus"></span></a></li>
-            </ul>
-            </div>
-            </li>
-
-            <li>
-            <time datetime="2014-07-20">
-            <span class="day">15</span>
-            <span class="month">Jul</span>
-            <span class="year">2017</span>
-            <span class="time">ALL DAY</span>
-            </time>
-            <img alt="Departure" src="https://www.kcet.org/sites/kl/files/styles/kl_image_large/public/thumbnails/image/flight-departure.jpg?itok=RbmwaVZ0" />
-            <div class="info">
-            <h2 class="title">Departure </h2>
-            <p class="desc">Time to say good bye!</p>
-            </div>
-            <div class="social">
-            <ul>
-            <li class="facebook" style="width:33%;"><a href="#facebook"><span class="fa fa-facebook"></span></a></li>
-            <li class="twitter" style="width:34%;"><a href="#twitter"><span class="fa fa-twitter"></span></a></li>
-            <li class="google-plus" style="width:33%;"><a href="#google-plus"><span class="fa fa-google-plus"></span></a></li>
-            </ul>
-            </div>
-            </li>*}
         </ul>
+    </div>
+    <div class="  col-xs-12 col-sm-4">
+        <div class="view chat-view bg-white clearfix b-l b-grey ">
+            <!-- BEGIN Header  !-->
+            <div class="h4 p-l-20 ">
+                Let's talk
+            </div>
+            <!-- END Header  !-->
+            <!-- BEGIN Conversation  !-->
+            <div class="chat-inner" id="my-conversation4">
+                <!-- BEGIN From Me Message  !-->
+                <div class="message clearfix">
+                    <div class="chat-bubble from-me">
+                        Hello there
+                    </div>
+                </div>
+                <!-- END From Me Message  !-->
+                <!-- BEGIN From Them Message  !-->
+                <div class="message clearfix">
+                    <div class="profile-img-wrapper m-t-5 inline">
+                        <img class="col-top" width="30" height="30" src="{$baseUrl}Public/assets/img/profiles/avatar_small.jpg" alt="" data-src="{$baseUrl}Public/assets/img/profiles/avatar_small.jpg" data-src-retina="{$baseUrl}Public/assets/img/profiles/avatar_small2x.jpg">
+                    </div>
+                    <div class="chat-bubble from-them">
+                        Hey
+                    </div>
+                </div>
+                <!-- END From Them Message  !-->
+                <!-- BEGIN From Me Message  !-->
+                <div class="message clearfix">
+                    <div class="chat-bubble from-me">
+                        Did you check out this budget?
+                    </div>
+                </div>
+                <!-- END From Me Message  !-->
+                <!-- BEGIN From Me Message  !-->
+                <div class="message clearfix">
+                    <div class="chat-bubble from-me">
+                        It's great!
+                    </div>
+                </div>
+                <!-- END From Me Message  !-->
+                <!-- BEGIN From Them Message  !-->
+                <div class="message clearfix">
+                    <div class="profile-img-wrapper m-t-5 inline">
+                        <img class="col-top" width="30" height="30" src="{$baseUrl}Public/assets/img/profiles/avatar_small.jpg" alt="" data-src="{$baseUrl}Public/assets/img/profiles/avatar_small.jpg" data-src-retina="{$baseUrl}Public/assets/img/profiles/avatar_small2x.jpg">
+                    </div>
+                    <div class="chat-bubble from-them">
+                        Yea
+                    </div>
+                </div>
+                <!-- END From Them Message  !-->
+            </div>
+            <!-- BEGIN Conversation  !-->
+            <!-- BEGIN Chat Input  !-->
+            <div class="b-t b-grey bg-white clearfix p-l-10 p-r-10">
+                <div class="row">
+                    {*<div class="col-xs-1 p-t-15">
+                    <a href="#" class="link text-master"><i class="fa fa-plus-circle"></i></a>
+                    </div>*}
+                    <div class="col-xs-8 no-padding">
+                        <input type="text" class="form-control chat-input" data-chat-input="" data-chat-conversation="#my-conversation4" placeholder="Say something">
+                    </div>
+                    <div class="col-xs-1 link text-master m-l-10 m-t-15 p-l-10 b-l b-grey col-top">
+                        <a href="#" class="link text-master"><i class="pg-camera"></i></a>
+                    </div>
+                    <div class="col-xs-1 link text-master m-l-10 m-t-15 p-l-10 b-l b-grey col-top">
+                        <a href="#" class="link text-master" ><i class="fa fa-paper-plane-o"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- END Chat Input  !-->
+        </div>
     </div>
 </div>
 
