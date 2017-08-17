@@ -162,7 +162,14 @@
                             <h4>{$NomeSistema}</h4>
                             {*                            <img src="{$baseUrl}Public/assets/img/logo.png" alt="logo" data-src="{$baseUrl}Public/assets/img/logo.png" data-src-retina="assets/img/logo_2x.png" width="78" height="22">*}
                         </div>
+                        {*                        <a href="#" class="search-link" data-toggle="search"><i class="pg-search"></i>Search for <span class="bold">places</span>, <span class="bold">activities</span> or <span class="bold">events</span></a>*}
+                        <div  class="search-link"  >
+                            {$formSearch}
+                        </div>
+
+
                     </div>
+
                 </div>
                 <div class=" pull-right">
                     <div class="header-inner">
@@ -574,7 +581,8 @@
                 <!-- BEGIN Overlay Header !-->
                 <div class="container-fluid">
                     <!-- BEGIN Overlay Logo !-->
-                    <img class="overlay-brand" src="{$baseUrl}Public/assets/img/logo.png" alt="logo" data-src="{$baseUrl}Public/assets/img/logo.png" data-src-retina="assets/img/logo_2x.png" width="78" height="22">
+                    <span class="h1"  >{$NomeSistema}</span>
+                    {*                    <img class="overlay-brand" src="{$baseUrl}Public/assets/img/logo.png" alt="logo" data-src="{$baseUrl}Public/assets/img/logo.png" data-src-retina="assets/img/logo_2x.png" width="78" height="22">*}
                     <!-- END Overlay Logo !-->
                     <!-- BEGIN Overlay Close !-->
                     <a href="#" class="close-icon-light overlay-close text-black fs-16">

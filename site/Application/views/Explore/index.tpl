@@ -14,98 +14,80 @@
 <link href="{$baseUrl}Public/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
 <link class="main-stylesheet" href="{$baseUrl}Public/pages/css/pages.css" rel="stylesheet" type="text/css" />
 
+<div class="advanced-filters">
+    {if $EventtypeLst|@count > 0}
+        {*Main filters
+        Place - Activity - Event -  date range - Rating - Budget - Activity event  - event type - trip type*}
+        <div class="row" id="filtersPlaces">
+            <div class="col-md-4" >
+                <div class="hint-text pull-left">Event Type: </div>
+                <ul class="list-unstyled pull-left text-center">
+                    <li>
+                        {foreach key=key from=$EventtypeLst item=item }
+                            <a href="{$HTTP_REFERER}{$BASE}explore/index/{if $EventtypeSelected != $key}eventtype/{$key}_{$item}/{/if}{$links.base}" class="btn btn-sm {if $EventtypeSelected == $key}btn-success{else}btn-default{/if}">{$item}</a>
+                        {/foreach}
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4" >
+                <div class="hint-text  pull-left">Activity Type: </div>
+                <ul class="list-unstyled  pull-left text-center">
+                    <li id="moreFiltersActivity"  class="collapse in overflow-hidden">
+                        {foreach key=key from=$ActivitytypeLst item=item }
+                            <a href="{$HTTP_REFERER}{$BASE}explore/index/{if $ActivitytypeSelected != $key}activitytype/{$key}_{$item}/{/if}{$links.base}" class="btn btn-sm {if $ActivitytypeSelected == $key}btn-success{else}btn-default{/if} ">{$item}</a>
+                        {/foreach}
+                    </li>
+                    <li id=" " class="collapse in" >
+                        <a href="#moreFiltersActivity" data-toggle="collapse" >show/hide all</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-1" >
+                <ul class="list-inline text-center">
+                    <li class="hint-text">Rating: </li>
+                    <li>
+                        <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/1/{$links.base}" class=""><i class="fa {if 1 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
+                        <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/2/{$links.base}" class=""><i class="fa {if 2 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
+                        <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/3/{$links.base}" class=""><i class="fa {if 3 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
+                        <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/4/{$links.base}" class=""><i class="fa {if 4 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
+                        <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/5/{$links.base}" class=""><i class="fa {if 5 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3" >
+                <ul class="list-inline text-center">
+                    <li class="hint-text">Period: </li>
+                    <li class=" "><div class="input-daterange input-group" id="datepicker-range">
+                            {$startdate}
+                            <span class="input-group-addon">to</span>
+                            {$enddate}
+                        </div>
+                    </li>
+                    <li  >{$btnApplyDate}</li>
+                </ul>
+            </div>
+        </div>
+
+        <section class="applied-filters clearfix">
+
+            <ul class="list-unstyled ">
+                <li class="hint-text">Applied Filters: <a href="{$HTTP_REFERER}{$BASE}explore/index/" class=""><i class="fa fa-close"></i> remove all filters</a></li>
+                <li>
+                    {foreach key=key from=$appliedFilters item=item }
+                        <a href="{$HTTP_REFERER}{$BASE}explore/index/{$links[$key]}" class="btn btn-sm  ">{$names[$key]} <i class="fa fa-close"></i></a>
+                        {/foreach}
+                </li>
+            </ul>
+        </section>
+    {/if}
+</div>
 <div class="row text-center">
-    <div class="col-sm-1">
-    </div>
-    <div class="col-sm-10">
+    <div class="col-sm-12">
         <h1 ><span style="font-size: 130%">{$title1}</span></h1>
         <h3>{$title2}</h3>
 
-
-        {$search2}<br>
-        {$btnSearch}
-        {$btnFeelingLucky}
-        {$btnDiscover}
-        {$btnCreateTrip}
-    </div>
-    <div class="col-sm-1">
     </div>
 </div>
-{if $EventtypeLst|@count > 0}
-    <section class="applied-filters clearfix">
-
-        <ul class="list-unstyled ">
-            <li class="hint-text">Applied Filters: <a href="{$HTTP_REFERER}{$BASE}explore/index/" class=""><i class="fa fa-close"></i> remove all filters</a></li>
-            <li>
-                {foreach key=key from=$appliedFilters item=item }
-                    <a href="{$HTTP_REFERER}{$BASE}explore/index/{$links[$key]}" class="btn btn-sm  ">{$names[$key]} <i class="fa fa-close"></i></a>
-                    {/foreach}
-            </li>
-        </ul>
-    </section>
-
-    {*
-    <div class="  p-t-20 p-b-10">
-    <ul class="list-inline text-center">
-    <li class="hint-text">Filter by: </li>
-    <li><a href="#none" class="active text-master p-r-5 p-l-5" data-toggle="filtersPlaces">Places</a></li>
-    <li><a href="#none" class="text-master hint-text p-r-5 p-l-5">Activities</a></li>
-    <li><a href="#none" class="text-master hint-text p-r-5 p-l-5">Events</a></li>
-    <li>  <a href="#none"   class="btn btn-primary m-l-10" data-toggle="filters">More filters</a>                                              </li>
-    </ul>
-    </div>*}
-    {*Main filters
-    Place - Activity - Event -  date range - Rating - Budget - Activity event  - event type - trip type*}
-    <div class="row" id="filtersPlaces">
-        <div class="col-md-4" >
-            <ul class="list-unstyled text-center">
-                <li class="hint-text">Event Type: </li>
-                <li>
-                    {foreach key=key from=$EventtypeLst item=item }
-                        <a href="{$HTTP_REFERER}{$BASE}explore/index/{if $EventtypeSelected != $key}eventtype/{$key}_{$item}/{/if}{$links.base}" class="btn btn-sm {if $EventtypeSelected == $key}btn-success{else}btn-default{/if}">{$item}</a>
-                    {/foreach}
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-4" >
-            <ul class="list-unstyled text-center">
-                <li class="hint-text">Activity Type: </li>
-                <li id="moreFiltersActivity"  class="collapse in overflow-hidden">
-                    {foreach key=key from=$ActivitytypeLst item=item }
-                        <a href="{$HTTP_REFERER}{$BASE}explore/index/{if $ActivitytypeSelected != $key}activitytype/{$key}_{$item}/{/if}{$links.base}" class="btn btn-sm {if $ActivitytypeSelected == $key}btn-success{else}btn-default{/if} ">{$item}</a>
-                    {/foreach}
-                </li>
-                <li id=" " class="collapse in" >
-                    <a href="#moreFiltersActivity" data-toggle="collapse" >show/hide all</a>
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-1" >
-            <ul class="list-inline text-center">
-                <li class="hint-text">Rating: </li>
-                <li>
-                    <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/1/{$links.base}" class=""><i class="fa {if 1 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
-                    <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/2/{$links.base}" class=""><i class="fa {if 2 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
-                    <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/3/{$links.base}" class=""><i class="fa {if 3 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
-                    <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/4/{$links.base}" class=""><i class="fa {if 4 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
-                    <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/5/{$links.base}" class=""><i class="fa {if 5 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-3" >
-            <ul class="list-inline text-center">
-                <li class="hint-text">Period: </li>
-                <li class=" "><div class="input-daterange input-group" id="datepicker-range">
-                        {$startdate}
-                        <span class="input-group-addon">to</span>
-                        {$enddate}
-                    </div>
-                </li>
-                <li  >{$btnApplyDate}</li>
-            </ul>
-        </div>
-    </div>
-{/if}
 {*<script>
 $('#daterangepicker').daterangepicker({
 timePicker: true,
@@ -517,33 +499,33 @@ console.log(start.toISOString(), end.toISOString(), label);
 
 <div id="welcomemodal">
     <div class="modal fade fill-in" id="modalFillIn" tabindex="-1" role="dialog" aria-labelledby="modalFillInLabel" aria-hidden="true">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-        <i class="pg-close"></i>
-    </button>
-    <div class="modal-dialog ">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1>Welcome to Tumbleweed</h1>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12 text-center p-t-30">
-                        <button type="button" class="btn btn-success btn-lg btn-large fs-15">How to use</button>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            <i class="pg-close"></i>
+        </button>
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1>Welcome to Tumbleweed</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 text-center p-t-30">
+                            <button type="button" class="btn btn-success btn-lg btn-large fs-15">How to use</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center p-t-20">
+                            <button type="button" class="btn btn-primary btn-lg btn-large fs-15" data-dismiss="modal">Start Exploring</button>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12 text-center p-t-20">
-                        <button type="button" class="btn btn-primary btn-lg btn-large fs-15" data-dismiss="modal">Start Exploring</button>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
+                <div class="modal-footer">
 
+                </div>
             </div>
+            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
+        <!-- /.modal-dialog -->
     </div>
 </div>
 
@@ -580,7 +562,7 @@ console.log(start.toISOString(), end.toISOString(), label);
 {if $welcomemodal==true}
     {literal}
         <script type="text/javascript">
-            $(document).ready(function(){
+            $(document).ready(function () {
                 $('#modalFillIn').modal('show');
             });
         </script>
