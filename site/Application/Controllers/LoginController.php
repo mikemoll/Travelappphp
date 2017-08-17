@@ -764,7 +764,7 @@ class LoginController extends AbstractController {
 
     public function btnskip3clickAction($enviar = false) {
         $br = new Browser_Control();
-        $br->setBrowserUrl(BASE_URL . 'explore/index/');//welcome/true');
+        $br->setBrowserUrl(BASE_URL . 'Login/newuserend/');//explore/index/');//welcome/true');
         $br->send();
     }
 
@@ -812,8 +812,27 @@ class LoginController extends AbstractController {
             die();
         }
 
-        $br->setBrowserUrl(BASE_URL . 'explore/index');///welcome/true');
+        $br->setBrowserUrl(BASE_URL . 'Login/newuserend/');//'explore/index');///welcome/true');
         $br->send();
+    }
+
+    public function newuserendAction() {
+        // $id = Usuario::getIDUsuarioLogado();
+        // if (($id == '') || ($id == NULL)) {
+        //     $this->_redirect('./login');
+        //     exit;
+        // }
+        $view = Zend_Registry::get('view');
+        //$post = Zend_Registry::get('post');
+
+
+        $view->assign('background', BASE_URL . 'Public/Images/signup/6.jpg');
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
+        $view->assign('TituloPagina', 'New user');
+        $html = $view->fetch('Login/newuserend.tpl');
+        $view->assign('body', $html);
+        $view->output('index_clear.tpl');
     }
 
     public function newuser4Action() {
