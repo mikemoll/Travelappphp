@@ -93,63 +93,18 @@ class ExploreController extends AbstractController {
         $view->assign('title1', 'Tumbleweed');
         $view->assign('title2', 'go everywhere');
 
-        // ================== form Search =====================
-        $form = new Ui_Form();
-        $form->setAction($this->Action);
-        $form->setName($this->ItemEditFormName);
-
-        $element = new Ui_Element_Text('search2');
-        $element->setPlaceholder('Search for places, activities or events');
-        $element->setAttrib('hotkeys', 'enter, btnSearch, click');
-        $element->setValue($q);
-        $form->addElement($element);
-
-        list($StartDate, $EndDate) = explode('_', $post->daterange);
-        $element = new Ui_Element_Date('startdate');
-        $element->setAlternativeField('enddate');
-        $element->setValue(DataHora::inverteDataIngles($StartDate));
-
-        $form->addElement($element);
-
-        $element = new Ui_Element_Date('enddate');
-        $element->setValue(DataHora::inverteDataIngles($EndDate));
-        $form->addElement($element);
 
 
-        $view->assign('EventtypeLst', Db_Table::getOptionList2('id_eventtype', 'description', 'description', 'Eventtype', false,'readLstWithEvent'));
+            $view->assign('EventtypeLst', Db_Table::getOptionList2('id_eventtype', 'description', 'description', 'Eventtype', false, 'readLstWithEvent'));
 //        $view->assign('EventtypeLst', Db_Table::getOptionList2('id_eventtype', 'description', 'description', 'Eventtype', false));
 //        $view->assign('ActivitytypeLst', Db_Table::getOptionList2('id_activitytype', 'activitytypename', 'activitytypename', 'Activitytype', false));
-        $view->assign('ActivitytypeLst', Db_Table::getOptionList2('id_activitytype', 'activitytypename', 'activitytypename', 'Activitytype', false,'readLstWithActivity'));
+            $view->assign('ActivitytypeLst', Db_Table::getOptionList2('id_activitytype', 'activitytypename', 'activitytypename', 'Activitytype', false, 'readLstWithActivity'));
 
-        $view->assign('EventtypeSelected', $post->eventtype);
-        $view->assign('ActivitytypeSelected', $post->activitytype);
+            $view->assign('EventtypeSelected', $post->eventtype);
+            $view->assign('ActivitytypeSelected', $post->activitytype);
 
-        $view->assign('ratingSelected', $post->rating);
+            $view->assign('ratingSelected', $post->rating);
 
-        $button = new Ui_Element_Btn('btnSearch');
-        $button->setDisplay('Search', '');
-        $button->setAttrib('class', 'btn btn-primary btn-animated from-left fa fa-search');
-//        $button->setType('success');
-        $button->setSendFormFiends();
-//        $button->setAttrib('validaObrig', '1');
-        $form->addElement($button);
-
-        $button = new Ui_Element_Btn('btnFeelingLucky');
-        $button->setDisplay('Feeling lucky', '');
-//        $button->setType('success');
-        $button->setSendFormFiends();
-//        $button->setAttrib('validaObrig', '1');
-        $form->addElement($button);
-
-        $button = new Ui_Element_Btn('btnApplyDate');
-        $button->setDisplay('Apply', '');
-//        $button->setType('success');
-        $button->setAttrib('params', $links['base']);
-        $button->setSendFormFiends();
-//        $button->setAttrib('validaObrig', '1');
-        $form->addElement($button);
-
-        $form->setDataSession();
         // ================== END form Search =====================
         // ---------------------- PLACES   - --------------
         // ---------------------- PLACES   - --------------
@@ -214,7 +169,7 @@ class ExploreController extends AbstractController {
 
 
         //Modal:
-        $view->assign('welcomemodal',$post->welcome);
+        $view->assign('welcomemodal', $post->welcome);
 
 //        $view->assign('url', $this->Action);
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
@@ -222,7 +177,7 @@ class ExploreController extends AbstractController {
         $view->assign('titulo', $this->TituloEdicao);
         $view->assign('TituloPagina', $this->TituloEdicao);
 //        $view->assign('body', $form->displayTpl($view, 'Explore/index.tpl'));
-        $view->assign('body', $form->displayTpl($view, 'Explore/index.tpl'));
+        $view->assign('body', $view->fetch('Explore/index.tpl'));
 //        $view->assign('body', $view->fetch('Explore/index.tpl'));
         $view->output('index.tpl');
     }
@@ -386,7 +341,7 @@ class ExploreController extends AbstractController {
     public function btnaddtonewtripclickAction() {
         $post = Zend_Registry::get('post');
         $br = new Browser_Control();
-        $br->setBrowserUrl(HTTP_HOST . BASE_URL . 'trip/newtrip/id_place/' . $post->id_place . '/placename/'.$post->placename);
+        $br->setBrowserUrl(HTTP_HOST . BASE_URL . 'trip/newtrip/id_place/' . $post->id_place . '/placename/' . $post->placename);
         $br->send();
     }
 

@@ -44,6 +44,58 @@ class AbstractController extends Zend_Controller_Action {
             $view->assign('ano', date('Y'));
             $view->assign('permissoesLst', Session_Control::getPropertyUserLogado('permissoesLst'));
 //    $view->assign('ListaAcaoTopo', RncAcao::getListaRncAcaoTopo($view));
+            // ================== form Search =====================
+            $form = new Ui_Form();
+            $form->setAction('explore');
+            $form->setName('search');
+
+            $element = new Ui_Element_Text('search2');
+            $element->setPlaceholder('Search for places, activities or events');
+            $element->setAttrib('hotkeys', 'enter, btnSearch, click');
+//        $element->addClass('search-link');
+            $element->setAttrib('class', 'form-control search-link');
+            $element->setValue($q);
+            $form->addElement($element);
+
+            list($StartDate, $EndDate) = explode('_', $post->daterange);
+            $element = new Ui_Element_Date('startdate');
+            $element->setAlternativeField('enddate');
+            $element->setValue(DataHora::inverteDataIngles($StartDate));
+
+            $form->addElement($element);
+
+            $element = new Ui_Element_Date('enddate');
+            $element->setValue(DataHora::inverteDataIngles($EndDate));
+            $form->addElement($element);
+
+
+
+            $button = new Ui_Element_Btn('btnSearch');
+            $button->setDisplay('', 'search');
+//            $button->setAttrib('class', 'btn btn-primary btn-animated from-left fa fa-search');
+        $button->setType('primary');
+            $button->setSendFormFiends();
+//        $button->setAttrib('validaObrig', '1');
+            $form->addElement($button);
+
+            $button = new Ui_Element_Btn('btnFeelingLucky');
+            $button->setDisplay('Feeling lucky', '');
+//        $button->setType('success');
+            $button->setSendFormFiends();
+//        $button->setAttrib('validaObrig', '1');
+            $form->addElement($button);
+
+            $button = new Ui_Element_Btn('btnApplyDate');
+            $button->setDisplay('Apply', '');
+//        $button->setType('success');
+            $button->setAttrib('params', $links['base']);
+            $button->setSendFormFiends();
+//        $button->setAttrib('validaObrig', '1');
+            $form->addElement($button);
+
+            $form->setDataSession();
+
+            $view->assign('formSearch', $form->displayTpl($view, 'Explore/form_search.tpl'));
         }
 // ==========================================================
     }

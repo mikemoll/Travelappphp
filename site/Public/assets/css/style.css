@@ -6,3 +6,9 @@
 .dataTables_wrapper .btn{
     padding-left: 10px;
 }
+
+.advanced-filters{
+    background-color: #FFF;
+    padding: 10px;
+    margin: -25px -25px auto;
+}
