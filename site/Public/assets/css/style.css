@@ -6,11 +6,26 @@
 .dataTables_wrapper .btn{
     padding-left: 10px;
 }
+.max-char-text {
+    position: absolute;
+    right: 20px;
+    top: 2px;
+    font-size: smaller;
+    color: #ccc;
+}
 
 .advanced-filters{
     background-color: #FFF;
     padding: 10px;
     margin: -25px -25px auto;
+}
+
+.serach-form{
+    float: left;
+    height: 30px;
+    width: 800px;
+    height: 60px;
+    display: table-cell;
 }
 
 .cards_container{
