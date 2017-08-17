@@ -19,7 +19,7 @@ class TripUser extends Db_Table {
     }
 
     function readLst($modo = 'obj') {
-        $this->join('usuario', 'usuario.id_usuario = tripuser.id_usuario', 'nomecompleto as username,email,birthdate,nationality,nationality2'
+        $this->join('usuario', 'usuario.id_usuario = tripuser.id_usuario', 'nomecompleto as username,email,birthdate,nationality,nationality2,photo'
                 . ',passport,passport2,allergies,medicalissues,contactname,contactrelationship,'
                 . ',contactnumber,contactemail,doctorname,doctornumber,doctoremail');
         parent::readLst($modo);
@@ -27,7 +27,7 @@ class TripUser extends Db_Table {
 
     function read($id = NULL, $modo = 'obj') {
         $this->reset();
-        $this->join('usuario', 'usuario.id_usuario = tripuser.id_usuario', 'nomecompleto as username,email,birthdate,nationality,nationality2'
+        $this->join('usuario', 'usuario.id_usuario = tripuser.id_usuario', 'nomecompleto as username,email,birthdate,nationality,nationality2,photo'
                 . ',passport,passport2,allergies,medicalissues,contactname,contactrelationship'
                 . ',contactnumber,contactemail,doctorname,doctornumber,doctoremail');
         parent::read($id, $modo);

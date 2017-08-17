@@ -2717,14 +2717,23 @@ class TripController extends AbstractController {
 
         $place = new Place;
         $place->read($tripplace->getid_place());
+        foreach ($trip->TripUserLst as $user) {
+            $friends[] = array(
+                'id'=>$user->id_usuario,
+                'username'=>$user->username, 
+                'photourl'=>Usuario::makephotoPath($user->id_usuario, $user->photo));
+        }
 
         $view = Zend_Registry::get('view');
 
         $view->assign('id_trip', $post->id);
         $view->assign('tripname', $trip->gettripname());
         $view->assign('placename', $place->getname());
+        $view->assign('startdate', date_format(date_create($trip->getstartdate()),'F d, Y'));
+        $view->assign('enddate', date_format(date_create($trip->getenddate()),'F d, Y'));
+        $view->assign('friends',$friends);
         //$view->assign('formatted_address', $place->getformatted_address());
-        //$view->assign('placephotopath', $place->getPhotoPath());
+        $view->assign('placephotopath', $place->getPhotoPath());
         $view->assign('recommendationUrl', urlencode(HTTP_HOST. BASE_URL . 'trip/detail/id/' . $post->id_trip ));
 
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());

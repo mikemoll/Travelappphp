@@ -74,10 +74,7 @@
         <div class="page-container ">
             <!-- START PAGE CONTENT WRAPPER -->
             <div class="page-content-wrapper ">
-                <!-- START PAGE CONTENT -->
-                    <div class="container-fluid padding-25 sm-padding-10">
-                        {$body}
-                    </div>
+                   {$body}
             </div>
             <!-- END PAGE CONTENT WRAPPER -->
         </div>
