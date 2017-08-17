@@ -55,6 +55,7 @@
             <link href="{$baseUrl}Public/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
             <link class="main-stylesheet" href="{$baseUrl}Public/pages/css/pages.css" rel="stylesheet" type="text/css" />
 {*             <link href="{$baseUrl}Public/assets/plugins/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" type="text/css" media="screen">*}
+            <link href="{$baseUrl}Public/assets/css/style.css" rel="stylesheet" type="text/css">
             <!--[if lte IE 9]>
                 <link href="{$baseUrl}Public/pages/css/ie9.css" rel="stylesheet" type="text/css" />
             <![endif]-->

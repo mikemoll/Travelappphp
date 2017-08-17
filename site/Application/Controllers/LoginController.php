@@ -825,14 +825,13 @@ class LoginController extends AbstractController {
         $view = Zend_Registry::get('view');
         //$post = Zend_Registry::get('post');
 
-
-        $view->assign('background', BASE_URL . 'Public/Images/signup/6.jpg');
+        $view->assign('background', BASE_URL . 'Public/Images/signup/8.jpg');
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'New user');
         $html = $view->fetch('Login/newuserend.tpl');
         $view->assign('body', $html);
-        $view->output('index_clear.tpl');
+        $view->output('Login/index.tpl');
     }
 
     public function newuser4Action() {
