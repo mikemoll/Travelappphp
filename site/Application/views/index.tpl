@@ -21,17 +21,7 @@
             var cBaseUrl = '{$baseUrl}';
             var HTTP_HOST = '{$HTTP_HOST}';
         </script>
-        {literal}
-            <style>
-                .max-char-text {
-                    position: absolute;
-                    right: 20px;
-                    top: 2px;
-                    font-size: smaller;
-                    color: #ccc;
-                }
-            </style>
-        {/literal}
+
         <!-- This is the onli JS that has to be on the begining, cuz there are some components that need this before everithing else! (Leonardo )-->
         <script src="{$baseUrl}Public/assets/plugins/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
     </head>
@@ -57,53 +47,60 @@
                 <![endif]-->
             {$scriptsCss}
             {literal}
-            <script>
-                window.intercomSettings = {
-                    app_id: "uypl4r9y",
-                    name: "{/literal}{$usuarioLogado}{literal}",
-                    email: "{/literal}{$userEmail}{literal}",
-                    created_at: {/literal}{$userCreatedAtUnixTimestamp}{literal}
-                };
-            </script>
-            <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/APP_ID';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()
-            </script>
+                <script>
+            window.intercomSettings = {
+                app_id: "uypl4r9y",
+                name: "{/literal}{$usuarioLogado}{literal}",
+                email: "{/literal}{$userEmail}{literal}",
+                created_at: {/literal}{$userCreatedAtUnixTimestamp}{literal}
+            };
+                </script>
+                <script>(function () {
+                        var w = window;
+                        var ic = w.Intercom;
+                        if (typeof ic === "function") {
+                            ic('reattach_activator');
+                            ic('update', intercomSettings);
+                        } else {
+                            var d = document;
+                            var i = function () {
+                                i.c(arguments)
+                            };
+                            i.q = [];
+                            i.c = function (args) {
+                                i.q.push(args)
+                            };
+                            w.Intercom = i;
+                            function l() {
+                                var s = d.createElement('script');
+                                s.type = 'text/javascript';
+                                s.async = true;
+                                s.src = 'https://widget.intercom.io/widget/APP_ID';
+                                var x = d.getElementsByTagName('script')[0];
+                                x.parentNode.insertBefore(s, x);
+                            }
+                            if (w.attachEvent) {
+                                w.attachEvent('onload', l);
+                            } else {
+                                w.addEventListener('load', l, false);
+                            }
+                        }
+                    })()
+                </script>
             {/literal}
         </div>
         <!-- BEGIN SIDEBPANEL-->
         <nav class="page-sidebar" data-pages="sidebar">
-            <!-- BEGIN SIDEBAR MENU TOP TRAY CONTENT-->
-            <div class="sidebar-overlay-slide from-top" id="appMenu">
-                <div class="row">
-                    <div class="col-xs-6 no-padding">
-                        <a href="#" class="p-l-40"><img src="{$baseUrl}Public/assets/img/demo/social_app.svg" alt="socail">
-                        </a>
-                    </div>
-                    <div class="col-xs-6 no-padding">
-                        <a href="#" class="p-l-10"><img src="{$baseUrl}Public/assets/img/demo/email_app.svg" alt="socail">
-                        </a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6 m-t-20 no-padding">
-                        <a href="#" class="p-l-40"><img src="{$baseUrl}Public/assets/img/demo/calendar_app.svg" alt="socail">
-                        </a>
-                    </div>
-                    <div class="col-xs-6 m-t-20 no-padding">
-                        <a href="#" class="p-l-10"><img src="{$baseUrl}Public/assets/img/demo/add_more.svg" alt="socail">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!-- END SIDEBAR MENU TOP TRAY CONTENT-->
+
             <!-- BEGIN SIDEBAR MENU HEADER-->
             <div class="sidebar-header">
 
                 <span class="h5" style="color: white; "  >{$NomeSistema}</span>
                 {*                                <img src="{$baseUrl}Public/assets/img/logo_white.png" alt="logo" class="brand" data-src="{$baseUrl}Public/assets/img/logo_white.png" data-src-retina="assets/img/logo_white_2x.png" width="78" height="22">*}
                 <div class="sidebar-header-controls">
-                    <button type="button" class="btn btn-xs sidebar-slide-toggle btn-link m-l-20" data-pages-toggle="#appMenu"><i class="fa fa-angle-down fs-16"></i>
-                    </button>
-                    <button type="button" class="btn btn-link visible-lg-inline" data-toggle-pin="sidebar"><i class="fa fs-12"></i>
+                    {*<button type="button" class="btn btn-xs sidebar-slide-toggle btn-link m-l-20" data-pages-toggle="#appMenu"><i class="fa fa-angle-down fs-16"></i>
+                    </button>*}
+                    <button type="button" class="btn btn-link visible-lg-inline " data-toggle-pin="sidebar"><i class="fa fs-12"></i>
                     </button>
                 </div>
             </div>
@@ -158,16 +155,15 @@
                 <!-- END MOBILE CONTROLS -->
                 <div class=" pull-left sm-table hidden-xs hidden-sm">
                     <div class="header-inner">
-                        <div class="brand inline">
+                        <div class="brand inline" style="float: left;">
                             <h4>{$NomeSistema}</h4>
                             {*                            <img src="{$baseUrl}Public/assets/img/logo.png" alt="logo" data-src="{$baseUrl}Public/assets/img/logo.png" data-src-retina="assets/img/logo_2x.png" width="78" height="22">*}
                         </div>
                         {*                        <a href="#" class="search-link" data-toggle="search"><i class="pg-search"></i>Search for <span class="bold">places</span>, <span class="bold">activities</span> or <span class="bold">events</span></a>*}
-                        <div  class="search-link"  >
+
+                        <div class="serach-form"  >
                             {$formSearch}
                         </div>
-
-
                     </div>
 
                 </div>

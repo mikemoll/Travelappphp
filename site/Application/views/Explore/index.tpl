@@ -14,35 +14,32 @@
 <link href="{$baseUrl}Public/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
 <link class="main-stylesheet" href="{$baseUrl}Public/pages/css/pages.css" rel="stylesheet" type="text/css" />
 
-<div class="advanced-filters">
-    {if $EventtypeLst|@count > 0}
+{if $EventtypeLst|@count > 0}
+    <div class="advanced-filters">
         {*Main filters
         Place - Activity - Event -  date range - Rating - Budget - Activity event  - event type - trip type*}
         <div class="row" id="filtersPlaces">
-            <div class="col-md-4" >
-                <div class="hint-text pull-left">Event Type: </div>
-                <ul class="list-unstyled pull-left text-center">
-                    <li>
-                        {foreach key=key from=$EventtypeLst item=item }
+            <div class="col-md-2" >
+                <a class="hint-text " href="#moreFiltersEvent" data-toggle="collapse">Event Type<span class="caret"></span></a>
+                <ul class="list-unstyled text-center collapse dropdown-menu  " id="moreFiltersEvent"  >
+                    {foreach key=key from=$EventtypeLst item=item }
+                        <li>
                             <a href="{$HTTP_REFERER}{$BASE}explore/index/{if $EventtypeSelected != $key}eventtype/{$key}_{$item}/{/if}{$links.base}" class="btn btn-sm {if $EventtypeSelected == $key}btn-success{else}btn-default{/if}">{$item}</a>
-                        {/foreach}
-                    </li>
+                        </li>
+                    {/foreach}
                 </ul>
             </div>
-            <div class="col-md-4" >
-                <div class="hint-text  pull-left">Activity Type: </div>
-                <ul class="list-unstyled  pull-left text-center">
-                    <li id="moreFiltersActivity"  class="collapse in overflow-hidden">
-                        {foreach key=key from=$ActivitytypeLst item=item }
+            <div class="col-md-2" >
+                <a class="hint-text pull-left" href="#moreFiltersActivity" data-toggle="collapse">Activity Type<span class="caret"></span></a>
+                <ul class="list-unstyled  pull-left text-center dropdown-menu collapse " id="moreFiltersActivity">
+                    {foreach key=key from=$ActivitytypeLst item=item }
+                        <li  class="">
                             <a href="{$HTTP_REFERER}{$BASE}explore/index/{if $ActivitytypeSelected != $key}activitytype/{$key}_{$item}/{/if}{$links.base}" class="btn btn-sm {if $ActivitytypeSelected == $key}btn-success{else}btn-default{/if} ">{$item}</a>
-                        {/foreach}
-                    </li>
-                    <li id=" " class="collapse in" >
-                        <a href="#moreFiltersActivity" data-toggle="collapse" >show/hide all</a>
-                    </li>
+                        </li>
+                    {/foreach}
                 </ul>
             </div>
-            <div class="col-md-1" >
+            <div class="col-md-2" >
                 <ul class="list-inline text-center">
                     <li class="hint-text">Rating: </li>
                     <li>
@@ -54,38 +51,41 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-3" >
-                <ul class="list-inline text-center">
-                    <li class="hint-text">Period: </li>
-                    <li class=" "><div class="input-daterange input-group" id="datepicker-range">
-                            {$startdate}
-                            <span class="input-group-addon">to</span>
-                            {$enddate}
-                        </div>
-                    </li>
-                    <li  >{$btnApplyDate}</li>
-                </ul>
+            <div class="col-md-6" >
+                <div class="pull-left ">
+                    <div class="hint-text pull-left">Period: </div>
+                    <div class="input-daterange input-group pull-left " style="width: 60%" id="datepicker-range">
+                        {$startdate}
+                        <span class="input-group-addon">to</span>
+                        {$enddate}
+                    </div>
+                    <div class="pull-left " >{$btnApplyDate}</div>
+                </div>
             </div>
         </div>
 
-        <section class="applied-filters clearfix">
+        {if $appliedFilters|@count > 0}
+            <section class="applied-filters clearfix">
 
-            <ul class="list-unstyled ">
-                <li class="hint-text">Applied Filters: <a href="{$HTTP_REFERER}{$BASE}explore/index/" class=""><i class="fa fa-close"></i> remove all filters</a></li>
-                <li>
-                    {foreach key=key from=$appliedFilters item=item }
-                        <a href="{$HTTP_REFERER}{$BASE}explore/index/{$links[$key]}" class="btn btn-sm  ">{$names[$key]} <i class="fa fa-close"></i></a>
-                        {/foreach}
-                </li>
-            </ul>
-        </section>
-    {/if}
-</div>
+                <ul class="list-unstyled ">
+                    <li class="hint-text">Applied Filters: <a href="{$HTTP_REFERER}{$BASE}explore/index/" class=""><i class="fa fa-close"></i> remove all filters</a></li>
+                    <li>
+                        {foreach key=key from=$appliedFilters item=item }
+                            <a href="{$HTTP_REFERER}{$BASE}explore/index/{$links[$key]}" class="btn btn-sm  ">{$names[$key]} <i class="fa fa-close"></i></a>
+                            {/foreach}
+                    </li>
+                </ul>
+            </section>
+        {/if}
+    </div>
+{/if}
 <div class="row text-center">
     <div class="col-sm-12">
         <h1 ><span style="font-size: 130%">{$title1}</span></h1>
         <h3>{$title2}</h3>
 
+        {$btnDiscover}
+        {$btnCreateTrip}
     </div>
 </div>
 {*<script>
