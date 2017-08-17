@@ -2693,7 +2693,7 @@ class TripController extends AbstractController {
         if ($addMorePlaces) {
             $br->setBrowserUrl(BASE_URL . 'trip/newtrip4/id/' . $post->id_trip);
         } else {
-            $br->setBrowserUrl(BASE_URL . 'trip/dashboard');
+            $br->setBrowserUrl(BASE_URL . 'trip/newtripend/id/' . $post->id_trip . '/id_tripplace/' . $tripplace->getID());
         }
         $br->send();
     }
@@ -2703,4 +2703,35 @@ class TripController extends AbstractController {
         $this->btnfinishclickAction(true);
     }
 
+    public function newtripendAction() {
+
+        $view = Zend_Registry::get('view');
+        $post = Zend_Registry::get('post');
+
+
+        $trip = new Trip;
+        $trip->read($post->id);
+
+        $tripplace = new Tripplace();
+        $tripplace->read($post->id_tripplace);
+
+        $place = new Place;
+        $place->read($tripplace->getid_place());
+
+        $view = Zend_Registry::get('view');
+
+        $view->assign('id_trip', $post->id);
+        $view->assign('tripname', $trip->gettripname());
+        $view->assign('placename', $place->getname());
+        //$view->assign('formatted_address', $place->getformatted_address());
+        //$view->assign('placephotopath', $place->getPhotoPath());
+        $view->assign('recommendationUrl', urlencode(HTTP_HOST. BASE_URL . 'trip/detail/id/' . $post->id_trip ));
+
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
+        $view->assign('TituloPagina', 'New trip');
+        $html = $view->fetch('Trip/app/newtripend.tpl');
+        $view->assign('body', $html);
+        $view->output('index_clear.tpl');
+    }
 }
