@@ -35,7 +35,7 @@
     <div class="col-lg-4 card padding-20">
         <div class="row">
             <span class="label font-montserrat fs-11">Place</span>
-            <span class="label font-montserrat fs-11 text-white " style="background-color: #FF50FF;">Nature</span>
+            <span class="label font-montserrat fs-11 text-white " style="background-color: #6D5CAE;">Nature</span>
             <span class="pull-right">$50.00 CAD</span>
         </div>
 
@@ -51,7 +51,7 @@
     <div class="col-lg-4 card padding-20">
         <div class="row">
             <span class="label font-montserrat fs-11">Activity</span>
-            <span class="label font-montserrat fs-11 text-white " style="background-color: #FF50FF;">City tour</span>
+            <span class="label font-montserrat fs-11 text-white " style="background-color: #6D5CAE;">City tour</span>
             <span class="pull-right">$70.00 CAD</span>
         </div>
 
@@ -67,7 +67,7 @@
     <div class="col-lg-4 card padding-20">
         <div class="row">
             <span class="label font-montserrat fs-11">Activity</span>
-            <span class="label font-montserrat fs-11 text-white " style="background-color: #FF50FF;">Course</span>
+            <span class="label font-montserrat fs-11 text-white " style="background-color: #6D5CAE;">Course</span>
             <span class="pull-right">$100.00 CAD</span>
         </div>
         <div class="fixed-height">
@@ -83,7 +83,7 @@
     <div class="col-lg-4 card padding-20">
         <div class="row">
             <span class="label font-montserrat fs-11">Events</span>
-            <span class="label font-montserrat fs-11 text-white " style="background-color: #FF50FF;">Martial Arts</span>
+            <span class="label font-montserrat fs-11 text-white " style="background-color: #6D5CAE;">Martial Arts</span>
             <span class="pull-right">Free</span>
         </div>
         <div class="fixed-height">
