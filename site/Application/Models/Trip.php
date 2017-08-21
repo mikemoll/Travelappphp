@@ -76,6 +76,10 @@ class Trip extends Db_Table {
         $this->TrippackingitemLst = $val;
     }
 
+    public function setTriprecommendationLst($val) {
+        $this->TriprecommendationLst = $val;
+    }
+
     public function getTripplaceLst() {
         if ($this->TripplaceLst == null) {
             $this->TripplaceLst = new Tripplace();
@@ -235,38 +239,51 @@ class Trip extends Db_Table {
         return $this->TrippackingitemLst;
     }
 
+
+    public function getTripRecommendationLst() {
+        if ($this->TripRecommendationLst == null) {
+            $this->TripRecommendationLst = new Triprecommendation();
+        }
+        return $this->TripRecommendationLst;
+    }
+
     public function read($id = NULL, $modo = 'obj') {
         parent::read($id, $modo);
 
-        $TripPlaceLst = $this->getTripplaceLst();
-        $TripPlaceLst->where('id_trip', $this->getID());
-        $TripPlaceLst->readLst();
-        $this->setTripplaceLst($TripPlaceLst);
+        $Lst = $this->getTripplaceLst();
+        $Lst->where('id_trip', $this->getID());
+        $Lst->readLst();
+        $this->setTripplaceLst($Lst);
 
-        $TripPlaceLst = $this->getTripActivityLst();
-        $TripPlaceLst->where('tripactivity.id_trip', $this->getID());
-        $TripPlaceLst->readLst();
-        $this->setTripActivityLst($TripPlaceLst);
+        $Lst = $this->getTripActivityLst();
+        $Lst->where('tripactivity.id_trip', $this->getID());
+        $Lst->readLst();
+        $this->setTripActivityLst($Lst);
 
-        $TripPlaceLst = $this->getTripexpenseLst();
-        $TripPlaceLst->where('tripexpense.id_trip', $this->getID());
-        $TripPlaceLst->readLst();
-        $this->setTripexpenseLst($TripPlaceLst);
+        $Lst = $this->getTripexpenseLst();
+        $Lst->where('tripexpense.id_trip', $this->getID());
+        $Lst->readLst();
+        $this->setTripexpenseLst($Lst);
 
-        $TripPlaceLst = $this->getTripUserLst();
-        $TripPlaceLst->where('tripuser.id_trip', $this->getID());
-        $TripPlaceLst->readLst();
-        $this->setTripUserLst($TripPlaceLst);
+        $Lst = $this->getTripUserLst();
+        $Lst->where('tripuser.id_trip', $this->getID());
+        $Lst->readLst();
+        $this->setTripUserLst($Lst);
 
-        $TripPlaceLst = $this->getTriptaskLst();
-        $TripPlaceLst->where('triptask.id_trip', $this->getID());
-        $TripPlaceLst->readLst();
-        $this->setTriptaskLst($TripPlaceLst);
+        $Lst = $this->getTriptaskLst();
+        $Lst->where('triptask.id_trip', $this->getID());
+        $Lst->readLst();
+        $this->setTriptaskLst($Lst);
 
-        $TripPlaceLst = $this->getTrippackingitemLst();
-        $TripPlaceLst->where('trippackingitem.id_trip', $this->getID());
-        $TripPlaceLst->readLst();
-        $this->setTrippackingitemLst($TripPlaceLst);
+        $Lst = $this->getTrippackingitemLst();
+        $Lst->where('trippackingitem.id_trip', $this->getID());
+        $Lst->readLst();
+        $this->setTrippackingitemLst($Lst);
+
+        $Lst = $this->getTripRecommendationLst();
+        $Lst->where('triprecommendation.id_trip', $this->getID());
+        $Lst->readLst();
+        $this->setTripRecommendationLst($Lst);
     }
 
     public function setDataFromRequest($post) {

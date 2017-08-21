@@ -494,6 +494,17 @@ class TripController extends AbstractController {
         // -- Add tab to the main tab ---
         $mainTab->addTab($tab);
 
+        // ====== NEW TAB ========================
+        $tab = new Ui_Element_Tab('tabRecommendations');
+        $tab->setTitle('Recommendations');
+        $tab->setTemplate('Trip/app/detail/tabs/recommendation.tpl');
+        $view->assign('RecommendationLst', $Trip->getTripRecommendationLst()->getItens());
+
+
+        // -- Add tab to the main tab ---
+        $mainTab->addTab($tab);
+
+
         // --------- Add tab Component to the Form ---------
         $form->addElement($mainTab);
 
