@@ -156,6 +156,12 @@ class TripController extends AbstractController {
         $form->setAction('Trip');
         $form->setName('formTripDetail');
 
+
+
+        $element = new Ui_Element_Timer('conversation4', '5000');
+        $element->setAttrib('params', 'id_trip=' . $Trip->getID());
+        $form->addElement($element);
+
         // ====== CREATE A TAB COMPONENT ========================
         $mainTab = new Ui_Element_TabMain('tripTabs');
 
@@ -176,6 +182,15 @@ class TripController extends AbstractController {
         $tab->setTemplate('Trip/app/detail/tabs/itinerary.tpl');
 
         $itinerary = $Trip->getTripItinerary();
+
+
+
+        $button = new Ui_Element_Btn('btnSendMsg4');
+        $button->setDisplay('', 'paper-plane-o');
+        $button->setAttrib('params', 'id_trip=' . $Trip->getID() . '&id_chat=4');
+        $button->setType('');
+        $button->setSendFormFiends('true');
+        $tab->addElement($button);
 
         $view->assign('itinerary', $itinerary);
 
@@ -2730,9 +2745,9 @@ class TripController extends AbstractController {
         $place->read($tripplace->getid_place());
         foreach ($trip->TripUserLst as $user) {
             $friends[] = array(
-                'id'=>$user->id_usuario,
-                'username'=>$user->username, 
-                'photourl'=>Usuario::makephotoPath($user->id_usuario, $user->photo));
+                'id' => $user->id_usuario,
+                'username' => $user->username,
+                'photourl' => Usuario::makephotoPath($user->id_usuario, $user->photo));
         }
 
         $view = Zend_Registry::get('view');
@@ -2740,12 +2755,12 @@ class TripController extends AbstractController {
         $view->assign('id_trip', $post->id);
         $view->assign('tripname', $trip->gettripname());
         $view->assign('placename', $place->getname());
-        $view->assign('startdate', date_format(date_create($trip->getstartdate()),'F d, Y'));
-        $view->assign('enddate', date_format(date_create($trip->getenddate()),'F d, Y'));
-        $view->assign('friends',$friends);
+        $view->assign('startdate', date_format(date_create($trip->getstartdate()), 'F d, Y'));
+        $view->assign('enddate', date_format(date_create($trip->getenddate()), 'F d, Y'));
+        $view->assign('friends', $friends);
         //$view->assign('formatted_address', $place->getformatted_address());
         $view->assign('placephotopath', $place->getPhotoPath());
-        $view->assign('recommendationUrl', urlencode(HTTP_HOST. BASE_URL . 'trip/detail/id/' . $post->id_trip ));
+        $view->assign('recommendationUrl', urlencode(HTTP_HOST . BASE_URL . 'trip/detail/id/' . $post->id_trip));
 
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
@@ -2754,4 +2769,45 @@ class TripController extends AbstractController {
         $view->assign('body', $html);
         $view->output('index_clear.tpl');
     }
+
+    public function btnsendmsg4clickAction() {
+        $br = new Browser_Control();
+        $post = Zend_Registry::get('post');
+
+
+        if ($post->message4 == '') {
+            $br->executeAjaxRequest('conversation4', 'load', '');
+            $br->send();
+            die();
+        }
+        $msg = new Chatmsg();
+        $msg->setMessage($post->message4);
+        $msg->setid_usuario(Usuario::getIdUsuarioLogado());
+        $msg->setid_trip($post->id_trip);
+
+        try {
+            $msg->save();
+        } catch (Exception $exc) {
+            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+        $br->addFieldValue('message4', '');
+        $br->setDataForm();
+        $br->executeAjaxRequest('conversation4', 'load', '');
+        $br->send();
+    }
+
+    function conversation4loadAction() {
+        $br = new Browser_Control();
+        $post = Zend_Registry::get('post');
+        $msg = new Chatmsg();
+        $msg->where('id_trip', $post->id_trip);
+        $msg->sortOrder('sentdate', 'asc');
+        $msg->readLst();
+        $br->setHtml('messages4', $msg->getFullConversation());
+        $br->setCommand("$('#messages4').scrollTop($('#messages4')[0].scrollHeight);");
+        $br->send();
+    }
+
 }
