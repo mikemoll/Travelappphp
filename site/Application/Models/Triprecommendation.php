@@ -24,11 +24,39 @@ class Triprecommendation extends Db_Table {
     // public function getPhotoPath() {
     //     return Place::makephotoPath($this->getid_place(), $this->a_photo);
     // }
+    // 
+    public function formattedCost() {
+        if($this->Isfree()) {
+            return 'Free';
+        } else {
+            $currency = new Currency();
+            $currency->read($this->getId_currency());
+
+            return $currency->getSymbol() . $this->getCost() . ' ' . $currency->getName();
+        }
+    }
+
+    public function getDecodedType() {
+        switch ($this->getType()) {
+            case 'P': return 'Place';
+            case 'A': return 'Activity';
+            case 'E': return 'Event';
+        }
+    }
+
+    public function activityOrEventTypeName() {
+        switch ($this->getType()) {
+            case 'A': return $this->getActivitytypename();
+            case 'E': return $this->getEventdescription();
+            default: return '';
+        }
+    }
 
     function readLst($modo = 'obj') {
-        // TODO: join with triptype and event type
-        // $this->join('tripuser', 'tripuser.id_tripuser = tripexpense.id_usuario', '');
-        // $this->join('usuario', 'usuario.id_usuario = tripuser.id_usuario', 'nomecompleto as coveredby ');
+        // join with triptype and event type
+        $this->join('activitytype', 'triprecommendation.id_activitytype = activitytype.id_activitytype', 'activitytypename','left');
+        $this->join('eventtype',    'triprecommendation.id_eventtype    = eventtype.id_eventtype', 'description as eventdescription ','left');
+
         parent::readLst($modo);
     }
 

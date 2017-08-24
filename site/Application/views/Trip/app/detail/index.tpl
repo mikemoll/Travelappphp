@@ -55,7 +55,6 @@
         <div class="jumbotron" data-pages="parallax" data-social="cover">
             <div class="cover-photo">
                 <img alt="Cover photo" src="{$trip->getFirstPhoto()}" />
-                <a class="btn pull-right" style="color: white; background-color: #4267b2; border-color: #4267b2;"><i class="fa fa-facebook"></i> &nbsp Share on Facebook</a>
             </div>
             <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
                 <div class="inner">

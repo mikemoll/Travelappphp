@@ -5,7 +5,6 @@ CREATE TABLE `triprecommendation` (
   `google_place_id` VARCHAR(100),
   `lat` DECIMAL(10, 8),
   `lng` DECIMAL(11, 8),
-  `long` VARCHAR(100),
   `type` ENUM('P', 'A', 'E') NOT NULL DEFAULT 'P' COMMENT '\'P\'=Place, \'A\'=Activity ,\'E\'=Event',
   `id_activitytype` BIGINT UNSIGNED ,
   `id_eventtype` BIGINT UNSIGNED ,

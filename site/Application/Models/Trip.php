@@ -296,6 +296,34 @@ class Trip extends Db_Table {
         $this->setenddate($post->getUnescaped('enddate'));
     }
 
+    public function publicUrlNotFound($publicurl) {
+
+        $trip = new Trip();
+        $trip->where('publicurl', $publicurl);
+        $trip->readLst();
+        $lst = $trip->getItens();
+        return count($lst) > 0;
+
+    }
+
+    private function generateRandomString($length = 8) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
+    public function newUniquePublicUrl() {
+
+        do {
+            $url = $this->generateRandomString();
+        } while ($this->publicUrlExists());
+        return $url;
+    }
+
     public function save() {
 
         //print_r($this);die('<br><br>\n\n' . ' Linha: ' . __LINE__ . ' Arquivo: ' . __FILE__);
@@ -356,6 +384,9 @@ class Trip extends Db_Table {
 
                 //  print_r($this);die('<br><br>\n\n' . ' Linha: ' . __LINE__ . ' Arquivo: ' . __FILE__);
 
+                if (empty($this->getPublicurl())) {
+                    $this->setPublicurl($this->newUniquePublicUrl());
+                }
                 parent::save();
 
                 $lLst = $this->getTripTriptypesLst();
