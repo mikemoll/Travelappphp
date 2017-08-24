@@ -158,10 +158,24 @@ class TripController extends AbstractController {
 
 
 
-        $element = new Ui_Element_Timer('conversation4', '5000');
+        $element = new Ui_Element_Timer('conversation1', '5000', '200');
         $element->setAttrib('params', 'id_trip=' . $Trip->getID());
         $form->addElement($element);
-
+        $element = new Ui_Element_Timer('conversation2', '5000', '500');
+        $element->setAttrib('params', 'id_trip=' . $Trip->getID());
+        $form->addElement($element);
+        $element = new Ui_Element_Timer('conversation3', '5000', '700');
+        $element->setAttrib('params', 'id_trip=' . $Trip->getID());
+        $form->addElement($element);
+        $element = new Ui_Element_Timer('conversation4', '5000', '1000');
+        $element->setAttrib('params', 'id_trip=' . $Trip->getID());
+        $form->addElement($element);
+        $element = new Ui_Element_Timer('conversation5', '5000', '1300');
+        $element->setAttrib('params', 'id_trip=' . $Trip->getID());
+        $form->addElement($element);
+        $element = new Ui_Element_Timer('conversation6', '5000', '1600');
+        $element->setAttrib('params', 'id_trip=' . $Trip->getID());
+        $form->addElement($element);
         // ====== CREATE A TAB COMPONENT ========================
         $mainTab = new Ui_Element_TabMain('tripTabs');
 
@@ -185,9 +199,9 @@ class TripController extends AbstractController {
 
 
 
-        $button = new Ui_Element_Btn('btnSendMsg4');
+        $button = new Ui_Element_Btn('btnSendMsg1');
         $button->setDisplay('', 'paper-plane-o');
-        $button->setAttrib('params', 'id_trip=' . $Trip->getID() . '&id_chat=4');
+        $button->setAttrib('params', 'id_trip=' . $Trip->getID());
         $button->setType('');
         $button->setSendFormFiends('true');
         $tab->addElement($button);
@@ -201,6 +215,14 @@ class TripController extends AbstractController {
         $tab = new Ui_Element_Tab('tabToDo');
         $tab->setTitle('To-Do List');
         $tab->setTemplate('Trip/app/detail/tabs/todo.tpl');
+
+
+        $button = new Ui_Element_Btn('btnSendMsg2');
+        $button->setDisplay('', 'paper-plane-o');
+        $button->setAttrib('params', 'id_trip=' . $Trip->getID());
+        $button->setType('');
+        $button->setSendFormFiends('true');
+        $tab->addElement($button);
 
         $button = new Ui_Element_Btn('btnEditTask');
         $button->setDisplay('New Task', 'plus');
@@ -274,6 +296,12 @@ class TripController extends AbstractController {
         $tab->setTemplate('Trip/app/detail/tabs/packing.tpl');
 
 
+        $button = new Ui_Element_Btn('btnSendMsg3');
+        $button->setDisplay('', 'paper-plane-o');
+        $button->setAttrib('params', 'id_trip=' . $Trip->getID());
+        $button->setType('');
+        $button->setSendFormFiends('true');
+        $tab->addElement($button);
 
         $button = new Ui_Element_Btn('btnEditPackingItem');
         $button->setDisplay('New Item', 'plus');
@@ -343,6 +371,14 @@ class TripController extends AbstractController {
         $tab->setTitle('Transportation');
         $tab->setTemplate('Trip/app/detail/tabs/transportation.tpl');
 
+
+        $button = new Ui_Element_Btn('btnSendMsg5');
+        $button->setDisplay('', 'paper-plane-o');
+        $button->setAttrib('params', 'id_trip=' . $Trip->getID());
+        $button->setType('');
+        $button->setSendFormFiends('true');
+        $tab->addElement($button);
+
         // -- Add tab to the main tab ---
         $mainTab->addTab($tab);
 
@@ -352,6 +388,13 @@ class TripController extends AbstractController {
         $tab->setTemplate('Trip/app/detail/tabs/budget.tpl');
 
         $view->assign('totalBudget', $Trip->getTotalBudget());
+
+        $button = new Ui_Element_Btn('btnSendMsg4');
+        $button->setDisplay('', 'paper-plane-o');
+        $button->setAttrib('params', 'id_trip=' . $Trip->getID());
+        $button->setType('');
+        $button->setSendFormFiends('true');
+        $tab->addElement($button);
 
         $button = new Ui_Element_Btn('btnEditExpense');
         $button->setDisplay('New Expense', 'plus');
@@ -505,6 +548,14 @@ class TripController extends AbstractController {
         $tab = new Ui_Element_Tab('tabChat');
         $tab->setTitle('<span>Trip Chat <span title="3 new comments" class="label label-warning">3</span></span>');
         $tab->setTemplate('Trip/app/detail/tabs/chat.tpl');
+
+
+        $button = new Ui_Element_Btn('btnSendMsg6');
+        $button->setDisplay('', 'paper-plane-o');
+        $button->setAttrib('params', 'id_trip=' . $Trip->getID());
+        $button->setType('');
+        $button->setSendFormFiends('true');
+        $tab->addElement($button);
 
         // -- Add tab to the main tab ---
         $mainTab->addTab($tab);
@@ -2771,20 +2822,47 @@ class TripController extends AbstractController {
         $view->output('index_clear.tpl');
     }
 
+    public function btnsendmsg1clickAction() {
+        $this->btnsendmsgclickAction(1);
+    }
+
+    public function btnsendmsg2clickAction() {
+        $this->btnsendmsgclickAction(2);
+    }
+
+    public function btnsendmsg3clickAction() {
+        $this->btnsendmsgclickAction(3);
+    }
+
     public function btnsendmsg4clickAction() {
+        $this->btnsendmsgclickAction(4);
+    }
+
+    public function btnsendmsg5clickAction() {
+        $this->btnsendmsgclickAction(5);
+    }
+
+    public function btnsendmsg6clickAction() {
+        $this->btnsendmsgclickAction(6);
+    }
+
+    public function btnsendmsgclickAction($id) {
         $br = new Browser_Control();
         $post = Zend_Registry::get('post');
 
 
-        if ($post->message4 == '') {
-            $br->executeAjaxRequest('conversation4', 'load', '');
+        $attr = "message$id";
+        if ($post->$attr == '') {
+            $br->executeAjaxRequest("conversation$id", 'load', 'scroll=false');
             $br->send();
             die();
         }
         $msg = new Chatmsg();
-        $msg->setMessage($post->message4);
+        $msg->setMessage($post->$attr);
         $msg->setid_usuario(Usuario::getIdUsuarioLogado());
-        $msg->setid_trip($post->id_trip);
+        $msg->setid_owner($post->id_trip);
+        $msg->setid_owner2($id);
+        $msg->setid_($post->id_trip);
 
         try {
             $msg->save();
@@ -2793,21 +2871,48 @@ class TripController extends AbstractController {
             $br->send();
             die();
         }
-        $br->addFieldValue('message4', '');
+        $br->addFieldValue($attr, '');
         $br->setDataForm();
-        $br->executeAjaxRequest('conversation4', 'load', '');
+        $br->executeAjaxRequest("conversation$id", 'load', '');
         $br->send();
     }
 
+    function conversation1loadAction() {
+        $this->conversationloadAction(1);
+    }
+
+    function conversation2loadAction() {
+        $this->conversationloadAction(2);
+    }
+
+    function conversation3loadAction() {
+        $this->conversationloadAction(3);
+    }
+
     function conversation4loadAction() {
+        $this->conversationloadAction(4);
+    }
+
+    function conversation5loadAction() {
+        $this->conversationloadAction(5);
+    }
+
+    function conversation6loadAction() {
+        $this->conversationloadAction(6);
+    }
+
+    function conversationloadAction($id) {
         $br = new Browser_Control();
         $post = Zend_Registry::get('post');
         $msg = new Chatmsg();
-        $msg->where('id_trip', $post->id_trip);
+        $msg->where('id_owner', $post->id_trip);
+        $msg->where('id_owner2', $id);
         $msg->sortOrder('sentdate', 'asc');
         $msg->readLst();
-        $br->setHtml('messages4', $msg->getFullConversation());
-        $br->setCommand("$('#messages4').scrollTop($('#messages4')[0].scrollHeight);");
+        $br->setHtml("messages$id", $msg->getFullConversation());
+        if ($post->scroll != 'false') {
+            $br->setCommand("$('#messages$id').scrollTop($('#messages$id')[0].scrollHeight);");
+        }
         $br->send();
     }
 

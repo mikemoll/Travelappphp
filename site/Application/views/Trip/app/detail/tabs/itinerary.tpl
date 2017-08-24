@@ -49,13 +49,13 @@
     <div class="  col-xs-12 col-sm-4">
         <div class="view chat-view bg-white clearfix b-l b-grey chat-height-500">
             <!-- BEGIN Header  !-->
-            <div class="h4 p-l-20 ">
+            <div class="h4 p-l-20 b-b b-info">
                 Let's talk
             </div>
             <!-- END Header  !-->
             <!-- BEGIN Conversation  !-->
-            {*            <div class="" id="conversation4"  name="conversation4" params="id_trip={$trip->getID()}" event="load"></div>*}
-            <div class="chat-inner " id="messages4"  name="messages4" >
+            {*            <div class="" id="conversation1"  name="conversation1" params="id_trip={$trip->getID()}" event="load"></div>*}
+            <div class="chat-inner " id="messages1"  name="messages1" >
                 <!--  ======= THE MESSAGES WILL APPEAR HERE!! ===== -->
             </div>
             <!-- BEGIN Conversation  !-->
@@ -66,15 +66,15 @@
                     <a href="#" class="link text-master"><i class="fa fa-plus-circle"></i></a>
                     </div>*}
                     <div class="col-xs-8 no-padding">
-                        {*                        <input type="text" name="message4" id="message4" class="form-control chat-input" data-chat-input="" hotkeys="enter, btnSendMsg4, click" data-chat-conversation="#messages4" placeholder="Say something">*}
-                        <input type="text" name="message4" id="message4" class="form-control chat-input"  hotkeys="enter, btnSendMsg4, click"   placeholder="Say something">
+                        {*                        <input type="text" name="message1" id="message1" class="form-control chat-input" data-chat-input="" hotkeys="enter, btnSendMsg4, click" data-chat-conversation="#messages4" placeholder="Say something">*}
+                        <input type="text" name="message1" id="message1" class="form-control chat-input"  hotkeys="enter, btnSendMsg1, click"   placeholder="Say something">
                     </div>
                     {*   <div class="col-xs-1 link text-master m-l-10 m-t-15 p-l-10 b-l b-grey col-top">
                     <a href="#" class="link text-master"><i class="pg-camera"></i></a>
                     </div>*}
                     <div class="col-xs-1 link text-master m-l-10 m-t-15 p-l-10 b-l b-grey col-top hidden">
                         {*                        <a href="#" class="link text-master" ><i class="fa fa-paper-plane-o"></i></a>*}
-                        {$btnSendMsg4}
+                        {$btnSendMsg1}
                     </div>
                 </div>
             </div>
