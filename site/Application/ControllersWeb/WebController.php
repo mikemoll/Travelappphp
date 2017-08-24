@@ -116,8 +116,8 @@ class WebController extends Zend_Controller_Action {
 
         // load the add recommendation form
         $form = new Ui_Form();
-        $form->setAction($this->Action);
-        $form->setName($this->ItemEditFormName);
+        $form->setAction('web');
+        $form->setName('AddRecommendationForm');
 
         $element = new Ui_Element_Text('friendfullname', "Your full name");
         $element->setAttrib('maxlength', 35);
@@ -160,7 +160,6 @@ class WebController extends Zend_Controller_Action {
 
         $element = new Ui_Element_Text('cost', "Cost");
         $element->setAttrib('maxlength', 10);
-        $element->setRequired();
         $form->addElement($element);
 
         $Currencies = new Currency();
@@ -198,11 +197,11 @@ class WebController extends Zend_Controller_Action {
         $cancel->setHref(HTTP_REFERER . 'addrecommendation');
         $form->addElement($cancel);
 
-        $form->setDataSession('AddRecommendationForm');
-
         $view->assign('hideTopBtns', true);
         $recommendations_html = $form->displayTpl($view, 'Web/tripaddrecommendation.tpl');
         $view->assign('recommendations', $recommendations_html);
+
+        $form->setDataSession('AddRecommendationForm');
 
         // builds the page
         $view->assign('tripname', $trip->gettripname());
@@ -219,6 +218,42 @@ class WebController extends Zend_Controller_Action {
         $view->assign('body', $html);
         $view->output('index_clear.tpl');
     }
+
+public function btnsaverecommendationclickAction() {
+        $post = Zend_Registry::get('post');
+        $br = new Browser_Control();
+
+        $form = Session_Control::getDataSession('AddRecommendationForm');
+        $br = new Browser_Control();
+
+        Validations:
+        $valid = $form->processAjax($_POST);
+        if ($valid != 'true') {
+            $br->validaForm($valid);
+            $br->send();
+            return;
+        }
+        $obj = Triprecommendation::getInstance('Triprecommendation');
+
+        $obj->setDataFromProfileRequest($post);
+
+        // save everything on database
+        try {
+            $obj->save();
+            $obj->setInstance('Triprecommendation');
+        } catch (Exception $exc) {
+            $br->setAlert('Error!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+
+        // redirect to the dashboard with a message
+        $msg = 'Changes saved!!';
+        $br->setMsgAlert('Saved!!', $msg);
+        $br->setBrowserUrl(BASE_URL . 'web/triprecommendation');
+        $br->send();
+    }
+
 
 
 //===============================TRASH======================================== 
