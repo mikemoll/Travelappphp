@@ -19,6 +19,18 @@
     padding: 10px;
     margin: -25px -25px auto;
 }
+.chat-view .message{
+    margin-bottom: 0px !important;
+}
+.chat-view .chat-bubble{
+    margin: 1px !important;
+}
+.chat-height-500{
+    height: 500px;
+}
+.chat-view  .chat-inner{
+    overflow-y: auto;
+}
 
 .serach-form{
     float: left;
