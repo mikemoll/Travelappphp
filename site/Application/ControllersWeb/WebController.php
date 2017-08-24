@@ -2,6 +2,226 @@
 
 class WebController extends Zend_Controller_Action {
 
+    public function triprecommendationAction() {
+        $post = Zend_Registry::get('post');
+        if ( empty($post->p)) {
+            $this->tripNotFound();
+            exit;
+        }
+
+        // looks for the trip
+        $TripLst = new Trip();
+        $TripLst->where('publicurl',$post->p);
+        $TripLst->readLst();
+
+        if ( $TripLst->countItens() == 0) {
+            $this->tripNotFound();
+            exit;
+        }
+        $trip = $TripLst->getItem(0);
+
+        // looks for the first trip place
+        $tripplaces = new Tripplace();
+        $tripplaces->where('id_trip', $trip->getID());
+        $tripplaces->readLst();
+        if ( $tripplaces->countItens() == 0) {
+            $this->tripNotFound();
+            exit;
+        }
+
+        // load the place
+        $place = new Place;
+        $place->read($tripplaces->getItem(0)->getid_place());
+
+        // load the trip friends
+        foreach ($trip->TripUserLst as $user) {
+            $friends[] = array(
+                'id'=>$user->id_usuario,
+                'username'=>$user->username,
+                'photourl'=>Usuario::makephotoPath($user->id_usuario, $user->photo));
+        }
+
+        $view = Zend_Registry::get('view');
+
+        // load the recommendations
+        $lst = $trip->getTripRecommendationLst()->getItens();
+        $view->assign('RecommendationLst',$lst);
+        $view->assign('public', true);
+        $view->assign('pubUrl',$post->p);
+        $recommendations_html = $view->fetch('Trip/app/detail/tabs/recommendation.tpl');
+        $view->assign('recommendations', $recommendations_html);
+
+        // builds the page
+        $view->assign('tripname', $trip->gettripname());
+        $view->assign('startdate', date_format(date_create($trip->getstartdate()),'F d, Y'));
+        $view->assign('enddate', date_format(date_create($trip->getenddate()),'F d, Y'));
+        $view->assign('friends',$friends);
+        //$view->assign('formatted_address', $place->getformatted_address());
+        $view->assign('placephotopath', $place->getPhotoPath());
+
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
+        $view->assign('TituloPagina', 'New trip');
+        $html = $view->fetch('Web/triprecommendation.tpl');
+        $view->assign('body', $html);
+        $view->output('index_clear.tpl');
+    }
+
+
+    public function tripNotFound() {
+        echo 'TODO: a beautiful not found';
+        die();
+    }
+
+    public function addrecommendationAction() {
+        $post = Zend_Registry::get('post');
+        if ( empty($post->p)) {
+            $this->tripNotFound();
+            exit;
+        }
+
+        // looks for the trip
+        $TripLst = new Trip();
+        $TripLst->where('publicurl',$post->p);
+        $TripLst->readLst();
+
+        if ( $TripLst->countItens() == 0) {
+            $this->tripNotFound();
+            exit;
+        }
+        $trip = $TripLst->getItem(0);
+
+        // looks for the first trip place
+        $tripplaces = new Tripplace();
+        $tripplaces->where('id_trip', $trip->getID());
+        $tripplaces->readLst();
+        if ( $tripplaces->countItens() == 0) {
+            $this->tripNotFound();
+            exit;
+        }
+
+        // load the place
+        $place = new Place;
+        $place->read($tripplaces->getItem(0)->getid_place());
+
+        // load the trip friends
+        // foreach ($trip->TripUserLst as $user) {
+        //     $friends[] = array(
+        //         'id'=>$user->id_usuario,
+        //         'username'=>$user->username,
+        //         'photourl'=>Usuario::makephotoPath($user->id_usuario, $user->photo));
+        // }
+
+        $view = Zend_Registry::get('view');
+
+        // load the add recommendation form
+        $form = new Ui_Form();
+        $form->setAction($this->Action);
+        $form->setName($this->ItemEditFormName);
+
+        $element = new Ui_Element_Text('friendfullname', "Your full name");
+        $element->setAttrib('maxlength', 35);
+        $element->setRequired();
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('title', "Title of the recommendation");
+        $element->setAttrib('maxlength', 25);
+        $element->setRequired();
+        $form->addElement($element);
+
+        $element = new Ui_Element_Select('type', "Recommendation type");
+        $element->addMultiOption('P', 'Place to visit');
+        $element->addMultiOption('A', 'Activity to do');
+        $element->addMultiOption('E', 'Event to go');
+       // $element->setMultiSelect();
+        $form->addElement($element);
+
+        $ActTypes = new Activitytype();
+        $element = new Ui_Element_Select('id_activitytype', "Activity type");
+        $element->addMultiOptions($ActTypes->getOptionList('id_activitytype', 'activitytypename', $ActTypes));
+        $form->addElement($element);
+
+        $EvtTypes = new Eventtype();
+        $element = new Ui_Element_Select('id_eventtype', "Event type");
+        $element->addMultiOptions($EvtTypes->getOptionList('id_eventtype', 'description', $EvtTypes));
+        $form->addElement($element);
+
+        $element = new Ui_Element_Hidden('google_place_id');
+        $element->setValue($post->google_place_id);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Hidden('lat');
+        $element->setValue($post->google_place_id);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Hidden('lng');
+        $element->setValue($post->google_place_id);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('cost', "Cost");
+        $element->setAttrib('maxlength', 10);
+        $element->setRequired();
+        $form->addElement($element);
+
+        $Currencies = new Currency();
+        $element = new Ui_Element_Select('id_currency', "Currency");
+        $element->addMultiOptions($Currencies->getOptionList('id_currency', 'name', $Currencies, false));
+        $form->addElement($element);
+
+        $element = new Ui_Element_Checkbox('isfree', "Free");
+        $element->setCheckedValue(1);
+        $element->setUncheckedValue(0);
+        $form->addElement($element);
+
+
+        $obj = new Triprecommendation();
+        if (isset($post->id)) {
+            $obj->read($post->id);
+            $form->setDataForm($obj);
+        }
+        $obj->setInstance('Triprecommendation');
+
+        $button = new Ui_Element_Btn('btnSaveRecommendation');
+        $button->setDisplay('Save', 'check');
+        $button->setType('success');
+        $button->setAttrib('click', '');
+        if (isset($post->id)) {
+            $button->setAttrib('params', 'id=' . $post->id);
+        }
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('validaObrig', '1');
+        $form->addElement($button);
+
+        $cancel = new Ui_Element_Btn('btnCancel');
+        //$cancel->setAttrib('params', 'IdWindowEdit=AddTripRecommendation';
+        $cancel->setDisplay('Cancel', 'times');
+        $cancel->setHref(HTTP_REFERER . 'addrecommendation');
+        $form->addElement($cancel);
+
+        $form->setDataSession('AddRecommendationForm');
+
+        $view->assign('hideTopBtns', true);
+        $recommendations_html = $form->displayTpl($view, 'Web/tripaddrecommendation.tpl');
+        $view->assign('recommendations', $recommendations_html);
+
+        // builds the page
+        $view->assign('tripname', $trip->gettripname());
+        $view->assign('startdate', date_format(date_create($trip->getstartdate()),'F d, Y'));
+        $view->assign('enddate', date_format(date_create($trip->getenddate()),'F d, Y'));
+        $view->assign('friends',$friends);
+        //$view->assign('formatted_address', $place->getformatted_address());
+        $view->assign('placephotopath', $place->getPhotoPath());
+
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $view->assign('scriptsCss', Browser_Control::getScriptsCss());
+        $view->assign('TituloPagina', 'New trip');
+        $html = $view->fetch('Web/triprecommendation.tpl');
+        $view->assign('body', $html);
+        $view->output('index_clear.tpl');
+    }
+
+
+//===============================TRASH======================================== 
     public function indexAction() {
         $this->redirect('/index');
         $view = Zend_Registry::get('view');
