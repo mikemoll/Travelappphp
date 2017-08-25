@@ -564,8 +564,11 @@ class TripController extends AbstractController {
         $tab = new Ui_Element_Tab('tabRecommendations');
         $tab->setTitle('Recommendations');
         $tab->setTemplate('Trip/app/detail/tabs/recommendation.tpl');
+
         $lst = $Trip->getTripRecommendationLst()->getItens();
-        $view->assign('RecommendationLst',$lst);
+
+        $view->assign('RecommendationLst', $lst);
+        $view->assign('pubUrl', $Trip->getPublicurl());
         $view->assign('public', false);
 
         // -- Add tab to the main tab ---
@@ -2812,7 +2815,7 @@ class TripController extends AbstractController {
         $view->assign('friends', $friends);
         //$view->assign('formatted_address', $place->getformatted_address());
         $view->assign('placephotopath', $place->getPhotoPath());
-        $view->assign('recommendationUrl', urlencode(HTTP_HOST . BASE_URL . 'trip/detail/id/' . $post->id_trip ));
+        $view->assign('recommendationUrl', urlencode(HTTP_HOST . BASE_URL . 'trip/detail/id/' . $post->id_trip));
 
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());

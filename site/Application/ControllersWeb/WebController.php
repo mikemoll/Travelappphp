@@ -1,30 +1,33 @@
 <?php
 
-class WebController extends Zend_Controller_Action {
+include_once getcwd() . '/Application/Controllers/AbstractController.php';
+
+class WebController extends AbstractController {
 
     public function triprecommendationAction() {
         $post = Zend_Registry::get('post');
-        if ( empty($post->p)) {
+        if (empty($post->p)) {
             $this->tripNotFound();
             exit;
         }
 
         // looks for the trip
         $TripLst = new Trip();
-        $TripLst->where('publicurl',$post->p);
+        $TripLst->where('publicurl', $post->p);
         $TripLst->readLst();
 
-        if ( $TripLst->countItens() == 0) {
+        if ($TripLst->countItens() == 0) {
             $this->tripNotFound();
             exit;
         }
         $trip = $TripLst->getItem(0);
+        $trip->read();
 
         // looks for the first trip place
         $tripplaces = new Tripplace();
         $tripplaces->where('id_trip', $trip->getID());
         $tripplaces->readLst();
-        if ( $tripplaces->countItens() == 0) {
+        if ($tripplaces->countItens() == 0) {
             $this->tripNotFound();
             exit;
         }
@@ -32,30 +35,32 @@ class WebController extends Zend_Controller_Action {
         // load the place
         $place = new Place;
         $place->read($tripplaces->getItem(0)->getid_place());
-
-        // load the trip friends
-        foreach ($trip->TripUserLst as $user) {
-            $friends[] = array(
-                'id'=>$user->id_usuario,
-                'username'=>$user->username,
-                'photourl'=>Usuario::makephotoPath($user->id_usuario, $user->photo));
+        if ($trip->getTripUserLst()->countItens() > 0) {
+            for ($i = 0; $i < $trip->getTripUserLst()->countItens(); $i++) {
+                $user = $trip->getTripUserLst()->getItem($i);
+                // load the trip friends
+                $friends[] = array(
+                    'id' => $user->getid_usuario(),
+                    'username' => $user->getusername(),
+                    'photourl' => Usuario::makephotoPath($user->getid_usuario(), $user->getphoto()));
+            }
         }
 
         $view = Zend_Registry::get('view');
 
         // load the recommendations
         $lst = $trip->getTripRecommendationLst()->getItens();
-        $view->assign('RecommendationLst',$lst);
+        $view->assign('RecommendationLst', $lst);
         $view->assign('public', true);
-        $view->assign('pubUrl',$post->p);
+        $view->assign('pubUrl', $post->p);
         $recommendations_html = $view->fetch('Trip/app/detail/tabs/recommendation.tpl');
         $view->assign('recommendations', $recommendations_html);
 
         // builds the page
         $view->assign('tripname', $trip->gettripname());
-        $view->assign('startdate', date_format(date_create($trip->getstartdate()),'F d, Y'));
-        $view->assign('enddate', date_format(date_create($trip->getenddate()),'F d, Y'));
-        $view->assign('friends',$friends);
+        $view->assign('startdate', date_format(date_create($trip->getstartdate()), 'F d, Y'));
+        $view->assign('enddate', date_format(date_create($trip->getenddate()), 'F d, Y'));
+        $view->assign('friends', $friends);
         //$view->assign('formatted_address', $place->getformatted_address());
         $view->assign('placephotopath', $place->getPhotoPath());
 
@@ -67,25 +72,24 @@ class WebController extends Zend_Controller_Action {
         $view->output('index_clear.tpl');
     }
 
-
     public function tripNotFound() {
-        echo 'TODO: a beautiful not found';
+        echo 'TODO: a beautiful Trip not found';
         die();
     }
 
     public function addrecommendationAction() {
         $post = Zend_Registry::get('post');
-        if ( empty($post->p)) {
+        if (empty($post->p)) {
             $this->tripNotFound();
             exit;
         }
 
         // looks for the trip
         $TripLst = new Trip();
-        $TripLst->where('publicurl',$post->p);
+        $TripLst->where('publicurl', $post->p);
         $TripLst->readLst();
 
-        if ( $TripLst->countItens() == 0) {
+        if ($TripLst->countItens() == 0) {
             $this->tripNotFound();
             exit;
         }
@@ -95,15 +99,13 @@ class WebController extends Zend_Controller_Action {
         $tripplaces = new Tripplace();
         $tripplaces->where('id_trip', $trip->getID());
         $tripplaces->readLst();
-        if ( $tripplaces->countItens() == 0) {
+        if ($tripplaces->countItens() == 0) {
             $this->tripNotFound();
             exit;
         }
-
         // load the place
         $place = new Place;
         $place->read($tripplaces->getItem(0)->getid_place());
-
         // load the trip friends
         // foreach ($trip->TripUserLst as $user) {
         //     $friends[] = array(
@@ -133,7 +135,7 @@ class WebController extends Zend_Controller_Action {
         $element->addMultiOption('P', 'Place to visit');
         $element->addMultiOption('A', 'Activity to do');
         $element->addMultiOption('E', 'Event to go');
-       // $element->setMultiSelect();
+        // $element->setMultiSelect();
         $form->addElement($element);
 
         $ActTypes = new Activitytype();
@@ -184,9 +186,7 @@ class WebController extends Zend_Controller_Action {
         $button->setDisplay('Save', 'check');
         $button->setType('success');
         $button->setAttrib('click', '');
-        if (isset($post->id)) {
-            $button->setAttrib('params', 'id=' . $post->id);
-        }
+        $button->setAttrib('params', 'id_trip=' . $trip->getID() . '&p=' . $post->p);
         $button->setAttrib('sendFormFields', '1');
         $button->setAttrib('validaObrig', '1');
         $form->addElement($button);
@@ -194,7 +194,7 @@ class WebController extends Zend_Controller_Action {
         $cancel = new Ui_Element_Btn('btnCancel');
         //$cancel->setAttrib('params', 'IdWindowEdit=AddTripRecommendation';
         $cancel->setDisplay('Cancel', 'times');
-        $cancel->setHref(HTTP_REFERER . 'addrecommendation');
+        $cancel->setHref(HTTP_REFERER . 'web/triprecommendation/p/' . $post->p);
         $form->addElement($cancel);
 
         $view->assign('hideTopBtns', true);
@@ -205,9 +205,9 @@ class WebController extends Zend_Controller_Action {
 
         // builds the page
         $view->assign('tripname', $trip->gettripname());
-        $view->assign('startdate', date_format(date_create($trip->getstartdate()),'F d, Y'));
-        $view->assign('enddate', date_format(date_create($trip->getenddate()),'F d, Y'));
-        $view->assign('friends',$friends);
+        $view->assign('startdate', date_format(date_create($trip->getstartdate()), 'F d, Y'));
+        $view->assign('enddate', date_format(date_create($trip->getenddate()), 'F d, Y'));
+        $view->assign('friends', $friends);
         //$view->assign('formatted_address', $place->getformatted_address());
         $view->assign('placephotopath', $place->getPhotoPath());
 
@@ -219,23 +219,24 @@ class WebController extends Zend_Controller_Action {
         $view->output('index_clear.tpl');
     }
 
-public function btnsaverecommendationclickAction() {
+    public function btnsaverecommendationclickAction() {
         $post = Zend_Registry::get('post');
         $br = new Browser_Control();
 
-        $form = Session_Control::getDataSession('AddRecommendationForm');
-        $br = new Browser_Control();
-
-        Validations:
-        $valid = $form->processAjax($_POST);
-        if ($valid != 'true') {
-            $br->validaForm($valid);
-            $br->send();
-            return;
-        }
+//        $form = Session_Control::getDataSession('AddRecommendationForm');
+//        $br = new Browser_Control();
+//
+////        Validations:
+//        $valid = $form->processAjax($_POST);
+//        if ($valid != 'true') {
+//            $br->validaForm($valid);
+//            $br->send();
+//            return;
+//        }
         $obj = Triprecommendation::getInstance('Triprecommendation');
 
-        $obj->setDataFromProfileRequest($post);
+        $obj->setid_trip($post->id_trip);
+        $obj->setDataFromRequest($post);
 
         // save everything on database
         try {
@@ -250,11 +251,9 @@ public function btnsaverecommendationclickAction() {
         // redirect to the dashboard with a message
         $msg = 'Changes saved!!';
         $br->setMsgAlert('Saved!!', $msg);
-        $br->setBrowserUrl(BASE_URL . 'web/triprecommendation');
+        $br->setBrowserUrl(BASE_URL . 'web/triprecommendation/p/' . $post->p);
         $br->send();
     }
-
-
 
 //===============================TRASH======================================== 
     public function indexAction() {
