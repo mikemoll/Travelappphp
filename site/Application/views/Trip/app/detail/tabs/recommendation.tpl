@@ -28,19 +28,24 @@
             <div class="row">
                 <span class="label font-montserrat fs-11">{ $RecommendationLst[i]->getDecodedType()}</span>
                 {if $RecommendationLst[i]->getType() neq 'P'}
-                    <span class="label font-montserrat fs-11 text-white purple">{ $RecommendationLst[i]->activityOrEventType()}</span>
+                    <span class="label font-montserrat fs-11 text-white purple">{ $RecommendationLst[i]->activityOrEventTypeName()}</span>
                 {/if}
                 <span class="pull-right">{ $RecommendationLst[i]->formattedCost()}</span>
             </div>
 
-            <div class="fixed-height">
-                <h3>{ $RecommendationLst[i]->getTitle() }</h3>
+            <div>
+                <h3 class="unique-line m-b-0">{ $RecommendationLst[i]->getTitle() }</h3>
+            </div>
+            <div>
+                <p class="unique-line small-text"><i class="fa fa-map-marker"></i> { $RecommendationLst[i]->getLocation() }</p>
             </div>
             <div class="scroll-box-150">
                 <p>{ $RecommendationLst[i]->getNotes() }</p>
             </div>
-            <p><b>Recommended by { $RecommendationLst[i]->getFriendfullname() }</b></p>
+            <p class="unique-line"><b>Recommended by { $RecommendationLst[i]->getFriendfullname() }</b></p>
+            {if not $public}
             <a class="btn btn-default" href="#" role="button"><i class="fa fa-plus"></i> &nbsp Add to itinerary</a>
+            {/if}
         </div>
     {/section}
 

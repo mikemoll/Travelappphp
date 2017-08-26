@@ -76,7 +76,7 @@
         <div class="  ">
             <!-- START PAGE CONTENT WRAPPER -->
             <div class="container-sm-height full-height sm-p-t-50">
-                <div class="row row-sm-height">
+                <div class="row-sm-height">
                     {$body}
                 </div>
             </div>
@@ -84,7 +84,7 @@
         </div>
         <!-- END PAGE-CONTAINER -->
         <!-- START Lock Screen Footer Content-->
-        <div class="container-fluid container-fixed-lg footer" style="left: 0px;">
+        <div class="container-fluid container-fixed-lg footer m-t-50" style="left: 0px;">
             <div class="copyright sm-text-center">
                 <p class="small no-margin pull-left sm-pull-reset">
                     <span class="hint-text">Copyright &copy; 2017 </span>

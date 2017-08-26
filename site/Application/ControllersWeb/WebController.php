@@ -61,7 +61,6 @@ class WebController extends AbstractController {
         $view->assign('startdate', date_format(date_create($trip->getstartdate()), 'F d, Y'));
         $view->assign('enddate', date_format(date_create($trip->getenddate()), 'F d, Y'));
         $view->assign('friends', $friends);
-        //$view->assign('formatted_address', $place->getformatted_address());
         $view->assign('placephotopath', $place->getPhotoPath());
 
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
@@ -124,18 +123,20 @@ class WebController extends AbstractController {
         $element = new Ui_Element_Text('friendfullname', "Your full name");
         $element->setAttrib('maxlength', 35);
         $element->setRequired();
+        $element->setHideRemainingCharacters();
         $form->addElement($element);
 
         $element = new Ui_Element_Text('title', "Title of the recommendation");
         $element->setAttrib('maxlength', 25);
         $element->setRequired();
+        $element->setHideRemainingCharacters();
         $form->addElement($element);
 
-        $element = new Ui_Element_Select('type', "Recommendation type");
+        $form->addElement($element);
+        $element = new Ui_Element_Radio('type', "Recommendation type");
         $element->addMultiOption('P', 'Place to visit');
         $element->addMultiOption('A', 'Activity to do');
         $element->addMultiOption('E', 'Event to go');
-        // $element->setMultiSelect();
         $form->addElement($element);
 
         $ActTypes = new Activitytype();
@@ -148,20 +149,36 @@ class WebController extends AbstractController {
         $element->addMultiOptions($EvtTypes->getOptionList('id_eventtype', 'description', $EvtTypes));
         $form->addElement($element);
 
+        $element = new Ui_Element_Date('start_at', "Start at");
+
+        $form->addElement($element);
+
+        $element = new Ui_Element_Date('end_at', "End at");
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('location', "Location");
+        $element->setAttrib('maxlength', 100);
+        $element->setRequired();
+        $element->setHideRemainingCharacters();
+        $form->addElement($element);
+
         $element = new Ui_Element_Hidden('google_place_id');
-        $element->setValue($post->google_place_id);
         $form->addElement($element);
 
         $element = new Ui_Element_Hidden('lat');
-        $element->setValue($post->google_place_id);
         $form->addElement($element);
 
         $element = new Ui_Element_Hidden('lng');
-        $element->setValue($post->google_place_id);
         $form->addElement($element);
 
         $element = new Ui_Element_Text('cost', "Cost");
+        $element->setHideRemainingCharacters();
         $element->setAttrib('maxlength', 10);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Textarea('notes', "Notes");
+        //$element->setAttrib('cols', '22');
+        $element->setAttrib('rows', '8');
         $form->addElement($element);
 
         $Currencies = new Currency();
@@ -208,10 +225,37 @@ class WebController extends AbstractController {
         $view->assign('startdate', date_format(date_create($trip->getstartdate()), 'F d, Y'));
         $view->assign('enddate', date_format(date_create($trip->getenddate()), 'F d, Y'));
         $view->assign('friends', $friends);
-        //$view->assign('formatted_address', $place->getformatted_address());
         $view->assign('placephotopath', $place->getPhotoPath());
 
-        $view->assign('scriptsJs', Browser_Control::getScriptsJs());
+        $script = 
+        "<script>
+            $(document).ready(function(){
+                function type_change() {
+                    var radioValue = $(\"input[name='type']:checked\").val();
+                    switch(radioValue) {
+                        case 'E':
+                            $('#id_activitytype').addClass('hidden');
+                            $('#id_eventtype').removeClass('hidden');
+                            $('#start_at').removeClass('hidden');
+                            $('#end_at').removeClass('hidden');
+                            break;
+                        case 'A':
+                            $('#id_activitytype').removeClass('hidden');
+                            $('#id_eventtype').addClass('hidden');
+                            $('#start_at').addClass('hidden');
+                            $('#end_at').addClass('hidden');
+                            break;
+                        default:
+                            $('#id_activitytype').addClass('hidden');
+                            $('#id_eventtype').addClass('hidden');
+                            $('#start_at').addClass('hidden');
+                            $('#end_at').addClass('hidden');
+                    }
+                }
+                $('body').on('click', \"input[name='type']\", type_change);
+            });
+        </script>";
+        $view->assign('scriptsJs', Browser_Control::getScriptsJs() . $script);
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'New trip');
         $html = $view->fetch('Web/triprecommendation.tpl');
@@ -223,16 +267,6 @@ class WebController extends AbstractController {
         $post = Zend_Registry::get('post');
         $br = new Browser_Control();
 
-//        $form = Session_Control::getDataSession('AddRecommendationForm');
-//        $br = new Browser_Control();
-//
-////        Validations:
-//        $valid = $form->processAjax($_POST);
-//        if ($valid != 'true') {
-//            $br->validaForm($valid);
-//            $br->send();
-//            return;
-//        }
         $obj = Triprecommendation::getInstance('Triprecommendation');
 
         $obj->setid_trip($post->id_trip);

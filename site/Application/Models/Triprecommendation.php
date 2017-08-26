@@ -17,16 +17,8 @@ class Triprecommendation extends Db_Table {
         parent::__construct($config, $definition);
     }
 
-    // public function getNomeResc() {
-    //     return $this->getnomecompleto();
-    // }
-
-    // public function getPhotoPath() {
-    //     return Place::makephotoPath($this->getid_place(), $this->a_photo);
-    // }
-    // 
     public function formattedCost() {
-        if($this->Isfree()) {
+        if($this->getIsfree()) {
             return 'Free';
         } else {
             $currency = new Currency();
@@ -58,6 +50,26 @@ class Triprecommendation extends Db_Table {
         $this->join('eventtype',    'triprecommendation.id_eventtype    = eventtype.id_eventtype', 'description as eventdescription ','left');
 
         parent::readLst($modo);
+    }
+
+    function getActivitytypename() {
+
+        $a = new Activitytype;
+        if (empty($this->getId_activitytype())){
+            return '';
+        }
+        $a->read($this->getId_activitytype());
+        return $a->getActivitytypename();
+    }
+
+    function getEventdescription() {
+
+        $e = new Eventtype;
+        if (empty($this->getid_eventtype())){
+            return '';
+        }
+        $e->read($this->getid_eventtype());
+        return $e->getdescription();
     }
 
 }
