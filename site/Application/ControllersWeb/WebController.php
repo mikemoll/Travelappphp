@@ -53,6 +53,13 @@ class WebController extends AbstractController {
         $view->assign('RecommendationLst', $lst);
         $view->assign('public', true);
         $view->assign('pubUrl', $post->p);
+        $view->assign('showMap', $post->showmap);
+        if ($post->showmap == 'true') {
+            $view->assign('UrlMapToogle', BASE_URL . "web/triprecommendation/p/" . $post->p );
+        } else {
+            $view->assign('UrlMapToogle', BASE_URL . "web/triprecommendation/p/" . $post->p . '/showmap/true');
+        }
+
         $recommendations_html = $view->fetch('Trip/app/detail/tabs/recommendation.tpl');
         $view->assign('recommendations', $recommendations_html);
 
@@ -71,6 +78,7 @@ class WebController extends AbstractController {
          <meta property='og:description' content='Plan your greatest adventures with Tumbleweed.' />
          <meta property='og:image'       content='" . $place->getPhotoPath() . "' />
          <meta property='fb:app_id'      content='259150917920223' />";
+
 
         $view->assign('headMetas', $markup);
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
