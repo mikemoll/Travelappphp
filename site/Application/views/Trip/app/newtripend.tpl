@@ -26,7 +26,7 @@
                 </div>
             </div>
         </a>
-        <a href="https://www.facebook.com/sharer/sharer.php?u={$recommendationUrl}" id="fbrecommendation">
+        <a id="share_fb" href="{$HTTP_HOST}{$baseUrl}web/triprecommendation/p/{$pubUrl}">
             <div class="col3 m-b-10">
                 <div class="card_fixed_height_tall darkblue">
                     <h3 class="semi-bold text-center text-white">Ask friends for recommendations.</h3><hr>
@@ -34,6 +34,38 @@
                 </div>
             </div>
         </a>
+        {literal}
+        <script>
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId            : '259150917920223',
+                    autoLogAppEvents : true,
+                    xfbml            : true,
+                    version          : 'v2.10'
+                });
+                FB.AppEvents.logPageView();
+            };
+
+            (function(d, s, id){
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {return;}
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
+            document.getElementById("share_fb").addEventListener("click",function(event){
+                FB.ui({
+                    method: 'share',
+                    mobile_iframe: true,
+                    href: '{/literal}{$HTTP_HOST}{$baseUrl}web/triprecommendation/p/{$pubUrl}{literal}',
+                }, function(response){});
+                event.preventDefault();
+                return false;
+            });
+
+        </script>
+        {/literal}
         <a class="" href="{$baseUrl}trip/detail/id/{$id_trip}">
             <div class="col3 m-b-10">
                 <div class="card_fixed_height_tall green">

@@ -2807,6 +2807,7 @@ class TripController extends AbstractController {
 
         $view = Zend_Registry::get('view');
 
+        $view->assign('pubUrl', $trip->getPublicurl());
         $view->assign('id_trip', $post->id);
         $view->assign('tripname', $trip->gettripname());
         $view->assign('placename', $place->getname());

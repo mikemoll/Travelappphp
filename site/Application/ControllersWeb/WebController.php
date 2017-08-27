@@ -63,6 +63,16 @@ class WebController extends AbstractController {
         $view->assign('friends', $friends);
         $view->assign('placephotopath', $place->getPhotoPath());
 
+        // FACEBOOK Markup tags:
+        $markup =
+        "<meta property='og:url'         content='" . BASE_URL . "web/triprecommendation/p/" . $post->p . "' />
+         <meta property='og:type'        content='place' />
+         <meta property='og:title'       content=\"Looking for recommendations! I'm going to " . $place->getName() . " help me build my bucket list.\"/>
+         <meta property='og:description' content='Plan your greatest adventures with Tumbleweed.' />
+         <meta property='og:image'       content='" . $place->getPhotoPath() . "' />
+         <meta property='fb:app_id'      content='259150917920223' />";
+
+        $view->assign('headMetas', $markup);
         $view->assign('scriptsJs', Browser_Control::getScriptsJs());
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'New trip');
@@ -177,8 +187,8 @@ class WebController extends AbstractController {
         $form->addElement($element);
 
         $element = new Ui_Element_Textarea('notes', "Notes");
-        //$element->setAttrib('cols', '22');
         $element->setAttrib('rows', '8');
+        $element->setAttrib('maxlength', 400);
         $form->addElement($element);
 
         $Currencies = new Currency();
@@ -255,6 +265,7 @@ class WebController extends AbstractController {
                 $('body').on('click', \"input[name='type']\", type_change);
             });
         </script>";
+
         $view->assign('scriptsJs', Browser_Control::getScriptsJs() . $script);
         $view->assign('scriptsCss', Browser_Control::getScriptsCss());
         $view->assign('TituloPagina', 'New trip');
