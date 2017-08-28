@@ -21,12 +21,14 @@
 //ini_set('error_reporting', E_ALL ^ E_NOTICE | E_STRICT);
 //ini_set('error_reporting', E_ALL);
 // ====  Configura��es iniciais do sistema =====
+$protocol = 'http';
+
 switch ($_SERVER['HTTP_HOST']) {
 
     case 'localhost:8888':
         error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED | E_STRICT);
         $dbconfig = 'local';
-        define('BASE', ""); 
+        define('BASE', "");
         break;
 
     case 'localhost':
@@ -52,11 +54,12 @@ switch ($_SERVER['HTTP_HOST']) {
         error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED | E_STRICT);
         $dbconfig = 'heroku';
         define('BASE', ""); // BASE the path to the site's root folder (Ex.: na locaweb e o "public_htm", mas o caminho fica sem o "public_html")
+        $protocol = 'https';
         break;
 }
 date_default_timezone_set('America/Sao_Paulo');
 
-define('HTTP_HOST', 'http://' . $_SERVER['HTTP_HOST']);
+define('HTTP_HOST', $protocol . '://' . $_SERVER['HTTP_HOST']);
 
 /*  aqui s�o feitas as verifica��es de sistema operacional para saber qual barra ('\'ou '/') usar 
  * e qual separador (':' ou ';') dos paths para o set_include_path() */
