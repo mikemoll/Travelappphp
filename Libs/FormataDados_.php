@@ -56,9 +56,21 @@ class FormataDados{
 	 	if (strstr($str,'Http://'))
 		  return $str; 
 
-		return 'http://' . $str;
-		  
-	}	
+	 	if (strstr($str,'https://'))
+		  return $str; 
+
+	 	if (strstr($str,'HTTPS://'))
+		  return $str; 
+
+	 	if (strstr($str,'Https://'))
+		  return $str; 
+
+		if ($_SERVER['HTTPS']) {
+			return 'https://' . $str;
+		} else {
+			return 'http://' . $str;
+		}
+	}
 
 	function toData($str){
 	
