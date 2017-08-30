@@ -563,11 +563,11 @@ class TripController extends AbstractController {
         // ====== NEW TAB ========================
         $tab = new Ui_Element_Tab('tabRecommendations');
         $tab->setTitle('Recommendations');
-        $view->assign('showMap', $post->showmap);
-        if ($post->showmap == 'true') {
+        $view->assign('hideMap', $post->hidemap);
+        if ($post->hidemap == 'true') {
             $view->assign('UrlMapToogle', BASE_URL . "trip/detail/id/" . $Trip->getID() . '#tabRecommendations');
         } else {
-            $view->assign('UrlMapToogle', BASE_URL . "trip/detail/id/" . $Trip->getID() . '/showmap/true#tabRecommendations');
+            $view->assign('UrlMapToogle', BASE_URL . "trip/detail/id/" . $Trip->getID() . '/hidemap/true#tabRecommendations');
         }
         $tab->setTemplate('Trip/app/detail/tabs/recommendation.tpl');
 

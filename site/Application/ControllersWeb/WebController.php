@@ -53,11 +53,11 @@ class WebController extends AbstractController {
         $view->assign('RecommendationLst', $lst);
         $view->assign('public', true);
         $view->assign('pubUrl', $post->p);
-        $view->assign('showMap', $post->showmap);
-        if ($post->showmap == 'true') {
+        $view->assign('hideMap', $post->hidemap);
+        if ($post->hidemap == 'true') {
             $view->assign('UrlMapToogle', BASE_URL . "web/triprecommendation/p/" . $post->p );
         } else {
-            $view->assign('UrlMapToogle', BASE_URL . "web/triprecommendation/p/" . $post->p . '/showmap/true');
+            $view->assign('UrlMapToogle', BASE_URL . "web/triprecommendation/p/" . $post->p . '/hidemap/true');
         }
 
         $recommendations_html = $view->fetch('Trip/app/detail/tabs/recommendation.tpl');

@@ -37,14 +37,14 @@
     {/literal}
     {* <a class="btn btn-success" href="{$baseUrl}web/triprecommendation/p/{$pubUrl}">See the Public Recommendation page</a> *}
 {/if}
-{if $showMap eq 'true'}
-    <a class="btn btn-secondary" href="{$UrlMapToogle}" role="button"><i class="fa fa-map-marker"></i> &nbsp Hide map</a>
-{else}
+{if $hideMap eq 'true'}
     <a class="btn btn-secondary" href="{$UrlMapToogle}" role="button"><i class="fa fa-map-marker"></i> &nbsp Show map</a>
+{else}
+    <a class="btn btn-secondary" href="{$UrlMapToogle}" role="button"><i class="fa fa-map-marker"></i> &nbsp Hide map</a>
 {/if}
 </div>
 
-{if $showMap eq 'true'}
+{if $hideMap neq 'true'}
 <div class="row">
     <div class="col-md-5">
         {literal}
@@ -134,7 +134,7 @@
                         <p class="unique-line small-text"><i class="fa fa-map-marker"></i> { $RecommendationLst[i]->getLocation() }</p>
                     </div>
                     <div class="scroll-box-150">
-                        <p>{ $RecommendationLst[i]->getNotes() } - {$showMap}</p>
+                        <p>{ $RecommendationLst[i]->getNotes() }</p>
                     </div>
                     <p class="unique-line"><b>Recommended by { $RecommendationLst[i]->getFriendfullname() }</b></p>
                     {if not $public}
@@ -144,7 +144,7 @@
             {/section}
 
         </div>
-{if $showMap eq 'true'}
+{if $hideMap neq 'true'}
     </div>
 </div>
 {/if}
