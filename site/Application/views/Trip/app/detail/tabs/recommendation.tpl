@@ -44,7 +44,7 @@
 {/if}
 </div>
 
-{if $hideMap neq 'true'}
+{if ($hideMap neq 'true') and (count($RecommendationLst) neq 0) }
 <div class="row">
     <div class="col-md-5">
         {literal}
@@ -70,7 +70,7 @@
             function initMap() {
 
                 // If there is no location show Vancouver;
-                if (locations.lenght == 0) {
+                if (locations == []) {
                     locations = ['Vancouver, BC, Canada',49.28272910, -123.12073750];
                 }
 
