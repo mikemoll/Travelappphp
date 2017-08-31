@@ -10,4 +10,9 @@ $conn = new mysqli($server, $username, $password, $db);
 
 
 $res = $conn->query('insert into eventtype(description) values (\'aaa\');');
+
+var_dump($res);
+
+$res = $conn->query('select * from eventtype');
+
 var_dump($res);
