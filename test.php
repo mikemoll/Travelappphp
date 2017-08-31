@@ -15,4 +15,6 @@ var_dump($res);
 
 $res = $conn->query('select * from eventtype');
 
-var_dump($res);
+$rows = $res->fetch_all();
+
+var_dump($rows);
