@@ -9,4 +9,5 @@ $db = substr($url["path"], 1);
 $conn = new mysqli($server, $username, $password, $db);
 
 
-var_dump($conn);
+$res = $conn->query('insert into eventtype(description) values (\'aaa\');')
+var_dump($res);
