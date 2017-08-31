@@ -1,11 +1,8 @@
-/*
-
-* Override Pages default styles or create your own styles here
-
-*/
+/* ----------- Form  ------------ */
 .dataTables_wrapper .btn{
     padding-left: 10px;
 }
+
 .max-char-text {
     position: absolute;
     right: 20px;
@@ -14,11 +11,7 @@
     color: #ccc;
 }
 
-.advanced-filters{
-    background-color: #FFF;
-    padding: 10px;
-    margin: -25px -25px auto;
-}
+/* ----------- CHAT ------------ */
 .chat-view .message{
     margin-bottom: 0px !important;
 }
@@ -32,6 +25,12 @@
     overflow-y: auto;
 }
 
+/* ----------- Explorer Page ------------ */
+.advanced-filters{
+    background-color: #FFF;
+    padding: 10px;
+    margin: -25px -25px auto;
+}
 .serach-form{
     float: left;
     height: 30px;
@@ -40,6 +39,7 @@
     display: table-cell;
 }
 
+/* -----------  ------------ */
 .cards_container{
     width: 100%;
 }

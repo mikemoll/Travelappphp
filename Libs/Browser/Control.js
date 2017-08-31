@@ -558,6 +558,8 @@ function returnRequest(data) {
             setAlert(obj.title, obj.msg, obj.width, obj.height);
         } else if (obj.action == 'COMMAND') {
             eval(obj.command);
+        } else if (obj.action == 'TOGGLECLASS') {
+            $('#' + obj.id).toggleClass(obj.class);
         } else if (obj.action == 'SHOW') {
             $('#' + obj.id).show(obj.speed);
         } else if (obj.action == 'HIDE') {

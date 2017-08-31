@@ -112,6 +112,16 @@ class Browser_Control {
     }
 
     /**
+     * Alterna entre classes do Elemento
+     *
+     * @param String $id
+     * @param String $class [Optional]
+     */
+    public function setToggleClass($id, $class = '') {
+        $this->addAction(array('action' => 'TOGGLECLASS', 'id' => $id, 'class' => $class));
+    }
+
+    /**
      * Remove qualquer elemento da tela pelo id
      *
      * @param unknown_type $id

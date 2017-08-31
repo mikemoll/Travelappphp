@@ -37,7 +37,7 @@ class AbstractController extends Zend_Controller_Action {
             $view->assign('usuarioLogado', Session_Control::getPropertyUserLogado('nomecompleto'));
             $view->assign('nomeUsuario', Session_Control::getPropertyUserLogado('nomecompleto'));
             $view->assign('userEmail', Session_Control::getPropertyUserLogado('email'));
-            $view->assign('userCreatedAtUnixTimestamp', date_timestamp_get(date_create( Session_Control::getPropertyUserLogado('created_at'))));
+            $view->assign('userCreatedAtUnixTimestamp', date_timestamp_get(date_create(Session_Control::getPropertyUserLogado('created_at'))));
             //$view->assign('userCreatedAtUnixTimestamp', time());
             $view->assign('loggeduserlastname', Session_Control::getPropertyUserLogado('lastname'));
             $view->assign('loggeduserPhoto', Session_Control::getUserLogadoPhotoPath());
@@ -70,10 +70,21 @@ class AbstractController extends Zend_Controller_Action {
 
 
 
+            $element = new Ui_Element_Select('typeFilter', 'Type');
+            $element->addMultiOption('', '- select -');
+            $element->addMultiOption('E', 'Event');
+            $element->addMultiOption('A', 'Activity');
+            $element->addMultiOption('P', 'Place');
+//            $element->setAttrib('event', 'change');
+//            $element->setAttrib('url', 'explore');
+            $form->addElement($element);
+
+
+
             $button = new Ui_Element_Btn('btnSearch');
             $button->setDisplay('', 'search');
 //            $button->setAttrib('class', 'btn btn-primary btn-animated from-left fa fa-search');
-        $button->setType('primary');
+            $button->setType('primary');
             $button->setSendFormFiends();
 //        $button->setAttrib('validaObrig', '1');
             $form->addElement($button);
@@ -87,9 +98,10 @@ class AbstractController extends Zend_Controller_Action {
 
             $button = new Ui_Element_Btn('btnApplyDate');
             $button->setDisplay('Apply', '');
-//        $button->setType('success');
+            $button->setAttrib('class', 'btn btn-sm');
             $button->setAttrib('params', $links['base']);
             $button->setSendFormFiends();
+            $button->setAttrib('url', 'explore');
 //        $button->setAttrib('validaObrig', '1');
             $form->addElement($button);
 

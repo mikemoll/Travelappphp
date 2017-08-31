@@ -15,52 +15,87 @@
 <link class="main-stylesheet" href="{$baseUrl}Public/pages/css/pages.css" rel="stylesheet" type="text/css" />
 
 {if $EventtypeLst|@count > 0}
+    {literal}
+        <script>
+            $(document).ready(function () {
+                $('#typeFilter').change(function () {
+                    var val = $(this).val();
+                    switch (val) {
+                        case 'E':
+                            $('#E').show();
+                            $('#A').hide();
+                            break;
+                        case 'A':
+                            $('#A').show();
+                            $('#E').hide();
+                            break;
+                        default:
+                            $('#E').hide();
+                            $('#A').hide();
+                            break;
+                    }
+
+                })
+            })
+        </script>
+    {/literal}
     <div class="advanced-filters">
         {*Main filters
         Place - Activity - Event -  date range - Rating - Budget - Activity event  - event type - trip type*}
-        <div class="row" id="filtersPlaces">
-            <div class="col-md-2" >
-                <a class="hint-text " href="#moreFiltersEvent" data-toggle="collapse">Event Type<span class="caret"></span></a>
-                <ul class="list-unstyled text-center collapse dropdown-menu  " id="moreFiltersEvent"  >
+        <div class="row">
+            <div class="col-md-2 collapse in " id="Country">
+                <a class="hint-text btn" style="width: 100%" href="#moreFiltersCountry" data-toggle="collapse">Country<span class="caret"></span></a>
+                <ul class="list-group text-center collapse dropdown-menu  " style="width: 100%" id="moreFiltersCountry"  >
+                    {foreach key=key from=$CountryLst item=item }
+                        <a  class="list-group-item {if $CountrySelected == $key}active{/if}" class="text-center" href="{$HTTP_REFERER}{$BASE}explore/index/{if $CountrySelected != $key}country/{$key}_{$item}/{/if}{$links.base}">{$item}</a>
+                    {/foreach}
+                </ul>
+            </div>
+            <div class="col-md-1" >
+                {$typeFilter}
+            </div>
+            <div class="col-md-2 collapse   " id="E">
+                <a class="hint-text btn" style="width: 100%" href="#moreFiltersEvent" data-toggle="collapse">Event Type<span class="caret"></span></a>
+                <ul class="list-group text-center collapse dropdown-menu  " style="width: 100%" id="moreFiltersEvent"  >
                     {foreach key=key from=$EventtypeLst item=item }
-                        <li>
-                            <a href="{$HTTP_REFERER}{$BASE}explore/index/{if $EventtypeSelected != $key}eventtype/{$key}_{$item}/{/if}{$links.base}" class="btn btn-sm {if $EventtypeSelected == $key}btn-success{else}btn-default{/if}">{$item}</a>
-                        </li>
+                        <a  class="list-group-item {if $EventtypeSelected == $key}active{/if}" class="text-center" href="{$HTTP_REFERER}{$BASE}explore/index/{if $EventtypeSelected != $key}eventtype/{$key}_{$item}/{/if}{$links.base}">{$item}</a>
                     {/foreach}
                 </ul>
             </div>
-            <div class="col-md-2" >
-                <a class="hint-text pull-left" href="#moreFiltersActivity" data-toggle="collapse">Activity Type<span class="caret"></span></a>
-                <ul class="list-unstyled  pull-left text-center dropdown-menu collapse " id="moreFiltersActivity">
+            <div class="col-md-2  collapse  " id="A" >
+                <a class="hint-text btn" style="width: 100%" href="#moreFiltersActivity" data-toggle="collapse">Activity Type<span class="caret"></span></a>
+                <ul class="list-group text-center collapse dropdown-menu  " style="width: 100%" id="moreFiltersActivity"  >
                     {foreach key=key from=$ActivitytypeLst item=item }
-                        <li  class="">
-                            <a href="{$HTTP_REFERER}{$BASE}explore/index/{if $ActivitytypeSelected != $key}activitytype/{$key}_{$item}/{/if}{$links.base}" class="btn btn-sm {if $ActivitytypeSelected == $key}btn-success{else}btn-default{/if} ">{$item}</a>
-                        </li>
+                        <a class="list-group-item {if $ActivitytypeSelected == $key}active{/if}" href="{$HTTP_REFERER}{$BASE}explore/index/{if $ActivitytypeSelected != $key}activitytype/{$key}_{$item}/{/if}{$links.base}" >{$item}</a>
                     {/foreach}
                 </ul>
             </div>
             <div class="col-md-2" >
-                <ul class="list-inline text-center">
-                    <li class="hint-text">Rating: </li>
-                    <li>
-                        <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/1/{$links.base}" class=""><i class="fa {if 1 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
-                        <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/2/{$links.base}" class=""><i class="fa {if 2 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
-                        <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/3/{$links.base}" class=""><i class="fa {if 3 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
-                        <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/4/{$links.base}" class=""><i class="fa {if 4 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
-                        <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/5/{$links.base}" class=""><i class="fa {if 5 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
-                    </li>
-                </ul>
+                <div class="form-group form-group-default">
+                    <label class="fade">Rating</label>
+                    <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/1/{$links.base}" class=""><i class="fa {if 1 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
+                    <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/2/{$links.base}" class=""><i class="fa {if 2 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
+                    <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/3/{$links.base}" class=""><i class="fa {if 3 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
+                    <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/4/{$links.base}" class=""><i class="fa {if 4 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
+                    <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/5/{$links.base}" class=""><i class="fa {if 5 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
+                </div>
             </div>
             <div class="col-md-6" >
-                <div class="pull-left ">
-                    <div class="hint-text pull-left">Period: </div>
-                    <div class="input-daterange input-group pull-left " style="width: 60%" id="datepicker-range">
-                        {$startdate}
-                        <span class="input-group-addon">to</span>
-                        {$enddate}
-                    </div>
-                    <div class="pull-left " >{$btnApplyDate}</div>
+                <div class="input-daterange input-group" id="datepicker-range">
+                    {$startdate}
+                    <span class="input-group-addon">to</span>
+                    {$enddate}
                 </div>
+                <div class="pull-right" >{$btnApplyDate}</div>
+                {*<div class="form-group form-group-default daterangepicker">
+                <label class="fade">Period</label>
+                <div class="input-daterange input-group pull-left " style="width: 60%" id="datepicker-range">
+                {$startdate}
+                <span class="input-group-addon">to</span>
+                {$enddate}
+                </div>
+                <div class="pull-left " >{$btnApplyDate}</div>
+                </div>*}
             </div>
         </div>
 

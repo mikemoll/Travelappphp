@@ -48,6 +48,8 @@ class ExploreController extends AbstractController {
 
         $appliedFilters['q'] = $post->q;
         $appliedFilters['daterange'] = $post->daterange;
+        list($cid, $ctn) = explode('_', $post->country);
+        $appliedFilters['country'] = $post->country;
         list($etid, $etn) = explode('_', $post->eventtype);
         $appliedFilters['eventtype'] = $post->eventtype;
         list($atid, $atn) = explode('_', $post->activitytype);
@@ -71,6 +73,8 @@ class ExploreController extends AbstractController {
                     $names[$key] = $value;
                 } elseif ($key == 'eventtype') {
                     $names[$key] = $etn;
+                } elseif ($key == 'country') {
+                    $names[$key] = $ctn;
                 } elseif ($key == 'activitytype') {
                     $names[$key] = $atn;
                 } elseif ($key == 'rating') {
@@ -95,15 +99,19 @@ class ExploreController extends AbstractController {
 
 
 
-            $view->assign('EventtypeLst', Db_Table::getOptionList2('id_eventtype', 'description', 'description', 'Eventtype', false, 'readLstWithEvent'));
+//            $view->assign('CountryLst', Db_Table::getOptionList2('id_eventtype', 'description', 'description', 'Eventtype', false, 'readLstWithEvent'));
+
+        $view->assign('CountryLst', Db_Table::getOptionList2('country', 'country', 'country', 'Place', true));
+        $view->assign('EventtypeLst', Db_Table::getOptionList2('id_eventtype', 'description', 'description', 'Eventtype', false, 'readLstWithEvent'));
 //        $view->assign('EventtypeLst', Db_Table::getOptionList2('id_eventtype', 'description', 'description', 'Eventtype', false));
 //        $view->assign('ActivitytypeLst', Db_Table::getOptionList2('id_activitytype', 'activitytypename', 'activitytypename', 'Activitytype', false));
-            $view->assign('ActivitytypeLst', Db_Table::getOptionList2('id_activitytype', 'activitytypename', 'activitytypename', 'Activitytype', false, 'readLstWithActivity'));
+        $view->assign('ActivitytypeLst', Db_Table::getOptionList2('id_activitytype', 'activitytypename', 'activitytypename', 'Activitytype', false, 'readLstWithActivity'));
 
-            $view->assign('EventtypeSelected', $post->eventtype);
-            $view->assign('ActivitytypeSelected', $post->activitytype);
+        $view->assign('CountrySelected', $ctn);
+        $view->assign('EventtypeSelected', $post->eventtype);
+        $view->assign('ActivitytypeSelected', $post->activitytype);
 
-            $view->assign('ratingSelected', $post->rating);
+        $view->assign('ratingSelected', $post->rating);
 
         // ================== END form Search =====================
         // ---------------------- PLACES   - --------------
@@ -115,6 +123,9 @@ class ExploreController extends AbstractController {
             $ActivityLst->where('place.name', $q, 'like', 'or', 'q');
             $ActivityLst->where('place.country', $q, 'like', 'or', 'q');
             $ActivityLst->where('searchquery', $q, 'like', 'or', 'q');
+        }
+        if ($cid != '') {
+            $ActivityLst->where('place.country', $cid, 'like', 'or', 'q');
         }
         if ($post->rating != '') {
             $ActivityLst->where('rating', $post->rating, '>=', 'or', 'q');

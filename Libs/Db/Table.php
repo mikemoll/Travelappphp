@@ -414,7 +414,8 @@ class Db_Table extends Zend_Db_Table {
         } else if ($class != '') {
             $item = new $class;
             $item->sortOrder($orderName);
-            $lista = $item->$readMethod();
+            $item->$readMethod();
+            $lista = $item;
         } else {
             throw new Zend_Db_Table_Exception('Deve ser passado um objeto ou um nome de modelo');
         }
