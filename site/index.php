@@ -190,10 +190,22 @@ $frontController->setbaseUrl($baseUrl);
 $frontController->throwExceptions(TRUE);
 
 $config = new Zend_Config_Ini('./Application/Config.ini', $dbconfig);
-
 Zend_Registry::set('config', $config);
 
-$db = Zend_Db::factory($config->db->adapter, $config->db->config->toArray());
+if ($_SERVER['HTTP_HOST'] == 'tumbleweedapp.herokuapp.com') {
+    $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+
+    $zend_db_config["host"] = $url["host"];
+    $zend_db_config["username"] = $url["user"];
+    $zend_db_config["password"] = $url["pass"];
+    $zend_db_config["dbname"] = substr($url["path"], 1);
+} else {
+    $zend_db_config = $config->db->config->toArray();
+}
+
+$db = Zend_Db::factory($config->db->adapter, $zend_db_config);
+
+
 Zend_Db_Table_Abstract::setDefaultAdapter($db);
 
 ###############  SOMENTE USAR EM AMBIENTE DE DESENVOLVIMENTO  #####################
