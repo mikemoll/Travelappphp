@@ -20,6 +20,9 @@ class EventtypeController extends AbstractController {
     }
 
     public function indexAction() {
+
+        phpinfo();
+        die();
         $post = Zend_Registry::get('post');
         $form = new Ui_Form();
         $form->setName($this->FormName);
