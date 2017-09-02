@@ -73,8 +73,7 @@ class AbstractController extends Zend_Controller_Action {
             $element = new Ui_Element_Select('typeFilter', 'Type');
             $element->addMultiOption('', '- select -');
             $element->addMultiOption('E', 'Event');
-            $element->addMultiOption('A', 'Activity');
-            $element->addMultiOption('P', 'Place');
+            $element->addMultiOption('A', 'Activity'); 
 //            $element->setAttrib('event', 'change');
 //            $element->setAttrib('url', 'explore');
             $form->addElement($element);

@@ -43,7 +43,7 @@
         {*Main filters
         Place - Activity - Event -  date range - Rating - Budget - Activity event  - event type - trip type*}
         <div class="row">
-            <div class="col-md-2 collapse in " id="Country">
+            <div class="col-md-1 collapse in " id="Country">
                 <a class="hint-text btn" style="width: 100%" href="#moreFiltersCountry" data-toggle="collapse">Country<span class="caret"></span></a>
                 <ul class="list-group text-center collapse dropdown-menu  " style="width: 100%" id="moreFiltersCountry"  >
                     {foreach key=key from=$CountryLst item=item }
