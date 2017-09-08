@@ -28,3 +28,4 @@ site/Public/Images/travelertypes/
 fb/composer\.lock
 
 /vendor/
+vendor
