@@ -29,6 +29,7 @@ switch ($_SERVER['HTTP_HOST']) {
         error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED | E_STRICT);
         $dbconfig = 'local';
         define('BASE', "");
+        define('USE_AWS', false);
         break;
 
     case 'localhost':
@@ -36,6 +37,7 @@ switch ($_SERVER['HTTP_HOST']) {
         error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED | E_STRICT);
         $dbconfig = 'local';
         define('BASE', "traveltrack"); // BASE the path to the site's root folder (Ex.: na locaweb e o "public_htm", mas o caminho fica sem o "public_html")
+        define('USE_AWS', false);
         break;
 
     case 'romuloberri.com.br': // Production
@@ -47,6 +49,7 @@ switch ($_SERVER['HTTP_HOST']) {
         error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED | E_STRICT);
         $dbconfig = 'producao';
         define('BASE', "traveltrack"); // BASE the path to the site's root folder (Ex.: na locaweb e o "public_htm", mas o caminho fica sem o "public_html")
+        define('USE_AWS', false);
         break;
     case 'tumbleweedapp.herokuapp.com': // Production
 //        error_reporting(0);
@@ -55,6 +58,7 @@ switch ($_SERVER['HTTP_HOST']) {
         $dbconfig = 'heroku';
         define('BASE', ""); // BASE the path to the site's root folder (Ex.: na locaweb e o "public_htm", mas o caminho fica sem o "public_html")
         $protocol = 'https';
+        define('USE_AWS', true);
         break;
 }
 date_default_timezone_set('America/Sao_Paulo');

@@ -32,6 +32,11 @@ class Travelertype extends Db_Table {
             mkdir($path, 0777, true);
         }
         return $path .'/'. $id . '.png';
+    }    
+
+    public static function makeAWSimagePath($id) {
+        $path = 'images/travelertypes';
+        return $path .'/'. $id . '.png';
     }
 
     public static function makeimagePath($id) {

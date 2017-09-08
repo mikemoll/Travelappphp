@@ -163,7 +163,17 @@ class TravelertypeController extends AbstractController {
         //Put the uploaded file in the proper folder
         if ($image['tmp_name'] != '') {
             $dest = Travelertype::makeimagelocalPath($lObj->GetID());
-            move_uploaded_file($image['tmp_name'], $dest );
+
+            if (!USE_AWS) {
+                move_uploaded_file($image['tmp_name'], $dest );
+            } else {
+                require('vendor/autoload.php');
+                // this will simply read AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY from env vars
+                $s3 = Aws\S3\S3Client::factory();
+                $bucket = getenv('S3_BUCKET')?: die('No "S3_BUCKET" config var in found in env!');
+                $upload = $s3->upload($bucket, Travelertype::makeAWSimagePath($lObj->GetID()), fopen($image['tmp_name'], 'rb'), 'public-read');
+            }
+            
         }
 
         $msg = 'Changes saved!';
