@@ -166,9 +166,9 @@ class TravelertypeController extends AbstractController {
 
             move_uploaded_file($image['tmp_name'], $dest );
             if (USE_AWS) {
-                $url = HTTP_HOST.'/aws/aws_upload_api.php?tempfile=' . urlencode($dest) . '&destfolder=' . urlencode($dest);
-                header('Location: '.$url);
-                die();
+                // $url = HTTP_HOST.'/aws/aws_upload_api.php?tempfile=' . urlencode($dest) . '&destfolder=' . urlencode($dest);
+                // header('Location: '.$url);
+                // die();
                 $result = file_get_contents($url);
                 var_dump($result);die();
             }

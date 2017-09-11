@@ -23,7 +23,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['tempfile']) && isset($_GE
     } else {
 
         try {
-            $upload = $s3->upload($bucket, 'test.png'/*$destfolder*/, fopen($tempfile, 'rb'), 'public-read');
+            $upload = $s3->upload($bucket, $destfolder, fopen($tempfile, 'rb'), 'public-read');
             $result['url'] = $upload->get('ObjectURL');
             $result['success'] = true;
             $result['message'] = 'OK';
