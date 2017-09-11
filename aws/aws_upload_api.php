@@ -34,4 +34,12 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['tempfile']) && isset($_GE
     }
 }
 
-echo json_encode($result);
+if (isset($_GET['callback'])) {
+    header('Location: '.$_GET['callback']);
+    die();
+} else {
+    echo json_encode($result);
+}
+
+
+
