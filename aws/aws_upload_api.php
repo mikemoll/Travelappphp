@@ -14,8 +14,8 @@ if (!$bucket) {
 
 if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['tempfile']) && isset($_GET['destfolder']) ) {
 
-    $tempfile = urldecode($_GET['tempfile']);
-    $destfolder = urldecode($_GET['destfolder']);
+    $tempfile = $_GET['tempfile'];
+    $destfolder = $_GET['destfolder'];
 
     if (!file_exists($tempfile)) {
         $result['message'] = "File doesn't exists: " . $tempfile;
