@@ -164,16 +164,14 @@ class TravelertypeController extends AbstractController {
         if ($image['tmp_name'] != '') {
             $dest = Travelertype::makeimagelocalPath($lObj->GetID());
 
-            if (!USE_AWS) {
-                move_uploaded_file($image['tmp_name'], $dest );
-            } else {
-                $url = HTTP_HOST.'/aws/aws_upload_api.php?tempfile=' . urlencode($image['tmp_name']) . '&destfolder=' . urlencode($dest);
+            move_uploaded_file($image['tmp_name'], $dest );
+            if (USE_AWS) {
+                $url = HTTP_HOST.'/aws/aws_upload_api.php?tempfile=' . urlencode($dest) . '&destfolder=' . urlencode($dest);
                 header('Location: '.$url);
                 die();
                 $result = file_get_contents($url);
                 var_dump($result);die();
             }
-            
         }
 
         $msg = 'Changes saved!';

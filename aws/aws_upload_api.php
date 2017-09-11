@@ -18,8 +18,6 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['tempfile']) && isset($_GE
     $tempfile = $_GET['tempfile'];
     $destfolder = $_GET['destfolder'];
 
-    var_dump($tempfile);
-
     if (!file_exists($tempfile)) {
         $result['message'] = "File doesn't exists: " . $tempfile;
     } else {
