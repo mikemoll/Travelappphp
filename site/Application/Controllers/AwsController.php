@@ -2,7 +2,7 @@
 
 include_once 'AbstractController.php';
 
-class TravelertypeController extends AbstractController {
+class AwsController extends AbstractController {
 
     public static function move_to_aws($dest) {
         $url = HTTP_HOST.'/aws/aws_upload_api.php' .
