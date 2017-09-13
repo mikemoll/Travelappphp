@@ -224,7 +224,7 @@ class PlaceController extends AbstractController {
             if (!file_exists($path)) {
                 mkdir($path, 0777, true);
             }
-            $path .= '/' . $lObj->getID() . '_' . $lObj->getPhoto()
+            $path .= '/' . $lObj->getID() . '_' . $lObj->getPhoto();
             move_uploaded_file($photo['tmp_name'], $path );
             if (USE_AWS) {
                 $result = Aws::moveToAWS($dest);
@@ -237,8 +237,6 @@ class PlaceController extends AbstractController {
 
             $br->setAttrib('PhotoPath', 'src', $lObj->getPhotoPath());
         }
-
-
 
         $msg = '';
         $br->setMsgAlert('Saved!', $msg);
