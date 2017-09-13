@@ -168,8 +168,7 @@ class TravelertypeController extends AbstractController {
             if (USE_AWS) {
                 $url = HTTP_HOST.'/aws/aws_upload_api.php' .
                                  '?tempfile=' . urlencode($dest) .
-                                 '&destfolder=' . urlencode($dest) .
-                                 '&callback=' . urlencode(BASE_URL . 'travelertype');
+                                 '&destfolder=' . urlencode($dest);
                 $ch = curl_init(); 
                 curl_setopt($ch, CURLOPT_URL, $url); 
                 curl_setopt($ch, CURLOPT_HEADER, TRUE); 
