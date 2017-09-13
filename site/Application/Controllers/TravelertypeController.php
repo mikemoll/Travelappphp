@@ -154,7 +154,7 @@ class TravelertypeController extends AbstractController {
             $lObj->save();
             $lObj->setInstance($this->ItemEditInstanceName);
         } catch (Exception $exc) {
-            $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->setAlert('Error!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
             $br->send();
             die();
         }
@@ -166,29 +166,17 @@ class TravelertypeController extends AbstractController {
 
             move_uploaded_file($image['tmp_name'], $dest );
             if (USE_AWS) {
-                $url = HTTP_HOST.'/aws/aws_upload_api.php' .
-                                 '?tempfile=' . urlencode($dest) .
-                                 '&destfolder=' . urlencode($dest);
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-                $head = curl_exec($ch);
-                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                curl_close($ch);
-
-
-                var_dump($url, $head, $httpCode);die();
-                die();
-                // $result = file_get_contents($url);
-                // var_dump($result);die();
+                $result = AwsController::move_to_aws($dest);
+                if (!$result['success']) {
+                    $br->setAlert('Error!', '<pre>' . print_r($result['message'], true) . '</pre>', '100%', '600');
+                    $br->send();
+                    die();
+                }
             }
         }
-
         $msg = 'Changes saved!';
         $br->setMsgAlert('Saved!', $msg);
         $br->setBrowserUrl(BASE_URL . 'travelertype');
         $br->send();
-
     }
-
 }
