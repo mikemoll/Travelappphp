@@ -36,13 +36,13 @@ class Interest extends Db_Table {
 
         if (USE_AWS) {
             return Aws::BASE_AWS_URL . $path;
-        }
 
-        if (!file_exists(Interest::makeimagelocalPath($id))) {
+        } else if (!file_exists(Interest::makeimagelocalPath($id))) {
             return HTTP_REFERER . 'Public/Images/interest.png';
-        }
 
-        return HTTP_REFERER . $path; //default image
+        } else {
+            return HTTP_REFERER . $path; //default image
+        }
     }
 
     public function getImagePath() {

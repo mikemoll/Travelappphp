@@ -26,7 +26,11 @@ class Activity extends Db_Table {
 
     public static function makephotoPath($id, $photo) {
         if ($photo) {
-            return HTTP_REFERER . 'Public/Images/Activity/' . $id . '_' . $photo;
+            if (USE_AWS) {
+                return Aws::BASE_AWS_URL . $path;
+            } else  {
+                return HTTP_REFERER . 'Public/Images/Activity/' . $id . '_' . $photo;
+            }
         } else {
             return HTTP_REFERER . 'Public/Images/people.png'; //default image
         }

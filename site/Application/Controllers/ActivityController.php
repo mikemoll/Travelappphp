@@ -271,7 +271,16 @@ class ActivityController extends AbstractController {
             if (!file_exists($path)) {
                 mkdir($path, 0777, true);
             }
-            move_uploaded_file($photo['tmp_name'], $path . '/' . $lObj->getID() . '_' . $lObj->getPhoto());
+            $path .= '/' . $lObj->getID() . '_' . $lObj->getPhoto();
+            move_uploaded_file($photo['tmp_name'], $path);
+            if (USE_AWS) {
+                $result = Aws::moveToAWS($path);
+                if (!$result->success) {
+                    $br->setAlert('Error!', '<pre>' . print_r($result->message, true) . '</pre>', '100%', '600');
+                    $br->send();
+                    die();
+                }
+            }
             $br->setAttrib('PhotoPath', 'src', $lObj->getPhotoPath());
         }
 

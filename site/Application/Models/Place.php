@@ -16,7 +16,6 @@ class Place extends Db_Table {
 
     function __construct($config = array(), $definition = null) {
         parent::__construct($config, $definition);
-//        $this->google_api_key = 'AIzaSyDsL2HI8bxi78DT4oHVw1XTOT4qKjksPi0'; // from Romulo
         $this->google_api_key = 'AIzaSyArhHndCQEIzE8i1zZzluSmZPnv-AGzrWI'; // from Mike
     }
 
@@ -30,11 +29,12 @@ class Place extends Db_Table {
 
        $path = 'Public/Images/Place/' . $id . '_' . $photo;
 
-        if (USE_AWS) {
-            return Aws::BASE_AWS_URL . $path;
-        }
         if ($photo) {
-            return HTTP_REFERER . $path;
+            if (USE_AWS) {
+                return Aws::BASE_AWS_URL . $path;
+            } else  {
+                return HTTP_REFERER . $path;
+            }
         } else {
 //            return HTTP_REFERER . 'Public/Images/place.png'; //default image
         }
