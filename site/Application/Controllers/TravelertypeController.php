@@ -169,13 +169,11 @@ class TravelertypeController extends AbstractController {
                 $url = HTTP_HOST.'/aws/aws_upload_api.php' .
                                  '?tempfile=' . urlencode($dest) .
                                  '&destfolder=' . urlencode($dest);
-                $ch = curl_init(); 
-                curl_setopt($ch, CURLOPT_URL, $url); 
-                curl_setopt($ch, CURLOPT_HEADER, TRUE); 
-                curl_setopt($ch, CURLOPT_NOBODY, TRUE); // remove body 
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); 
-                $head = curl_exec($ch); 
-                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); 
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                $head = curl_exec($ch);
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 curl_close($ch);
 
 
