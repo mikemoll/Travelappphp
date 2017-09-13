@@ -2,7 +2,7 @@
 
 class Aws {
 
-    const BASE_AWS_URL = 'https://s3.amazonaws.com/tumbleweed-files/app/site'
+    const BASE_AWS_URL = 'https://s3.amazonaws.com/tumbleweed-files/app/site';
 
     public static function moveToAWS($dest) {
         $url = HTTP_HOST.'/aws/aws_upload_api.php' .
