@@ -33,9 +33,15 @@ class Interest extends Db_Table {
 
     public static function makeimagePath($id) {
         $path = 'Public/Images/interests/' . $id . '.png';
+
+        if (USE_AWS) {
+            return Aws::BASE_AWS_URL . $path;
+        }
+
         if (!file_exists(Interest::makeimagelocalPath($id))) {
             return HTTP_REFERER . 'Public/Images/interest.png';
         }
+
         return HTTP_REFERER . $path; //default image
     }
 
