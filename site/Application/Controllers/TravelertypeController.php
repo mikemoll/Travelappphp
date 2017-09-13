@@ -180,7 +180,7 @@ class TravelertypeController extends AbstractController {
                 curl_close($ch);
 
 
-                var_dump($head, $httpCode);die();
+                var_dump($url, $head, $httpCode);die();
                 die();
                 // $result = file_get_contents($url);
                 // var_dump($result);die();
