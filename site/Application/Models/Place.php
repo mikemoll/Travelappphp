@@ -27,8 +27,14 @@ class Place extends Db_Table {
     }
 
     public static function makephotoPath($id, $photo) {
+
+       $path = 'Public/Images/Place/' . $id . '_' . $photo;
+
+        if (USE_AWS) {
+            return Aws::BASE_AWS_URL . $path;
+        }
         if ($photo) {
-            return HTTP_REFERER . 'Public/Images/Place/' . $id . '_' . $photo;
+            return HTTP_REFERER . $path;
         } else {
 //            return HTTP_REFERER . 'Public/Images/place.png'; //default image
         }
@@ -126,6 +132,10 @@ class Place extends Db_Table {
                     copy($url, $img);
                     $place->setPhoto(md5($photo->photo_reference) . '.jpg');
                     $place->save();
+
+                    if (USE_AWS) {
+                        Aws::moveToAWS($img);
+                    }
                 }
             }
 //        print'<pre>';
