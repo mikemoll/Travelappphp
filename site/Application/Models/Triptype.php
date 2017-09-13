@@ -53,11 +53,18 @@ class Triptype extends Db_Table {
     }
 
     public static function makeimagePath($id) {
+
         $path = 'Public/Images/triptypes/' . $id . '.png';
-        if (!file_exists(Triptype::makeimagelocalPath($id))) {
+
+        if (USE_AWS) {
+            return Aws::BASE_AWS_URL . $path;
+
+        } else if (!file_exists(Triptype::makeimagelocalPath($id))) {
             return HTTP_REFERER . 'Public/Images/interest.png';
+
+        } else {
+            return HTTP_REFERER . $path; //default image
         }
-        return HTTP_REFERER . $path; //default image
     }
 
     public function getImagePath() {

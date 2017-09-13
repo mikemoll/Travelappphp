@@ -59,8 +59,14 @@ class Usuario extends Db_Table {
     }
 
     public static function makephotoPath($id, $photo) {
+
         if ($photo) {
-            return HTTP_REFERER . 'Public/Images/Profile/' . $id . '_' . $photo;
+            $path = 'Public/Images/Profile/' . $id . '_' . $photo;
+            if (USE_AWS) {
+                return Aws::BASE_AWS_URL . $path;
+            } else {
+                return HTTP_REFERER . $path;
+            }
         } else {
             return HTTP_REFERER . 'Public/Images/people.png'; //default image
         }
