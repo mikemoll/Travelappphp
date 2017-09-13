@@ -170,7 +170,17 @@ class TravelertypeController extends AbstractController {
                                  '?tempfile=' . urlencode($dest) .
                                  '&destfolder=' . urlencode($dest) .
                                  '&callback=' . urlencode(BASE_URL . 'travelertype');
-                header('Location: '.$url);
+                $ch = curl_init(); 
+                curl_setopt($ch, CURLOPT_URL, $url); 
+                curl_setopt($ch, CURLOPT_HEADER, TRUE); 
+                curl_setopt($ch, CURLOPT_NOBODY, TRUE); // remove body 
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE); 
+                $head = curl_exec($ch); 
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE); 
+                curl_close($ch);
+
+
+                var_dump($head, $httpCode);die();
                 die();
                 // $result = file_get_contents($url);
                 // var_dump($result);die();
