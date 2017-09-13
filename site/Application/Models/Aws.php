@@ -1,10 +1,8 @@
 <?php
 
-include_once 'AbstractController.php';
+class Aws {
 
-class AwsController extends AbstractController {
-
-    public static function move_to_aws($dest) {
+    public static function moveToAWS($dest) {
         $url = HTTP_HOST.'/aws/aws_upload_api.php' .
                          '?tempfile=' . urlencode($dest) .
                          '&destfolder=' . urlencode($dest);
@@ -15,5 +13,4 @@ class AwsController extends AbstractController {
         curl_close($ch);
         return $result;
     }
-
 }

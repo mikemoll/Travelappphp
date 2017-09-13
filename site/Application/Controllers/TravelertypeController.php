@@ -166,7 +166,7 @@ class TravelertypeController extends AbstractController {
 
             move_uploaded_file($image['tmp_name'], $dest );
             if (USE_AWS) {
-                $result = AwsController::moveToAWS($dest);
+                $result = Aws::moveToAWS($dest);
                 if (!$result['success']) {
                     $br->setAlert('Error!', '<pre>' . print_r($result['message'], true) . '</pre>', '100%', '600');
                     $br->send();
