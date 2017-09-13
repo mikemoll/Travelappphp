@@ -33,10 +33,11 @@ class Event extends Db_Table {
 
     public static function makephotoPath($id, $photo) {
         if ($photo) {
+            $path = 'Public/Images/Event/' . $id . '_' . $photo;
             if (USE_AWS) {
                 return Aws::BASE_AWS_URL . $path;
             } else  {
-                return HTTP_REFERER . 'Public/Images/Event/' . $id . '_' . $photo;
+                return HTTP_REFERER . $path;
             }
         } else {
             return HTTP_REFERER . 'Public/Images/people.png'; //default image

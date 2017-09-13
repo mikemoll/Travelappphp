@@ -27,9 +27,8 @@ class Place extends Db_Table {
 
     public static function makephotoPath($id, $photo) {
 
-       $path = 'Public/Images/Place/' . $id . '_' . $photo;
-
         if ($photo) {
+            $path = 'Public/Images/Place/' . $id . '_' . $photo;
             if (USE_AWS) {
                 return Aws::BASE_AWS_URL . $path;
             } else  {
