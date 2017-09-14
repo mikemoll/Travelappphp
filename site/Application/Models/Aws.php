@@ -4,9 +4,12 @@ class Aws {
 
     const BASE_AWS_URL = 'https://s3.amazonaws.com/tumbleweed-files/app/site/';
 
-    public static function moveToAWS($dest) {
+    public static function moveToAWS($dest, $source = '') {
+        if ($source == '') {
+            $source = $dest;
+        }
         $url = HTTP_HOST.'/aws/aws_upload_api.php' .
-                         '?tempfile=' . urlencode($dest) .
+                         '?tempfile=' . urlencode($source) .
                          '&destfolder=' . urlencode($dest);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
