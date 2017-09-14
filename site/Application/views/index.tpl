@@ -25,8 +25,8 @@
         <!-- This is the onli JS that has to be on the begining, cuz there are some components that need this before everithing else! (Leonardo )-->
         <script src="{$baseUrl}Public/assets/plugins/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
     </head>
-    {*    <body class="fixed-header dashboard menu-pin menu-behind">*}
-    <body class="fixed-header dashboard menu-pin ">
+        <body class="fixed-header dashboard  menu-behind">
+{*    <body class="fixed-header dashboard ">*}
         <div>
             <link href="{$baseUrl}Public/assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" />
             <link href="{$baseUrl}Public/assets/plugins/bootstrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />

@@ -64,12 +64,12 @@ class IndexController extends AbstractController {
         $mainMenu->addMenuItem($menuItem);
 
 
-        $menu = new Ui_Element_MenuItem('dreambord', 'Dreamboard', HTTP_REFERER . 'dreamboard/dashboard', '', '', '10 new Dreams');
+        $menu = new Ui_Element_MenuItem('dreambord', 'Dreamboard', HTTP_REFERER . 'dreamboard/dashboard', '', '');//, '10 new Dreams');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 
 
-        $menu = new Ui_Element_MenuItem('trips', 'My Trips', HTTP_REFERER . 'trip/dashboard', '', '', '2 new Trips');
+        $menu = new Ui_Element_MenuItem('trips', 'My Trips', HTTP_REFERER . 'trip/dashboard', '', '');//, '2 new Trips');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
         $mainMenu->addMenuItem($menu);
 
@@ -92,7 +92,7 @@ class IndexController extends AbstractController {
         if (true) {
 
 
-            $menu2 = new Ui_Element_MenuItem('activities', 'Activities', HTTP_REFERER . 'activity', '', '', '3 new Activities created!');
+            $menu2 = new Ui_Element_MenuItem('activities', 'Activities', HTTP_REFERER . 'activity', '', '');//, '3 new Activities created!');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
 
@@ -100,7 +100,7 @@ class IndexController extends AbstractController {
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
 
-            $menu2 = new Ui_Element_MenuItem('events', 'Events', HTTP_REFERER . 'event', '', '', '3 new Events created!');
+            $menu2 = new Ui_Element_MenuItem('events', 'Events', HTTP_REFERER . 'event', '', '');//, '3 new Events created!');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
 
@@ -108,11 +108,11 @@ class IndexController extends AbstractController {
 //        $menu2->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
 
-            $menu2 = new Ui_Element_MenuItem('places', 'Places', HTTP_REFERER . 'place', '', '', '3 new Places created!');
+            $menu2 = new Ui_Element_MenuItem('places', 'Places', HTTP_REFERER . 'place', '', '');//, '3 new Places created!');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
 
-            $menu2 = new Ui_Element_MenuItem('trips2', 'Trips', HTTP_REFERER . 'trip', '', '', '10 new Trips');
+            $menu2 = new Ui_Element_MenuItem('trips2', 'Trips', HTTP_REFERER . 'trip', '', '');//, '10 new Trips');
 //        $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');
             $menu->addSubMenu($menu2);
 

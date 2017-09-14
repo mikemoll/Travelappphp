@@ -38,6 +38,33 @@
     height: 60px;
     display: table-cell;
 }
+.b-rad-25{
+    border-radius: 25px !important;
+}
+
+/*----------- New user wizard ---------*/
+
+.interests-check{
+    outline: 3px solid orange;
+}
+
+.interests-label{
+    padding-top:60px !important;
+    padding-left: auto;
+    padding-right: auto;
+    height: 150px;
+    width: 150px;
+    display: block;
+    font-weight: bold !important;
+    color: white !important;
+    font-size: 14px !important;
+    background-color: #eee ;
+    float: left;
+    overflow: hidden;
+    text-shadow: 0 0 2px #000 !important; /* horizontal-offset vertical-offset 'blur' colour */
+    -moz-text-shadow: 0 0 2px #000 !important;
+    -webkit-text-shadow: 0 0 2px #000 !important;
+}
 
 /* -----------  ------------ */
 .cards_container{

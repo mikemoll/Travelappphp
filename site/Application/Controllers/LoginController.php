@@ -476,11 +476,11 @@ class LoginController extends AbstractController {
             $br->send();
             return;
         } else if (!filter_var($post->email, FILTER_VALIDATE_EMAIL)) {
-            $br->setAlert("Error","The email informed is not valid.");
+            $br->setAlert("Error", "The email informed is not valid.");
             $br->send();
             return;
-        } else if ( Usuario::usernameExists($post->loginUser) ) {
-            $br->setAlert("Error","This username has already being choosen. Please choose another.");
+        } else if (Usuario::usernameExists($post->loginUser)) {
+            $br->setAlert("Error", "This username has already being choosen. Please choose another.");
             $br->send();
             return;
             // } else if (!$this->validDate($post->birthdate)) {
@@ -538,8 +538,8 @@ class LoginController extends AbstractController {
             $user->setInstance('newUser');
             if ($isfacebook) {
                 $photo = file_get_contents($fb['photo']);
-                $photopath = RAIZ_DIRETORY . 'site/Public/Images/Profile/'. $user->getID() . '_'. $fb['id'] . '.jpg';
-                file_put_contents($photopath,$photo);
+                $photopath = RAIZ_DIRETORY . 'site/Public/Images/Profile/' . $user->getID() . '_' . $fb['id'] . '.jpg';
+                file_put_contents($photopath, $photo);
             }
         } catch (Exception $exc) {
             $br->setAlert('Erro!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
@@ -578,21 +578,21 @@ class LoginController extends AbstractController {
     public function facebookAction() {
 
         $fbtoken = $_SESSION['fb_access_token'];
-        $fbuser  = $_SESSION['fb_tokenMetadata'];
+        $fbuser = $_SESSION['fb_tokenMetadata'];
         $fb_id = $fbuser['id'];
 
         $id_usuario = Usuario::id_usuariobyfb_id($fb_id);
 
-        if($id_usuario){
+        if ($id_usuario) {
 
             //Login the user
             $user = new Usuario();
             $user->read($id_usuario);
-    //        if ($post->remember) {
+            //        if ($post->remember) {
             $cookie_name = "userName";
             $cookie_value = $user->getusername;
             setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
-    //        }
+            //        }
 
             Log::createLogFile('The user ' . $user->getNomeCompleto() . ' Sign Up');
 
@@ -613,7 +613,6 @@ class LoginController extends AbstractController {
 
         header("Location: $url");
     }
-
 
     public function newuser2Action() {
         $id = Usuario::getIDUsuarioLogado();
@@ -639,7 +638,7 @@ class LoginController extends AbstractController {
         $element = new Ui_Element_Text('hometowncity');
         $element->setAttrib('maxlength', '120');
         $element->setHideRemainingCharacters();
-        $element->setAttrib('placeholder', 'The city you were raised');
+        $element->setAttrib('placeholder', 'Where do you live?');
         $form->addElement($element);
 
         // $element = new Ui_Element_Text('hometowncountry');
@@ -698,7 +697,6 @@ class LoginController extends AbstractController {
         $lObj->read($id);
         $lObj->sethometowncity($post->hometowncity);
         //$lObj->sethometowncountry($post->hometowncountry);
-
         //saving the user data
         try {
             $lObj->save();
@@ -764,7 +762,7 @@ class LoginController extends AbstractController {
 
     public function btnskip3clickAction($enviar = false) {
         $br = new Browser_Control();
-        $br->setBrowserUrl(BASE_URL . 'Login/newuserend/');//explore/index/');//welcome/true');
+        $br->setBrowserUrl(BASE_URL . 'Login/newuserend/'); //explore/index/');//welcome/true');
         $br->send();
     }
 
@@ -812,7 +810,7 @@ class LoginController extends AbstractController {
             die();
         }
 
-        $br->setBrowserUrl(BASE_URL . 'Login/newuserend/');//'explore/index');///welcome/true');
+        $br->setBrowserUrl(BASE_URL . 'Login/newuserend/'); //'explore/index');///welcome/true');
         $br->send();
     }
 

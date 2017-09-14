@@ -97,7 +97,8 @@ class Place extends Db_Table {
         }
         // ---- GOOGLE ----------
 //        $type = 'geocode';
-        $type = '(regions)';
+//        $type = '(regions)';
+        $type = '(cities)';
         if ($q != '') {
             $ret = $this->callGoogleAPI(array('query' => $q, 'type' => $type));  // commneted to stop making requests
 //        $ret->results = array();
@@ -113,13 +114,15 @@ class Place extends Db_Table {
                 $place = new Place();
                 $place->setgoogle_place_id($value->place_id);
                 $place->setformatted_address($value->formatted_address);
+                $a = explode(',', $value->formatted_address);
+                $place->setCountry(end($a));
                 $place->setname($value->name);
                 $place->setrating($value->rating);
                 $place->setSearchQuery($q);
                 $place->setgoogletypes(json_encode($value->types));
                 $place->save();
                 $url = '';
-                if (is_array($value->photos) and count($value->photos) > 0){
+                if (is_array($value->photos) and count($value->photos) > 0) {
                     foreach ($value->photos as $photo) {
                         $url = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=' . $photo->photo_reference . '&key=' . $this->google_api_key;
                         break;

@@ -47,56 +47,56 @@
                 <a class="hint-text btn" style="width: 100%" href="#moreFiltersCountry" data-toggle="collapse">Country<span class="caret"></span></a>
                 <ul class="list-group text-center collapse dropdown-menu  " style="width: 100%" id="moreFiltersCountry"  >
                     {foreach key=key from=$CountryLst item=item }
-                        <a  class="list-group-item {if $CountrySelected == $key}active{/if}" class="text-center" href="{$HTTP_REFERER}{$BASE}explore/index/{if $CountrySelected != $key}country/{$key}_{$item}/{/if}{$links.base}">{$item}</a>
+                        <a  class="list-group-item {if $CountrySelected == $key}active{/if}" class="text-center" href="{$HTTP_REFERER}{$BASE}explore/index/{if $CountrySelected != $key}country/{$key}_{$item}/{/if}{$links.country}">{$item}</a>
                     {/foreach}
                 </ul>
             </div>
-            <div class="col-md-1" >
-                {$typeFilter}
+            <div class="col-md-1 collapse in " id="City">
+                <a class="hint-text btn" style="width: 100%" href="#moreFiltersCity" data-toggle="collapse">City<span class="caret"></span></a>
+                <ul class="list-group text-center collapse dropdown-menu  " style="width: 100%" id="moreFiltersCity"  >
+                    {foreach key=key from=$CityLst item=item }
+                        <a  class="list-group-item {if $CitySelected == $key}active{/if}" class="text-center" href="{$HTTP_REFERER}{$BASE}explore/index/{if $CitySelected != $key}city/{$key}_{$item}/{/if}{$links.city}">{$item}</a>
+                    {/foreach}
+                </ul>
             </div>
-            <div class="col-md-2 collapse   " id="E">
+            {*<div class="col-md-1" >
+            {$typeFilter}
+            </div>*}
+            <div class="col-md-2     " id="E">
                 <a class="hint-text btn" style="width: 100%" href="#moreFiltersEvent" data-toggle="collapse">Event Type<span class="caret"></span></a>
                 <ul class="list-group text-center collapse dropdown-menu  " style="width: 100%" id="moreFiltersEvent"  >
                     {foreach key=key from=$EventtypeLst item=item }
-                        <a  class="list-group-item {if $EventtypeSelected == $key}active{/if}" class="text-center" href="{$HTTP_REFERER}{$BASE}explore/index/{if $EventtypeSelected != $key}eventtype/{$key}_{$item}/{/if}{$links.base}">{$item}</a>
+                        <a  class="list-group-item {if $EventtypeSelected == $key}active{/if}" class="text-center" href="{$HTTP_REFERER}{$BASE}explore/index/{if $EventtypeSelected != $key}eventtype/{$key}_{$item}/{/if}{$links.eventtype}">{$item}</a>
                     {/foreach}
                 </ul>
             </div>
-            <div class="col-md-2  collapse  " id="A" >
+            <div class="col-md-2     " id="A" >
                 <a class="hint-text btn" style="width: 100%" href="#moreFiltersActivity" data-toggle="collapse">Activity Type<span class="caret"></span></a>
                 <ul class="list-group text-center collapse dropdown-menu  " style="width: 100%" id="moreFiltersActivity"  >
                     {foreach key=key from=$ActivitytypeLst item=item }
-                        <a class="list-group-item {if $ActivitytypeSelected == $key}active{/if}" href="{$HTTP_REFERER}{$BASE}explore/index/{if $ActivitytypeSelected != $key}activitytype/{$key}_{$item}/{/if}{$links.base}" >{$item}</a>
+                        <a class="list-group-item {if $ActivitytypeSelected == $key}active{/if}" href="{$HTTP_REFERER}{$BASE}explore/index/{if $ActivitytypeSelected != $key}activitytype/{$key}_{$item}/{/if}{$links.activitytype}" >{$item}</a>
                     {/foreach}
                 </ul>
             </div>
-            <div class="col-md-2" >
-                <div class="form-group form-group-default">
-                    <label class="fade">Rating</label>
-                    <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/1/{$links.base}" class=""><i class="fa {if 1 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
-                    <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/2/{$links.base}" class=""><i class="fa {if 2 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
-                    <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/3/{$links.base}" class=""><i class="fa {if 3 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
-                    <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/4/{$links.base}" class=""><i class="fa {if 4 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
-                    <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/5/{$links.base}" class=""><i class="fa {if 5 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
-                </div>
+            {*<div class="col-md-2" >
+            <div class="form-group form-group-default">
+            <label class="fade">Rating</label>
+            <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/1/{$links.base}" class=""><i class="fa {if 1 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
+            <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/2/{$links.base}" class=""><i class="fa {if 2 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
+            <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/3/{$links.base}" class=""><i class="fa {if 3 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
+            <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/4/{$links.base}" class=""><i class="fa {if 4 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
+            <a href="{$HTTP_REFERER}{$BASE}explore/index/rating/5/{$links.base}" class=""><i class="fa {if 5 <= $ratingSelected}fa-star{else}fa-star-o{/if}"></i></a>
             </div>
-            <div class="col-md-6" >
-                <div class="input-daterange input-group" id="datepicker-range">
-                    {$startdate}
-                    <span class="input-group-addon">to</span>
-                    {$enddate}
-                </div>
-                <div class="pull-right" >{$btnApplyDate}</div>
-                {*<div class="form-group form-group-default daterangepicker">
-                <label class="fade">Period</label>
-                <div class="input-daterange input-group pull-left " style="width: 60%" id="datepicker-range">
-                {$startdate}
-                <span class="input-group-addon">to</span>
-                {$enddate}
-                </div>
-                <div class="pull-left " >{$btnApplyDate}</div>
-                </div>*}
+            </div>*}
+            {*<div class="col-md-6" >
+            <div class="input-daterange input-group" id="datepicker-range">
+            {$startdate}
+            <span class="input-group-addon">to</span>
+            {$enddate}
             </div>
+            <div class="pull-right" >{$btnApplyDate}</div>
+
+            </div>*}
         </div>
 
         {if $appliedFilters|@count > 0}
@@ -172,7 +172,7 @@ console.log(start.toISOString(), end.toISOString(), label);
             {/literal}
             <div class="row">
                 <div class="col-md-12 col-xlg-12 m-b-10 m-r-10" >
-                    <div class="ar-1-1">
+                    <div class="ar-1-1  b-rad-25">
                         <!-- START WIDGET widget_imageWidgetBasic-->
                         <div class="widget-2 panel no-border bg-primary widget widget-loader-circle-lg no-margin place-{$placeLst[i]->getID()}">
                             <div class="panel-heading">
@@ -225,7 +225,7 @@ console.log(start.toISOString(), end.toISOString(), label);
 
             <div class="row">
                 <div class="col-md-12 col-xlg-12 m-b-10  m-r-10" >
-                    <div class="ar-1-1">
+                    <div class="ar-1-1 b-rad-25">
                         <!-- START WIDGET widget_imageWidgetBasic-->
                         <div class="widget-2 panel no-border bg-primary widget widget-loader-circle-lg no-margin activity-{$activityLst[i]->getID()}">
                             <div class="panel-heading">
@@ -252,7 +252,7 @@ console.log(start.toISOString(), end.toISOString(), label);
                                     {if $activityLst[i]->getCity()!=''}
                                         <p class="text-white hint-text hidden-md">{$activityLst[i]->getCity()}, {$activityLst[i]->getCountry()}</p>
                                     {/if}
-                                    <h3 class="text-white hidden-md  bold">${$activityLst[i]->getPrice()}</h3>
+                                    <h3 class="text-white hidden-md  bold">{$activityLst[i]->getPriceOrFree()}</h3>
                                     <span class="label font-montserrat fs-11">Activity</span>
                                     <span class="label font-montserrat fs-11 text-white " style='background-color: #FF50FF;  '>{$activityLst[i]->getactivitytypename()}</span>
 
@@ -283,7 +283,7 @@ console.log(start.toISOString(), end.toISOString(), label);
 
             <div class="row">
                 <div class="col-md-12 col-xlg-12 m-b-10 m-r-10">
-                    <div class="ar-1-1">
+                    <div class="ar-1-1 b-rad-25">
                         <!-- START WIDGET widget_imageWidgetBasic-->
                         <div class="widget-2 panel no-border bg-primary widget widget-loader-circle-lg no-margin event-{$eventLst[i]->getID()}">
                             <div class="panel-heading">
@@ -311,7 +311,7 @@ console.log(start.toISOString(), end.toISOString(), label);
                                         <p class="text-white hint-text hidden-md">{$eventLst[i]->getCity()}, {$eventLst[i]->getCountry()}</p>
                                     {/if}
                                     <span class="  font-montserrat ">{$eventLst[i]->getFormattedDate()}</span>
-                                    <h3 class="text-white hidden-md  bold">${$eventLst[i]->getPrice()}</h3>
+                                    <h3 class="text-white hidden-md  bold">{$eventLst[i]->getPriceOrFree()}</h3>
                                     <span class="label font-montserrat fs-11">Event</span>
                                     {*                                <span class="label font-montserrat fs-11 text-white " title="Click to filter by {$eventLst[i]->geteventtypename()}" href="{$HTTP_REFERER}{$BASE}explore/index/eventtype/{$eventLst[i]->getid_eventtype()}" style='background-color: #FF50FF;  '>{$eventLst[i]->geteventtypename()}</span>*}
                                     <span class="label font-montserrat fs-11 text-white " style='background-color: #FF50FF;  '>{$eventLst[i]->geteventtypename()}</span>
@@ -386,7 +386,7 @@ console.log(start.toISOString(), end.toISOString(), label);
                     <a href="#none" class="btn btn-white">L</a>
                     <a href="#none" class="btn btn-white">XL</a>*}
                     <div calss="item-buttons" style="float: right;position: absolute;bottom: 5px;width: 100%;">
-                        <a href="#none" class="btn btn-primary" id="btnAddDream" name="btnAddDream" event="click"><i class="fa fa-heart-o  "></i> Add to my dream board</a>
+                        <a href="#none" class="btn btn-primary" id="btnAddDream" url="explore" name="btnAddDream" event="click"><i class="fa fa-heart-o  "></i> Add to my dream board</a>
                         <br>
                         <br>
                         <a href="#none" class="btn btn-success " id="btnAddToTrip" name="btnAddToTrip" event="click" url='explore' ><i class="fa fa-plus  "></i> Add to a trip</a>

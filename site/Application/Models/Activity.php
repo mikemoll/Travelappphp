@@ -46,6 +46,11 @@ class Activity extends Db_Table {
         return $pics[0]['src'];
     }
 
+    public function getPriceOrFree() {
+        $p = $this->getPrice() == 0 ? 'free' : '$' . $this->getPrice();
+        return $p;
+    }
+
     public function getShortDescription() {
         return $this->getDescription();
     }

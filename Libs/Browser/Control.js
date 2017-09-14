@@ -684,7 +684,7 @@ function sendNotification(theTitle, theBody, theIcon, link, target) {
         Notification.requestPermission(function (permission) {
             // If the user accepts, let's create a notification
             if (permission === "granted") {
-                sendNotification('Obrigado!!', 'Você ativou as Notificações! Usaremos esse poder com cuidado e sabedoria', 'http://www.criarmeme.com.br/i/thumbs-up.jpg');
+                sendNotification('Thanks!!', "You've just activated the notifications! We're gonna use this power with responsibility!", 'http://www.criarmeme.com.br/i/thumbs-up.jpg');
                 sendNotification(theTitle, theBody, theIcon);
             }
         });
@@ -913,7 +913,7 @@ function ajaxRequest(obj, event, parametros) {
     } else if (idForm !== '') {
         url = $('#' + idForm).attr('action');
     } else {
-        alert("Você deve setar uma action para esse elemento!" + "\n\n" + "O idForm está vazio e o attr('url') do elemento também! ");
+        alert("You need to set an action/controller for this element or form!" + "\n\n" + "idForm of the form is empty and so is the attr('url') ! ");
     }
 
     params = '&' + obj.attr('params');
