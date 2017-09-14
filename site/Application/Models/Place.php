@@ -128,19 +128,25 @@ class Place extends Db_Table {
                         break;
                     }
                 }
+                ob_start();
+                var_dump($url);
 
                 if ($url != '') {
                     $img = RAIZ_DIRETORY . 'site/Public/Images/Place/' . $place->getID() . '_' . md5($photo->photo_reference) . '.jpg';
+                    var_dump($img);
                     copy($url, $img);
                     $place->setPhoto(md5($photo->photo_reference) . '.jpg');
                     $place->save();
 
                     if (USE_AWS) {
                         $result = Aws::moveToAWS($img);
-                        var_dump($result, $img); die();
+
+                        var_dump($result);
 
                     }
                 }
+                file_put_contents('/app/log.txt', ob_get_contents());
+                ob_end_clean();
             }
 //        print'<pre>';
 //        die(print_r($places));
