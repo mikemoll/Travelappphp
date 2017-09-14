@@ -134,7 +134,11 @@ class Place extends Db_Table {
                 if ($url != '') {
                     $img = RAIZ_DIRETORY . 'site/Public/Images/Place/' . $place->getID() . '_' . md5($photo->photo_reference) . '.jpg';
                     var_dump($img);
-                    copy($url, $img);
+                    if (!copy($url)) {
+                        $errors= error_get_last();
+                        echo "COPY ERROR: ".$errors['type'];
+                        echo "<br />\n".$errors['message'];
+                    }
                     $place->setPhoto(md5($photo->photo_reference) . '.jpg');
                     $place->save();
 
