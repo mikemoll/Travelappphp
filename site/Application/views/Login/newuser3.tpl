@@ -4,30 +4,12 @@
     <script>
         $(document).ready(function (e) {
             $("input[type=checkbox]").click(function () {
-                $(this).next().toggleClass("check");
+                $(this).next().toggleClass("interests-check");
             });
         });
     </script>
     <style>
 
-        .check{
-            outline: 3px solid #ccc;
-        }
-
-        label {
-            padding-top:50px;
-            padding-left: auto;
-            padding-right: auto;
-            height: 150px;
-            width: 150px;
-            display: block;
-            font-weight: bold !important;
-            color: white !important;
-            font-size: 14px !important;
-            background-color: #eee ;
-            float: left;
-            overflow: hidden;
-        }
     </style>
 
 {/literal}
@@ -35,7 +17,7 @@
 
     <div>
         <input type="checkbox" class="hidden "  value="{$id_interest}" id="interest{$id_interest}" name="interests[]" autocomplete="off">
-        <label class="btn m-t-10 m-r-10" for="interest{$id_interest}" style="background-image: url( {$interest.icon} ) !important;   background-size: 100%;"   >
+        <label class="interests-label btn m-t-10 m-r-10 " for="interest{$id_interest}" style="background-image: url( {$interest.icon} ) !important;   background-size: 100%;"   >
             {$interest.description}</label>
     </div>
 
