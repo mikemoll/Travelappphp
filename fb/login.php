@@ -19,6 +19,7 @@ $helper = $fb->getRedirectLoginHelper();
 
 $permissions = ['email']; // Optional permissions
 $callbackurl = $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/fb-callback.php';
+var_dump($callbackurl);die();
 $loginUrl = $helper->getLoginUrl($callbackurl , $permissions);
 
 header('Location:' . $loginUrl);
