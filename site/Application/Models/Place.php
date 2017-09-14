@@ -132,7 +132,11 @@ class Place extends Db_Table {
                 var_dump($url);
 
                 if ($url != '') {
-                    $img = RAIZ_DIRETORY . 'site/Public/Images/Place/' . $place->getID() . '_' . md5($photo->photo_reference) . '.jpg';
+                    $img = RAIZ_DIRETORY . 'site/Public/Images/Place/'
+                    if (!file_exists($img)) {
+                        mkdir($img, 0777, true);
+                    }
+                    $img .= $place->getID() . '_' . md5($photo->photo_reference) . '.jpg';
                     var_dump($img);
                     if (!copy($url, $img)) {
                         $errors= error_get_last();
