@@ -134,7 +134,7 @@ class Place extends Db_Table {
                 if ($url != '') {
                     $img = RAIZ_DIRETORY . 'site/Public/Images/Place/' . $place->getID() . '_' . md5($photo->photo_reference) . '.jpg';
                     var_dump($img);
-                    if (!copy($url)) {
+                    if (!copy($url, $img)) {
                         $errors= error_get_last();
                         echo "COPY ERROR: ".$errors['type'];
                         echo "<br />\n".$errors['message'];
@@ -143,7 +143,7 @@ class Place extends Db_Table {
                     $place->save();
 
                     if (USE_AWS) {
-                        $result = Aws::moveToAWS($img, $url);
+                        $result = Aws::moveToAWS($img);
 
                         var_dump($result);
 
