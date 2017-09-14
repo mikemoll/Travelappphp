@@ -132,7 +132,7 @@ class Place extends Db_Table {
                 var_dump($url);
 
                 if ($url != '') {
-                    $img = RAIZ_DIRETORY . 'site/Public/Images/Place/'
+                    $img = RAIZ_DIRETORY . 'site/Public/Images/Place/';
                     if (!file_exists($img)) {
                         mkdir($img, 0777, true);
                     }
