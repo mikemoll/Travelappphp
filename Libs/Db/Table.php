@@ -402,7 +402,7 @@ class Db_Table extends Zend_Db_Table {
         $return = array();
         if ($firstEmpty) {
 //            $return[] = array('key' => '', 'value' => '---');
-            $return[] = '---';
+            $return[] = 'ALL';
         }
         if ($readMethod == '') {
             $readMethod = 'readLst';

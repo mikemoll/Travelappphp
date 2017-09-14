@@ -47,6 +47,12 @@ class Event extends Db_Table {
         return $this->getDescription();
     }
 
+
+    public function getPriceOrFree() {
+        $p = $this->getPrice() == 0 ? 'free' : '$' . $this->getPrice();
+        return $p;
+    }
+
     public function getFormattedDate() {
         $d = new DateTime(DataHora::inverteDataIngles($this->getstart_at()));
 //        print'<pre>';

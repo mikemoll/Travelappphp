@@ -29,6 +29,7 @@ class ExploreController extends AbstractController {
 
     public function getLink($list, $not) {
         foreach ($list as $key => $value) {
+//            print'<pre>';die(print_r( "$key != $not" ));
             if ($key != $not) {
                 $ret[] = "$key/$value";
             }
@@ -50,6 +51,8 @@ class ExploreController extends AbstractController {
         $appliedFilters['daterange'] = $post->daterange;
         list($cid, $ctn) = explode('_', $post->country);
         $appliedFilters['country'] = $post->country;
+        list($cyid, $cytn) = explode('_', $post->city);
+        $appliedFilters['city'] = $post->city;
         list($etid, $etn) = explode('_', $post->eventtype);
         $appliedFilters['eventtype'] = $post->eventtype;
         list($atid, $atn) = explode('_', $post->activitytype);
@@ -64,10 +67,14 @@ class ExploreController extends AbstractController {
             }
         }
         if (count($appliedFilters2) > 0) {
-            foreach ($appliedFilters2 as $key => $value) {
-                $links[$key] = $this->getLink($appliedFilters2, $key);
-            }
+//            foreach ($appliedFilters2 as $key => $value) {
+//                $links[$key] = $this->getLink($appliedFilters2, $key);
+//            }
             $links['base'] = $this->getLink($appliedFilters2, '');
+            $links['country'] = $this->getLink($appliedFilters2, 'country');
+            $links['city'] = $this->getLink($appliedFilters2, 'city');
+            $links['eventtype'] = $this->getLink($appliedFilters2, 'eventtype');
+            $links['activitytype'] = $this->getLink($appliedFilters2, 'activitytype');
             foreach ($appliedFilters2 as $key => $value) {
                 if ($key == 'q') {
                     $names[$key] = $value;
@@ -75,6 +82,8 @@ class ExploreController extends AbstractController {
                     $names[$key] = $etn;
                 } elseif ($key == 'country') {
                     $names[$key] = $ctn;
+                } elseif ($key == 'city') {
+                    $names[$key] = $cytn;
                 } elseif ($key == 'activitytype') {
                     $names[$key] = $atn;
                 } elseif ($key == 'rating') {
@@ -85,7 +94,7 @@ class ExploreController extends AbstractController {
             }
         }
 //        print'<pre>';
-//        die(print_r($names));
+//        die(print_r($links));
 //        print'<pre>';
 //        die(print_r($appliedFilters2));
         $view->assign('appliedFilters', $appliedFilters2);
@@ -102,12 +111,14 @@ class ExploreController extends AbstractController {
 //            $view->assign('CountryLst', Db_Table::getOptionList2('id_eventtype', 'description', 'description', 'Eventtype', false, 'readLstWithEvent'));
 
         $view->assign('CountryLst', Db_Table::getOptionList2('country', 'country', 'country', 'Place', true));
+        $view->assign('CityLst', Db_Table::getOptionList2('city', 'city', 'city', 'Event', true));
         $view->assign('EventtypeLst', Db_Table::getOptionList2('id_eventtype', 'description', 'description', 'Eventtype', false, 'readLstWithEvent'));
 //        $view->assign('EventtypeLst', Db_Table::getOptionList2('id_eventtype', 'description', 'description', 'Eventtype', false));
 //        $view->assign('ActivitytypeLst', Db_Table::getOptionList2('id_activitytype', 'activitytypename', 'activitytypename', 'Activitytype', false));
         $view->assign('ActivitytypeLst', Db_Table::getOptionList2('id_activitytype', 'activitytypename', 'activitytypename', 'Activitytype', false, 'readLstWithActivity'));
 
         $view->assign('CountrySelected', $ctn);
+        $view->assign('CitySelected', $cytn);
         $view->assign('EventtypeSelected', $post->eventtype);
         $view->assign('ActivitytypeSelected', $post->activitytype);
 
@@ -141,6 +152,14 @@ class ExploreController extends AbstractController {
             $ActivityLst = new Activity();
             if ($q != '') {
                 $ActivityLst->where('activityname', $q, 'like', 'or', 'q');
+                $ActivityLst->where('activity.country', $q, 'like', 'or', 'q');
+                $ActivityLst->where('activity.city', $q, 'like', 'or', 'q');
+            }
+            if ($cid != '') {
+                $ActivityLst->where('activity.country', $cid, 'like');
+            }
+            if ($cyid != '') {
+                $ActivityLst->where('activity.city', $cyid, 'like', 'or', 'q');
             }
 ////        $ActivityLst->where('location', $q, 'like', 'or', 'q');
 //        if ($post->rating != '') {
@@ -159,6 +178,14 @@ class ExploreController extends AbstractController {
             $ActivityLst = new Event();
             if ($q != '') {
                 $ActivityLst->where('eventname', $q, 'like', 'or', 'q');
+                $ActivityLst->where('event.country', $q, 'like', 'or', 'q');
+                $ActivityLst->where('event.city', $q, 'like', 'or', 'q');
+            }
+            if ($cid != '') {
+                $ActivityLst->where('event.country', $cid, 'like');
+            }
+            if ($cyid != '') {
+                $ActivityLst->where('event.city', $cyid, 'like', 'or', 'q');
             }
 
             if ($StartDate != '') {
@@ -249,7 +276,7 @@ class ExploreController extends AbstractController {
             $br->setHtml('itemDescription', $Item->getDescription());
             if ($Item->getPrice() != '') {
                 $br->setShow('itemPriceLine');
-                $br->setHtmlByClass('itemPrice', '$' . $Item->getPrice());
+                $br->setHtmlByClass('itemPrice', $Item->getPriceOrFree());
             } else {
                 $br->setHtmlByClass('itemPrice', '');
                 $br->setHide('itemPriceLine');
