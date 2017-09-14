@@ -128,8 +128,8 @@ class Place extends Db_Table {
                         break;
                     }
                 }
-                ob_start();
-                var_dump($url);
+                // ob_start();
+                // var_dump($url);
 
                 if ($url != '') {
                     $img = RAIZ_DIRETORY . 'site/Public/Images/Place/';
@@ -137,24 +137,25 @@ class Place extends Db_Table {
                         mkdir($img, 0777, true);
                     }
                     $img .= $place->getID() . '_' . md5($photo->photo_reference) . '.jpg';
-                    var_dump($img);
+                    // var_dump($img);
                     if (!copy($url, $img)) {
-                        $errors= error_get_last();
-                        echo "COPY ERROR: ".$errors['type'];
-                        echo "<br />\n".$errors['message'];
+                        // $errors= error_get_last();
+                        // echo "COPY ERROR: ".$errors['type'];
+                        // echo "<br />\n".$errors['message'];
                     }
                     $place->setPhoto(md5($photo->photo_reference) . '.jpg');
                     $place->save();
 
                     if (USE_AWS) {
-                        $result = Aws::moveToAWS($img);
+                        Aws::moveToAWS($img);
+                        // $result = Aws::moveToAWS($img);
 
-                        var_dump($result);
+                        // var_dump($result);
 
                     }
                 }
-                file_put_contents('/app/log.txt', ob_get_contents());
-                ob_end_clean();
+                // file_put_contents('/app/log.txt', ob_get_contents());
+                // ob_end_clean();
             }
 //        print'<pre>';
 //        die(print_r($places));
