@@ -18,9 +18,9 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['tempfile']) && isset($_GE
     $tempfile = $_GET['tempfile'];
     $destfolder = $_GET['destfolder'];
 
-    if (!file_exists($tempfile)) {
-        $result['message'] = "File doesn't exists: " . $tempfile;
-    } else {
+    // if (!file_exists($tempfile)) {
+    //     $result['message'] = "File doesn't exists: " . $tempfile;
+    // } else {
 
         try {
             $upload = $s3->upload($bucket, $destfolder, fopen($tempfile, 'rb'), 'public-read');
@@ -31,7 +31,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['tempfile']) && isset($_GE
         } catch(Exception $e) {
             $result['message'] = 'Upload error :'. $e->getMessage();
         }
-    }
+    // }
 }
 
 if (isset($_GET['callback'])) {
