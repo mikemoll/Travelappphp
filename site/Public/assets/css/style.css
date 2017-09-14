@@ -38,6 +38,9 @@
     height: 60px;
     display: table-cell;
 }
+.b-rad-25{
+    border-radius: 25px !important;
+}
 
 /*----------- New user wizard ---------*/
 
