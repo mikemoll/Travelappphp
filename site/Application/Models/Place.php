@@ -136,7 +136,8 @@ class Place extends Db_Table {
                     $place->save();
 
                     if (USE_AWS) {
-                        Aws::moveToAWS($img);
+                        $result = Aws::moveToAWS($img);
+                        var_dump($result, $img); die();
 
                     }
                 }
