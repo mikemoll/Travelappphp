@@ -1,14 +1,15 @@
 <?php
 
 define('APPLICATION_NAME', basename(getcwd()));
-define('PATH_SCRIPTS', '/'.(BASE!=''?BASE.'/':'').'Libs/Scripts/');
-define('PATH_IMAGES', '/'.(BASE!=''?BASE.'/':'').'Libs/Images/');
-define('PATH_PUBLIC', '/'.(BASE!=''?BASE.'/':'').APPLICATION_NAME.'/Public/');
+define('PATH_SCRIPTS', '/' . (BASE != '' ? BASE . '/' : '') . 'Libs/Scripts/');
+define('PATH_IMAGES', '/' . (BASE != '' ? BASE . '/' : '') . 'Libs/Images/');
+define('PATH_PUBLIC', '/' . (BASE != '' ? BASE . '/' : '') . APPLICATION_NAME . '/Public/');
+define('PATH_MENU_IMG', PATH_PUBLIC . 'Images/menu-icons/');
 /**
  * EX: <code>http://localhost/sinigaglia/site/</code> <br><br>
  * termina com uma barra!
  */
-define('BASE_URL', '/'.(BASE!=''?BASE.'/':'').APPLICATION_NAME.'/');
+define('BASE_URL', '/' . (BASE != '' ? BASE . '/' : '') . APPLICATION_NAME . '/');
 
 define('cTRUE', 'S');
 define('cFALSE', 'N');

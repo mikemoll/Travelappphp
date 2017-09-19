@@ -46,7 +46,7 @@ class Ui_Element_MenuItem {
         $this->subMenu[] = $menu;
     }
 
-    public function setVisible($processo, $acao= 'ver') {
+    public function setVisible($processo, $acao = 'ver') {
         $this->visible = Usuario::verificaAcesso($processo, $acao);
     }
 
@@ -71,7 +71,9 @@ class Ui_Element_MenuItem {
                     $details .= " <span class='details'>$this->badge</span>";
                 }
                 //== img ==
-                if ($this->img) {
+                if (strpos($this->img, '.') !== false) {
+                    $img = '<img class="icon-thumbnail" src="' . HTTP_HOST . PATH_MENU_IMG . $this->img . '" />';
+                } elseif ($this->img) {
                     $img = '<i class="pg-' . $this->img . '"></i>';
                 } else {
                     $img = substr($this->title, 0, 1);
@@ -103,12 +105,15 @@ class Ui_Element_MenuItem {
                 $menu .= ' </li>';
             } else {
                 if ($this->link != '#' || $this->url != '') {
-                    if ($this->img) {
+                    if (strpos($this->img, '.') !== false) {
+                        $img = '<img  class="icon-thumbnail"  src="' . HTTP_HOST . PATH_MENU_IMG . $this->img . '" />';
+                    } elseif ($this->img) {
                         $img = '<i class="pg-' . $this->img . '"></i>';
+                        $img = '<span class="icon-thumbnail">' . $img . '</span>  ';
                     } else {
                         $img = substr($this->title, 0, 1);
+                        $img = '<span class="icon-thumbnail">' . $img . '</span>  ';
                     }
-                    $img = '<span class="icon-thumbnail">' . $img . '</span>  ';
                     if ($level == 1) {
                         if ($this->badge != '') {
                             $details = " <span class='details'>$this->badge</span>";

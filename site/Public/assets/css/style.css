@@ -11,6 +11,29 @@
     color: #ccc;
 }
 
+/* ----------- MENU ------------ */
+.page-sidebar{
+    background-color: #fdfdfd !important;
+    color: #2b303b !important;
+}
+.page-sidebar .sidebar-menu .menu-items > li ul.sub-menu{
+    background-color: #fff !important;
+}
+.page-sidebar a:hover, .page-sidebar button:hover, .page-sidebar a:active, .page-sidebar button:active{
+    color: #2b303b !important;
+}
+.page-sidebar .sidebar-menu .menu-items li:hover > a, .page-sidebar .sidebar-menu .menu-items li.open > a, .page-sidebar .sidebar-menu .menu-items li.active > a{
+    color: #2b303b !important;
+
+}
+.page-sidebar .sidebar-menu .menu-items li:hover > a, .page-sidebar .sidebar-menu .menu-items li.open > a, .page-sidebar .sidebar-menu .menu-items li.active > a{
+    color: #2b303b !important;
+
+}
+.icon-thumbnail{
+    background-color: #fff !important;
+
+}
 /* ----------- CHAT ------------ */
 .chat-view .message{
     margin-bottom: 0px !important;
