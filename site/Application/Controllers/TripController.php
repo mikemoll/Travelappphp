@@ -563,14 +563,15 @@ class TripController extends AbstractController {
         // ====== NEW TAB ========================
         $tab = new Ui_Element_Tab('tabRecommendations');
         $tab->setTitle('Recommendations');
+        $tab->setTemplate('Trip/app/detail/tabs/recommendation.tpl');
+
         $view->assign('hideMap', $post->hidemap);
         if ($post->hidemap == 'true') {
             $view->assign('UrlMapToogle', BASE_URL . "trip/detail/id/" . $Trip->getID() . '#tabRecommendations');
         } else {
             $view->assign('UrlMapToogle', BASE_URL . "trip/detail/id/" . $Trip->getID() . '/hidemap/true#tabRecommendations');
         }
-        $tab->setTemplate('Trip/app/detail/tabs/recommendation.tpl');
-
+        
         $lst = $Trip->getTripRecommendationLst()->getItens();
 
         $view->assign('RecommendationLst', $lst);
@@ -2418,6 +2419,10 @@ class TripController extends AbstractController {
         $br = new Browser_Control();
         $view = Zend_Registry::get('view');
 
+        $q = explode(',', $q);
+        $q = $q[0];
+        $q = explode(' - ', $q);
+        $q = $q[0];
         // ------- PLACES   - --------------
         $PlacesList = new Place();
         $PlacesList->where('place.name', $q, 'like', 'or', 'q');
@@ -2490,13 +2495,13 @@ class TripController extends AbstractController {
         $element->setValue($post->id);
         $form->addElement($element);
 
-        $element = new Ui_Element_Text('search2');
+        $element = new Ui_Element_Text('search1');
         $element->setPlaceholder("Search for places and click on the place that you're going to");
-        $element->setAttrib('hotkeys', 'enter, btnSearch, click');
+        $element->setAttrib('hotkeys', 'enter, btnSearch1, click');
         $element->setValue($q);
         $form->addElement($element);
 
-        $button = new Ui_Element_Btn('btnSearch');
+        $button = new Ui_Element_Btn('btnSearch1');
         $button->setDisplay('Search', '');
 //        $button->setType('success');
         $button->setSendFormFiends();
@@ -2530,9 +2535,9 @@ class TripController extends AbstractController {
         $view->output('index.tpl');
     }
 
-    public function btnsearchclickAction() {
+    public function btnsearch1clickAction() {
         $post = Zend_Registry::get('post');
-        $this->doSearchPlaces($post->id_trip, $post->search2);
+        $this->doSearchPlaces($post->id_trip, $post->search1);
     }
 
     public function newtripcityclickAction() {

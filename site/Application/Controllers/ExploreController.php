@@ -46,8 +46,11 @@ class ExploreController extends AbstractController {
 
         $q = $post->q;
 //        $type = $post->type;
-
-        $appliedFilters['q'] = $post->q;
+        $q = explode(',', $q);
+        $q = $q[0];
+        $q = explode(' - ', $q);
+        $q = $q[0];
+        $appliedFilters['q'] = $q;
         $appliedFilters['daterange'] = $post->daterange;
         list($cid, $ctn) = explode('_', $post->country);
         $appliedFilters['country'] = $post->country;
