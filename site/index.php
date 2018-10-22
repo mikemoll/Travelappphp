@@ -64,7 +64,7 @@ switch ($_SERVER['HTTP_HOST']) {
         break;
 }
 
-define('HTTP_HOST',  $_SERVER['HTTP_HOST']);
+define('HTTP_HOST', $protocol . '://' . $_SERVER['HTTP_HOST']);
 
 /*  aqui s�o feitas as verifica��es de sistema operacional para saber qual barra ('\'ou '/') usar 
  * e qual separador (':' ou ';') dos paths para o set_include_path() */
@@ -270,7 +270,7 @@ if ($controller == 'Arquivo' && $act == 'upload') {
 
 function setBrowserUrl($ctrl, $array, $pos = 0) {
     $html = "<script type='text/javascript'>";
-    if (strpos($ctrl, 'http://') !== false) {
+    if (strpos($ctrl, "$protocol://") !== false ) {
         $html .= "window.parent.location = '" . $ctrl . "';";
     } else {
         if (count($array) <= 4 + $pos) {
