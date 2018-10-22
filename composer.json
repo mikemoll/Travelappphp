@@ -17,6 +17,7 @@
     ],
     "require": {
         "php": "5.6.38",
-        "ext-calendar": "*"
+        "ext-calendar": "*",
+        "ext-memcached": "*"
     }
 }
