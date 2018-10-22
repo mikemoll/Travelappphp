@@ -161,4 +161,7 @@ class IndexController extends AbstractController {
         return $mainMenu->render();
     }
 
+    public function phpinfoAction(){
+        phpinfo();
+    }
 }

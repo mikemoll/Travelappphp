@@ -17,11 +17,12 @@
  * @subpackage		zendframework.system
  * @version			15.05.2015
  */
-//ini_set("display_errors", 1);
+ini_set("display_errors", 1);
 //ini_set('error_reporting', E_ALL ^ E_NOTICE | E_STRICT);
 //ini_set('error_reporting', E_ALL);
 // ====  Configura��es iniciais do sistema =====
 $protocol = 'http';
+date_default_timezone_set('America/Sao_Paulo');
 
 switch ($_SERVER['HTTP_HOST']) {
 
@@ -52,6 +53,7 @@ switch ($_SERVER['HTTP_HOST']) {
         define('USE_AWS', false);
         break;
     case 'tumbleweedapp.herokuapp.com': // Production
+        date_default_timezone_set('America/Vancouver');
 //        error_reporting(0);
 //        error_reporting(E_ERROR);
         error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED | E_STRICT);
@@ -61,7 +63,6 @@ switch ($_SERVER['HTTP_HOST']) {
         define('USE_AWS', true);
         break;
 }
-date_default_timezone_set('America/Sao_Paulo');
 
 define('HTTP_HOST', $protocol . '://' . $_SERVER['HTTP_HOST']);
 
