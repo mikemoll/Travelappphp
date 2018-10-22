@@ -159,21 +159,27 @@ class TripController extends AbstractController {
 
 
         $element = new Ui_Element_Timer('conversation1', '5000', '200');
+        $element->setJustOnce(true);
         $element->setAttrib('params', 'id_trip=' . $Trip->getID());
         $form->addElement($element);
         $element = new Ui_Element_Timer('conversation2', '5000', '500');
+        $element->setJustOnce(true);
         $element->setAttrib('params', 'id_trip=' . $Trip->getID());
         $form->addElement($element);
         $element = new Ui_Element_Timer('conversation3', '5000', '700');
+        $element->setJustOnce(true);
         $element->setAttrib('params', 'id_trip=' . $Trip->getID());
         $form->addElement($element);
         $element = new Ui_Element_Timer('conversation4', '5000', '1000');
+        $element->setJustOnce(true);
         $element->setAttrib('params', 'id_trip=' . $Trip->getID());
         $form->addElement($element);
         $element = new Ui_Element_Timer('conversation5', '5000', '1300');
+        $element->setJustOnce(true);
         $element->setAttrib('params', 'id_trip=' . $Trip->getID());
         $form->addElement($element);
         $element = new Ui_Element_Timer('conversation6', '5000', '1600');
+        $element->setJustOnce(true);
         $element->setAttrib('params', 'id_trip=' . $Trip->getID());
         $form->addElement($element);
         // ====== CREATE A TAB COMPONENT ========================

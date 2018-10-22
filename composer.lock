@@ -14,7 +14,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "5.6.31",
+        "php": "5.6.38",
         "ext-calendar": "*"
     },
     "platform-dev": []
